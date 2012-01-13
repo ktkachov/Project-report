@@ -153,6 +153,17 @@ It was initially designed as a non-trivial example of the issues tackled by the 
 Although we are not directly dealing with OP2 in this project, an overview of Airfoil within
 this context is provided by MB Giles et al \cite{OP2_presentation}.
 
+The computational work in Airfoil is performed by 5 loops that work one after the other
+and operate on the nodes, cells and edges of the mesh. They work by applying a kernel
+on the data item referenced by the node, edge or cell. Conceptually, the application
+of a kernel to a data item is independent of the application to any other item in the same set.
+The complexity comes from reduce operations, where some edges or cells update the same data item
+(associated with the same node). In these cases care must be taken to ensure the correct update
+of the data. For parallel architectures such as GPUs and multi-processor clusters this issue can be
+resolved by enforcing an atomic commit scheme or by colouring the mesh partitions, so that no two
+partitions update the same data item simultaneously \cite{OP2_presentation}.
+
+
 \section{Maxeler toolchain and streaming model of computation}
 The toolchain we use for implementing the FPGA accelerator is the one developed and maintained
  by Maxeler Technologies. It consists of the MAX3 cards that contain a Xilinx Virtex-6 chip
@@ -348,6 +359,9 @@ on-chip memory (called BRAM or block RAM) for processing. This requires us to th
 with data that overlap partitions (for example edges that begin in one partition and end in 
 another). The set of shared data is known as the 'halo' of the partition and various halo exchange
 schemes exist. We use the ghost cell exchange mechanism, presented in~\cite{GhostCellPaper}.
+
+We assess our implementation as well as the formal model by running Airfoil on a real system
+and comparing the runtime against other implementations, such as multi-core and GPGPU implementations.
 
 
 \section{Previous work}
