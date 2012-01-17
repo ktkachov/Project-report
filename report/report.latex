@@ -40,6 +40,16 @@ always kept me motivated, even when I doubted myself.
 \tableofcontents
 
 \chapter{Introduction}
+This project presents a methodology for accelerating computations performed on unstructured
+meshes in the context of Computational Fluid Dynamics (CFD). We use Field Programmable Gate
+Arrays, or FPGAs, to construct a high-throughput streaming pipeline which is kept filled thanks
+to an appropriate data layout and partitioning scheme. A formal performance
+model is constructed to predict the performance characteristics and appropriate evaluation
+tests are performed to evaluate the results on a sample CFD application. The techniques
+discussed in the project are designed with the goal of being extendable to more complex scenarios.
+In this section we present a general overview of the problem domain, the hardware platform and the
+contributions of this project.
+
 \section{The domain}
 Computational Fluid Dynamics, or CFD, is a branch of physics focused on numerical algorithms
 that simulate the movement of fluids and gases and their interactions with surfaces. These 
@@ -135,6 +145,11 @@ more complex industry-grade unstructured mesh simulations.
 \end{itemize}
 
 \chapter{Background}
+This section provides more detail on the sample application. An overview of the Maxeler toolchain
+is given, which is used to implement the streaming solution we develop. The streaming model of
+computation is presented in the context of MaxCompiler by walking through steps to build a simple
+MaxCompiler application. Previous work in this area is presented and summarised in order to provide
+ a context for the contributions of our work.
 \section{Structured vs Unstructured meshes}
 The spatial domain of the problem can be discretised into either a structured or an 
 unstructured mesh. A structured mesh has the advantage of having a highly regular structure
@@ -202,22 +217,22 @@ in Listing~\ref{lst:MaxCompilerMovAvg}.
 	\begin{minted}[linenos]{java}
 pulic class MovingAverageKernel extends Kernel {
 
-	public MovingAverageKernel(KernelParameters parameters) {
-		super(parameters);
-		HWType flt = hwFloat(8,24);
-		HWVar x = io.input("x", flt ) ;
-		HWVar x_prev = stream.offset(x, -1);
-		HWVar x_next = stream.offset(x, +1);
-		HWVar cnt = control.count.simpleCounter(32, N);
-		HWVar sel_nl = cnt > 0;
-		HWVar sel_nh = cnt < (N-1);
-		HWVar sel_m = sel_nl & sel_nh;
-		HWVar prev = sel_nl ? x_prev : 0;
-		HWVar next = sel_nh ? x_next : 0;
-		HWVar divisor = sel_m ? 3.0 : 2.0;
-		HWVar y = (prev+x+next)/divisor;
-		io.output("y" , y,  flt);
-	}
+  public MovingAverageKernel(KernelParameters parameters) {
+    super(parameters);
+    HWType flt = hwFloat(8,24);
+    HWVar x = io.input("x", flt ) ;
+    HWVar x_prev = stream.offset(x, -1);
+    HWVar x_next = stream.offset(x, +1);
+    HWVar cnt = control.count.simpleCounter(32, N);
+    HWVar sel_nl = cnt > 0;
+    HWVar sel_nh = cnt < (N-1);
+    HWVar sel_m = sel_nl & sel_nh;
+    HWVar prev = sel_nl ? x_prev : 0;
+    HWVar next = sel_nh ? x_next : 0;
+    HWVar divisor = sel_m ? 3.0 : 2.0;
+    HWVar y = (prev+x+next)/divisor;
+    io.output("y" , y,  flt);
+  }
 }
 	\end{minted}
 \caption{
@@ -346,23 +361,6 @@ details of PCIe streaming and interrupts.
  \label{lst:MovAvgHostCode}
 }
 \end{listing}
-\section{Plan}
-We start by proposing various architectures for solving the problem and we propose a formal model
-for each one that allows us to predict the performance of the architecture. We then implement our
-scheme in order to provide real-world results and assess the feasibility of the implementation.
-This model will also allow us to pick the optimal values of the parameters of the application,
-thus maximizing performance and saving us the effort of using a trial and error approach to
-fine tune them. After that we proceed with the implementation of our chosen architecture.
-
-During our work we realize that we have to partition the mesh into chunks that we can fit into the
-on-chip memory (called BRAM or block RAM) for processing. This requires us to think about and deal
-with data that overlap partitions (for example edges that begin in one partition and end in 
-another). The set of shared data is known as the 'halo' of the partition and various halo exchange
-schemes exist. We use the ghost cell exchange mechanism, presented in~\cite{GhostCellPaper}.
-
-We assess our implementation as well as the formal model by running Airfoil on a real system
-and comparing the runtime against other implementations, such as multi-core and GPGPU implementations.
-
 
 \section{Previous work}
 There have been some attempts at augumenting unstructured mesh computations using reconfigurable
@@ -398,6 +396,32 @@ partitions. Also they do not present any formal analysis of the performance of t
 that could be used to predict speedup.
 
 \chapter{Details and implementation}
+In this section we present our design, implementation and evaluation plan and provide the details
+of each stage.
+\section{Plan}
+We start by proposing various architectures for solving the problem and we propose a formal model
+for each one that allows us to predict the performance of the architecture. We then implement our
+scheme in order to provide real-world results and assess the feasibility of the implementation.
+This model will also allow us to pick the optimal values of the parameters of the application,
+thus maximizing performance and saving us the effort of using a trial and error approach to
+fine tune them. After that we proceed with the implementation of our chosen architecture.
+
+During our work we realize that we have to partition the mesh into chunks that we can fit into the
+on-chip memory (called BRAM or block RAM) for processing. This requires us to think about and deal
+with data that overlap partitions (for example edges that begin in one partition and end in 
+another). The set of shared data is known as the 'halo' of the partition and various halo exchange
+schemes exist. We use the ghost cell exchange mechanism, presented in~\cite{GhostCellPaper}.
+
+After we have decided on the various parameters of the design (partition size, number of arithmetic
+pipelines, streaming responsibilities etc) we implement our design using MaxCompiler to produce a 
+maxfile that we link to the Airfoil executable that we have modified to partition and layout the data
+in the decided way.
+
+We can then compare our implementation against the theoretical model developed earlier and track down
+and explain any and all discrepancies. Then we can compare our implementation against existing implementations
+that use Nvidia's OpenCL CUDA implementation.
+
+
 \chapter{Evaluation}
 \chapter{Conclusion and further work}
 \begin{thebibliography}{9}
