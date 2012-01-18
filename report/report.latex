@@ -422,8 +422,12 @@ and explain any and all discrepancies. Then we can compare our implementation ag
 that use Nvidia's OpenCL CUDA implementation.
 
 
-\chapter{Evaluation}
-\chapter{Conclusion and further work}
+% \chapter{Evaluation}
+% In this section we present the evaluation strategy for our approach. We explain the alternative
+% implementations of Airfoil and contrast their performance with our scheme. We test the various
+% imlementations against progressively larger mesh sizes and present and interpret the results.
+
+% \chapter{Conclusion and further work}
 \begin{thebibliography}{9}
 
 \bibitem{OP2_presentation}
