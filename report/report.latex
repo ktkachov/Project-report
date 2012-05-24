@@ -1,5 +1,6 @@
 \documentclass[11pt]{report}
 \usepackage{graphicx}
+\usepackage{amsfonts}
 \usepackage{minted}
 \title{Accelerating Unstructured Mesh Computations using FPGAs}
 \author{Kyrylo Tkachov\\\\ Supervisor: Professor Paul Kelly}
@@ -10,8 +11,7 @@
 \pagestyle{headings}
 \begin{abstract}
 In this report we present a methodology for accelerating computations performed on 
-unstructured meshes in the course of a finite volume
-approach. We use Field Programmable Gate Arrays, or FPGAs, to create an application-specific
+unstructured meshes in the course of a finite volume approach. We use Field Programmable Gate Arrays, or FPGAs, to create an application-specific
 datapath that will be used as a co-processor to perform the bulk of the floating point 
 operations required by the application. In particular, we focus on dealing with irregular
  memory access patterns that are a consequence of using an unstructured mesh in such a way as
@@ -27,9 +27,10 @@ making me aware of scope of the project and the intricacies involved. I would al
  thank Dr. Carlo Bertolli for providing practical advice and explaining the labyrinth that is
 heterogenous computing.
 Special thanks go to the team at Maxeler Technologies for helping me out with the details
-of FPGA-based acceleration.
+of FPGA-based acceleration and providing support for their excellent toolchain
 I extend my gratitude to Dr. Tony Field, my personal tutor, who supported me throughout my 
-years at Imperial College and guided so much of my academic development.
+years at Imperial College and guided so much of my academic development, as well as being
+the second supervisor on this project.
 
 I would like to thank my mother and grandfather for supporting me through university, both 
 materially and psychologically.
@@ -43,10 +44,12 @@ always kept me motivated, even when I doubted myself.
 This project presents a methodology for accelerating computations performed on unstructured
 meshes in the context of Computational Fluid Dynamics (CFD). We use Field Programmable Gate
 Arrays, or FPGAs, to construct a high-throughput streaming pipeline which is kept filled thanks
-to an appropriate data layout and partitioning scheme. A formal performance
-model is constructed to predict the performance characteristics and appropriate evaluation
-tests are performed to evaluate the results on a sample CFD application. The techniques
-discussed in the project are designed with the goal of being extendable to more complex scenarios.
+to an appropriate data layout and partitioning scheme for the mesh. We explore the rearrangement
+and grouping schemes used to achieve locality of the data points. A formal performance
+model is constructed to predict the performance characteristics of our architecture and hence
+justify the design choices made. Appropriate evaluation
+tests are performed to evaluate the results on a sample CFD application, achieving speedup
+comparable with state of the art GPGPU and multi-processor solutions. 
 In this section we present a general overview of the problem domain, the hardware platform and the
 contributions of this project.
 
@@ -64,20 +67,24 @@ at discrete places in a mesh and relies on the observation that the fluxes enter
 are equal to the fluxes leaving it. This project is not concerned with the exact mathematical
 formulation of these techniques, but they provide a feel for the origins of the problem 
 domain.
+
 \section{The Airfoil program}
-The sample program we examine is Airfoil, a 2D unstructured mesh finite volume simulation
+The sample program we examine is called Airfoil, a 2D unstructured mesh finite volume simulation
 of fluid motion around an airplane wing (which has the shape of an airfoil). Airfoil was
 written as a representative of the class of programs that are tackled by OP2, a framework
 partially developed and maintained by the Software Performance Optimisation group at Imperial 
-College to abstract the acceleration of unstructured mesh computations on many-core and other
- hardware platforms.
+College to abstract the acceleration of unstructured mesh computations on a wide variety of 
+hardware backends.
 
 Airfoil defines an unstructured mesh through sets of nodes, edges and cells and associating 
 them through mappings. Airfoil is written in the C language and these sets are represented at
- the lowest level as C-arrays. Then data is associated with these sets, such as node coordinates, temperature, pressure etc. The mesh solution is then expressed as the
+ the lowest level as C-arrays. Then data is associated with these sets, such as node coordinates, temperature, pressure etc.
+ The mesh solution is then expressed as the
  conceptually parallel application of computational kernels on the data associated with each
  element of a particular set (nodes, edges, cells). These kernels are usually floating point-
-intensive operations and update the datasets. The procedure is repeated through multiple iterations as desired.
+intensive operations and update the datasets. The procedure is repeated through multiple iterations as desired until
+a steady-state solution is reached. A more detailed discussion of the unstructured mesh is presented in the Background
+section of this report.
 
 \begin{figure}[h]
   \centering
@@ -94,30 +101,32 @@ they provide the development flexibility of software with the benefits of an exp
 hardware datapath. At a high level, FPGAs can be viewed as a two-dimensional grid of logic
 elements that can be interconnected in any desirable way.
 
-The FPGA acceleration approach we look at is the streaming model of comutation. In an FPGA 
-streaming approach we create a data-flow graph out of simple computational nodes that perform 
+The FPGA acceleration approach we look at is the streaming model of comutation. In a 
+streaming approach we create a dataflow graph out of simple computational nodes that perform 
 a specific operation on pieces of data pushed in and out of them. Connecting these nodes
 together creates a pipeline through which one can stream an array of data and get one output
 per cycle thus achieving high throughput. A simple dataflow graph can be seen in 
 figure~\ref{fig:graph_simple}.
 FPGAs are usually programmed using a low level hardware description language like VHDL or
- Verilog. We use MaxCompiler, a compiler that lets
+ Verilog, however many tools have been designed that allow a developer to specify high-level designs.
+ We use MaxCompiler, a compiler that lets
 us specify the computational graph through a high-level Java API, so we focus on the
 functional aspects of our design and the tool generates a hardware implementation of it.
-We use this approach to implement a datapath for each of the computational kernels described
-in Airfoil and we then look at approaches to streaming data to the kernels efficiently. The 
-FPGAs we consider have a large DRAM storage area attached to them that can be used to store
-the mesh and utilising the bandwidth of that DRAM fully is key to achieving maximal 
+We use this approach to implement a datapath the kernel described
+in Airfoil and we then look at approaches to utilise the streaming bandwidth. The 
+FPGAs we consider have a large DRAM storage area attached (>24GB) to them that can be used to store
+the mesh and utilising the bandwidth of that DRAM fully is key to achieving maximum 
 performance.
 
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.2\textwidth]{pics/graph_simple.png}
-  \caption{A simple dataflow graph that implements the function $y(x) = x^2 + x$.   \label{fig:graph_simple}}
+  \caption{A simple dataflow graph that implements the function $y(x) = x^2 + x$.
+   \label{fig:graph_simple}}
 \end{figure}
 
 During the course of our work it emerges that in order to stream data to and from the 
-accelerator continuously, we need to ensure some spatial locality in the mesh data, thus
+accelerator continuously, we need to enforce some spatial locality in the mesh data, thus
 requiring us to reorder the data and organise it into partitions that will be stored in
 the kernel internally and will need to exchange data with neighbouring partitions through
 a halo exchange mechanism. This opens a whole new space of decisions that we must make 
@@ -125,10 +134,10 @@ pertaining to the storage layout and streaming responsiblities of the DRAM and t
 machine. We present the mesh partitioning schemes that are used to maximise DRAM bandwidth
 utilisation and maximise pipelining.
 
-We present a performance model that will be used to described the theoretical performance
-increase of the system in terms of various parameters like DRAM utilisation.
-Finally we evaluate the performance of our implementation of Airfoil against available
-GPGPU and many-core cluster implementations.
+We present a performance model that will be used to describe the theoretical performance
+increase of the system in terms of various parameters like DRAM utilisation, clock frequency etc.
+Finally we evaluate the performance of our implementation of Airfoil against existing
+GPGPU and multi-processors cluster implementations.
 
 \section{Contributions}
 \begin{itemize}
@@ -150,7 +159,7 @@ is given, which is used to implement the streaming solution we develop. The stre
 computation is presented in the context of MaxCompiler by walking through steps to build a simple
 MaxCompiler application. Previous work in this area is presented and summarised in order to provide
  a context for the contributions of our work.
-\section{Structured vs Unstructured meshes}
+\section{Unstructured meshes and their representation}
 The spatial domain of the problem can be discretised into either a structured or an 
 unstructured mesh. A structured mesh has the advantage of having a highly regular structure
 and thus a highly predictable access pattern. If, however, one needs a more detailed solution
@@ -160,28 +169,87 @@ that are not of such great interest. This is where unstructured meshes come in. 
 explicitly describe the connectivity between the elements and can thus be refined and 
 coarsened around particular areas of interest. This provides much greater flexibility at the
 expense of losing the regularity of the mesh, forcing us to store the connectivity information
-that defines its topology.
+that defines its topology. It is useful to have an intimate understanding of the representation
+of unstructured meshes in order to understand the techniques discussed further on. A graphical 
+example is shown in figure \ref{fig:mesh_small_example}
+
+In our sample application the mesh distinguishes three main elements: nodes, cells and edges.
+We have to represent the connectivity information between them. This is done through
+\emph{indirection maps} that store, for example, the nodes that an edge connects or the
+nodes that a cell contains. In the application we explore the cells always have four nodes
+and the edges always connect two nodes and have two cells adjacent. In the more general case
+ of variable-dimension cells (quadrilaterals, triangles, hexagons all mixed together) we would need
+an additional array storing the indices into the indirection maps and the sizes of the elements.
+But we do not consider such meshes here.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.95\textwidth]{pics/mesh_small.png}
+  \caption{An example mesh and its representation using indirection arrays. The cell numbers are shown inside
+  the quadrilaterals formed by the nodes (circles) and edges (edges connecting the nodes). Together with the
+  indirection map, we also store an integer $dim \in \mathbb{N}$ which specifies the dimension of the mapping.
+  Thus, the data associated with element $i$ are stored in the range $[i*dim$, ... , $i*(dim+1)-1]$ of the relevant indirection
+  map (in the example: the nodes associated with edge 3 are stored at indices $3*2=6$ and $3*2+1=7$). Note: in the edge-to-cell map
+  $-1$ represents a boundary cell that may be handled in a special way by a computational kernel.
+\label{fig:mesh_small_example}}
+\end{figure}
+
+The above method deals with the connectivity information amongst the different elements of the mesh.
+The data on which we perform the actual arithmetic calculations is stored in arrays indexed by element number.
+Such an approach is presented in figure \ref{fig:data_set_ex}.
+
+\begin{figure}[h]
+  \centering
+    \includegraphics[width=0.60\textwidth]{pics/data_set_ex.png}
+  \caption{An example mesh with coordinate data associated with each node ($(x,y)$ from $node\_id~(x,y)$).
+  The coordinate data will be represented as an array of floating point numbers
+  $x = \{0.0,0.0, 2.78,5.0, 3.0,1.0, 3.0,6.7, 7.5,3.14, 9.0,7.7\}$.
+  Again we also record the dimension of the data (in this case $dim=2$) in order to access the data set associated with each
+  element. In this example, the coordinate data for node 4 is stored at indices $4*2=8$ and $4*2+1=9$ of the array $x$.
+\label{fig:data_set_ex}}
+\end{figure}
 
 \section{Airfoil}
 Airfoil was written as a representative of the class of problems we are interested in.
 It was initially designed as a non-trivial example of the issues tackled by the OP2 framework.
 Although we are not directly dealing with OP2 in this project, an overview of Airfoil within
-this context is provided by MB Giles et al \cite{OP2_presentation}.
+this context is provided by MB Giles et al \cite{OP2_presentation} because it discusses the acceleration
+issues arising from the memory access pattern.
 
 The computational work in Airfoil is performed by 5 loops that work one after the other
 and operate on the nodes, cells and edges of the mesh. They work by applying a kernel
 on the data item referenced by the node, edge or cell. Conceptually, the application
-of a kernel to a data item is independent of the application to any other item in the same set.
+of a kernel to a data item is independent of the application to any other item in the same set, and can therefore
+be executed in parallel.
 The complexity comes from reduce operations, where some edges or cells update the same data item
 (associated with the same node). In these cases care must be taken to ensure the correct update
 of the data. For parallel architectures such as GPUs and multi-processor clusters this issue can be
 resolved by enforcing an atomic commit scheme or by colouring the mesh partitions, so that no two
 partitions update the same data item simultaneously \cite{OP2_presentation}.
 
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.45\textwidth]{pics/coloured_mesh.png}
+  \caption{An example mesh, showing data dependencies between edges that affect cell data.
+\label{fig:mesh_coloured}}
+\end{figure}
+
+Consider figure \ref{fig:mesh_coloured}.
+Take for example edges $\alpha=(1,4)$ and $\beta=(4,5)$. Say there is a data item $x$ associated 
+with every cell and the processing of an edge increments the data items associated with it's two cells.
+$\alpha$ and $\beta$ cannot execute in parallel because they are both associated with cell 0 and can therefore
+end up using out of date copies of the data associated with cell 0 by the following sequence of events:
+$\alpha$ reads initial $x_0$, $\beta$ reads $x_0$, $\alpha$ computes $x_{\alpha}=x_0 + 1$, $\beta$ computes $x_{\beta} = x_0 + 1$,
+$\alpha$ writes back $x_{\alpha}$, $\beta$ writes back $x_{\beta}$ and the final value of $x$ turns out to be $x_{\beta} = x_0 + 1$
+instead of the desired $x_0 + 2$. Some implementations work around this issue by colouring the edges, such that no two edges of the same
+colour share a cell and can therefore be processed in parallel. Figure \ref{fig:mesh_coloured} shows such a colouring. Another option
+would be to introduce atomic operations and/or locking, but that would approach severely limits parallelisation opportunities.
+ 
+
 
 \section{Maxeler toolchain and streaming model of computation}
 The toolchain we use for implementing the FPGA accelerator is the one developed and maintained
- by Maxeler Technologies. It consists of the MAX3 cards that contain a Xilinx Virtex-6 chip
+ by Maxeler Technologies. It consists of the MAX3 cards that contain a Xilinx Virtex-6 chip \cite{Virtex6Spec}
 and up to 48GB of DDR3 DRAM. These cards can be programmed through
  MaxCompiler\cite{MaxCompiler_whitepaper}, which provides a Java-compatible object-oriented
 API to specify the dataflow graph. MaxCompiler will then schedule the graph, i.e. it will 
@@ -194,14 +262,15 @@ the correct values will reach the appropriate stages in the pipeline at the corr
   \caption{A diagram of the Maxeler toolchain. The data-flow graphs of the computational kernels
 are defined using a Java API. A manager connects multiple kernels together and handles the
 streaming to and from the kernels of data. These are combined by MaxCompiler and compiled
-into a .max file.   \label{fig:max_toolchain}}
+into a .max file that can then be linked to a host C/C++ or Fortran application using standard
+tools (gcc, ld etc).   \label{fig:max_toolchain}}
 \end{figure}
 
-It will then produce a hardware desing in VHDL that will then be further be compiled down to
+It will then produce a hardware design in VHDL that will then be further be compiled down to
 a binary bitstream that configures the FPGA by the Xilinx proprietary tools. The bitstream is
 then included in what is termed a \emph{maxfile} that contains various other meta-data about the 
 design such as I/O stream names, named memory and register names, various runtime parameters etc.
-The maxfile can be linked against a normal C/C++ application using the standard GNU toolchain.
+The maxfile can be linked against a normal C/C++ application using standard tools (gcc, ld etc).
 The interaction with the FPGA is performed by a low-level runtime: MaxCompilerRT and a driver
 layer: MaxelerOS. A diagram of the toolchain is shown in figure~\ref{fig:max_toolchain}
 \cite{MaxCompiler_whitepaper}.
@@ -213,6 +282,7 @@ changes each cycle.
 
 We present a MaxCompiler design that computes a running 3-point average of a stream of floating point values (32 bits)
 in Listing~\ref{lst:MaxCompilerMovAvg}.
+\clearpage
 \begin{listing}[H]
 	\begin{minted}[linenos]{java}
 pulic class MovingAverageKernel extends Kernel {
@@ -263,7 +333,7 @@ between the kernels. A manager can be used to configure a design to stream data 
 DRAM that is attached to the FPGA. In the manager design, the user will instantiate the kernels and connect them up.
 Thus for the example in Listing~\ref{lst:MaxCompilerMovAvg} the manager might look like the one in
  Listing~\ref{lst:MaxCompilerMovAvgManager}.
-
+ \clearpage
 \begin{listing}[H]
 	\begin{minted}[linenos]{java}
 pulic class MovingAvgManager extends CustomManager {
@@ -435,6 +505,11 @@ that use Nvidia's OpenCL CUDA implementation.
   \emph{Performance Analysis of the OP2 Framework on Many-core Architectures}.\\
   ACM SIGMETRICS Performance Evaluation Review, 38(4):9-15, March 2011
 
+\bibitem{Virtex6Spec}
+  Xilinx Inc.\\
+  \emph{Virtex-6 Family Overview}\\
+  http://www.xilinx.com/support/documentation/virtex-6.htm
+
 \bibitem{MaxCompiler_whitepaper}
   Maxeler Technologies\\
   \emph{MaxCompiler White Paper}\\
@@ -459,7 +534,18 @@ synthesis environments Volume 31 Issue 8-9, Aug-Sept. 2000
 \bibitem{SpanishFPGAAirfoil}
   Sanchez-Roman, D.;   Sutter, G.;   Lopez-Buedo, S.;   Gonzalez, I.;   Gomez-Arribas, F.J.;   Aracil, J.;   Palacios, F.;\\
   \emph{High-Level Languages and Floating-Point Arithmetic for FPGABased CFD Simulations}\\
-   Design \& Test of Computers, IEEE, 2011, Volume: 28 Issue:4, pp 28 - 37 
+   Design \& Test of Computers, IEEE, 2011, Volume: 28 Issue:4, pp 28 - 37
+
+\bibitem{SpanishFPGAAirfoil2}
+  Sanchez-Roman, D.; Sutter, G.; Lopez-Buedo, S.; Gonzalez, I.; Gomez-Arribas, F.J.; Aracil, A.;\\
+  \emph{An Euler Solver Accelerator in FPGA for computational fluid dynamics applications}\\
+  Proceedings of the 2011 VII Southern Conference on Programmable Logic Córdoba, Argentina April 13 – 15, 2011
+
+\bibitem{ElectromagneticsFPGA}
+  Durbano, J.P.; Ortiz, F.E.;\\
+  \emph{FPGA-based acceleration of the 3D finite-difference time-domain method}\\
+   12th Annual IEEE Symposium on Field-Programmable Custom Computing Machines, 2004. FCCM 2004.
+
 
 \end{thebibliography}
 \chapter{Appendix}
