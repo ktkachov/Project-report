@@ -1,0 +1,29 @@
+digraph toolchain {
+  subgraph maxCompiler {
+    style=filled;
+    node [style=rounded]
+    color=blue;
+    label = "MaxCompiler";
+    kern_comp [label="Kernel Compiler"];
+    mngr_comp [label="Manager"];
+    hwbuild   [label="Hardware Build or Simulation"];
+    kern_comp -> hwbuild;
+    mngr_comp -> hwbuild;
+  }
+  node [style=rounded]
+  kern [shape=box, label="Application Kernel(s) (.java)"]
+  mngr [shape=box, label="Manager Configuration (.java)"]
+  host [shape=box, label="Host Application (.c, .cpp, .f)"]
+
+  maxfile [shape=box, label="HW Accelerator (.max)"]
+  comp    [label="Compiler, Linker"]
+  App     [shape=box, label="Accelerated Application (executable)"]
+
+  kern -> kern_comp
+  mngr -> mngr_comp  
+  hwbuild -> maxfile
+  maxfile -> comp
+  host -> comp
+  comp -> App
+
+}

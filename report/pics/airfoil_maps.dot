@@ -1,0 +1,13 @@
+digraph airfoil_maps {
+  node [style=rounded]
+  Edges [shape=box]
+  Cells [shape=box]
+  Nodes [shape=box]
+  BEdges [label="Boundary Edges", shape=box]
+
+  Edges -> Nodes [label="edge (2)", color="blue"]
+  Edges -> Cells [label="ecell (2)", color="blue"]
+  Cells -> Nodes [label="cell (4)", color="blue"]
+  BEdges -> Nodes [label="bedge (2)", color="blue"]
+  BEdges -> Cells [label="becell (1)", color="blue"]
+}
