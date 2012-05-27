@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage{amsfonts}
 \usepackage{tabularx}
+\usepackage{tikz}
 
 \usepackage{minted}
 \title{Accelerating Unstructured Mesh Computations using FPGAs}
@@ -379,7 +380,7 @@ complex data access patterns that make it the interesting case to study. Finding
     bres\_calc & 0.43 & 0.24 \\ \hline
     update & 22.93  & 12.54\\ \hline
   \end{tabular}
-  \caption{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil. The total run time is 183 seconds}
+  \caption{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil. The total run time is 183 seconds.}
   \label{tab:Airfoil_times}
 \end{table}
 
@@ -432,7 +433,7 @@ complex data access patterns that make it the interesting case to study. Finding
 \end{listing}
 
 
-\section{Maxeler toolchain and streaming model of computation}
+\section{Hardware platform, Maxeler toolchain and the streaming model of computation}
 The toolchain we use for implementing the FPGA accelerator is the one developed and maintained
  by Maxeler Technologies. It consists of the MAX3 cards that contain a Xilinx Virtex-6 chip \cite{Virtex6Spec}
 and up to 48GB of DDR3 DRAM. These cards can be programmed through
@@ -463,8 +464,9 @@ layer: MaxelerOS. A diagram of the toolchain is shown in figure~\ref{fig:max_too
 Computational kernels in MaxCompiler have input streams that are pushed through a pipelined
 dataflow graph and some of them are output from the kernel. Programmatically, a hardware stream
 is seen as analogous to a variable in conventional programming languages. It's value potentially
-changes each cycle. 
+changes each cycle.
 
+\subsection{MaxCompiler example}
 We present a MaxCompiler design that computes a running 3-point average of a stream of floating point values (32 bits)
 in Listing~\ref{lst:MaxCompilerMovAvg}.
 \clearpage
@@ -617,36 +619,103 @@ int main(int argc, char* argv[]) {
 }
 \end{listing}
 
+\subsection{Hardware}
+The MAX3 card we use provides 48GB of DRAM that can be accessed with a maximum bandwidth of 38GB/s
+and a PCIe connection to the host machine that achieves a maximum bandwidth of 2GB/s in both directions.
+The Virtex6 FPGA by Xilinx used in the MAX3 card has about 4MB of fast on-board block RAM that should not
+be confused with the external DRAM. The host machine can communicate with the card through the PCIe bus
+using the MaxCompilerRT API. The external DRAM will be used to store the bulk of the mesh data and therefore
+achieving maximum utilisation of it is be one of the focal points of this project.
+
+
+\subsection{Mesh Partitioning and halos}
+In computing the optimal memory layout for our application, we have to partition large meshes into partitions
+that fit in the block RAM of the FPGA. We use a popular and widely available set of tools called METIS developed
+by George Karypis \cite{METISPaper} that uses state of the art techniques to partition meshes, graphs, hypergraphs and matrices
+according to various parameters like size, edge/hyperedge cut, minimising certain metrics etc. It is a highly robust and efficient
+ tool that we use through its C API. Since an iteration over a mesh element may require data associated with another element, partitions have a set of elements
+called a \emph{halo region} that consists of all the elements (cells, nodes, edges) that maybe accessed from another partition.
+Consider figure \ref{fig:partition}. The partitioning is shown with the red line. The four partitions share cells (shown in purple)
+and edges (shown in red). This presents a difficulty when computing an edge that uses cells in the halo region of another partition,
+since we are storing a single partition at a time on the FPGA. The method used to deal with this issue is called the
+\emph{halo exchange mechanism} and it opens up a large design space, with decisions usually dependent on the hardware and communication
+frameworks.
+
+\begin{figure}[H]
+  \begin{tikzpicture}
+
+
+  \fill[green!10!white] (-5.0, 6.0) rectangle (0.0, 1.0);
+  \fill[green!10!white] (-5.0, -5.0) rectangle (0.0, 0.0);
+  \fill[green!10!white] (1.0, 1.0) rectangle (6.0, 6.0);
+  \fill[green!10!white] (1.0, 0.0) rectangle (6.0, -5.0);
+
+  \fill[blue!10!white] (-5.0, 0.0) rectangle +(11.0, 1);
+  \fill[blue!10!white] (0.0, 6.0) rectangle +(1, -11.0);
+  \fill[blue!10!white] (-5.0, -1.0) rectangle (6, 0);
+  \fill[blue!10!white] (-1, -5) rectangle (0, 6);
+
+
+  \draw (-2.5, 3.5) node {Partition 1};
+  \draw (3.5, 3.5) node {Partition 2};
+  \draw (3.5, -2.5) node {Partition 3};
+  \draw (-2.5, -2.5) node {Partition 4};
+
+
+  \draw[step=1cm] (-5.0, -5.0) grid (6.0, 6.0);
+  \draw[red, very thick] (-5.0, 0.0) -- (0.0, 0.0);
+  \draw[red, very thick] (0.0, 6.0) -- (0.0, 0.0);
+  \draw[red, very thick] (6.0, 0.0) -- (0.0, 0.0);
+  \draw[red, very thick] (0.0, -5.0) -- (0.0, 0.0);
+
+  \draw (-0.5,2.5) node[rotate=90] {Halo region 1};
+  \draw (-2.5, 0.5) node{Halo region 1};
+  \draw (-2.5,-0.5) node{Halo region 4};
+  \draw (0.5,2.5) node[rotate=270] {Halo region 2};
+
+  \draw (2.5,0.5) node {Halo region 2};
+  \draw (2.5, -0.5) node{Halo region 3};
+  \draw (0.5, -2.5) node[rotate=90]{Halo region 3};
+  \draw (-0.5,-2.5) node[rotate=270] {Halo region 4};
+
+  \end{tikzpicture}
+  \caption{A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges
+  belonging to the halo region can be accessed by another partition.}
+  \label{fig:partition}
+\end{figure}
+
+
 \section{Previous work}
 Computation using unstructured meshes is widely used in many areas of engineering, not just in
 fluid dynamics, and there have been many attempts to augument the computation using accelerators.
 A recent trend has been to use the many cores available on Graphics Processing Units (GPUs) to
 launch thousands of threads in parallel, exploiting the parallel nature of many of these problems.
+Other hardware platforms include many-core architectures \cite{OP2_presentation} and large parallel clusters \cite{OP2_Cluster}.
 More relevant to this project, there have been attempts to use FPGAs to accelerate such computations.
 
 The principles of acceleration using FPGAs are quite different compared to using GPUs or many-core
 systems. In the case of FPGA acceleration, the performance advantage comes from a custom, application
-specific, deeply pipelined datapath
+specific, deeply pipelined datapath, often thousands of cycles deep that provides a throughput of one
+result per cycle. This argument for FPGA acceleration is widely accepted and is the source of the speedups
+achieved in all current attempts. Given this deep custop pipeline, it is a challenge for the developer
+to keep the pipeline fully utilised for the maximum amount of time and the techniques used to achieve this
+have been the main differentiating factors in the applications existing today.
+The most common approach has been to use on-chip block RAM memory to cache small parts of the mesh and operate
+on it, cache the results and write them back to main memory
 
-There have been some attempts at augumenting unstructured mesh computations using reconfigurable
-coprocessors, although these attempts are not very common because of the irregular memory access
-patterns and potentially complicated data dependenciesthat are considered to be an undesirable
- characteristic for FPGA acceleration, in particular the streaming model of computation where
-we want to push a data item to the computational kernel every cycle and get one result per cycle.
 M.T. Jones and K.Ramachandran \cite{UnstructuredMeshCCM} formulate the unstructured mesh computation as a sparse matrix
 problem, $Ax = y$ where $A$ is a large sparse matrix representing the mesh and $x$ is the vector
-that is being computer/approximated. Their approach uses the conjugate gradient method to 
+that is being approximated. Their approach uses the conjugate gradient method to 
 iteratively refine the approximation of the $x$ vector. This involves, most importantly, a 
 multiplication of the sparse matrix $A$ with the vector $x$ which forms the bulk of the computation 
-and a subsequent refinement of the mesh and reconstruction of the spares matrix. Our approach
- differs from theirs in that we assume a static mesh that is not refined. Also, we iterate for a 
-constant number of times, with no convergence criteria, we only care about the values of the
-data sets that are declared over the nodes, edges and cells of the mesh. We do not construct but
-instead apply a number of kernels on each element of the mesh in turn.
+and a subsequent refinement of the mesh and reconstruction of the spares matrix. They formulate the problem
+as a sparse matrix-vector multiplication, whereas we are interested in iterating computational kernels
+over the mesh. Furthermore, they are concerned with mesh adaptation and the reconstruction of the sparse
+matrix in each iteration. We assume a static mesh specified at the beginning of the program.
 
-Morishita et al. \cite{MemoryHierarchy} also examine the acceleration of CFD applications and in
+Morishita et al. \cite{MemoryHierarchy} examine the acceleration of CFD applications and in
  particular the use of on-chip block RAM resources to buffer the data in order to keep the
- arithmetic pipeline as full as possible. This is more similar approach. However, their approach
+ arithmetic pipeline as full as possible. This is a more similar approach. However, their approach
 applies a constant stencil to a grid in 3D and tries to cache points in the grid that will be 
 accessed in the next iteration, thus elimintating redundant accesses to the external memory. This
 caching/buffering is made possible by the fact that the stencil is of constant shape and thus the
@@ -655,10 +724,20 @@ property.
 
 Sanchez-Roman et al. \cite{SpanishFPGAAirfoil} present the acceleration of an airfoil-like
  unstructured mesh computation using FPGAs. Their solution uses two FPGAs on a single chip that
- perform different calculations. They mention the need to partition larger meshes but they do not
+ perform different calculations and they identify the need to reason about computation and data access
+separately. They mention the need to partition larger meshes but they do not
  discuss techniques for partitioning or the issues arising from data dependencies across
-partitions. Also they do not present any formal analysis of the performance of their solution
-that could be used to predict speedup.
+partitions. They mention the degradation in performance arising from the unstructured memory access
+patterns causing cache misses. We present a technique to reorganise the mesh so as to facilitate
+more well-behaved memory accesses, allowing us to stream data to the datapath efficiently.
+
+In another attempt, Sanchez-Roman et al. \cite{SpanishFPGAAirfoil2} recognise the update dependency that
+occurs during incrementing operation, similar to the ones in our res\_calc kernel and work around it by
+adding an accumulator that correctly updates the required data sets. However, their design is used on
+comparatively small meshes of a maximum of 8000 nodes. Thus all the data can fit into the on-board memory
+of the FPGA, eliminating the need to consider partitioning issues. The applications we are concerned with
+usually have meshes of the order of $10e6$ edges, which will definitely not fit on the on-chip block RAMs
+any time soon. 
 
 \chapter{Details and implementation}
 In this section we present our design, implementation and evaluation plan and provide the details
@@ -700,6 +779,12 @@ that use Nvidia's OpenCL CUDA implementation.
   \emph{Performance Analysis of the OP2 Framework on Many-core Architectures}.\\
   ACM SIGMETRICS Performance Evaluation Review, 38(4):9-15, March 2011
 
+\bibitem{OP2_Cluster}
+  G.R Mudalige, MB Giles, C. Bertolli, P.H.J. Kelly,\\
+  \emph{Predictive Modeling and Analysis of OP2 on DistributedMemory GPU Clusters}\\
+  PMBS '11 Proceedings of the second international workshop on Performance modeling, benchmarking and simulation of high performance computing systems
+  Pages 3-4 
+
 \bibitem{Virtex6Spec}
   Xilinx Inc.\\
   \emph{Virtex-6 Family Overview}\\
@@ -709,6 +794,11 @@ that use Nvidia's OpenCL CUDA implementation.
   Maxeler Technologies\\
   \emph{MaxCompiler White Paper}\\
   http://www.maxeler.com/content/briefings/MaxelerWhitePaperMaxCompiler.pdf
+
+\bibitem{METISPaper}
+ G. Karypis and V. Kumar. \\
+  \emph{A Fast and Highly Quality Multilevel Scheme for Partitioning Irregular Graphs}\\
+  SIAM Journal on Scientific Computing, Vol. 20, No. 1, pp. 359—392, 1999.
 
 \bibitem{GhostCellPaper}
   F. B. Kjolstad, M Snir\\
