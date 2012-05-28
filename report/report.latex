@@ -3,6 +3,7 @@
 \usepackage{amsfonts}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usetikzlibrary{shapes,snakes}
 
 \usepackage{minted}
 \title{Accelerating Unstructured Mesh Computations using FPGAs}
@@ -157,11 +158,12 @@ more complex industry-grade unstructured mesh simulations.
 \end{itemize}
 
 \chapter{Background}
-This section provides more detail on the sample application. An overview of the Maxeler toolchain
+This section provides more detail on the sample application, the representation of meshes,
+the data sets and the iteration structure of Airfoil. An overview of the Maxeler toolchain
 is given, which is used to implement the streaming solution we develop. The streaming model of
 computation is presented in the context of MaxCompiler by walking through steps to build a simple
-MaxCompiler application. Previous work in this area is presented and summarised in order to provide
- a context for the contributions of our work.
+MaxCompiler application. Real number representation is discussed and the concept of a halo is introduced.
+ Previous work in this area is presented and summarised in order to provide a context for the contributions of our work.
 \section{Unstructured meshes and their representation}
 The spatial domain of the problem can be discretised into either a structured or an 
 unstructured mesh. A structured mesh has the advantage of having a highly regular structure
@@ -622,10 +624,22 @@ int main(int argc, char* argv[]) {
 \subsection{Hardware}
 The MAX3 card we use provides 48GB of DRAM that can be accessed with a maximum bandwidth of 38GB/s
 and a PCIe connection to the host machine that achieves a maximum bandwidth of 2GB/s in both directions.
-The Virtex6 FPGA by Xilinx used in the MAX3 card has about 4MB of fast on-board block RAM that should not
+The Virtex6\cite{Virtex6Spec} FPGA by Xilinx used in the MAX3 card has about 4MB of fast on-board block RAM that should not
 be confused with the external DRAM. The host machine can communicate with the card through the PCIe bus
 using the MaxCompilerRT API. The external DRAM will be used to store the bulk of the mesh data and therefore
 achieving maximum utilisation of it is be one of the focal points of this project.
+
+The FPGA provides a number of resources that can be used to specify a design. The Xilinx Virtex6 chip we
+are using defines four such elements:
+\begin{itemize}
+\item{LUTs:} LookUp Tables are small elements of combinatorial logic that can be configured to implement any logical function.
+\item{Flip Flops:} Stateful elements that can be used as registers to implement accumulators, pipeline stages etc.
+\item{BRAMs:} Block RAMs are memory cells that are on the chip itself and can be accessed with very low latency.
+\item{DSPs:} Elements custom tuned for fast multiplication.
+\end{itemize}
+When building an FPGA design, one must be careful to not use more resources than the chip has to offer, therefore
+these numbers place a limit on the partition size we can store on the chip at any time, the number of arithmetic pipelines available etc.
+
 
 
 \subsection{Mesh Partitioning and halos}
@@ -635,9 +649,9 @@ by George Karypis \cite{METISPaper} that uses state of the art techniques to par
 according to various parameters like size, edge/hyperedge cut, minimising certain metrics etc. It is a highly robust and efficient
  tool that we use through its C API. Since an iteration over a mesh element may require data associated with another element, partitions have a set of elements
 called a \emph{halo region} that consists of all the elements (cells, nodes, edges) that maybe accessed from another partition.
-Consider figure \ref{fig:partition}. The partitioning is shown with the red line. The four partitions share cells (shown in purple)
-and edges (shown in red). This presents a difficulty when computing an edge that uses cells in the halo region of another partition,
-since we are storing a single partition at a time on the FPGA. The method used to deal with this issue is called the
+Consider figure \ref{fig:partition}. The partitioning is shown with the red line. The four partitions share cells (shown in purple), edges (shown in red)
+and nodes (along the red line). This presents a difficulty when computing an edge that uses cells in the halo region of another partition,
+since we are storing a single partition at a time on the device. The method used to deal with this issue is called the
 \emph{halo exchange mechanism} and it opens up a large design space, with decisions usually dependent on the hardware and communication
 frameworks.
 
@@ -684,6 +698,50 @@ frameworks.
   \label{fig:partition}
 \end{figure}
 
+\subsection{Floating point vs fixed point arithmetic}
+As presented in table \ref{tab:Airfoil_datasets}, the most important data sets in Airfoil (q, adt, res) consist of
+real numbers. Therefore a decision must be made on the low level number representation. The most common representation
+for real numbers in most modern architectures is the IEEE-754\cite{IEEEFP} floating point representation. This representation
+stores the number using three fields: the sign bit, the mantissa and the exponent. The representation of a 32-bit floating point
+number is shown in figure \ref{fig:FPSP}. The standard also specifies double precision floating point numbers using 64 bits:
+11 bits for the exponent and 53 bits for the mantissa. In general, a floating point number with $N$ bits for the exponent
+can represent a range from $\pm 1 \times 2^{-\frac{2^N}{2}-2}$ to $\pm 2 \times 2^{\frac{2^N}{2} - 1}$. For 32-bit single precision
+numbers, this range is $[\pm 1\times 2^{-126}..\pm 2\times 2^{127}]$. The details of how the mantissa, the exponent and the sign bit
+are used to encode are presented in the IEEE specification \cite{IEEEFP}. The decoding of a floating point number involves multiplying the
+mantissa by 2 raised to the power of the exponent, which is typically an expensive operation. Further details, like exponent bias
+ and normalisation are not discussed here as they are tangential to this section.
+
+\begin{figure}[H]
+\begin{tikzpicture}
+\fill[blue!10!white] (0, 1) rectangle (1,0);
+\fill[green!10!white] (1, 1) rectangle (4.5, 0);
+\fill[red!10!white] (4.5, 1) rectangle (12.5,0);
+
+\draw (0, 1) rectangle (1,0);
+\draw (1, 1) rectangle (4.5, 0);
+\draw (4.5, 1) rectangle (12.5,0);
+\draw (0.5, 0.5) node {+/-};
+\draw (2.5, 0.5) node {8 bits exponent};
+\draw (8.5, 0.5) node {23 bits mantissa};
+\draw (0, 1.5) node {0};
+\draw (1, 1.5) node {1};
+\draw (4.5, 1.5) node {8};
+\draw (12.5, 1.5) node {31};
+
+\end{tikzpicture}
+\caption{The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa.
+However, one bit of the mantissa is used to represent the sign, and is therefore unavailable to the rest of the mantissa.}
+\label{fig:FPSP}
+\end{figure}
+
+Since we are working with custom hardware, we have an alternative to floating point numbers for our representation of real arithmetic.
+We can store a real number as an integer and a fractional part at fixed offsets. This approach makes the arithmetic much simpler
+and hence faster, but it sacrifices range and accuracy. Fixed point representation is used in applications where the range of the
+numbers is predictable and not too large, or when the inputs are of limited precision. Faster in this context means fewer cycles
+taken to perform an operation, which translates to pipeline stages. For example, a fixed point number with 8 integer bits and 8 fraction bits
+using two's complement mode for negative numbers can repressent numbers from $-128$ up to $127 + 255/256$
+ in increments of $1/256$ with each fraction bits representing $1/256$.
+
 
 \section{Previous work}
 Computation using unstructured meshes is widely used in many areas of engineering, not just in
@@ -691,8 +749,11 @@ fluid dynamics, and there have been many attempts to augument the computation us
 A recent trend has been to use the many cores available on Graphics Processing Units (GPUs) to
 launch thousands of threads in parallel, exploiting the parallel nature of many of these problems.
 Other hardware platforms include many-core architectures \cite{OP2_presentation} and large parallel clusters \cite{OP2_Cluster}.
-More relevant to this project, there have been attempts to use FPGAs to accelerate such computations.
+A project close to this one is OP2 \cite{OP2_presentation}. It is a framework used to specify computations on
+unstructured meshes in a hardware-agnostic way, allowing the user to concentrate on the functional specification
+of the algorithm. Airfoil is one of the test programs for that project.
 
+More relevant to this project, there have been attempts to use FPGAs to accelerate such computations.
 The principles of acceleration using FPGAs are quite different compared to using GPUs or many-core
 systems. In the case of FPGA acceleration, the performance advantage comes from a custom, application
 specific, deeply pipelined datapath, often thousands of cycles deep that provides a throughput of one
@@ -701,7 +762,7 @@ achieved in all current attempts. Given this deep custop pipeline, it is a chall
 to keep the pipeline fully utilised for the maximum amount of time and the techniques used to achieve this
 have been the main differentiating factors in the applications existing today.
 The most common approach has been to use on-chip block RAM memory to cache small parts of the mesh and operate
-on it, cache the results and write them back to main memory
+on it, cache the results and write them back to main memory.
 
 M.T. Jones and K.Ramachandran \cite{UnstructuredMeshCCM} formulate the unstructured mesh computation as a sparse matrix
 problem, $Ax = y$ where $A$ is a large sparse matrix representing the mesh and $x$ is the vector
@@ -732,14 +793,105 @@ patterns causing cache misses. We present a technique to reorganise the mesh so 
 more well-behaved memory accesses, allowing us to stream data to the datapath efficiently.
 
 In another attempt, Sanchez-Roman et al. \cite{SpanishFPGAAirfoil2} recognise the update dependency that
-occurs during incrementing operation, similar to the ones in our res\_calc kernel and work around it by
+occurs during reduction operations, similar to the ones in our res\_calc kernel and work around it by
 adding an accumulator that correctly updates the required data sets. However, their design is used on
 comparatively small meshes of a maximum of 8000 nodes. Thus all the data can fit into the on-board memory
 of the FPGA, eliminating the need to consider partitioning issues. The applications we are concerned with
-usually have meshes of the order of $10e6$ edges, which will definitely not fit on the on-chip block RAMs
-any time soon. 
+usually have meshes of the order of $10^6$ edges, which will definitely not fit on the on-chip block RAMs
+any time soon, thus presenting the need for partitioning.
 
-\chapter{Details and implementation}
+The existing work gives us many hints towards design decisions. While it was tempting to use fixed point
+arithmetic for the calculations, Sanchez-Roman et al. \cite{SpanishFPGAAirfoil} hint at the difficulty
+in porting application from the host side to fixed point and also mention great difficulties that arise
+in the debugging and verification of the calculations.
+Furthermore, Durbano et al. \cite{ElectromagneticsFPGA} find that the error of fixed-point arithmetic 
+accumulates with each iteration in finite difference applications such as the one in Airfoil. They
+explore the possibility of acceleration of electromagnetics calculations using the Finite Difference
+Time Domain method (FTDT) which has some similarities to ours from a computational point of view.
+These factors lead us to discard fixed point representation of real numbers in our solution.
+All authors mention the relative difficulty of developing FPGA-based systems compared to normal CPU
+implementations, citing the different mindset required and the inherently more low level reasoning
+about hardware, architecture and algorithms that must be done to extract the required performance characteristics.
+
+All attempts recognise the need to tame the unstructured memory accesses that arise, and all of them
+use the on-chip block RAM resources to cache or buffer data before feeding it to the arithmetic pipeline,
+relying on complex memory access address generators to handle memory accesses. Our approach will also
+use block RAMs to store parts of the mesh, but we will remove the need for complex memory access patterns
+by reordering, partitioning and laying out the mesh data in a way that facilitates large, contiguous bursts
+of streaming. To do that we add a mesh preprocessing stage on the host side that partitions and reorganises
+the layout in memory of the data.
+
+Some exploration has been done in adapting meshes for particular memory architectures or reordering computations
+to optimise memory accesses.
+White B. et al. \cite{MeshIntensityROSE} have explored techniques for reordering computations on CPUs to
+facilitate efficient memory access, but not from a streaming perspective.
+There has been some work done in storing meshes for efficient access\cite{MeshCache}, but it has been
+focused on block-based CPU and GPU caches. We explore issues that are associated with laying out mesh data
+for optimal DRAM bandwidth utilisation on FPGAs.
+
+The differentiating factors of this project from existing work are:
+\begin{itemize}
+\item{We explore the architectural design space for the accelerator in conjunction with mesh 
+reordering techniques custom-fitted for the chosen architecture.}
+\item{Our design aims to work for large meshes, in the order of $10^5$ - $10^6$ nodes.}
+\item{We attempt to keep the design of the hardware accelerator as simple as possible,
+without complex memory access patterns and relying on host-side preprocessing to figure out
+the optimal data layout. We are focused on maximising DRAM bandwidth utilisation.}
+\end{itemize}
+
+\chapter{Design}
+
+In this section we discuss the design of the hardware accelerated version of the res\_calc kernel
+from Airfoil. We present the architecture for the FPGA-based accelerator and develop a formal performance
+model that is used to justify the viability of the architecture. From that point we decide on an optimal
+data layout that will lead to an implementation of the mesh preprocessing on the host.
+
+\section{DRAM and mesh storage}
+The MAX3 cards we have available have a large DRAM memory attached to them, and it is a natural
+candidate for storing the mesh. The computational kernel on the FPGA can access this memory
+at a maximum bandwidth of 38GB/s. This bandwidth, however, is only achievable when the memory
+is accessed in large bursts of contiguous addresses. Random access to this memory, while possible,
+is very inefficient and wasteful (because the DRAM controller will still read a large chunk of data,
+but return only the small fraction requested). Because of the representation of the unstructured mesh
+through indirection maps, processing an edge in res\_calc requires a lookup in the \emph{edge} and \emph{ecell}
+maps, and then a lookup into the $x$, $q$ and $adt$ data sets. If we perform such a two-level dereferencing
+procedure on the DRAM, the performance is expected to degrade to the point where it is not worth considering.
+The on-chip block RAMs, on the other hand, are designed to be accessed randomly and do not degrade
+in performance when accessed so. Thus, we want to push the indirection down to the block RAMs. In other words,
+the connectivity information must not affect the DRAM access pattern and be entirely contained
+in the data layout and the addressing of the block RAMs. This is the argument for storing
+one part of the mesh in the block RAMs, using the connectivity information to access it randomly without penalty
+and feeding the result into an arithmetic pipeline that will perform the floating point calculations.
+
+Remember that res\_calc performs an incrementing operation (also known as \emph{reduction} with addition) on the
+$res$ data set for the cells that each edge accesses. Therefore each edge computes only part of the final value
+of $res$ of its cells. Therefore the arithmetic pipeline, upon processing each edge will produce increments
+that must be correctly summed up for each cell before that cell is output. Thus the result of the arithmetic
+pipeline must be added to the current value of res for the relevant cells. We use more block RAMs to store the intermediate
+$res$ results, since the access pattern to $res$ is the same as the access pattern for the cells.
+
+\begin{tikzpicture}
+\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=5cm] {DRAM};
+\node (x) at (3,18) [rectangle, draw=black, fill=red!10!white, minimum width=1cm] {\emph{x}};
+\draw [->] (dram.south) -- (x.north);
+\node (cell) at (7,18) [rectangle, draw=black, fill=red!10!white, minimum width=1cm] {$q | adt$};
+\draw [->] (dram.south) -- (cell.north);
+\node (arith) at (5, 16) [ellipse, draw=black, fill=green!10!white] {Arithmetic pipeline};
+\draw [->] (x.south) -- (arith.north);
+\draw [->] (cell.south) -- (arith.north);
+\node (add) at (5, 14) [circle, draw=black, fill=green!10!white] {+};
+\node (res) at (5, 12) [rectangle, draw=black, fill=red!10!white] {res};
+\draw [->] (add.south) -- (res.north);
+\draw [->] (arith.south) -- (add.north);
+\draw [->] (res.east) -- (add.east);
+\draw [->] (res.south) -- (dram.west);
+\end{tikzpicture}
+
+\chapter{Implementation}
+
+
+**************************UNDER CONSTRUCTION!!!!!*******************************************
+
 In this section we present our design, implementation and evaluation plan and provide the details
 of each stage.
 \section{Plan}
@@ -796,9 +948,14 @@ that use Nvidia's OpenCL CUDA implementation.
   http://www.maxeler.com/content/briefings/MaxelerWhitePaperMaxCompiler.pdf
 
 \bibitem{METISPaper}
- G. Karypis and V. Kumar. \\
+ G. Karypis, V. Kumar. \\
   \emph{A Fast and Highly Quality Multilevel Scheme for Partitioning Irregular Graphs}\\
   SIAM Journal on Scientific Computing, Vol. 20, No. 1, pp. 359—392, 1999.
+
+\bibitem{IEEEFP}
+  IEEE \\
+  \emph{IEEE Std 754-2008 } \\
+  Publication Year: 2008 , Page(s): 1 - 58
 
 \bibitem{GhostCellPaper}
   F. B. Kjolstad, M Snir\\
@@ -831,6 +988,16 @@ synthesis environments Volume 31 Issue 8-9, Aug-Sept. 2000
   \emph{FPGA-based acceleration of the 3D finite-difference time-domain method}\\
    12th Annual IEEE Symposium on Field-Programmable Custom Computing Machines, 2004. FCCM 2004.
 
+\bibitem{MeshIntensityROSE}
+White B., McKee S. ,de Supinski B., Miller B., Quinlan D., Schulz M., Lawrence Livermore National Laboratory\\
+\emph{Improving the computational intensity of unstructured mesh applications}\\
+ICS '05 Proceedings of the 19th annual international conference on Supercomputing
+Pages 341 - 350 
+
+\bibitem{MeshCache}
+  Sung-Eui, Y., Lindstrom, P. \\
+  \emph{Mesh Layouts for Block-Based Caches}\\
+  IEEE Transactions on visualization and computer graphics, Vol. 12, No. 5, September/October 2006
 
 \end{thebibliography}
 \chapter{Appendix}

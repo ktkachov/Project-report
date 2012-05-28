@@ -1,0 +1,21 @@
+digraph arch {
+  node[style=rounded]
+  DRAM [shape=box]
+  subgraph {
+    x [shape=box]
+    cell [shape=record, label="<f0> q | <f1> adt"]
+    arith [shape=box, style=rounded, label="Arithmetic pipeline"]
+    add [label="+"]
+    res [shape=box]
+    x -> arith
+    cell:<f0> -> arith
+    cell:<f1> -> arith
+    arith -> add
+    add -> res
+    res -> add
+    res -> DRAM
+  }
+  DRAM -> x
+  DRAM -> cell:<f0>
+  DRAM -> cell:<f1>
+}
