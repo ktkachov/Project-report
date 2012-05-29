@@ -16,7 +16,10 @@
 \contentsline {section}{\numberline {2.4}Previous work}{28}
 \contentsline {chapter}{\numberline {3}Design}{31}
 \contentsline {section}{\numberline {3.1}DRAM and mesh storage}{31}
-\contentsline {chapter}{\numberline {4}Implementation}{33}
-\contentsline {section}{\numberline {4.1}Plan}{33}
-\contentsline {chapter}{\numberline {5}Appendix}{37}
-\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{37}
+\contentsline {section}{\numberline {3.2}Result accumulation and storage}{32}
+\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{33}
+\contentsline {section}{\numberline {3.4}Two-level partitioning}{36}
+\contentsline {chapter}{\numberline {4}Implementation}{39}
+\contentsline {section}{\numberline {4.1}Plan}{39}
+\contentsline {chapter}{\numberline {5}Appendix}{43}
+\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{43}

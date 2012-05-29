@@ -3,11 +3,13 @@
 \usepackage{amsfonts}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usetikzlibrary{calc}
 \usetikzlibrary{shapes,snakes}
+\usetikzlibrary{shapes.multipart}
 
 \usepackage{minted}
 \title{Accelerating Unstructured Mesh Computations using FPGAs}
-\author{Kyrylo Tkachov\\\\ Supervisor: Professor Paul Kelly}
+\author{Kyrylo Tkachov\\\\ Supervisor: Professor Paul Kelly\\\\Second marker: Dr. Tony Field.}
 
 
 \begin{document}
@@ -862,7 +864,11 @@ the connectivity information must not affect the DRAM access pattern and be enti
 in the data layout and the addressing of the block RAMs. This is the argument for storing
 one part of the mesh in the block RAMs, using the connectivity information to access it randomly without penalty
 and feeding the result into an arithmetic pipeline that will perform the floating point calculations.
+Under this arrangement, the edges are then represented as a vector of addresses into the node and cell RAMs, that
+is four unsigned integers.
 
+
+\section{Result accumulation and storage}
 Remember that res\_calc performs an incrementing operation (also known as \emph{reduction} with addition) on the
 $res$ data set for the cells that each edge accesses. Therefore each edge computes only part of the final value
 of $res$ of its cells. Therefore the arithmetic pipeline, upon processing each edge will produce increments
@@ -870,22 +876,273 @@ that must be correctly summed up for each cell before that cell is output. Thus 
 pipeline must be added to the current value of res for the relevant cells. We use more block RAMs to store the intermediate
 $res$ results, since the access pattern to $res$ is the same as the access pattern for the cells.
 
+The architecture diagram of that description is shown in figure \ref{fig:Architecture1st}. The node and cell data for the
+current partition are streamed in from the DRAM and stored in the block RAMs. They are then read in a pattern described
+by the connectivity between edges, nodes and cells and fed into the pipeline that produces the $res$ increments for two
+cells that must then be added to the currenty values of $res$ for those cells. Thus we have an accumulator node between
+the block RAMs for $res$ and the arithmetic pipeline.
+
+The steps required to process a partition become:
+\begin{enumerate}
+\item{Read in node and cell data from DRAM and store it locally.}
+\item{Process the partition data and store the $res$ data set locally.}
+\item{Write out the resulting $res$ set back to DRAM.}
+\end{enumerate}
+
+\begin{figure}[H]
+\begin{center}
 \begin{tikzpicture}
-\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=5cm] {DRAM};
-\node (x) at (3,18) [rectangle, draw=black, fill=red!10!white, minimum width=1cm] {\emph{x}};
-\draw [->] (dram.south) -- (x.north);
-\node (cell) at (7,18) [rectangle, draw=black, fill=red!10!white, minimum width=1cm] {$q | adt$};
-\draw [->] (dram.south) -- (cell.north);
-\node (arith) at (5, 16) [ellipse, draw=black, fill=green!10!white] {Arithmetic pipeline};
-\draw [->] (x.south) -- (arith.north);
-\draw [->] (cell.south) -- (arith.north);
-\node (add) at (5, 14) [circle, draw=black, fill=green!10!white] {+};
-\node (res) at (5, 12) [rectangle, draw=black, fill=red!10!white] {res};
-\draw [->] (add.south) -- (res.north);
-\draw [->] (arith.south) -- (add.north);
-\draw [->] (res.east) -- (add.east);
-\draw [->] (res.south) -- (dram.west);
+\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM};
+\node (edges) at (10, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {Edges (addresses)};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
+\node (arith) at (5, 15) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+{Arithmetic pipeline };
+\draw [->,very thick] (x.south) to [out=270, in=90] (arith.north);
+\draw [->,very thick] (cell.south) to [out=270, in=90] (arith.north);
+\node (add) at (5, 12) [circle, draw=black, fill=green!10!white] {+};
+\node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
+\draw [->, dashed, thick] (edges.south) -- (x.east);
+\draw [->, dashed, thick] (edges.south) -- (cell.east);
+\draw [->, dashed, thick] (edges.south) -- (res.east);
+
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-3.5, -0.5) -- ++(0, +11) -- (dram.west);
+\draw [->,very thick] (add.south) -- (res.north);
+\draw [->,very thick] (arith.south) -- (add.north);
+\draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
 \end{tikzpicture}
+\end{center}
+\caption{Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs
+and the accumulator. The connectivity information is used to address the block RAMs.}
+\label{fig:Architecture1st}
+\end{figure}
+
+\section{Halo exchange mechanism}
+In Airfoil every edge references two nodes and two cells. Those nodes and cells may be contained in the halo region of
+an adjacent partition. We have to devise a mechanism to acquire the required halo data.
+Since the mesh connectivity is constant, we can pre-compute the neighbours and the halo regions
+on the host. The difficulty arises from the reduction operation. A cell that can be accessed from two or more
+partitions needs to add up the contributions of all its edges, and the four edges that
+typically reference a cell will not necessarily be in the same partition. We are faced with the problem
+of updating a cell from two or more partitons.
+Since we perform the initial partitioning, we can identify these halo cells and store them on the host, not on
+the DRAM of the card. When processing a partition, we will send these halo cells and nodes to the FPGA via PCIe.
+The accelerator will then have all the data it needs to process all its edges, however the $res$ results that
+it computes for the halo cells will be only partial results that need to be combined with the results
+of the other partitions that access those cells. This addition of partial results will be performed on the host.
+We add some logic to choose the whether to read the cell and node data from the halo RAMs or the normal RAMs to obtain
+an architecture shown in figure \ref{fig:ArchitecturePCIe}.
+Thus the stages for processing a partition become:
+\begin{enumerate}
+\item{Read in node and cell data from DRAM. Read in halo node and cell data from PCIe.}
+\item{Process the partition data and store the $res$ data set locally. The $res$ data for the halo cells
+is a partial contribution of the final value.}
+\item{Write the resulting $res$ set back to DRAM. Send the partial results for halo cells back to the host through PCIe.}
+\item{Once all the partitions are processed, the host adds up the contributions to the halo cells from all partitions.}
+\end{enumerate}
+
+Remember that the PCIe bandwidth is much lower than that of the DRAM (about 10 times lower), so if the halo region
+of a partition constitute a large enough percentage of the total size of the partition, the PCIe transfer becomes
+dominant and the DRAM will end up being poorly utilised because the kernel will be waiting on the host transfer.
+This is a factor to keep in mind when choosing partition sizes and partitioning techniques.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}
+[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}]
+
+\node (dram) at (5, 23) [input] {DRAM};
+\node (edges) at (14.5, 12) [input] {Edges (addresses)};
+\node (edgestop) at (9, 23) [input] {Edges (addresses)};
+
+\node (PCIe) at (13, 23) [input] {PCIe};
+
+
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+
+\draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
+
+\node (hcell) at (15,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell data: $q$, $adt$};
+\node (hx) at (11,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node data: $x$};
+\draw [->, very thick] (PCIe.south) to[out=270, in=90] (hcell.north);
+\draw [->, very thick] (PCIe.south) to [out=270, in=90] (hx.north);
+\draw [->, dashed, thick] (edgestop.south) to[out=270, in=135] (hcell.north);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=135] (hx.north);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] (cell.north);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] (x.north);
+
+\node (arith) at (9, 12) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+{Arithmetic pipeline };
+
+\node (sel) at (9,14) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
+
+\draw [->,very thick] (x.south) to [out=270, in=135] ($(sel.north) + (-0.5, 0)$);
+\draw [->,very thick] (cell.south) to [out=270, in=90] ($(sel.north) + (-0.25, 0)$);
+\draw [->,very thick] (hx.south) to [out=270, in=90] ($(sel.north) + (0.25, 0)$);
+\draw [->,very thick] (hcell.south) to [out=270, in=45] ($(sel.north) + (0.5, 0)$);
+\draw [->, very thick] (sel.south) -- (arith.north);
+
+\node (add) at (9, 9) [circle, draw=black, fill=green!10!white] {+};
+\node (res) at (6, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
+\node (hres) at (12, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} Halo $res$};
+
+\node (rsel) at (9, 7.5) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
+\draw [->, very thick] (res.east) to [out=0, in=270] ($(rsel.south) + (-0.5, 0)$);
+\draw [->, very thick] (hres.west) to [out=180, in=270] ($(rsel.south) + (0.5, 0)$); 
+% \draw [->, very thick] (rsel.east) to [out=0, in=90] (hres.north);
+% \draw [->, very thick] (rsel.west) to [out=180, in=90] (res.north); 
+
+\draw [->, very thick] ($(rsel.north)$) to (add.south);
+\draw [->, dashed, thick] (rsel.east) to[out=0, in=90] ($(hres.north) + (-1, 0)$);
+\draw [->, dashed, thick] (rsel.west) to[out=180, in=90] ($(res.north) + (1, 0)$);
+
+% \draw [->, very thick] (add.east) to [out=0, in=45] ($(rsel.north) + (0.5cm,0)$);
+\draw [->, very thick] (add.east) to [out=0, in=90] (hres.north);
+\draw [->, very thick] (add.west) to [out=180, in=90] (res.north);
+
+\draw [->, dashed, thick] (edges.west) to [out=135, in=0] (sel.east);
+\draw [->, dashed, thick] (edges.west) to [out=225, in=45] ($(rsel.north) + (1, 0)$);
+% \draw [->, dashed, thick] (edges.west) -- (x.east);
+% \draw [->, dashed, thick] (edges.west) -- (cell.east);
+% \draw [->, dashed, thick] (edges.west) -- (res.east);
+
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-4.5, -0.5) -- ++(0, +18) -- (dram.west);
+\draw [->,very thick] (hres.south) -- +(0,-0.5) -- ++(5.5, -0.5) -- ++(0, +18) -- (PCIe.east);
+
+% \draw [->,very thick] (add.south) -- (res.north);
+\draw [->,very thick] (arith.south) -- (add.north);
+% \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+\caption{Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select
+which RAM to read the cell and node data based on the edge information. They are also used to pick the RAM to write the
+results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}
+\label{fig:ArchitecturePCIe}
+\end{center}
+\end{figure}
+
+\section{Two-level partitioning}
+The astute reader will notice that in order to process the partition, we first need to stream in the entire partition,
+process it fully and write it back. During the processing phase we are not streaming anything in or out of the kernel,
+leaving the DRAM unutilised, thus wasting bandwidth. To mitigate this, we introduce a second level of partitioning on
+the mesh. Each partition will be split into two \emph{micro-partitions}. The idea is that as soon as we finish reading in 
+the first mircro-partition, we can immediately start processing it while reading in the second micro-partition. Then, when
+the second mircro-partition has finished streaming in and the processing has finished for the first one, we can write out the results
+of the first one while processing the second. This allows us to achieve an overlap of data transfer and computation 
+in a scheme reminiscent of a processor pipeline, where fetch and computation stages overlap to increase the utilisation of the relevant units.
+As shown in figure \ref{fig:upartition}, the two micro-partitions will invariably share some elements in a small region we 
+call the \emph{intra-partition halo}. Care must be taken to not write out the results of the intra-partition halo or overwrite
+the data in it before both mirco-partitions have finished processing. Thus the micropartitions have two regions: the non-halo data 
+(halo in this context means not in the intra-partition halo and includes the external halo data) and the intra-partition halo.
+To avoid confusion we call the top-level partitions macro-partitions.
+This approach gives us the following phases in the accelerator:
+\begin{enumerate}
+\item{Read in non-halo data for first micro-partition plus the intra-partition halo.
+ If this is not the first macro-partition, write out the non-halo data for the second micro-partition and the intra-partition halo.}
+\item{Process first micro-partition, read in the non-halo data for second micro-partition.}
+\item{Process second micro-partition, write out the non-halo data for the first micro-partition.}
+\end{enumerate}
+Note that "read in" and "write out" include both the DRAM and PCIe halo transfers. This approach is expected to greatly improve
+DRAM utilisation at the expense of slightly more complex control logic. This imposes a constraint on the mesh layout in the DRAM and
+on the host machine. The first micro-partition should be stored before the intra-partition halo and the second micro-partition last.
+
+\begin{figure}[H]
+  \begin{tikzpicture}
+\fill[green!10!white] (-5, 0) rectangle (7,6);
+\fill[red!10!white] (-5, 6) rectangle (7,5);
+\fill[red!10!white] (-5, 0) rectangle (-4,5);
+\fill[red!10!white] (-5, 0) rectangle (7,1);
+\fill[red!10!white] (6, 0) rectangle (7,6);
+\fill[purple!50!white] (0, 0) rectangle (1,6);
+\fill[purple!50!white] (1, 0) rectangle (2,6);
+
+\draw (-2, 3.5) node {\verb!micro-partition 1!};
+\draw (4, 3.5) node {\verb!micro-partition 2!};
+\draw[red, very thick] (-5, 0) rectangle (7,6);
+
+\draw [red, very thick, dashed] (1,0) -- (1,6);
+\draw[step=1cm] (-5, 0) grid (7, 6);
+
+  \end{tikzpicture}
+  \caption{Partitioning of a top-level partition into two micro-partitions. This introduces a new
+intra-partition halo region, shown here in crimson.}
+  \label{fig:upartition}
+\end{figure}
+
+The inputs, outputs and RAMs of the kernel can be controlled through enable signals that predicate
+their function on some boolean condition that we can define. This gives us a straightforward
+way to control when the kernel reads, processes or writes data. We can define a state machine
+with internal counters that can be used to keep track of the progress of each phase and signal
+the I/O units when data needs to be read in or written out. It can also be used to control
+the block RAMs, specifying when to commit the data found on their input ports. For this, the 
+state machine will need to know the sizes of the micro-partitions, the intra-partition halo and 
+the external halo. This can be added to the design as a separate stream that contains vectors
+of integers that represent the required sizes. Compared to the sizes of the partitions, the size
+of the size vector is negligible and therefore does not impact the performance of the memory system.
+Finally, we arrive at the architecture shown in figure \ref{fig:ArchitectureSM}.
+
+\begin{figure}[H]
+\begin{center}
+\begin{tikzpicture}[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}]
+\node (dram) at (5, 20) [input] {DRAM and PCIe I/O};
+\node (edges) at (10, 20) [input] {Edges (addresses)};
+
+\node (sizes) at (15, 20) [input] {Size vectors};
+\node (SM) at (15, 17) [circle, draw=black, fill=orange!10!white]{SM};
+\node (knot) at (12, 18.5) {};
+
+\node (read) at (5, 17) [diamond, draw=black, fill=orange!10!white] {read?};
+\node (process) at (10, 17) [diamond, draw=black, fill=orange!10!white] {process?};
+\node (write) at (2, 17) [diamond, draw=black, fill=orange!10!white] {write?};
+
+\node (storage) at (5,15) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (read.north);
+\draw [->, very thick] (read.south) to [out=270, in=90] (storage.north);
+\draw [->, dashed, thick] (process.south) to [out=270, in=0] (storage.east);
+\draw [->, very thick] (edges.south) to (process.north);
+\draw [->, very thick] (sizes.south) to (SM.north);
+
+\draw [red] (SM) to[out=180, in=0] (knot.east);
+\draw [->, red] (knot.east) to [out=180, in=0] (process.east);
+% \draw [->, red] (knot.east) to [out=180, in=0] (read.east);
+\node (knot2) at (7, 18.5) {};
+\draw [red] (knot.east) to [out=180, in=0] (knot2.east);
+\draw [->, red] (knot2.east) to [out=180, in=0] (read.east);
+
+\node (knot3) at (4,18.5) {};
+\draw [red] (knot2.east) to [out=180, in=0] (knot3.east);
+\draw [->, red] (knot3.east) to [out=180, in=0] (write.east);
+
+
+\node (arith) at (5, 12) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+{Arithmetic pipeline };
+\draw [->,very thick] (storage.south) to [out=270, in=90] (arith.north);
+\node (add) at (5, 9) [circle, draw=black, fill=green!10!white] {+};
+\node (res) at (5, 7) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
+\draw [->, dashed, thick] (process.south) to [out=270, in=90] ($(res.north) + (1,0)$);
+
+\draw [->, red] (SM.south) to [out=270, in=0] ($(res.east) + (0,-0.25)$);
+\draw [->, red] (SM.south) to [out=270, in=0] ($(storage.east) + (0,-0.25)$);
+
+% \draw [->, dashed, thick] (edges.south) -- (storage.east);
+% \draw [->, dashed, thick] (edges.south) -- (res.east);
+
+
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-3, -0.5) -- (write.south);
+\draw [->, very thick] (write.north) -- (2, 20) -- (dram.west);
+\draw [->,very thick] (add.south) -- (res.north);
+\draw [->,very thick] (arith.south) -- (add.north);
+\draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+\end{center}
+\caption{Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing.
+The red wires represent the boolean enable signals. The halo and normal RAMs are shown in one block for the brevity.}
+\label{fig:ArchitectureSM}
+\end{figure}
+
 
 \chapter{Implementation}
 

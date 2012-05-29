@@ -79,11 +79,22 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{31}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs and the accumulator. The connectivity information is used to address the block RAMs.}}{33}}
+\newlabel{fig:Architecture1st}{{3.1}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select which RAM to read the cell and node data based on the edge information. They are also used to pick the RAM to write the results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}}{35}}
+\newlabel{fig:ArchitecturePCIe}{{3.2}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a top-level partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.}}{37}}
+\newlabel{fig:upartition}{{3.3}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing. The red wires represent the boolean enable signals. The halo and normal RAMs are shown in one block for the brevity.}}{38}}
+\newlabel{fig:ArchitectureSM}{{3.4}{38}}
 \citation{GhostCellPaper}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{33}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{39}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{39}}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
 \bibcite{Virtex6Spec}{3}
@@ -98,7 +109,7 @@
 \bibcite{ElectromagneticsFPGA}{12}
 \bibcite{MeshIntensityROSE}{13}
 \bibcite{MeshCache}{14}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{37}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{43}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{37}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{43}}

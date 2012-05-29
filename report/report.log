@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  28 MAY 2012 19:18
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  29 MAY 2012 18:24
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -297,6 +297,10 @@ File: pgfmodulematrix.code.tex 2008/01/15  (rcs-revision 1.1)
 hs.code.tex
 File: tikzlibrarytopaths.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
 )))
+(/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.
+code.tex
+File: tikzlibrarycalc.code.tex 2008/02/04 v2.00 (rcs-revision 1.5)
+)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryshape
 s.code.tex
 File: tikzlibraryshapes.code.tex 2008/01/09 v2.00 (rcs-revision 1.1)
@@ -457,18 +461,18 @@ runsystem(rm report.aex)...executed.
 (./report.aux)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
-LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 15.
+LaTeX Font Info:    ... okay on input line 15.
  (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count119
@@ -485,11 +489,11 @@ LaTeX Font Info:    ... okay on input line 13.
 runsystem(pygmentize -S default -f latex > report.pyg)...executed.
 
  (./report.pyg)
-LaTeX Font Info:    Try loading font information for U+msa on input line 14.
+LaTeX Font Info:    Try loading font information for U+msa on input line 16.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 14.
+LaTeX Font Info:    Try loading font information for U+msb on input line 16.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -526,14 +530,14 @@ File: pics/graph_simple.png Graphic file (type png)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [5 <./pics/airfoil_mesh.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 148.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 150.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 148.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 150.
  [6 <./pics/graph_simple.png (PNG copy)>] [7]
 Chapter 2.
 [8
@@ -546,20 +550,20 @@ File: pics/mesh_small.png Graphic file (type png)
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
-Underfull \hbox (badness 5475) in paragraph at lines 214--214
+Underfull \hbox (badness 5475) in paragraph at lines 216--216
 []\OT1/cmr/m/n/10.95 Figure 2.2: An ex-am-ple mesh with co-or-di-nate data as-s
 o-ci-ated
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 214--214
+Underfull \hbox (badness 1521) in paragraph at lines 216--216
 \OT1/cmr/m/n/10.95 with each node ($(\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95
  )$ from $\OML/cmm/m/it/10.95 node[]id []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.9
 5 x; y\OT1/cmr/m/n/10.95 )$). The co-or-di-nate data
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 214--214
+Underfull \hbox (badness 3009) in paragraph at lines 216--216
 \OT1/cmr/m/n/10.95 will be rep-re-sented as an ar-ray of float-ing point num-be
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
@@ -569,17 +573,17 @@ rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [11 <./pics/coloured_mesh.png (PNG copy)>]
-Underfull \hbox (badness 2608) in paragraph at lines 269--269
+Underfull \hbox (badness 2608) in paragraph at lines 271--271
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 269--269
+Underfull \hbox (badness 1057) in paragraph at lines 271--271
 \OT1/cmr/m/n/10.95 bound-ary of the
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 269--270
+Overfull \hbox (30.0pt too wide) in paragraph at lines 271--272
  [] 
  []
 
@@ -629,12 +633,12 @@ Overfull \vbox (14.73744pt too high) has occurred while \output is active []
 
 
 [17]
-Overfull \hbox (0.72623pt too wide) in paragraph at lines 438--438
+Overfull \hbox (0.72623pt too wide) in paragraph at lines 440--440
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
 
 
-Overfull \hbox (4.29962pt too wide) in paragraph at lines 439--446
+Overfull \hbox (4.29962pt too wide) in paragraph at lines 441--448
 \OT1/cmr/m/n/10.95 pro-vides a Java-compatible object-oriented API to spec-ify 
 the dataflow graph.
  []
@@ -699,7 +703,7 @@ Overfull \vbox (1.13744pt too high) has occurred while \output is active []
 
 
 [24] [25] [26]
-Overfull \hbox (11.17102pt too wide) in paragraph at lines 731--733
+Overfull \hbox (11.17102pt too wide) in paragraph at lines 733--735
 [][] 
  []
 
@@ -707,18 +711,32 @@ Overfull \hbox (11.17102pt too wide) in paragraph at lines 731--733
 Chapter 3.
 [31
 
-] [32]
+] [32] [33]
+Overfull \hbox (96.44386pt too wide) in paragraph at lines 1019--1022
+ [] 
+ []
+
+[34]
+Overfull \vbox (91.65253pt too high) has occurred while \output is active []
+
+
+[35] [36]
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1139--1140
+ [] 
+ []
+
+[37] [38]
 Chapter 4.
 
-Overfull \hbox (166.81606pt too wide) in paragraph at lines 893--894
+Overfull \hbox (166.81606pt too wide) in paragraph at lines 1150--1151
 \OT1/cmr/m/n/10.95 **************************UNDER CON-STRUC-TION!!!!!*********
 ********************************** 
  []
 
-[33
+[39
 
-] [34]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 946--949
+] [40]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 1203--1206
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -726,7 +744,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[35
+[41
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -734,7 +752,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [36]
+ [42]
 Chapter 5.
 \openout4 = `report.pyg'.
 
@@ -751,7 +769,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [37
+ (./report.out.pyg [43
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -763,7 +781,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [38])
+ (./report.out.pyg [44])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -789,15 +807,15 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [39] (./report.aux) ) 
+ [45] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 10480 strings out of 495000
- 203108 string characters out of 1180493
- 269997 words of memory out of 3000000
- 13382 multiletter control sequences out of 15000+50000
+ 10712 strings out of 495000
+ 207729 string characters out of 1180493
+ 281982 words of memory out of 3000000
+ 13611 multiletter control sequences out of 15000+50000
  13599 words of font info for 51 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
- 47i,12n,65p,784b,563s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,12n,65p,784b,669s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/shar
@@ -813,9 +831,9 @@ ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (41 pages, 558734 bytes).
+Output written on report.pdf (47 pages, 576383 bytes).
 PDF statistics:
- 224 PDF objects out of 1000 (max. 8388607)
+ 243 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 
