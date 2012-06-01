@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  29 MAY 2012 18:24
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  1 JUN 2012 16:20
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -511,25 +511,25 @@ m-ing model
 
  [2
 
-]
+] [3]
 Chapter 1.
-[3
+[4
 
-] <pics/airfoil_mesh.png, id=25, 363.60844pt x 352.31625pt>
+] <pics/airfoil_mesh.png, id=29, 363.60844pt x 352.31625pt>
 File: pics/airfoil_mesh.png Graphic file (type png)
 
 <use pics/airfoil_mesh.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[4] <pics/graph_simple.png, id=30, 127.97812pt x 370.38374pt>
+[5] <pics/graph_simple.png, id=34, 127.97812pt x 370.38374pt>
 File: pics/graph_simple.png Graphic file (type png)
 
 <use pics/graph_simple.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5 <./pics/airfoil_mesh.png (PNG copy)>]
+[6 <./pics/airfoil_mesh.png (PNG copy)>]
 LaTeX Font Info:    Try loading font information for OMS+cmr on input line 150.
 
 
@@ -538,15 +538,15 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 150.
- [6 <./pics/graph_simple.png (PNG copy)>] [7]
+ [7 <./pics/graph_simple.png (PNG copy)>] [8]
 Chapter 2.
-[8
+[9
 
-] <pics/mesh_small.png, id=47, 621.82312pt x 412.54124pt>
+] <pics/mesh_small.png, id=50, 621.82312pt x 412.54124pt>
 File: pics/mesh_small.png Graphic file (type png)
 
-<use pics/mesh_small.png> [9 <./pics/mesh_small.png (PNG copy)>]
-<pics/data_set_ex.png, id=53, 417.56pt x 358.33875pt>
+<use pics/mesh_small.png> [10 <./pics/mesh_small.png (PNG copy)>]
+<pics/data_set_ex.png, id=56, 417.56pt x 358.33875pt>
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
@@ -568,11 +568,11 @@ Underfull \hbox (badness 3009) in paragraph at lines 216--216
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
 
-[10 <./pics/data_set_ex.png (PNG copy)>]
-<pics/coloured_mesh.png, id=57, 207.02344pt x 343.2825pt>
+[11 <./pics/data_set_ex.png (PNG copy)>]
+<pics/coloured_mesh.png, id=61, 207.02344pt x 343.2825pt>
 File: pics/coloured_mesh.png Graphic file (type png)
 
-<use pics/coloured_mesh.png> [11 <./pics/coloured_mesh.png (PNG copy)>]
+<use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
 Underfull \hbox (badness 2608) in paragraph at lines 271--271
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
@@ -587,7 +587,7 @@ Overfull \hbox (30.0pt too wide) in paragraph at lines 271--272
  [] 
  []
 
-[12]
+[13]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l c -f latex -F tokenmerge            -P linenos -P "verb
@@ -601,8 +601,8 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [13] [14]
-<pics/airfoil_maps.pdf, id=74, 259.97125pt x 224.84pt>
+ [14] [15]
+<pics/airfoil_maps.pdf, id=77, 259.97125pt x 224.84pt>
 File: pics/airfoil_maps.pdf Graphic file (type pdf)
 
 <use pics/airfoil_maps.pdf>
@@ -616,7 +616,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [15 <./pics/airfoil_maps.pdf>]
+ [16 <./pics/airfoil_maps.pdf>]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l c -f latex -F tokenmerge            -P linenos -P "verb
@@ -628,11 +628,11 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [16]
+ [17]
 Overfull \vbox (14.73744pt too high) has occurred while \output is active []
 
 
-[17]
+[18]
 Overfull \hbox (0.72623pt too wide) in paragraph at lines 440--440
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
@@ -643,10 +643,10 @@ Overfull \hbox (4.29962pt too wide) in paragraph at lines 441--448
 the dataflow graph.
  []
 
-<pics/max_toolchain.pdf, id=90, 541.02126pt x 411.5375pt>
+<pics/max_toolchain.pdf, id=93, 541.02126pt x 411.5375pt>
 File: pics/max_toolchain.pdf Graphic file (type pdf)
 
-<use pics/max_toolchain.pdf> [18 <./pics/max_toolchain.pdf>] [19]
+<use pics/max_toolchain.pdf> [19 <./pics/max_toolchain.pdf>] [20]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l java -f latex -F tokenmerge            -P linenos -P "v
@@ -658,12 +658,12 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- <pics/MovAvgKernel.png, id=102, 324.46219pt x 350.05782pt>
+ <pics/MovAvgKernel.png, id=105, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
-<use pics/MovAvgKernel.png> [20
+<use pics/MovAvgKernel.png> [21
 
-] [21 <./pics/MovAvgKernel.png (PNG copy)>]
+] [22 <./pics/MovAvgKernel.png (PNG copy)>]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l java -f latex -F tokenmerge            -P linenos -P "v
@@ -685,7 +685,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [22
+ [23
 
 ]
 \openout4 = `report.pyg'.
@@ -698,45 +698,70 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [23]
+ [24]
 Overfull \vbox (1.13744pt too high) has occurred while \output is active []
 
 
-[24] [25] [26]
+[25] [26] [27]
 Overfull \hbox (11.17102pt too wide) in paragraph at lines 733--735
 [][] 
  []
 
-[27] [28] [29] [30]
+[28] [29] [30] [31]
 Chapter 3.
-[31
+[32
 
-] [32] [33]
+] [33] [34]
 Overfull \hbox (96.44386pt too wide) in paragraph at lines 1019--1022
  [] 
  []
 
-[34]
+[35]
 Overfull \vbox (91.65253pt too high) has occurred while \output is active []
 
 
-[35] [36]
-Overfull \hbox (78.75056pt too wide) in paragraph at lines 1139--1140
+[36] [37]
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1141--1142
  [] 
  []
 
-[37] [38]
+[38]
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+Missing character: There is no ; in font nullfont!
+
+Overfull \hbox (39.53989pt too wide) in paragraph at lines 1233--1237
+[][] 
+ []
+
+
+LaTeX Warning: Float too large for page by 57.18346pt on input line 1239.
+
+[39] [40] [41] [42]
 Chapter 4.
 
-Overfull \hbox (166.81606pt too wide) in paragraph at lines 1150--1151
+Overfull \hbox (166.81606pt too wide) in paragraph at lines 1273--1274
 \OT1/cmr/m/n/10.95 **************************UNDER CON-STRUC-TION!!!!!*********
 ********************************** 
  []
 
-[39
+[43
 
-] [40]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 1203--1206
+] [44]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 1326--1329
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -744,7 +769,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[41
+[45
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -752,7 +777,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [42]
+ [46] [47]
 Chapter 5.
 \openout4 = `report.pyg'.
 
@@ -769,7 +794,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [43
+ (./report.out.pyg [48
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -781,7 +806,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [44])
+ (./report.out.pyg [49])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -807,15 +832,15 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [45] (./report.aux) ) 
+ [50] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 10712 strings out of 495000
- 207729 string characters out of 1180493
- 281982 words of memory out of 3000000
- 13611 multiletter control sequences out of 15000+50000
+ 10724 strings out of 495000
+ 207988 string characters out of 1180493
+ 302338 words of memory out of 3000000
+ 13623 multiletter control sequences out of 15000+50000
  13599 words of font info for 51 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
- 47i,12n,65p,784b,669s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,12n,65p,785b,669s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/shar
@@ -831,9 +856,9 @@ ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (47 pages, 576383 bytes).
+Output written on report.pdf (52 pages, 587116 bytes).
 PDF statistics:
- 243 PDF objects out of 1000 (max. 8388607)
+ 259 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 
