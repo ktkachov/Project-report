@@ -53,21 +53,23 @@
 \@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces  A sample host code using the MaxCompilerRT API for the C language.  }}{25}}
 \newlabel{lst:MovAvgHostCode}{{5}{25}}
 \citation{Virtex6Spec}
-\citation{METISPaper}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Hardware}{26}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{26}}
+\citation{METISPaper}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Diagram of the hardware parts of a MAX card, showing the relationships between the DRAM, PCIe, the host and the FPGA.}}{27}}
+\newlabel{fig:maxHW}{{2.7}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{27}}
 \citation{IEEEFP}
 \citation{IEEEFP}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges belonging to the halo region can be accessed by another partition.}}{27}}
-\newlabel{fig:partition}{{2.7}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges belonging to the halo region can be accessed by another partition.}}{28}}
+\newlabel{fig:partition}{{2.8}{28}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa. However, one bit of the mantissa is used to represent the sign, and is therefore unavailable to the rest of the mantissa.}}{28}}
-\newlabel{fig:FPSP}{{2.8}{28}}
 \citation{OP2_presentation}
 \citation{OP2_Cluster}
 \citation{OP2_presentation}
-\citation{UnstructuredMeshCCM}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa. However, one bit of the mantissa is used to represent the sign, and is therefore unavailable to the rest of the mantissa.}}{29}}
+\newlabel{fig:FPSP}{{2.9}{29}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}Previous work}{29}}
+\citation{UnstructuredMeshCCM}
 \citation{MemoryHierarchy}
 \citation{SpanishFPGAAirfoil}
 \citation{SpanishFPGAAirfoil2}
@@ -75,31 +77,33 @@
 \citation{ElectromagneticsFPGA}
 \citation{MeshIntensityROSE}
 \citation{MeshCache}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design}{32}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design}{33}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{32}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{34}}
 \citation{GhostCellPaper}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs and the accumulator. The connectivity information is used to address the block RAMs.}}{34}}
-\newlabel{fig:Architecture1st}{{3.1}{34}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{34}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select which RAM to read the cell and node data based on the edge information. They are also used to pick the RAM to write the results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}}{36}}
-\newlabel{fig:ArchitecturePCIe}{{3.2}{36}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a top-level partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.}}{38}}
-\newlabel{fig:upartition}{{3.3}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs and the accumulator. The connectivity information is used to address the block RAMs.}}{35}}
+\newlabel{fig:Architecture1st}{{3.1}{35}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{35}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select which RAM to read the cell and node data from based on the edge information. They are also used to pick the RAM to write the results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}}{37}}
+\newlabel{fig:ArchitecturePCIe}{{3.2}{37}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a top-level partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.}}{39}}
+\newlabel{fig:upartition}{{3.3}{39}}
 \citation{Pipeline}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing. The red wires represent the boolean enable signals. The halo and normal RAMs as well as the RAM selectors are shown in merged blocks for brevity.}}{39}}
-\newlabel{fig:ArchitectureSM}{{3.4}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram showing the overlapping of execution and I/O thanks to the second level partitioning scheme. Note that both micropartitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only been written out together with the second micropartition after all of the micropartitions ($\mu $partitions) have been processed. The red boxes represent the progress of a single (macro)partition through the accelerator phases.}}{40}}
-\newlabel{fig:partPipeline}{{3.5}{40}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}Arithmetic pipeline}{41}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing. The red wires represent the boolean enable signals. The halo and normal RAMs as well as the RAM selectors are shown in merged blocks for brevity.}}{40}}
+\newlabel{fig:ArchitectureSM}{{3.4}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme. Note that both micropartitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only been written out together with the second micropartition after all of the micropartitions ($\mu $partitions) have been processed. The red boxes represent the progress of a single (macro)partition through the accelerator phases.}}{41}}
+\newlabel{fig:partPipeline}{{3.5}{41}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagram showing the computation of the function $r=x^2 + y - \sqrt  {z}$}}{45}}
+\newlabel{fig:StreamVsCPU}{{3.6}{45}}
 \citation{GhostCellPaper}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{43}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{46}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{43}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{46}}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
 \bibcite{Virtex6Spec}{3}
@@ -116,7 +120,7 @@
 \bibcite{MeshCache}{14}
 \bibcite{floatFPGA}{15}
 \bibcite{Pipeline}{16}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{48}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{51}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{48}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{51}}

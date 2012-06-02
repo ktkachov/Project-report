@@ -11,16 +11,16 @@
 \contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{19}
 \contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{20}
 \contentsline {subsection}{\numberline {2.3.2}Hardware}{26}
-\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{26}
+\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{27}
 \contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{28}
 \contentsline {section}{\numberline {2.4}Previous work}{29}
-\contentsline {chapter}{\numberline {3}Design}{32}
-\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{32}
-\contentsline {section}{\numberline {3.2}Result accumulation and storage}{33}
-\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{34}
-\contentsline {section}{\numberline {3.4}Two-level partitioning}{37}
-\contentsline {section}{\numberline {3.5}Arithmetic pipeline}{41}
-\contentsline {chapter}{\numberline {4}Implementation}{43}
-\contentsline {section}{\numberline {4.1}Plan}{43}
-\contentsline {chapter}{\numberline {5}Appendix}{48}
-\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{48}
+\contentsline {chapter}{\numberline {3}Design}{33}
+\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{33}
+\contentsline {section}{\numberline {3.2}Result accumulation and storage}{34}
+\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{35}
+\contentsline {section}{\numberline {3.4}Two-level partitioning}{38}
+\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{42}
+\contentsline {chapter}{\numberline {4}Implementation}{46}
+\contentsline {section}{\numberline {4.1}Plan}{46}
+\contentsline {chapter}{\numberline {5}Appendix}{51}
+\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{51}

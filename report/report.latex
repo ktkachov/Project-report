@@ -3,6 +3,7 @@
 \usepackage{amsfonts}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usetikzlibrary{arrows}
 \usetikzlibrary{calc}
 \usetikzlibrary{shapes,snakes}
 \usetikzlibrary{shapes.multipart}
@@ -629,7 +630,8 @@ and a PCIe connection to the host machine that achieves a maximum bandwidth of 2
 The Virtex6\cite{Virtex6Spec} FPGA by Xilinx used in the MAX3 card has about 4MB of fast on-board block RAM that should not
 be confused with the external DRAM. The host machine can communicate with the card through the PCIe bus
 using the MaxCompilerRT API. The external DRAM will be used to store the bulk of the mesh data and therefore
-achieving maximum utilisation of it is be one of the focal points of this project.
+achieving maximum utilisation of it is be one of the focal points of this project. The top-level parts of the hardware
+we are dealing with are presented in figure \ref{fig:maxHW}.
 
 The FPGA provides a number of resources that can be used to specify a design. The Xilinx Virtex6 chip we
 are using defines four such elements:
@@ -642,7 +644,35 @@ are using defines four such elements:
 When building an FPGA design, one must be careful to not use more resources than the chip has to offer, therefore
 these numbers place a limit on the partition size we can store on the chip at any time, the number of arithmetic pipelines available etc.
 
+\begin{figure}[H]
+\begin{tikzpicture}
+\draw (0, 20) rectangle (5, 12);
+\fill [blue!3!white] (0, 20) rectangle (5, 12);
+\draw (0.5, 17.5) rectangle (4.5, 13);
+\fill [red!6!white](0.5, 17.5) rectangle (4.5, 13);
 
+\node (maxcard) at (1, 19.5) {MAX card};
+\node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 4cm] {DRAM};
+\node (manager) at (2.5, 17) [draw=black, fill=orange!10!white,  minimum width = 2.7cm, minimum height=0.7cm] {Manager};
+\node (kernel) at (2.5, 15) [draw=black, fill=red!10!white, minimum height=2cm,  minimum width = 2.7cm] {Kernel};
+\node (fpga) at (2, 13.5) {FPGA (Virtex 6)};
+
+\node (pcie) at (7, 17) [draw=black, fill=green!10!white, minimum height = 5cm] {PCIe};
+\node (host) at (9, 17) [draw=black, fill=blue!3!white, minimum height = 5cm] {Host};
+
+\draw [->] ($(dram.south) + (-0.2, 0)$) -- ($(manager.north) + (-0.2, 0)$);
+\draw [->] ($(manager.north) + (0.2, 0)$) -- ($(dram.south) + (0.2, 0)$);
+\draw [->] ($(manager.south) + (-0.2, 0)$) -- ($(kernel.north) + (-0.2, 0)$);
+\draw [->] ($(kernel.north) + (0.2, 0)$) -- ($(manager.south) + (0.2, 0)$);
+\draw [->] ($(manager.east) + (0, -0.1)$) -- ($(pcie.west) + (0, -0.1)$);
+\draw [->] ($(pcie.west) + (0, 0.1)$) -- ($(manager.east) + (0, 0.1)$);
+\draw [->] ($(pcie.east) + (0, -0.1)$) -- ($(host.west) + (0, -0.1)$);
+\draw [->] ($(host.west) + (0, 0.1)$) -- ($(pcie.east) + (0, 0.1)$);
+\end{tikzpicture}
+\caption{Diagram of the hardware parts of a MAX card, showing the relationships between the DRAM, PCIe, the host
+and the FPGA.}
+\label{fig:maxHW}
+\end{figure}
 
 \subsection{Mesh Partitioning and halos}
 In computing the optimal memory layout for our application, we have to partition large meshes into partitions
@@ -709,7 +739,7 @@ number is shown in figure \ref{fig:FPSP}. The standard also specifies double pre
 11 bits for the exponent and 53 bits for the mantissa. In general, a floating point number with $N$ bits for the exponent
 can represent a range from $\pm 1 \times 2^{-\frac{2^N}{2}-2}$ to $\pm 2 \times 2^{\frac{2^N}{2} - 1}$. For 32-bit single precision
 numbers, this range is $[\pm 1\times 2^{-126}..\pm 2\times 2^{127}]$. The details of how the mantissa, the exponent and the sign bit
-are used to encode are presented in the IEEE specification \cite{IEEEFP}. The decoding of a floating point number involves multiplying the
+are used to encode a real number are presented in the IEEE specification \cite{IEEEFP}. The decoding of a floating point number involves multiplying the
 mantissa by 2 raised to the power of the exponent, which is typically an expensive operation. Further details, like exponent bias
  and normalisation are not discussed here as they are tangential to this section.
 
@@ -742,7 +772,7 @@ and hence faster, but it sacrifices range and accuracy. Fixed point representati
 numbers is predictable and not too large, or when the inputs are of limited precision. Faster in this context means fewer cycles
 taken to perform an operation, which translates to pipeline stages. For example, a fixed point number with 8 integer bits and 8 fraction bits
 using two's complement mode for negative numbers can repressent numbers from $-128$ up to $127 + 255/256$
- in increments of $1/256$ with each fraction bits representing $1/256$.
+ in increments of $1/256$ with each fraction bit representing $1/256$.
 
 
 \section{Previous work}
@@ -944,7 +974,7 @@ is a partial contribution of the final value.}
 \end{enumerate}
 
 Remember that the PCIe bandwidth is much lower than that of the DRAM (about 10 times lower), so if the halo region
-of a partition constitute a large enough percentage of the total size of the partition, the PCIe transfer becomes
+of a partition constitutes a large enough percentage of the total size of the partition, the PCIe transfer becomes
 dominant and the DRAM will end up being poorly utilised because the kernel will be waiting on the host transfer.
 This is a factor to keep in mind when choosing partition sizes and partitioning techniques.
 
@@ -1018,7 +1048,7 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 % \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
 \end{tikzpicture}
 \caption{Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select
-which RAM to read the cell and node data based on the edge information. They are also used to pick the RAM to write the
+which RAM to read the cell and node data from based on the edge information. They are also used to pick the RAM to write the
 results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}
 \label{fig:ArchitecturePCIe}
 \end{center}
@@ -1028,15 +1058,14 @@ results back to. The dashed lines represent addresses that are used to access th
 The astute reader will notice that in order to process the partition, we first need to stream in the entire partition,
 process it fully and write it back. During the processing phase we are not streaming anything in or out of the kernel,
 leaving the DRAM unutilised, thus wasting bandwidth. To mitigate this, we introduce a second level of partitioning on
-the mesh. Each partition will be split into two \emph{micro-partitions}. The idea is that as soon as we finish reading in 
+the mesh. Each partition will be split into two \emph{micro-partitions}($\mu$partitions). The idea is that as soon as we finish reading in 
 the first mircro-partition, we can immediately start processing it while reading in the second micro-partition. Then, when
 the second mircro-partition has finished streaming in and the processing has finished for the first one, we can write out the results
 of the first one while processing the second. This allows us to achieve an overlap of data transfer and computation 
-in a scheme reminiscent of a processor pipeline, where fetch and computation stages overlap to increase the utilisation of the relevant units.
+in a scheme reminiscent of a simple processor pipeline, where the fetch, computation and commit stages overlap to increase the utilisation of the relevant units.
 As shown in figure \ref{fig:upartition}, the two micro-partitions will invariably share some elements in a small region we 
-call the \emph{intra-partition halo}. Care must be taken to not write out the results of the intra-partition halo or overwrite
-the data in it before both mirco-partitions have finished processing. Thus the micropartitions have two regions: the non-halo data 
-(halo in this context means not in the intra-partition halo and includes the external halo data) and the intra-partition halo.
+call the \emph{intra-partition halo}(IPH). Care must be taken to not write out the results of the intra-partition halo or overwrite
+the data in it before both mirco-partitions have finished processing. 
 To avoid confusion we call the top-level partitions macro-partitions.
 This approach gives us the following phases in the accelerator:
 \begin{enumerate}
@@ -1059,9 +1088,11 @@ on the host machine. The first micro-partition should be stored before the intra
 \fill[purple!50!white] (0, 0) rectangle (1,6);
 \fill[purple!50!white] (1, 0) rectangle (2,6);
 
-\draw (-2, 3.5) node {\verb!micro-partition 1!};
-\draw (4, 3.5) node {\verb!micro-partition 2!};
+\draw (-1.9, 3.5) node {$\mu$partition~~ 1};
+\draw (4.1, 3.5) node {$\mu$partition~~ 2};
 \draw[red, very thick] (-5, 0) rectangle (7,6);
+\node (iph1) at(0.5, 3) [rotate=90] {\emph{IPH}};
+\node (iph2) at(1.5, 3) [rotate=270] {\emph{IPH}};
 
 \draw [red, very thick, dashed] (1,0) -- (1,6);
 \draw[step=1cm] (-5, 0) grid (7, 6);
@@ -1084,7 +1115,8 @@ of integers that represent the required sizes. Compared to the sizes of the part
 of the size vector is negligible and therefore does not impact the performance of the memory system.
 Finally, we arrive at the architecture shown in figure \ref{fig:ArchitectureSM}. 
 The interleaving of I/O and processing gives rise to a pipeline-like execution pattern, shown in
-figure \ref{fig:partPipeline}.
+figure \ref{fig:partPipeline}. Notice how at every stage there is I/O activity that keeps the DRAM
+and PCIe streams busy.
 
 \begin{figure}[H]
 \begin{center}
@@ -1219,25 +1251,33 @@ are shown in merged blocks for brevity.}
 \draw (-1.2, 3.5) node {\emph{STAGE 3}};
 \draw (-1.2, 0.5) node {\emph{STAGE 1}};
 
+\draw [->,densely dashed, very thick] (-2.9, 21) -- (-2.9, 0);
+\draw (-3.2, 10.5) node[rotate=90]{\emph{TIME}};
+
+
 \newcommand{\redpart}[1]{
-\draw [red, very thick] #1 -- ++(3.75, 0) -- ++(0, -3.15) -- ++(5.6, 0) -- ++(0, -3) -- ++(4.4,0) -- ++(0, -5.7)
--- ++(-4.5, 0) -- ++(0, 3) -- ++(-4.5, 0) -- ++(0, 3) -- ($#1 + (0, -5.9)$) -- cycle;}
+\draw [red, very thick, rounded corners] #1 -- ++(3.75, 0) -- ++(0, -3.15) -- ++(5.6, 0) -- ++(0, -3) -- ++(4.4,0) -- ++(0, -5.7)
+-- ++(-4, 0) -- ++(0, 3) -- ++(-4.5, 0) -- ++(0, 3) -- ($#1 + (0, -5.9)$) -- cycle;
+}
 
 \redpart{(0.5, 20.25)};
 \redpart{(0.5, 11.25)};
+
+\draw [red, very thick, rounded corners] (0.2, 2.1) -- ++(4, 0) -- ++(0, -2.6);
+\draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
 
 
 
 % \draw [->, very thick, dashed] (-3.5, 21) -- (-3.5, -1);
 % \draw (-3.5, 10) node {\emph{TIME}};
 \end{tikzpicture}
-\caption{Diagram showing the overlapping of execution and I/O thanks to the second level partitioning scheme.
+\caption{Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme.
 Note that both micropartitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only
 been written out together with the second micropartition after all of the micropartitions ($\mu$partitions) have been processed. The red boxes
 represent the progress of a single (macro)partition through the accelerator phases.}
 \label{fig:partPipeline}
 \end{figure}
-\section{Arithmetic pipeline}
+\section{The case for a custom streaming pipeline}
 The floating point calculations will be performed by the arithmetic pipeline, custom designed for the res\_calc
 kernel. In a general purpose core, like on a CPU and to a somewhat lesser extent a GPU, the floating point calculations
 will be performed one after another, writing intermediate values to registers and/or cache. The calculations are expressed
@@ -1246,13 +1286,14 @@ are streamed through, and the $res$ increments come out of the bottom. The advan
 registers at every stage of every calculation to create a deep pipeline with high throughput. Pipelining is a well-known
 processor design technique for increasing functional unit utilisation and throughput. On conventional processors it is used
 with some care, avoiding very deep pipelines, because the general purpose workload these CPUs are designed for may include arbitrary sequences of instructions
-that may create various pipeline hazards (such as invalidation of an instruction already in a pipeline because a previous branch instruction
-was taken, a load memory instruction waiting on a write memory instruction etc.). Adding more pipeline stages may increases throughput (instructions completed per clock cycle)
+that can potentially create various \emph{pipeline hazards} (such as invalidation of an instruction already in a pipeline because a previous branch instruction
+was taken, a load memory instruction waiting on a write memory instruction etc.). Adding more pipeline stages may increases throughput (results per clock cycle)
  of instructions, but it also increases their latency (time for a particular instruction to complete) because of the extra registers that are added to store results
 between the pipeline stages. A pipeline hazard is usually dealt with by stalling the pipeline (waiting for an instruction to complete execution) or flushing it
-to remove invalid instructions. These operations introduce a performance penalty that is proportional to the depth of the pipeline \cite{Pipeline}.
+to remove invalid instructions. These measures introduce a performance penalty that is proportional to the depth of the pipeline \cite{Pipeline}.
 
-These drawbacks are not applicable to our approach, because we are creating a custom datapath for a known non-general workload. Since we know beforehand
+These drawbacks are not applicable to our approach, because we are creating a custom datapath for a known custom workload that will perform specific
+floating point operations to data that is well-formed for this particular purpose. Since we know beforehand
 the calculations that will be performed and in what order we can safely pipeline the design as much as possible without worrying about data or control hazards.
  With that done, the only other concern becomes the task of keeping it occupied for as long as possible as discussed in the sections above.
 
@@ -1264,8 +1305,99 @@ is a good idea. Assuming large enough data sets, as in Airfoil, the time to fill
 observation with the execution of Airfoil on a CPU or a GPU. On those architectures the execution time is expected to increase proportionally to the number of floating
 point calculations performed. Using a custom streaming datapath, the increase in floating point calculations translates into more resources being used (LUTs, Flip Flops and
 DSPs), but does not imply a corresponding increase in execution time. This means that a custom, deeply pipelined architecture must win in the asymptotic case
-against any general purpose approach as the number of arithmetic operations increases. Of course, in practice, the complexity of the arithmetic pipeline will be
-limited by the amount of resources present on the chip.
+against any general purpose architecture as the number of arithmetic operations increases. Of course, in practice, the complexity of the arithmetic pipeline will be
+limited by the amount of resources available on the chip.
+
+Figure \ref{fig:StreamVsCPU} shows the difference in the custom streaming approach as opposed to a conventional CPU. Note the absence of a fetch/decode unit in the
+custom approach, since we are not dealing with instructions. The arithmetic pipeline is designed to implement a particular mathematical function, while on a 
+generic CPU, the Arithmetic and Logic Unit (ALU) can handle arbitrary sequences of arithmetic operations, at the expense of requiring a separate fetch/decode
+unit as well as a register file to store intermediate results. Notice how the \verb!add r1, r2! instruction cannot execute until the previous instruction
+\verb!mul r1, r1! has commited its result to register \verb!r1!, creating a potential data hazard that may stall any pipelines present in the functional units
+of the ALU. In the streaming approach on the left, each of the functional
+units is pipelined to achieve high throughput. The $y$ stream must be delayed by a FIFO queue before being sent to the adder to compensate for the cycles taken
+to produce the result from the multiplication unit. Similarly, the output of the square root unit must be delayed/buffered before entering the subtraction node.
+This way, we can push new values for $x$, $y$ and $z$ into the pipeline every cycle and after it has been filled, we start receiving one value for $r$ every cycle.
+Notice, also, that the $x^2$ and $\sqrt{z}$ functions are computed in parallel, since they operate on different data items.
+Compare this to the CPU approach on the right, where the computation of a single value for $r$ takes 8 instructions. It is evident that even with sophisticated
+processor design techniques like out-of-order execution, value forwarding and instruction reordering by the compiler, it is unlikely that the CPU will be able to produce and sustain a throughput of
+one value per clock cycle since the \verb!load! instructions alone will probably take at least one cycle to fetch the data from the cache or, even worse,
+the main memory in the event of a cache miss. This should be especially evident on large homogeneous workloads where the time to fill and flush the custom pipeline on the left becomes 
+negligible compared to the time it remains filled, providing maximal throughput, while the CPU case will have to deal with more cache misses that introduce huge performance
+penalties (in the 1000s of clock cycles) due to the fact that the large data sets will simply not fit into the cache. Of course, the custom streaming approach also demands that
+data be fed into the pipeline at every cycle, thus requiring additional effort by the developer to format the data accordingly as discussed in previous
+sections.
+
+A potential GPU implementation will also suffer from these problems, albeit to a lesser degree. While a GPU has hundreds of cores and arithmetic units available to run
+hundreds or thousands of threads, they are still general purpose and still suffer from the need to decode instructions and access a register file and a cache/memory hierarchy.
+Adding more complex arithmetic operations will still increase the time to produce a result in a linear fashion, while in a custom streaming datapath the extra
+work can either be done in parallel by adding extra function nodes and streams or by adding more nodes to the pipeline, increasing the time to fill/flush it,
+but maintaining the throughput.
+
+Note that the res\_calc arithmetic pipeline has too many nodes to be meaningfully reproduced in a diagram here, but it is constructed using the principles
+discussed in this section.
+
+\begin{figure}
+\begin{tikzpicture}
+\node (x) at (0, 20) {$x$};
+\node (y) at (2, 20) {$y$};
+\node (z) at (4, 20) {$z$};
+
+\node (times) at (0, 18)[circle, draw=black, fill=red!10!white] {$*$};
+\node (fifo) at (2, 18) [rectangle split, rectangle split parts=7, draw=black, fill=orange!10!white] {};
+
+\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=7, draw=black, fill=orange!10!white] {};
+
+\node (sqrt) at (4, 18)[circle, draw=black, fill=red!10!white] {$\sqrt{~}$};
+\node (plus) at (2, 16)[circle, draw=black, fill=red!10!white] {$+$};
+\node (minus) at (3, 14)[circle, draw=black, fill=red!10!white] {$-$};
+
+\draw [->, thick] (x.south) to (times.north);
+\draw [->, thick] (0, 19) -- ++(1, 0) -- ++(0, -1) -- (times.east);
+\draw [->, thick] (y.south) to (fifo.north);
+\draw [->, thick] (z.south) to (sqrt.north);
+\draw [->, thick] (times.south) -- (0, 16) -- (plus.west);
+\draw [->, thick] (fifo.south) -- (plus.north);
+\draw [->, thick] (plus.south) -- (2, 14) -- (minus.west);
+\draw [->, thick] (sqrt.south) -- (fifotwo.north);
+\draw [->, thick] (fifotwo.south) -- (4, 14) -- (minus.east);
+
+
+\node (r) at (3, 12) {$r$};
+\draw [->, thick] (minus.south) -- (r.north);
+
+\draw [dashed, thick] (4.8, 20) -- ++(0, -9);
+\node (func) at (5, 21) {$r = x^2 + y - \sqrt{z}$};
+
+\draw (8.5, 21) rectangle (11.5, 16.5);
+\fill [orange!5!white] (8.5, 21) rectangle (11.5, 16.5);
+\node (i1) at (10, 20.5) {\verb!load r1, x!};
+\node (i2) at (10,20) {\verb!load r2, y!};
+\node (i3) at (10,19.5) {\verb!load r3, z!};
+\node (i4) at (10,19) {\verb!mul r1, r1!};
+\node (i5) at (10,18.5) {\verb!add r1, r2!};
+\node (i6) at (10,18) {\verb!sqrt r3    !};
+\node (i7) at (10,17.5) {\verb!sub r1, r3!};
+\node (i8) at (10, 17) {\verb!str r1, r  !};
+
+
+
+\node (FD) at (7, 16)[draw=black, fill=blue!10!white] {Fetch/Decode};
+\node (ALU) at (7, 13.5)[trapezium, draw=black, fill=blue!10!white, shape border rotate=180] {ALU ($+$ $-$ $*$ $\sqrt{~}$)};
+\node (LD) at (11, 16) [rectangle, draw=black, fill=blue!10!white] {Load/Store};
+\node (MEM) at (14,  16) [rectangle, draw=black, shape border rotate=90, fill=green!10!white] {CACHE/MEM};
+\node (REGS) at (14, 14) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white] {REGISTERS};
+\draw [->, thick] (FD.south) -- (ALU.north);
+\draw [->, thick] (FD.east) -- (LD.west);
+\draw [<->, thick] (LD.east) -- (MEM.west);
+\draw [<->, thick] (LD.south) -- ++(0, -1.7)-- (REGS.west);
+\draw [->, thick] ($(REGS.west) + (0, -0.5)$) -- (ALU.east);
+\draw [->, thick] (ALU.south) -- ++(0, -2) -- ++(7,0) -- (REGS.south);
+\draw [->, thick, dashed] (8.5, 19.25) to[out=180, in=90] (FD.north);
+\end{tikzpicture}
+\caption{Diagram showing the computation of the function $r=x^2 + y - \sqrt{z}$} by using a custom streaming datapath (left)
+and using a sequence of instructions in a conventional CPU (right).
+\label{fig:StreamVsCPU}
+\end{figure}
 
 \chapter{Implementation}
 
