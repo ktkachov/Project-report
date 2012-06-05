@@ -33,7 +33,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{15}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagram showing the maps between the mesh elements The dimension of the map is shown in parentheses next to the name. Thus the map \emph  {edge} relating edges to nodes with dimension 2 means that for each edge, there are two nodes associated with it. }}{16}}
 \newlabel{fig:Airfoil_maps}{{2.4}{16}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil. The total run time is 183 seconds.}}{17}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.}}{17}}
 \newlabel{tab:Airfoil_times}{{2.3}{17}}
 \@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces  The iteration structure of Airfoil.  }}{18}}
 \newlabel{lst:AirfoilIteration}{{2}{18}}
@@ -89,21 +89,26 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select which RAM to read the cell and node data from based on the edge information. They are also used to pick the RAM to write the results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}}{37}}
 \newlabel{fig:ArchitecturePCIe}{{3.2}{37}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a top-level partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.}}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a macro-partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.}}{39}}
 \newlabel{fig:upartition}{{3.3}{39}}
 \citation{Pipeline}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing. The red wires represent the boolean enable signals. The halo and normal RAMs as well as the RAM selectors are shown in merged blocks for brevity.}}{40}}
 \newlabel{fig:ArchitectureSM}{{3.4}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme. Note that both micropartitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only been written out together with the second micropartition after all of the micropartitions ($\mu $partitions) have been processed. The red boxes represent the progress of a single (macro)partition through the accelerator phases.}}{41}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme. Note that both micro-partitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only been written out together with the second micro-partition after both micro-partitions ($\mu $partitions) have been processed. The red boxes represent the progress of a single (macro)partition through the accelerator phases.}}{41}}
 \newlabel{fig:partPipeline}{{3.5}{41}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{42}}
+\citation{SpanishFPGAAirfoil}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagram showing the computation of the function $r=x^2 + y - \sqrt  {z}$}}{45}}
 \newlabel{fig:StreamVsCPU}{{3.6}{45}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Performance Model}{45}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Phase 1}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Phase 2}{48}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Phase 3}{48}}
 \citation{GhostCellPaper}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{46}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{49}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{46}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{49}}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
 \bibcite{Virtex6Spec}{3}
@@ -120,7 +125,7 @@
 \bibcite{MeshCache}{14}
 \bibcite{floatFPGA}{15}
 \bibcite{Pipeline}{16}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{51}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{54}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{51}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{54}}

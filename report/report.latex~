@@ -7,14 +7,138 @@
 \usetikzlibrary{calc}
 \usetikzlibrary{shapes,snakes}
 \usetikzlibrary{shapes.multipart}
-
+\usepackage{scalefnt}
 \usepackage{minted}
-\title{Accelerating Unstructured Mesh Computations using Custom Streaming Hardware}
+\usepackage{amsmath}
+
+\title{Accelerating Unstructured Mesh Computations using a Custom Streaming Architecture}
 \author{Kyrylo Tkachov\\\\ Supervisor: Professor Paul Kelly\\\\Second marker: Dr. Tony Field.}
 
-
 \begin{document}
-\maketitle
+\begin{titlepage}
+\begin{center}
+{\Huge Accelerating Unstructured Mesh Computations using a Custom Streaming Architecture} \\
+\begin{verbatim}
+
+
+\end{verbatim}
+
+
+{\Large Kyrylo Tkachov} \\
+\begin{verbatim}
+
+\end{verbatim}
+
+{\Large Supervisor: Prof. Paul Kelly} \\ 
+\begin{verbatim}
+
+\end{verbatim}
+
+{\Large Second marker: Dr. Tony Field} \\ 
+\begin{verbatim}
+
+\end{verbatim}
+
+{\scalefont{0.1}
+\begin{tikzpicture}[scale=0.3]
+\newcommand{\firstiph}[1] {
+  \fill [green!10!white] #1 rectangle +(3, -2);
+  \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+  \draw [thick] #1 rectangle +(3, -2);
+  \draw [thick] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+  \draw [thick] #1 -- +(0, -2.4);
+  \draw [thick] ($#1 + (3, 0)$) -- +(0, -2.4);
+  \node at ($#1 + (1.5, -1)$) {$\mu$p 1};
+  \node at ($#1 + (1.5, -1.7)$) {IPH};
+}
+\newcommand{\second}[1] {
+  \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+  \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+
+  \node at ($#1 + (1.5, -1.5)$) {$\mu$p 2};
+  \draw [thick] #1 -- ++(0, -2.4) -- ++(3, 0) -- ++(0, 2.4);
+}
+\newcommand{\secondiph}[1] {
+  \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+  \fill [red!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+  \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+
+  \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+  \node at ($#1 + (1.5, -0.65)$) {IPH};
+  \node at ($#1 + (1.5, -1.5)$) {$\mu$p 2};
+  \draw [thick] #1 -- ++(0, -2.4) -- ++(3, 0) -- ++(0, 2.4);
+}
+\newcommand{\first}[1] {
+  \fill [green!10!white] #1 rectangle ($#1 + (3, -2)$);
+  \draw[thick] #1 rectangle ($#1 + (3, -2)$);
+  \draw [thick] ($#1 + (0, -2.4)$) -- #1 -- ($#1 + (3, 0)$) -- ($#1 +(3, -2.4)$);
+  \node at ($#1 + (1.5, -1)$) {$\mu$p 1};
+
+}
+
+\draw (2.5, 21) node {\emph{READ}};
+\draw (7.5, 21) node {\emph{PROCESS}};
+\draw (12.5, 21) node {\emph{WRITE}};
+\draw [very thick] (-2.5, 20.5) -- (15, 20.5);
+
+\draw [dashed, very thick] (5, 21.5) -- (5, 0);
+\draw [dashed, very thick] (10, 21.5) -- (10, 0);
+\secondiph{(11, 20)};
+\firstiph{(1,20)};
+\second{(1, 17)};
+\firstiph{(6,17)};
+\secondiph{(6, 14)};
+\first{(11, 14)};
+\firstiph{(1,11)};
+\secondiph{(11, 11)};
+\second{(1, 8)};
+\firstiph{(6, 8)};
+\secondiph{(6, 5)};
+\first{(11, 5)};
+\firstiph{(1, 2)};
+\secondiph{(11, 2)};
+\draw [dashed] (-2.5, 17.2) -- (15, 17.2);
+\draw [dashed] (-2.5, 14.2) -- (15, 14.2);
+\draw [dashed] (-2.5, 11.2) -- (15, 11.2);
+\draw [dashed] (-2.5, 8.2) -- (15, 8.2);
+\draw [dashed] (-2.5, 5.2) -- (15, 5.2);
+\draw [dashed] (-2.5, 2.2) -- (15, 2.2);
+\draw [very thick] (0, 21.5) -- (0, 0);
+\draw (-1.2, 18.5) node {\emph{ST 1}};
+\draw (-1.2, 15.5) node {\emph{ST 2}};
+\draw (-1.2, 12.5) node {\emph{ST 3}};
+\draw (-1.2, 9.5) node {\emph{ST 1}};
+\draw (-1.2, 6.5) node {\emph{ST 2}};
+\draw (-1.2, 3.5) node {\emph{ST 3}};
+\draw (-1.2, 0.5) node {\emph{ST 1}};
+
+\draw [->,densely dashed, very thick] (-2.9, 21) -- (-2.9, 0);
+\draw (-3.2, 10.5) node[rotate=90]{\emph{TIME}};
+
+
+\newcommand{\redpart}[1]{
+\draw [red, very thick, rounded corners] #1 -- ++(3.75, 0) -- ++(0, -3.15) -- ++(5.6, 0) -- ++(0, -3) -- ++(4.4,0) -- ++(0, -5.7)
+-- ++(-4, 0) -- ++(0, 3) -- ++(-4.5, 0) -- ++(0, 3) -- ($#1 + (0, -5.9)$) -- cycle;
+}
+
+\redpart{(0.5, 20.25)};
+\redpart{(0.5, 11.25)};
+
+\draw [red, very thick, rounded corners] (0.2, 2.1) -- ++(4, 0) -- ++(0, -2.6);
+\draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
+
+\end{tikzpicture}
+}
+\begin{verbatim}
+
+\end{verbatim}
+{\Large 2012, Department of Computing}
+\begin{verbatim}
+
+\end{verbatim}
+{\Large Imperial College London}
+\end{center}
+\end{titlepage}
 \pagestyle{headings}
 \begin{abstract}
 In this report we present a methodology for accelerating computations performed on 
@@ -251,7 +375,7 @@ $\alpha$ reads initial $x_0$, $\beta$ reads $x_0$, $\alpha$ computes $x_{\alpha}
 $\alpha$ writes back $x_{\alpha}$, $\beta$ writes back $x_{\beta}$ and the final value of $x$ turns out to be $x_{\beta} = x_0 + 1$
 instead of the desired $x_0 + 2$. Some implementations work around this issue by colouring the edges, such that no two edges of the same
 colour share a cell and can therefore be processed in parallel. Figure \ref{fig:mesh_coloured} shows such a colouring. Another option
-would be to introduce atomic operations and/or locking, but that would approach severely limits parallelisation opportunities.
+would be to introduce atomic operations and/or locking, but that approach would severely limit parallelisation opportunities.
 
 \subsection{Computational kernels and data sets}
 Airfoil defines five computational kernels that iterate over the mesh, performing floating point calculations on the data sets defined over the
@@ -369,7 +493,7 @@ The complete iteration step in a sequential implementation of Airfoil is shown i
 the number of edges and the number of boundary edges respectively.
 
 A run of the sequential version in Listing \ref{lst:AirfoilIteration} on a mesh with 721801 nodes, 1438600 edges, 2800 boundary edges and 720000 cells
-on an Intel Core2 Duo CPU at 2.8 GHz takes about 183 seconds to complete 1000 iterations.
+on a machine with an Intel Core i7-2600 CPU at 3.4 GHz takes about 115.6 seconds to complete 1000 iterations.
 The time spent in each kernel is presented in table \ref{tab:Airfoil_times}. It is evident that the computation is dominated by the res\_calc and adt\_calc
 kernels.
 In this project we will be concentrating on accelerating the res\_calc kernel because it is the most computationally intensive kernel and because it has the most
@@ -379,13 +503,13 @@ complex data access patterns that make it the interesting case to study. Finding
   \begin{tabular}{| c | c | c |}
     \hline                        
     Kernel Name & Time spent (seconds) & Percentage of total time (\%) \\ \hline \hline
-    save\_soln & 6.35 & 3.47 \\ \hline
-    adt\_calc & 71.55 & 39.13\\ \hline
-    res\_calc & 81.57 & 44.62\\ \hline
-    bres\_calc & 0.43 & 0.24 \\ \hline
-    update & 22.93  & 12.54\\ \hline
+    save\_soln & 1.84 & 1.59 \\ \hline
+    adt\_calc & 51.09 & 44.19\\ \hline
+    res\_calc & 53.99 & 46.70\\ \hline
+    bres\_calc & 0.23 & 0.20 \\ \hline
+    update & 8.44  & 7.30\\ \hline
   \end{tabular}
-  \caption{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil. The total run time is 183 seconds.}
+  \caption{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.}
   \label{tab:Airfoil_times}
 \end{table}
 
@@ -646,9 +770,9 @@ these numbers place a limit on the partition size we can store on the chip at an
 
 \begin{figure}[H]
 \begin{tikzpicture}
-\draw (0, 20) rectangle (5, 12);
+\draw [thick](0, 20) rectangle (5, 12);
 \fill [blue!3!white] (0, 20) rectangle (5, 12);
-\draw (0.5, 17.5) rectangle (4.5, 13);
+\draw [thick](0.5, 17.5) rectangle (4.5, 13);
 \fill [red!6!white](0.5, 17.5) rectangle (4.5, 13);
 
 \node (maxcard) at (1, 19.5) {MAX card};
@@ -921,13 +1045,13 @@ The steps required to process a partition become:
 \begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}
-\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM};
-\node (edges) at (10, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {Edges (addresses)};
+\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Node/Cell data)};
+\node (edges) at (10, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
 \node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
 \node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
-\node (arith) at (5, 15) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (5, 15) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
 {Arithmetic pipeline };
 \draw [->,very thick] (x.south) to [out=270, in=90] ($(arith.north) + (-0.5, 0)$);
 \draw [->,very thick] (cell.south) to [out=270, in=90] ($(arith.north) + (0.5, 0)$);
@@ -983,11 +1107,11 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \begin{tikzpicture}
 [input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}]
 
-\node (dram) at (5, 23) [input] {DRAM};
+\node (dram) at (5, 23) [input] {Node/Cell data};
 \node (edges) at (14.5, 12) [input] {Edges (addresses)};
 \node (edgestop) at (9, 23) [input] {Edges (addresses)};
 
-\node (PCIe) at (13, 23) [input] {PCIe};
+\node (PCIe) at (13, 23) [input] {Halo data (PCIe)};
 
 
 \node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
@@ -1005,7 +1129,7 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(cell.north) + (0.5, 0)$);
 \draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(x.north) + (0.5, 0)$);
 
-\node (arith) at (9, 12) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (9, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
 {Arithmetic pipeline };
 
 \node (sel) at (9,14) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
@@ -1041,7 +1165,7 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 % \draw [->, dashed, thick] (edges.west) -- (res.east);
 
 \draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-4.5, -0.5) -- ++(0, +18) -- (dram.west);
-\draw [->,very thick] (hres.south) -- +(0,-0.5) -- ++(5.5, -0.5) -- ++(0, +18) -- (PCIe.east);
+\draw [->,very thick] (hres.south) -- +(0,-0.5) -- ++(5.5, -0.5) -- ++(0, +18.05) -- (PCIe.east);
 
 % \draw [->,very thick] (add.south) -- (res.north);
 \draw [->,very thick] (arith.south) -- (add.north);
@@ -1069,10 +1193,10 @@ the data in it before both mirco-partitions have finished processing.
 To avoid confusion we call the top-level partitions macro-partitions.
 This approach gives us the following phases in the accelerator:
 \begin{enumerate}
-\item{Read in non-halo data for first micro-partition plus the intra-partition halo.
+\item{Read in data for first micro-partition plus the intra-partition halo.
  If this is not the first macro-partition, write out the non-halo data for the second micro-partition and the intra-partition halo.}
-\item{Process first micro-partition, read in the non-halo data for second micro-partition.}
-\item{Process second micro-partition, write out the non-halo data for the first micro-partition.}
+\item{Process first micro-partition, read in the non-IPH data for second micro-partition.}
+\item{Process second micro-partition, write out the non-IPH data for the first micro-partition.}
 \end{enumerate}
 Note that "read in" and "write out" include both the DRAM and PCIe halo transfers. This approach is expected to greatly improve
 DRAM utilisation at the expense of slightly more complex control logic. This imposes a constraint on the mesh layout in the DRAM and
@@ -1098,7 +1222,7 @@ on the host machine. The first micro-partition should be stored before the intra
 \draw[step=1cm] (-5, 0) grid (7, 6);
 
   \end{tikzpicture}
-  \caption{Partitioning of a top-level partition into two micro-partitions. This introduces a new
+  \caption{Partitioning of a macro-partition into two micro-partitions. This introduces a new
 intra-partition halo region, shown here in crimson.}
   \label{fig:upartition}
 \end{figure}
@@ -1121,7 +1245,7 @@ and PCIe streams busy.
 \begin{figure}[H]
 \begin{center}
 \begin{tikzpicture}[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}]
-\node (dram) at (5, 20) [input] {DRAM and PCIe I/O};
+\node (dram) at (5, 20) [input] {Node/cell/halo data};
 \node (edges) at (10, 20) [input] {Edges (addresses)};
 
 \node (sizes) at (15, 20) [input] {Size vectors};
@@ -1151,7 +1275,7 @@ and PCIe streams busy.
 \draw [->, red] (knot3.east) to [out=180, in=0] (write.east);
 
 
-\node (arith) at (5, 12) [rectangle split, rectangle split parts=7, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (5, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
 {Arithmetic pipeline };
 \draw [->,very thick] (storage.south) to [out=270, in=90] (arith.north);
 \node (add) at (5, 9) [circle, draw=black, fill=green!10!white] {+};
@@ -1182,9 +1306,9 @@ are shown in merged blocks for brevity.}
 \begin{tikzpicture}[scale=0.8]
 \newcommand{\firstiph}[1] {
   \fill [green!10!white] #1 rectangle +(3, -2);
+  \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 rectangle +(3, -2);
   \draw [thick] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
-  \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 -- +(0, -2.4);
   \draw [thick] ($#1 + (3, 0)$) -- +(0, -2.4);
   \node at ($#1 + (1.5, -1)$) {$\mu$partition 1};
@@ -1243,13 +1367,13 @@ are shown in merged blocks for brevity.}
 \draw [dashed] (-2.5, 5.2) -- (15, 5.2);
 \draw [dashed] (-2.5, 2.2) -- (15, 2.2);
 \draw [very thick] (0, 21.5) -- (0, 0);
-\draw (-1.2, 18.5) node {\emph{STAGE 1}};
-\draw (-1.2, 15.5) node {\emph{STAGE 2}};
-\draw (-1.2, 12.5) node {\emph{STAGE 3}};
-\draw (-1.2, 9.5) node {\emph{STAGE 1}};
-\draw (-1.2, 6.5) node {\emph{STAGE 2}};
-\draw (-1.2, 3.5) node {\emph{STAGE 3}};
-\draw (-1.2, 0.5) node {\emph{STAGE 1}};
+\draw (-1.2, 18.5) node {\emph{PHASE 1}};
+\draw (-1.2, 15.5) node {\emph{PHASE 2}};
+\draw (-1.2, 12.5) node {\emph{PHASE 3}};
+\draw (-1.2, 9.5) node {\emph{PHASE 1}};
+\draw (-1.2, 6.5) node {\emph{PHASE 2}};
+\draw (-1.2, 3.5) node {\emph{PHASE 3}};
+\draw (-1.2, 0.5) node {\emph{PHASE 1}};
 
 \draw [->,densely dashed, very thick] (-2.9, 21) -- (-2.9, 0);
 \draw (-3.2, 10.5) node[rotate=90]{\emph{TIME}};
@@ -1272,8 +1396,8 @@ are shown in merged blocks for brevity.}
 % \draw (-3.5, 10) node {\emph{TIME}};
 \end{tikzpicture}
 \caption{Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme.
-Note that both micropartitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only
-been written out together with the second micropartition after all of the micropartitions ($\mu$partitions) have been processed. The red boxes
+Note that both micro-partitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only
+been written out together with the second micro-partition after both micro-partitions ($\mu$partitions) have been processed. The red boxes
 represent the progress of a single (macro)partition through the accelerator phases.}
 \label{fig:partPipeline}
 \end{figure}
@@ -1305,7 +1429,7 @@ is a good idea. Assuming large enough data sets, as in Airfoil, the time to fill
 observation with the execution of Airfoil on a CPU or a GPU. On those architectures the execution time is expected to increase proportionally to the number of floating
 point calculations performed. Using a custom streaming datapath, the increase in floating point calculations translates into more resources being used (LUTs, Flip Flops and
 DSPs), but does not imply a corresponding increase in execution time. This means that a custom, deeply pipelined architecture must win in the asymptotic case
-against any general purpose approach as the number of arithmetic operations increases. Of course, in practice, the complexity of the arithmetic pipeline will be
+against any general purpose architecture as the number of arithmetic operations increases. Of course, in practice, the complexity of the arithmetic pipeline will be
 limited by the amount of resources available on the chip.
 
 Figure \ref{fig:StreamVsCPU} shows the difference in the custom streaming approach as opposed to a conventional CPU. Note the absence of a fetch/decode unit in the
@@ -1333,19 +1457,27 @@ Adding more complex arithmetic operations will still increase the time to produc
 work can either be done in parallel by adding extra function nodes and streams or by adding more nodes to the pipeline, increasing the time to fill/flush it,
 but maintaining the throughput.
 
+The arithmetic pipeline we design for the res\_calc kernel will produce increments that must be added to the previous values of $res$ by the accumulator,
+as discussed earlier. We choose to use single precision IEEE-754 floating point numbers for the arithmetic because previous work by
+Sanchez-Roman et al. \cite{SpanishFPGAAirfoil} hints at the error accumulation that arises from repeated iterations of fixed-point calculations
+as well as the implementation difficulties in encoding the data sets to and from fixed-point representation due to the fact that most host CPU
+architectures do not have native fixed-point data types.
+Trial runs of the serial version of Airfoil on a CPU have shown the iteration structure to converge when using single precision floating point numbers
+so we do not use double precision arithmetic, since this is a proof of concept project.
+
 Note that the res\_calc arithmetic pipeline has too many nodes to be meaningfully reproduced in a diagram here, but it is constructed using the principles
 discussed in this section.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{tikzpicture}
 \node (x) at (0, 20) {$x$};
 \node (y) at (2, 20) {$y$};
 \node (z) at (4, 20) {$z$};
 
 \node (times) at (0, 18)[circle, draw=black, fill=red!10!white] {$*$};
-\node (fifo) at (2, 18) [rectangle split, rectangle split parts=7, draw=black, fill=orange!10!white] {};
+\node (fifo) at (2, 18) [rectangle split, rectangle split parts=4, draw=black, fill=orange!10!white] {};
 
-\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=7, draw=black, fill=orange!10!white] {};
+\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=4, draw=black, fill=orange!10!white] {};
 
 \node (sqrt) at (4, 18)[circle, draw=black, fill=red!10!white] {$\sqrt{~}$};
 \node (plus) at (2, 16)[circle, draw=black, fill=red!10!white] {$+$};
@@ -1368,8 +1500,9 @@ discussed in this section.
 \draw [dashed, thick] (4.8, 20) -- ++(0, -9);
 \node (func) at (5, 21) {$r = x^2 + y - \sqrt{z}$};
 
-\draw (8.5, 21) rectangle (11.5, 16.5);
+
 \fill [orange!5!white] (8.5, 21) rectangle (11.5, 16.5);
+\draw (8.5, 21) rectangle (11.5, 16.5);
 \node (i1) at (10, 20.5) {\verb!load r1, x!};
 \node (i2) at (10,20) {\verb!load r2, y!};
 \node (i3) at (10,19.5) {\verb!load r3, z!};
@@ -1398,6 +1531,99 @@ discussed in this section.
 and using a sequence of instructions in a conventional CPU (right).
 \label{fig:StreamVsCPU}
 \end{figure}
+
+\section{Performance Model}
+In order to justify the design decisions made, we present a performance model that aims to predict the maximum achievable performance
+increase. For this we need to take into account the hardware characteristics, such as DRAM and PCIe bandwidth and the chip clock frequency
+as well as the format of the data, in particular the widths of the data sets. 
+We start by considering the structure and partitioning of the mesh. In the sample meshes that we have the number
+of nodes is roughly the same as the number of cells. The number of edges is about twice the number of cells/nodes.
+
+Let $C_{tot}$ = total number of cells, $N_{tot}$ = total number of nodes, $E_{tot}$ = total number of edges.
+$C_{pp}$ is the number of cells per partition and depends solely on the amount of memory available on the FPGA.
+Same goes for the number of nodes per partition $N_{pp}$. $N_{pp}$ is typically equal to $C_{pp}$.
+We use this number to specify the desired partition size to the METIS partitioning tool to get $n$ partitions.
+For the purposes of this analysis, we assume that the partitions are roughly square in shape. By square, we mean
+that they have an equal number of cells/nodes on their sides/borders. In practice the tools may deliver
+arbitrary shaped partitions. Assuming square partitions of dimension $l \times l = C_{pp}$, the number of halo cells
+will be $C^h = l + l + 2\times(l-1) \approx 4l = 4\times \sqrt{C_{pp}}$ as $l$ becomes large. The same for the number of halo nodes
+$N^h = 4l = 4\times \sqrt{C_{pp}}$. The number of edges per partition will be $E_{pp} = E_{tot} / n$.
+
+We can reasonably assume that partitioning the macro-partitions into two micro-partitions will give
+two micro-partitions of equal size. In that case the number of cells per micro-partition is
+$C_{\mu p} = C_{pp} / 2$ and the number of nodes is $N_{\mu p} = N_{pp} / 2$ and similarly for the edges
+$E_{\mu p} = E_{pp} / 2$. In a similar fashion we calculate the numbers for the halo regions of each
+micro-partition: $C^h_{\mu p} = C^h / 2$, $N^h_{\mu p} = N^h / 2$.
+We assume the intra-partition halo to be negligible in size, which is confirmed in practice.
+We represent the width of the data sets involved in res\_calc in bits:
+$\overline{q} = 4\times32 = 128$, $\overline{x} = 2\times32 = 64$, $\overline{adt}=32$, $\overline{res} = 4\times32 = 128$.
+
+Next, we take into account the hardware characteristics. The important factors are: the DRAM bandwidth ($B_D$), the
+PCIe bandwidth ($B_P$) and the clock frequency $f$. Note that the DRAM bandwidth $B_D$ is shared between streams to and from
+DRAM, while the PCIe streams get $B_P$ of bandwidth to the FPGA and $B_P$ from the FPGA.
+
+Recall the phases of computation in the accelerator:
+\begin{enumerate}
+\item{Read in data for first micro-partition plus the intra-partition halo.
+ If this is not the first macro-partition, write out the non-halo data for the second micro-partition and the intra-partition halo.}
+\item{Process first micro-partition, read in the non-IPH data for second micro-partition.}
+\item{Process second micro-partition, write out the non-IPH data for the first micro-partition.}
+\end{enumerate}
+
+The total execution time can be estimated by adding the execution times for each of the three phases.
+So we consider each phase in turn.
+\subsection{Phase 1}
+The size of the input data for one cell is $\overline{C_{in}} = \overline{q} + \overline{adt} = 128 + 32 = 160$ bits.
+The size of the input data for one node is just the size of the $x$ dataset: $\overline{x} = 64$.
+Therefore the amount of data that needs to be transferred from DRAM is $D^{in}_{DRAM} = C_{\mu p} \times \overline{C_{in}} + N_{\mu p} \times \overline{x}$.
+We are also writing back the $res$ vectors back to DRAM and PCIe from the previous micro-partition.
+The width of the result is $\overline{C_{out}} = \overline{res} = 128$ and thus the amount of data to be written out
+to DRAM is $D^{out}_{DRAM} = C_{\mu p} \times \overline{C_{out}}$.
+Similarly the amount of halo data to be transferred from PCIe is $D^{in}_{PCIe} = C^h_{\mu p} \times \overline{C_{in}} + N^h_{\mu p} \times \overline{x}$
+and the data written out to PCIe is: $D^{out}_{PCIe} = C^h_{\mu p} \times \overline{C_{out}}$.
+The DRAM bandwidth is shared among both input and output streams, therefore the bandwidth allocated to the input stream from DRAM to
+the kernel will be $B^{in}_D = B_D \times \dfrac{D^{in}_{DRAM}}{D^{in}_{DRAM} + D^{out}_{DRAM}}$ and the bandwidth to DRAM will be
+$B^{out}_D = B_D - B^{in}_D$.
+As mentioned earlier, both PCIe streams get the same bandwidth $B_P$.
+Knowing the bandwidths we can calculate the times needed for the data transfers.
+$t_{DRAM} = \dfrac{D^{in}_{DRAM}}{B^{in}_D} = \dfrac{D^{out}_{DRAM}}{B^{out}_D}$ for the DRAM transfer and
+$t_{PCIe} = \dfrac{D^{in}_{PCIe}}{B_P}$ for the PCIe transfer since the width of the input data is greater than the width
+of the output data and the bandwidths for input and output are the same.
+The FPGA itself is a synchronous circuit operating at $f$ cycles per second. This means that if it wants to read a data
+item from but the stream does not have anything available the kernel will stall until the memory system supplies a
+data item. Since the PCIe channel is slower than the DRAM channel, we need to make sure that the PCIe accesses
+happen at regular intervals and not one after the other so as to avoid forcing the DRAM to deliver data in
+lockstep with the PCIe bus. Similarly for output streams. We assume such a configuration here.
+We assume that we read/write one node/cell pair from DRAM every cycle and a halo node/cell pair from 
+PCIe every few cycles in such a way as to not throttle the DRAM. Assuming a clock frequency $f$, the
+minimum time needed to consume the data for a micro-partition will be $t_{FPGA} = \dfrac{C^h_{\mu p}}{f}$.
+Thus, the time taken to complete phase 1 will be the maximum of the three times calculated:
+$t_{1} = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$. Ideally we want the three times to be in then order:
+$t_{PCIe} < t_{DRAM} < t_{FPGA}$, i.e. we don't want PCIe transfer to be a bottleneck.
+
+\subsection{Phase 2}
+In phase 2, the first micro-partition gets processed, i.e. its edges are streamed in, used to address the
+block RAMs and results are written to the $res$ block RAMs. Also, the second micro-partition is streamed in
+and stored in local storage. Again, we stream in data of width $\overline{C_{in}}$ from both DRAM and PCIe, but this time
+we also stream in edge data in the for of four addresses: one for each of the two cells and nodes. The width of
+the edge data depends on the number of elements that are in a partition. A block RAM of depth/size $d$ has addresses
+of width $\lceil log_2(d) \rceil$ bits. The depth of the block RAMs in our case is the number of cells/nodes in a partition
+$C_{pp}$ (typically, the number of nodes and cells is roughly equal), 
+therefore the width of each address is $\lceil log_2(C_{pp})\rceil$ and the width of the data for each edge is
+$\overline{E_{in}} = 4 \times \lceil log_2(\overline{C_{pp}})\rceil$. Therefore the amount of data we are transferring
+from DRAM will be $D^{in}_{DRAM} = E_{\mu p} \times \overline{E_{in}} + C_{\mu p} \times \overline{C_{in}} + N_{\mu p} \times \overline{x}$,
+while the amount of halo data transfered from PCIe will be $D^{in}_{PCIe} = C^h_{\mu p} \times \overline{C_{in}} + N^h_{\mu p} \times \overline{x}$.
+
+As before, we calculate the times to transfer the data from DRAM $t_{DRAM} = \dfrac{D^{in}_{DRAM}}{B_D}$
+and PCIe $t_{PCIe} = \dfrac{D^{in}_{PCIe}}{B_P}$.
+
+This time, the number of cycles taken to consume the data by the kernel will be dominated by the number of edges, since there are about
+twice the number of edges on average than cells or nodes. We assume that we consume/process one edge per cycle. The minimum time taken by
+the FPGA to consume all edges in a micro-partition in phase 2 will then be $t_{FPGA} = \dfrac{E_{\mu p}}{f}$. Again, the total
+runtime for this phase will be dominated by the maximum of the three times calculated above, that is $t_2 = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$.
+\subsection{Phase 3}
+The third phase is similar to the second one, except that we are now writing back the first micro-partition and processing the second one.
+The numbers remain the same for $t_{DRAM}$, $t_{PCIe}$ and $t_{FPGA}$. $t_3 = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$.
 
 \chapter{Implementation}
 

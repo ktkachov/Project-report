@@ -20,7 +20,11 @@
 \contentsline {section}{\numberline {3.3}Halo exchange mechanism}{35}
 \contentsline {section}{\numberline {3.4}Two-level partitioning}{38}
 \contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{42}
-\contentsline {chapter}{\numberline {4}Implementation}{46}
-\contentsline {section}{\numberline {4.1}Plan}{46}
-\contentsline {chapter}{\numberline {5}Appendix}{51}
-\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{51}
+\contentsline {section}{\numberline {3.6}Performance Model}{45}
+\contentsline {subsection}{\numberline {3.6.1}Phase 1}{47}
+\contentsline {subsection}{\numberline {3.6.2}Phase 2}{48}
+\contentsline {subsection}{\numberline {3.6.3}Phase 3}{48}
+\contentsline {chapter}{\numberline {4}Implementation}{49}
+\contentsline {section}{\numberline {4.1}Plan}{49}
+\contentsline {chapter}{\numberline {5}Appendix}{54}
+\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{54}

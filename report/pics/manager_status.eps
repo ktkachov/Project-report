@@ -1,0 +1,7503 @@
+%!PS-Adobe-3.0
+%%Creator: graphviz version 2.26.3 (20100126.1600)
+%%Title: manager_compiler_graph
+%%Pages: (atend)
+%%BoundingBox: (atend)
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 4723 2700
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 4687 2664 boxprim clip newpath
+1 1 set_scale 0 rotate 40 41 translate
+0 0 0 graphcolor
+14 /Times-Roman set_font
+2247.5 2639.4 moveto 184 (manager_imA0_fpga_a.dot) alignedtext
+% STREAMSTATUS_node68_ln111_WrapperNode_output
+gsave
+0.13725 1 1 nodecolor
+newpath 606 1677.5 moveto
+312 1677.5 lineto
+312 1598.5 lineto
+606 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 606 1677.5 moveto
+312 1677.5 lineto
+312 1598.5 lineto
+606 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+485 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+514.5 1633.27 moveto 49 (68113) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1611.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+522 1611.27 moveto 34 (true) alignedtext
+grestore
+% Stream_72
+gsave
+0 0 1 nodecolor
+newpath 572 1520 moveto
+446 1520 lineto
+446 1470 lineto
+572 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 572 1520 moveto
+446 1520 lineto
+446 1470 lineto
+572 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 454 1505 moveto
+454 1516 lineto
+465 1516 lineto
+465 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 454 1505 moveto
+454 1516 lineto
+465 1516 lineto
+465 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1505 moveto
+454 1516 lineto
+465 1516 lineto
+465 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+472 1496.27 moveto 85 (Stream_72) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1498 moveto
+454 1505 lineto
+465 1505 lineto
+465 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1491 moveto
+454 1498 lineto
+465 1498 lineto
+465 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1484 moveto
+454 1491 lineto
+465 1491 lineto
+465 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 454 1474 moveto
+454 1484 lineto
+465 1484 lineto
+465 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 454 1474 moveto
+454 1484 lineto
+465 1484 lineto
+465 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1474 moveto
+454 1484 lineto
+465 1484 lineto
+465 1474 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_node68_ln111_WrapperNode_output->Stream_72
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1598 moveto
+459 1565.26 459 1554.58 459 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 1526 moveto
+459 1516 lineto
+455.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 1526 moveto
+459 1516 lineto
+455.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 1564.77 moveto 30 (128) alignedtext
+grestore
+% dram_to_host
+gsave
+0 0 1 nodecolor
+newpath 2143 1539.5 moveto
+1893 1539.5 lineto
+1893 1450.5 lineto
+2143 1450.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2143 1539.5 moveto
+1893 1539.5 lineto
+1893 1450.5 lineto
+2143 1450.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1905 1506 moveto
+1905 1531 lineto
+2132 1531 lineto
+2132 1506 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1905 1506 moveto
+1905 1531 lineto
+2132 1531 lineto
+2132 1506 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1905 1506 moveto
+1905 1531 lineto
+2132 1531 lineto
+2132 1506 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1964.5 1514.77 moveto 108 (dram_to_host) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1964.5 1485.27 moveto 108 (dram_to_host) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1906 1463.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1949 1463.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1990 1463.27 moveto 141 (PCIe_To_Host_fwd) alignedtext
+grestore
+% STREAMSTATUS_Stream_96_output
+gsave
+0.13725 1 1 nodecolor
+newpath 294 1391.5 moveto
+0 1391.5 lineto
+0 1312.5 lineto
+294 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 294 1391.5 moveto
+0 1391.5 lineto
+0 1312.5 lineto
+294 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+173 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+217 1347.27 moveto 20 (96) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+210 1325.27 moveto 34 (true) alignedtext
+grestore
+% ResCalcKernel
+gsave
+0 0 1 nodecolor
+newpath 1579 1253.5 moveto
+295 1253.5 lineto
+295 1050.5 lineto
+1579 1050.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1579 1253.5 moveto
+295 1253.5 lineto
+295 1050.5 lineto
+1579 1050.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 307 1201 moveto
+307 1245 lineto
+437 1245 lineto
+437 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 307 1201 moveto
+307 1245 lineto
+437 1245 lineto
+437 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 307 1201 moveto
+307 1245 lineto
+437 1245 lineto
+437 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+331.5 1228.77 moveto 81 (addresses) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+311 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+364 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+393 1209.27 moveto 40 (done) alignedtext
+0.22745 0.56078 1 nodecolor
+newpath 441 1201 moveto
+441 1245 lineto
+792 1245 lineto
+792 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0.22745 0.56078 1 nodecolor
+newpath 441 1201 moveto
+441 1245 lineto
+792 1245 lineto
+792 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 441 1201 moveto
+441 1245 lineto
+792 1245 lineto
+792 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+550.5 1228.77 moveto 132 (input_host_node) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+445 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+497 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+543 1209.27 moveto 245 (not reading / no data available) alignedtext
+0 0 1 nodecolor
+newpath 796 1201 moveto
+796 1245 lineto
+911 1245 lineto
+911 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 796 1201 moveto
+796 1245 lineto
+911 1245 lineto
+911 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 796 1201 moveto
+796 1245 lineto
+911 1245 lineto
+911 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+833.5 1228.77 moveto 40 (sizes) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+800 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+852 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+867 1209.27 moveto 40 (done) alignedtext
+0.22745 0.56078 1 nodecolor
+newpath 915 1201 moveto
+915 1245 lineto
+1262 1245 lineto
+1262 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0.22745 0.56078 1 nodecolor
+newpath 915 1201 moveto
+915 1245 lineto
+1262 1245 lineto
+1262 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 915 1201 moveto
+915 1245 lineto
+1262 1245 lineto
+1262 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1028.5 1228.77 moveto 120 (input_host_cell) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+919 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+971 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1013 1209.27 moveto 245 (not reading / no data available) alignedtext
+0 0 1 nodecolor
+newpath 1266 1201 moveto
+1266 1245 lineto
+1411 1245 lineto
+1411 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1266 1201 moveto
+1266 1245 lineto
+1411 1245 lineto
+1411 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1266 1201 moveto
+1266 1245 lineto
+1411 1245 lineto
+1411 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1275 1228.77 moveto 127 (cell_input_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1270 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1322 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1366.5 1209.27 moveto 40 (done) alignedtext
+0 0 1 nodecolor
+newpath 1415 1201 moveto
+1415 1245 lineto
+1568 1245 lineto
+1568 1201 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1415 1201 moveto
+1415 1245 lineto
+1568 1245 lineto
+1568 1201 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1415 1201 moveto
+1415 1245 lineto
+1568 1245 lineto
+1568 1201 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1422 1228.77 moveto 139 (node_input_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1419 1209.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1471 1209.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1521.5 1209.27 moveto 40 (done) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+880 1180.27 moveto 115 (ResCalcKernel) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+308 1158.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+794 1158.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1320.5 1158.27 moveto 52 (Kernel) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+308 1136.27 moveto 104 (kernel status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+794 1136.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1314 1136.27 moveto 65 (Finished) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+308 1114.27 moveto 191 (current run cycle count) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+794 1114.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1270 1114.27 moveto 153 (1962905 / 1962904) alignedtext
+0.22745 0.56078 1 nodecolor
+newpath 307 1058 moveto
+307 1101 lineto
+934 1101 lineto
+934 1058 lineto
+closepath fill
+1 setlinewidth
+solid
+0.22745 0.56078 1 nodecolor
+newpath 307 1058 moveto
+307 1101 lineto
+934 1101 lineto
+934 1058 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 307 1058 moveto
+307 1101 lineto
+934 1101 lineto
+934 1058 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+576.5 1085.27 moveto 88 (result_pcie) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+311 1066.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+527 1066.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+802.5 1066.27 moveto 46 (ready) alignedtext
+0.22745 0.56078 1 nodecolor
+newpath 938 1058 moveto
+938 1101 lineto
+1568 1101 lineto
+1568 1058 lineto
+closepath fill
+1 setlinewidth
+solid
+0.22745 0.56078 1 nodecolor
+newpath 938 1058 moveto
+938 1101 lineto
+1568 1101 lineto
+1568 1058 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 938 1058 moveto
+938 1101 lineto
+1568 1101 lineto
+1568 1058 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1205 1085.27 moveto 96 (result_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+942 1066.27 moveto 49 (status) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1158 1066.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1436.5 1066.27 moveto 46 (ready) alignedtext
+grestore
+% STREAMSTATUS_Stream_96_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1312 moveto
+147 1295.02 741.56 1298.25 758 1294 curveto
+800.4 1283.04 845.36 1291.02 852.13 1255.11 curveto
+stroke
+0 0 0 edgecolor
+newpath 855.63 1255.26 moveto
+853 1245 lineto
+848.65 1254.66 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 855.63 1255.26 moveto
+853 1245 lineto
+848.65 1254.66 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+846 1278.77 moveto 30 (256) alignedtext
+grestore
+% node62_ln111_WrapperNode
+gsave
+0 0 1 nodecolor
+newpath 1707 2031 moveto
+1680 2004 lineto
+1734 2004 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1707 2031 moveto
+1680 2004 lineto
+1734 2004 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_node62_ln111_WrapperNode_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1854 1909.5 moveto
+1560 1909.5 lineto
+1560 1830.5 lineto
+1854 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1854 1909.5 moveto
+1560 1909.5 lineto
+1560 1830.5 lineto
+1854 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1733 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1762.5 1865.27 moveto 49 (68802) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1770 1843.27 moveto 34 (true) alignedtext
+grestore
+% node62_ln111_WrapperNode->STREAMSTATUS_node62_ln111_WrapperNode_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1995 moveto
+1707 1960.91 1707 1949.89 1707 1920.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 1920 moveto
+1707 1910 lineto
+1703.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 1920 moveto
+1707 1910 lineto
+1703.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 1934.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_Stream_86_output
+gsave
+0.13725 1 1 nodecolor
+newpath 767 745.5 moveto
+473 745.5 lineto
+473 666.5 lineto
+767 666.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 767 745.5 moveto
+473 745.5 lineto
+473 666.5 lineto
+767 666.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 723.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 724.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+646 723.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 701.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 701.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+675.5 701.27 moveto 49 (34401) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 679.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 679.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+683 679.27 moveto 34 (true) alignedtext
+grestore
+% node85_ln111_WrapperNode
+gsave
+0 0 1 nodecolor
+newpath 620 572 moveto
+647 599 lineto
+593 599 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 620 572 moveto
+647 599 lineto
+593 599 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_86_output->node85_ln111_WrapperNode
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 666 moveto
+620 644.05 620 636.12 620 618.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 618 moveto
+620 608 lineto
+616.5 618 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 618 moveto
+620 608 lineto
+616.5 618 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 632.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_node85_ln111_WrapperNode_output
+gsave
+0.13725 1 1 nodecolor
+newpath 767 513.5 moveto
+473 513.5 lineto
+473 434.5 lineto
+767 434.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 767 513.5 moveto
+473 513.5 lineto
+473 434.5 lineto
+767 434.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 491.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 492.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+646 491.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 469.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 469.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+675.5 469.27 moveto 49 (68802) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 447.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 447.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+683 447.27 moveto 34 (true) alignedtext
+grestore
+% res
+gsave
+0 0 1 nodecolor
+newpath 730 375.5 moveto
+508 375.5 lineto
+508 286.5 lineto
+730 286.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 730 375.5 moveto
+508 375.5 lineto
+508 286.5 lineto
+730 286.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 520 342 moveto
+520 367 lineto
+719 367 lineto
+719 342 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 520 342 moveto
+520 367 lineto
+719 367 lineto
+719 342 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 520 342 moveto
+520 367 lineto
+719 367 lineto
+719 342 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+607 350.77 moveto 25 (res) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+607 321.27 moveto 25 (res) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+521 299.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+564 299.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+577 299.27 moveto 141 (PCIe_To_Host_fwd) alignedtext
+grestore
+% STREAMSTATUS_node85_ln111_WrapperNode_output->res
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 434 moveto
+620 407.94 620 398.99 620 377.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 377 moveto
+620 367 lineto
+616.5 377 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 377 moveto
+620 367 lineto
+616.5 377 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 400.77 moveto 20 (64) alignedtext
+grestore
+% cmd_addresses_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 2482 2343.5 moveto
+2180 2343.5 lineto
+2180 2254.5 lineto
+2482 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2482 2343.5 moveto
+2180 2343.5 lineto
+2180 2254.5 lineto
+2482 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 2192 2310 moveto
+2192 2335 lineto
+2470 2335 lineto
+2470 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2192 2310 moveto
+2192 2335 lineto
+2470 2335 lineto
+2470 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2192 2310 moveto
+2192 2335 lineto
+2470 2335 lineto
+2470 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2213.5 2318.77 moveto 235 (cmd_addresses_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2213.5 2289.27 moveto 235 (cmd_addresses_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2193 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2277 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2360 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% addrgen_cmd_read_dram
+gsave
+0 0 1 nodecolor
+newpath 2774 2629.5 moveto
+2520 2629.5 lineto
+2520 2540.5 lineto
+2774 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2774 2629.5 moveto
+2520 2629.5 lineto
+2520 2540.5 lineto
+2774 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2546.5 2607.77 moveto 202 (addrgen_cmd_read_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2533 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2610 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2689.5 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 2532 2548 moveto
+2532 2572 lineto
+2763 2572 lineto
+2763 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2532 2548 moveto
+2532 2572 lineto
+2763 2572 lineto
+2763 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2532 2548 moveto
+2532 2572 lineto
+2763 2572 lineto
+2763 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2537.5 2556.27 moveto 220 (addrgen_cmd_read_dram_0) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_read_dram_addrgen_cmd_read_dram_0
+gsave
+0 0 1 nodecolor
+newpath 2795 2481.5 moveto
+2501 2481.5 lineto
+2501 2402.5 lineto
+2795 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2795 2481.5 moveto
+2501 2481.5 lineto
+2501 2402.5 lineto
+2795 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2514 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2663 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2674 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2514 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2663 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2723 2437.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2514 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2663 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2709 2415.27 moveto 38 (false) alignedtext
+grestore
+% addrgen_cmd_read_dram->STREAMSTATUS_addrgen_cmd_read_dram_addrgen_cmd_read_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2648 2548 moveto
+2648 2522.33 2648 2513.51 2648 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 2651.5 2492 moveto
+2648 2482 lineto
+2644.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2651.5 2492 moveto
+2648 2482 lineto
+2644.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2651 2506.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_112_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1854 1391.5 moveto
+1560 1391.5 lineto
+1560 1312.5 lineto
+1854 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1854 1391.5 moveto
+1560 1391.5 lineto
+1560 1312.5 lineto
+1854 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1733 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1762.5 1347.27 moveto 49 (34401) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1770 1325.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_112_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1312 moveto
+1707 1280.05 1449.12 1307.15 1420 1294 curveto
+1407.4 1288.31 1410.53 1277.84 1398 1272 curveto
+1369.57 1258.74 1136.92 1275.8 1095.35 1252.99 curveto
+stroke
+0 0 0 edgecolor
+newpath 1097.96 1250.65 moveto
+1089 1245 lineto
+1092.48 1255.01 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1097.96 1250.65 moveto
+1089 1245 lineto
+1092.48 1255.01 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1423 1278.77 moveto 30 (256) alignedtext
+grestore
+% nodes_from_dram
+gsave
+0 0 1 nodecolor
+newpath 1204 2057.5 moveto
+960 2057.5 lineto
+960 1968.5 lineto
+1204 1968.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1204 2057.5 moveto
+960 2057.5 lineto
+960 1968.5 lineto
+1204 1968.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1011 2035.77 moveto 143 (nodes_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+973 2013.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1027 2013.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1080 2013.27 moveto 112 (From_Memory) alignedtext
+0 0 1 nodecolor
+newpath 972 1976 moveto
+972 2000 lineto
+1193 2000 lineto
+1193 1976 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 972 1976 moveto
+972 2000 lineto
+1193 2000 lineto
+1193 1976 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 972 1976 moveto
+972 2000 lineto
+1193 2000 lineto
+1193 1976 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1011 1984.27 moveto 143 (nodes_from_dram) alignedtext
+grestore
+% STREAMSTATUS_nodes_from_dram_nodes_from_dram
+gsave
+0.13725 1 1 nodecolor
+newpath 1230 1909.5 moveto
+936 1909.5 lineto
+936 1830.5 lineto
+1230 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1230 1909.5 moveto
+936 1909.5 lineto
+936 1830.5 lineto
+1230 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1109 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1138.5 1865.27 moveto 49 (57402) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1146 1843.27 moveto 34 (true) alignedtext
+grestore
+% nodes_from_dram->STREAMSTATUS_nodes_from_dram_nodes_from_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1976 moveto
+1083 1950.33 1083 1941.51 1083 1920.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 1086.5 1920 moveto
+1083 1910 lineto
+1079.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1086.5 1920 moveto
+1083 1910 lineto
+1079.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1087 1934.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_write_dram_addrgen_cmd_write_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3107 2481.5 moveto
+2813 2481.5 lineto
+2813 2402.5 lineto
+3107 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3107 2481.5 moveto
+2813 2481.5 lineto
+2813 2402.5 lineto
+3107 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2826 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2975 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2986 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2826 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2975 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3035 2437.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2826 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2975 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3021 2415.27 moveto 38 (false) alignedtext
+grestore
+% cmd_write_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3083 2343.5 moveto
+2837 2343.5 lineto
+2837 2254.5 lineto
+3083 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3083 2343.5 moveto
+2837 2343.5 lineto
+2837 2254.5 lineto
+3083 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 2849 2310 moveto
+2849 2335 lineto
+3071 2335 lineto
+3071 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2849 2310 moveto
+2849 2335 lineto
+3071 2335 lineto
+3071 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2849 2310 moveto
+2849 2335 lineto
+3071 2335 lineto
+3071 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2885 2318.77 moveto 150 (cmd_write_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2885 2289.27 moveto 150 (cmd_write_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2850 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2906 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2961 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_write_dram_addrgen_cmd_write_dram_0->cmd_write_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2960 2402 moveto
+2960 2375.94 2960 2366.99 2960 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 2963.5 2345 moveto
+2960 2335 lineto
+2956.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2963.5 2345 moveto
+2960 2335 lineto
+2956.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2963 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_cells_from_dram_addrgen_cmd_cells_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3419 2481.5 moveto
+3125 2481.5 lineto
+3125 2402.5 lineto
+3419 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3419 2481.5 moveto
+3125 2481.5 lineto
+3125 2402.5 lineto
+3419 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3138 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3287 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3298 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3138 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3287 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3337 2437.27 moveto 30 (458) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3138 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3287 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3333 2415.27 moveto 38 (false) alignedtext
+grestore
+% cmd_cells_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3409 2343.5 moveto
+3135 2343.5 lineto
+3135 2254.5 lineto
+3409 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3409 2343.5 moveto
+3135 2343.5 lineto
+3135 2254.5 lineto
+3409 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 3147 2310 moveto
+3147 2335 lineto
+3397 2335 lineto
+3397 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3147 2310 moveto
+3147 2335 lineto
+3397 2335 lineto
+3397 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3147 2310 moveto
+3147 2335 lineto
+3397 2335 lineto
+3397 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3176.5 2318.77 moveto 191 (cmd_cells_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3176.5 2289.27 moveto 191 (cmd_cells_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3148 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3218 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3287 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_cells_from_dram_addrgen_cmd_cells_from_dram_0->cmd_cells_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3272 2402 moveto
+3272 2375.94 3272 2366.99 3272 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 3275.5 2345 moveto
+3272 2335 lineto
+3268.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3275.5 2345 moveto
+3272 2335 lineto
+3268.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3275 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_nodes_from_dram_addrgen_cmd_nodes_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3743 2481.5 moveto
+3449 2481.5 lineto
+3449 2402.5 lineto
+3743 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3743 2481.5 moveto
+3449 2481.5 lineto
+3449 2402.5 lineto
+3743 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3462 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3611 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3622 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3462 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3611 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3661 2437.27 moveto 30 (225) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3462 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3611 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3657 2415.27 moveto 38 (false) alignedtext
+grestore
+% cmd_nodes_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 3737 2343.5 moveto
+3455 2343.5 lineto
+3455 2254.5 lineto
+3737 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3737 2343.5 moveto
+3455 2343.5 lineto
+3455 2254.5 lineto
+3737 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 3467 2310 moveto
+3467 2335 lineto
+3725 2335 lineto
+3725 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3467 2310 moveto
+3467 2335 lineto
+3725 2335 lineto
+3725 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3467 2310 moveto
+3467 2335 lineto
+3725 2335 lineto
+3725 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3494.5 2318.77 moveto 203 (cmd_nodes_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3494.5 2289.27 moveto 203 (cmd_nodes_from_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3468 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3542 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3615 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_nodes_from_dram_addrgen_cmd_nodes_from_dram_0->cmd_nodes_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3596 2402 moveto
+3596 2375.94 3596 2366.99 3596 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 3599.5 2345 moveto
+3596 2335 lineto
+3592.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3599.5 2345 moveto
+3596 2335 lineto
+3592.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3599 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_31_output
+gsave
+0 0 1 nodecolor
+newpath 918 1677.5 moveto
+624 1677.5 lineto
+624 1598.5 lineto
+918 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 918 1677.5 moveto
+624 1677.5 lineto
+624 1598.5 lineto
+918 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+797 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+816.5 1633.27 moveto 69 (1577280) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1611.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+832 1611.27 moveto 38 (false) alignedtext
+grestore
+% Stream_108
+gsave
+0 0 1 nodecolor
+newpath 892 1520 moveto
+758 1520 lineto
+758 1470 lineto
+892 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 892 1520 moveto
+758 1520 lineto
+758 1470 lineto
+892 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 766 1505 moveto
+766 1516 lineto
+777 1516 lineto
+777 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 766 1505 moveto
+766 1516 lineto
+777 1516 lineto
+777 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 766 1505 moveto
+766 1516 lineto
+777 1516 lineto
+777 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+783.5 1496.27 moveto 95 (Stream_108) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 766 1498 moveto
+766 1505 lineto
+777 1505 lineto
+777 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 766 1491 moveto
+766 1498 lineto
+777 1498 lineto
+777 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 766 1484 moveto
+766 1491 lineto
+777 1491 lineto
+777 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 766 1474 moveto
+766 1484 lineto
+777 1484 lineto
+777 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 766 1474 moveto
+766 1484 lineto
+777 1484 lineto
+777 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 766 1474 moveto
+766 1484 lineto
+777 1484 lineto
+777 1474 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_31_output->Stream_108
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1598 moveto
+771 1565.26 771 1554.58 771 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 774.5 1526 moveto
+771 1516 lineto
+767.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 774.5 1526 moveto
+771 1516 lineto
+767.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+774 1564.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_118_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1400 745.5 moveto
+1106 745.5 lineto
+1106 666.5 lineto
+1400 666.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1400 745.5 moveto
+1106 745.5 lineto
+1106 666.5 lineto
+1400 666.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 723.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 724.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1279 723.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 701.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 701.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1303.5 701.27 moveto 59 (702048) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 679.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 679.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1316 679.27 moveto 34 (true) alignedtext
+grestore
+% Stream_43
+gsave
+0 0 1 nodecolor
+newpath 1253 608 moveto
+1226 581 lineto
+1280 581 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1253 608 moveto
+1226 581 lineto
+1280 581 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_118_output->Stream_43
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 666 moveto
+1253 644.05 1253 636.12 1253 618.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 618 moveto
+1253 608 lineto
+1249.5 618 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 618 moveto
+1253 608 lineto
+1249.5 618 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1256 632.77 moveto 30 (128) alignedtext
+grestore
+% Stream_29
+gsave
+0 0 1 nodecolor
+newpath 1083 1736 moveto
+1110 1763 lineto
+1056 1763 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1083 1736 moveto
+1110 1763 lineto
+1056 1763 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_nodes_from_dram_nodes_from_dram->Stream_29
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1830 moveto
+1083 1808.05 1083 1800.12 1083 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1086.5 1782 moveto
+1083 1772 lineto
+1079.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1086.5 1782 moveto
+1083 1772 lineto
+1079.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1087 1796.77 moveto 40 (1536) alignedtext
+grestore
+% addrgen_cmd_sizes
+gsave
+0 0 1 nodecolor
+newpath 4012 2629.5 moveto
+3802 2629.5 lineto
+3802 2540.5 lineto
+4012 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4012 2629.5 moveto
+3802 2629.5 lineto
+3802 2540.5 lineto
+4012 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3829.5 2607.77 moveto 156 (addrgen_cmd_sizes) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3815 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3873 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3930 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 3814 2548 moveto
+3814 2572 lineto
+4001 2572 lineto
+4001 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3814 2548 moveto
+3814 2572 lineto
+4001 2572 lineto
+4001 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3814 2548 moveto
+3814 2572 lineto
+4001 2572 lineto
+4001 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3820.5 2556.27 moveto 174 (addrgen_cmd_sizes_0) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_sizes_addrgen_cmd_sizes_0
+gsave
+0 0 1 nodecolor
+newpath 4055 2481.5 moveto
+3761 2481.5 lineto
+3761 2402.5 lineto
+4055 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4055 2481.5 moveto
+3761 2481.5 lineto
+3761 2402.5 lineto
+4055 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3774 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3923 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3934 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3774 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3923 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3983 2437.27 moveto 10 (1) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3774 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3923 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3969 2415.27 moveto 38 (false) alignedtext
+grestore
+% addrgen_cmd_sizes->STREAMSTATUS_addrgen_cmd_sizes_addrgen_cmd_sizes_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3908 2548 moveto
+3908 2522.33 3908 2513.51 3908 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 3911.5 2492 moveto
+3908 2482 lineto
+3904.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3911.5 2492 moveto
+3908 2482 lineto
+3904.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3911 2506.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_116_output
+gsave
+0 0 1 nodecolor
+newpath 4367 1391.5 moveto
+4073 1391.5 lineto
+4073 1312.5 lineto
+4367 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4367 1391.5 moveto
+4073 1391.5 lineto
+4073 1312.5 lineto
+4367 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4246 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4295 1347.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1325.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4281 1325.27 moveto 38 (false) alignedtext
+grestore
+% write_dram
+gsave
+0 0 1 nodecolor
+newpath 4317 1196.5 moveto
+4123 1196.5 lineto
+4123 1107.5 lineto
+4317 1107.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4317 1196.5 moveto
+4123 1196.5 lineto
+4123 1107.5 lineto
+4317 1107.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4135 1163 moveto
+4135 1188 lineto
+4305 1188 lineto
+4305 1163 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4135 1163 moveto
+4135 1188 lineto
+4305 1188 lineto
+4305 1163 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4135 1163 moveto
+4135 1188 lineto
+4305 1188 lineto
+4305 1163 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4175 1171.77 moveto 90 (write_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4175 1142.27 moveto 90 (write_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4136 1120.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4179 1120.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4214 1120.27 moveto 90 (To_Memory) alignedtext
+grestore
+% STREAMSTATUS_Stream_116_output->write_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1312 moveto
+4220 1260.44 4220 1245.06 4220 1198.16 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1198 moveto
+4220 1188 lineto
+4216.5 1198 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1198 moveto
+4220 1188 lineto
+4216.5 1198 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4224 1278.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_halo_cells_halo_cells
+gsave
+0 0 1 nodecolor
+newpath 1854 2481.5 moveto
+1560 2481.5 lineto
+1560 2402.5 lineto
+1854 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1854 2481.5 moveto
+1560 2481.5 lineto
+1560 2402.5 lineto
+1854 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1733 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1757.5 2437.27 moveto 59 (137604) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1768 2415.27 moveto 38 (false) alignedtext
+grestore
+% Stream_63
+gsave
+0 0 1 nodecolor
+newpath 1820 2324 moveto
+1694 2324 lineto
+1694 2274 lineto
+1820 2274 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1820 2324 moveto
+1694 2324 lineto
+1694 2274 lineto
+1820 2274 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1702 2309 moveto
+1702 2320 lineto
+1713 2320 lineto
+1713 2309 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1702 2309 moveto
+1702 2320 lineto
+1713 2320 lineto
+1713 2309 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 2309 moveto
+1702 2320 lineto
+1713 2320 lineto
+1713 2309 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1720 2300.27 moveto 85 (Stream_63) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 2302 moveto
+1702 2309 lineto
+1713 2309 lineto
+1713 2302 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 2295 moveto
+1702 2302 lineto
+1713 2302 lineto
+1713 2295 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 2288 moveto
+1702 2295 lineto
+1713 2295 lineto
+1713 2288 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1702 2278 moveto
+1702 2288 lineto
+1713 2288 lineto
+1713 2278 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1702 2278 moveto
+1702 2288 lineto
+1713 2288 lineto
+1713 2278 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 2278 moveto
+1702 2288 lineto
+1713 2288 lineto
+1713 2278 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_halo_cells_halo_cells->Stream_63
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 2402 moveto
+1707 2369.26 1707 2358.58 1707 2330.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 2330 moveto
+1707 2320 lineto
+1703.5 2330 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 2330 moveto
+1707 2320 lineto
+1703.5 2330 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_69_output
+gsave
+0.13725 1 1 nodecolor
+newpath 606 1909.5 moveto
+312 1909.5 lineto
+312 1830.5 lineto
+606 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 606 1909.5 moveto
+312 1909.5 lineto
+312 1830.5 lineto
+606 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+485 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+509.5 1865.27 moveto 59 (136226) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+522 1843.27 moveto 34 (true) alignedtext
+grestore
+% node68_ln111_WrapperNode
+gsave
+0 0 1 nodecolor
+newpath 459 1772 moveto
+432 1745 lineto
+486 1745 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 459 1772 moveto
+432 1745 lineto
+486 1745 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_69_output->node68_ln111_WrapperNode
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1830 moveto
+459 1808.05 459 1800.12 459 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 1782 moveto
+459 1772 lineto
+455.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 1782 moveto
+459 1772 lineto
+455.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 1796.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_100_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1230 1391.5 moveto
+936 1391.5 lineto
+936 1312.5 lineto
+1230 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1230 1391.5 moveto
+936 1391.5 lineto
+936 1312.5 lineto
+1230 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1109 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1133.5 1347.27 moveto 59 (688824) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1146 1325.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_100_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1312 moveto
+1083 1291.09 1440.78 1304.26 1459 1294 curveto
+1478.66 1282.93 1488.9 1274.09 1491.39 1255.16 curveto
+stroke
+0 0 0 edgecolor
+newpath 1494.9 1255.19 moveto
+1492 1245 lineto
+1487.91 1254.77 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1494.9 1255.19 moveto
+1492 1245 lineto
+1487.91 1254.77 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1489 1278.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_read_dram_read_dram
+gsave
+0.13725 1 1 nodecolor
+newpath 2166 2481.5 moveto
+1872 2481.5 lineto
+1872 2402.5 lineto
+2166 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2166 2481.5 moveto
+1872 2481.5 lineto
+1872 2402.5 lineto
+2166 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2045 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2094 2437.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2415.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2082 2415.27 moveto 34 (true) alignedtext
+grestore
+% Stream_81
+gsave
+0 0 1 nodecolor
+newpath 2019 2281 moveto
+2046 2308 lineto
+1992 2308 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2019 2281 moveto
+2046 2308 lineto
+1992 2308 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_read_dram_read_dram->Stream_81
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 2402 moveto
+2019 2367.91 2019 2356.89 2019 2327.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 2327 moveto
+2019 2317 lineto
+2015.5 2327 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 2327 moveto
+2019 2317 lineto
+2015.5 2327 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2023 2368.77 moveto 40 (1536) alignedtext
+grestore
+% addrgen_cmd_addresses_from_dram
+gsave
+0 0 1 nodecolor
+newpath 2502 2629.5 moveto
+2158 2629.5 lineto
+2158 2540.5 lineto
+2502 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2502 2629.5 moveto
+2158 2629.5 lineto
+2158 2540.5 lineto
+2502 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2184.5 2607.77 moveto 292 (addrgen_cmd_addresses_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2171 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2280 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2404 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 2170 2548 moveto
+2170 2572 lineto
+2491 2572 lineto
+2491 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2170 2548 moveto
+2170 2572 lineto
+2491 2572 lineto
+2491 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2170 2548 moveto
+2170 2572 lineto
+2491 2572 lineto
+2491 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2175.5 2556.27 moveto 310 (addrgen_cmd_addresses_from_dram_0) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_addresses_from_dram_addrgen_cmd_addresses_from_dram_0
+gsave
+0 0 1 nodecolor
+newpath 2478 2481.5 moveto
+2184 2481.5 lineto
+2184 2402.5 lineto
+2478 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2478 2481.5 moveto
+2184 2481.5 lineto
+2184 2402.5 lineto
+2478 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2197 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2346 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2357 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2197 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2346 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2396 2437.27 moveto 30 (257) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2197 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2346 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2392 2415.27 moveto 38 (false) alignedtext
+grestore
+% addrgen_cmd_addresses_from_dram->STREAMSTATUS_addrgen_cmd_addresses_from_dram_addrgen_cmd_addresses_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2331 2548 moveto
+2331 2522.33 2331 2513.51 2331 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 2334.5 2492 moveto
+2331 2482 lineto
+2327.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2334.5 2492 moveto
+2331 2482 lineto
+2327.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2334 2506.77 moveto 20 (64) alignedtext
+grestore
+% host_to_dram
+gsave
+0 0 1 nodecolor
+newpath 4355 2629.5 moveto
+4083 2629.5 lineto
+4083 2540.5 lineto
+4355 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4355 2629.5 moveto
+4083 2629.5 lineto
+4083 2540.5 lineto
+4355 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4165.5 2607.77 moveto 108 (host_to_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4096 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4139 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4180 2585.27 moveto 163 (PCIe_From_Host_fwd) alignedtext
+0 0 1 nodecolor
+newpath 4095 2548 moveto
+4095 2572 lineto
+4344 2572 lineto
+4344 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4095 2548 moveto
+4095 2572 lineto
+4344 2572 lineto
+4344 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4095 2548 moveto
+4095 2572 lineto
+4344 2572 lineto
+4344 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4165.5 2556.27 moveto 108 (host_to_dram) alignedtext
+grestore
+% STREAMSTATUS_host_to_dram_host_to_dram
+gsave
+0 0 1 nodecolor
+newpath 4367 2481.5 moveto
+4073 2481.5 lineto
+4073 2402.5 lineto
+4367 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4367 2481.5 moveto
+4073 2481.5 lineto
+4073 2402.5 lineto
+4367 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4246 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4295 2437.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4281 2415.27 moveto 38 (false) alignedtext
+grestore
+% host_to_dram->STREAMSTATUS_host_to_dram_host_to_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 2548 moveto
+4220 2522.33 4220 2513.51 4220 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 2492 moveto
+4220 2482 lineto
+4216.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 2492 moveto
+4220 2482 lineto
+4216.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 2506.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_30_output
+gsave
+0 0 1 nodecolor
+newpath 1542 1677.5 moveto
+1248 1677.5 lineto
+1248 1598.5 lineto
+1542 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1542 1677.5 moveto
+1248 1677.5 lineto
+1248 1598.5 lineto
+1542 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1421 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1445.5 1633.27 moveto 59 (702048) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1611.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1456 1611.27 moveto 38 (false) alignedtext
+grestore
+% Stream_104
+gsave
+0 0 1 nodecolor
+newpath 1516 1520 moveto
+1382 1520 lineto
+1382 1470 lineto
+1516 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1516 1520 moveto
+1382 1520 lineto
+1382 1470 lineto
+1516 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1390 1505 moveto
+1390 1516 lineto
+1401 1516 lineto
+1401 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1390 1505 moveto
+1390 1516 lineto
+1401 1516 lineto
+1401 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1390 1505 moveto
+1390 1516 lineto
+1401 1516 lineto
+1401 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1407.5 1496.27 moveto 95 (Stream_104) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1390 1498 moveto
+1390 1505 lineto
+1401 1505 lineto
+1401 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1390 1491 moveto
+1390 1498 lineto
+1401 1498 lineto
+1401 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1390 1484 moveto
+1390 1491 lineto
+1401 1491 lineto
+1401 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1390 1474 moveto
+1390 1484 lineto
+1401 1484 lineto
+1401 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1390 1474 moveto
+1390 1484 lineto
+1401 1484 lineto
+1401 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1390 1474 moveto
+1390 1484 lineto
+1401 1484 lineto
+1401 1474 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_30_output->Stream_104
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1598 moveto
+1395 1565.26 1395 1554.58 1395 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1398.5 1526 moveto
+1395 1516 lineto
+1391.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1398.5 1526 moveto
+1395 1516 lineto
+1391.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1398 1564.77 moveto 30 (256) alignedtext
+grestore
+% STREAMSTATUS_Stream_63_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1854 2195.5 moveto
+1560 2195.5 lineto
+1560 2116.5 lineto
+1854 2116.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1854 2195.5 moveto
+1560 2195.5 lineto
+1560 2116.5 lineto
+1854 2116.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2173.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2174.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1733 2173.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2151.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2151.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1757.5 2151.27 moveto 59 (137604) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 2129.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 2129.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1770 2129.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_63_output->node62_ln111_WrapperNode
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 2116 moveto
+1707 2081.91 1707 2070.89 1707 2041.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 2041 moveto
+1707 2031 lineto
+1703.5 2041 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 2041 moveto
+1707 2031 lineto
+1703.5 2041 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 2082.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_halo_nodes_halo_nodes
+gsave
+0 0 1 nodecolor
+newpath 606 2195.5 moveto
+312 2195.5 lineto
+312 2116.5 lineto
+606 2116.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 606 2195.5 moveto
+312 2195.5 lineto
+312 2116.5 lineto
+606 2116.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 2173.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 2174.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+485 2173.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 2151.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 2151.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+509.5 2151.27 moveto 59 (136226) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 2129.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 2129.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+520 2129.27 moveto 38 (false) alignedtext
+grestore
+% Stream_69
+gsave
+0 0 1 nodecolor
+newpath 572 2038 moveto
+446 2038 lineto
+446 1988 lineto
+572 1988 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 572 2038 moveto
+446 2038 lineto
+446 1988 lineto
+572 1988 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 454 2023 moveto
+454 2034 lineto
+465 2034 lineto
+465 2023 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 454 2023 moveto
+454 2034 lineto
+465 2034 lineto
+465 2023 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 2023 moveto
+454 2034 lineto
+465 2034 lineto
+465 2023 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+472 2014.27 moveto 85 (Stream_69) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 2016 moveto
+454 2023 lineto
+465 2023 lineto
+465 2016 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 2009 moveto
+454 2016 lineto
+465 2016 lineto
+465 2009 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 2002 moveto
+454 2009 lineto
+465 2009 lineto
+465 2002 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 454 1992 moveto
+454 2002 lineto
+465 2002 lineto
+465 1992 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 454 1992 moveto
+454 2002 lineto
+465 2002 lineto
+465 1992 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 454 1992 moveto
+454 2002 lineto
+465 2002 lineto
+465 1992 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_halo_nodes_halo_nodes->Stream_69
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 2116 moveto
+459 2083.26 459 2072.58 459 2044.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 2044 moveto
+459 2034 lineto
+455.5 2044 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 2044 moveto
+459 2034 lineto
+455.5 2044 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 2082.77 moveto 20 (64) alignedtext
+grestore
+% halo_cells
+gsave
+0 0 1 nodecolor
+newpath 1837 2629.5 moveto
+1575 2629.5 lineto
+1575 2540.5 lineto
+1837 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1837 2629.5 moveto
+1575 2629.5 lineto
+1575 2540.5 lineto
+1837 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1667 2607.77 moveto 79 (halo_cells) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1588 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1631 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1662 2585.27 moveto 163 (PCIe_From_Host_fwd) alignedtext
+0 0 1 nodecolor
+newpath 1587 2548 moveto
+1587 2572 lineto
+1826 2572 lineto
+1826 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1587 2548 moveto
+1587 2572 lineto
+1826 2572 lineto
+1826 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1587 2548 moveto
+1587 2572 lineto
+1826 2572 lineto
+1826 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1667 2556.27 moveto 79 (halo_cells) alignedtext
+grestore
+% halo_cells->STREAMSTATUS_halo_cells_halo_cells
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 2548 moveto
+1707 2522.33 1707 2513.51 1707 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 2492 moveto
+1707 2482 lineto
+1703.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 2492 moveto
+1707 2482 lineto
+1703.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 2506.77 moveto 20 (64) alignedtext
+grestore
+% cmd_sizes_0
+gsave
+0 0 1 nodecolor
+newpath 4016 2343.5 moveto
+3800 2343.5 lineto
+3800 2254.5 lineto
+4016 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4016 2343.5 moveto
+3800 2343.5 lineto
+3800 2254.5 lineto
+4016 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 3812 2310 moveto
+3812 2335 lineto
+4004 2335 lineto
+4004 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3812 2310 moveto
+3812 2335 lineto
+4004 2335 lineto
+4004 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3812 2310 moveto
+3812 2335 lineto
+4004 2335 lineto
+4004 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3858 2318.77 moveto 100 (cmd_sizes_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3858 2289.27 moveto 100 (cmd_sizes_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3813 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3856 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3894 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_sizes_addrgen_cmd_sizes_0->cmd_sizes_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3908 2402 moveto
+3908 2375.94 3908 2366.99 3908 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 3911.5 2345 moveto
+3908 2335 lineto
+3904.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3911.5 2345 moveto
+3908 2335 lineto
+3904.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3911 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_29_output
+gsave
+0 0 1 nodecolor
+newpath 1230 1677.5 moveto
+936 1677.5 lineto
+936 1598.5 lineto
+1230 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1230 1677.5 moveto
+936 1677.5 lineto
+936 1598.5 lineto
+1230 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1109 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1133.5 1633.27 moveto 59 (688824) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+949 1611.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1098 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1144 1611.27 moveto 38 (false) alignedtext
+grestore
+% Stream_100
+gsave
+0 0 1 nodecolor
+newpath 1204 1520 moveto
+1070 1520 lineto
+1070 1470 lineto
+1204 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1204 1520 moveto
+1070 1520 lineto
+1070 1470 lineto
+1204 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1078 1505 moveto
+1078 1516 lineto
+1089 1516 lineto
+1089 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1078 1505 moveto
+1078 1516 lineto
+1089 1516 lineto
+1089 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1078 1505 moveto
+1078 1516 lineto
+1089 1516 lineto
+1089 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1095.5 1496.27 moveto 95 (Stream_100) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1078 1498 moveto
+1078 1505 lineto
+1089 1505 lineto
+1089 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1078 1491 moveto
+1078 1498 lineto
+1089 1498 lineto
+1089 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1078 1484 moveto
+1078 1491 lineto
+1089 1491 lineto
+1089 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1078 1474 moveto
+1078 1484 lineto
+1089 1484 lineto
+1089 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1078 1474 moveto
+1078 1484 lineto
+1089 1484 lineto
+1089 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1078 1474 moveto
+1078 1484 lineto
+1089 1484 lineto
+1089 1474 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_29_output->Stream_100
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1598 moveto
+1083 1565.26 1083 1554.58 1083 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1086.5 1526 moveto
+1083 1516 lineto
+1079.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1086.5 1526 moveto
+1083 1516 lineto
+1079.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1086 1564.77 moveto 30 (128) alignedtext
+grestore
+% cells_from_dram
+gsave
+0 0 1 nodecolor
+newpath 1512 2057.5 moveto
+1276 2057.5 lineto
+1276 1968.5 lineto
+1512 1968.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1512 2057.5 moveto
+1276 2057.5 lineto
+1276 1968.5 lineto
+1512 1968.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1329 2035.77 moveto 131 (cells_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1289 2013.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1339 2013.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1388 2013.27 moveto 112 (From_Memory) alignedtext
+0 0 1 nodecolor
+newpath 1288 1976 moveto
+1288 2000 lineto
+1501 2000 lineto
+1501 1976 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1288 1976 moveto
+1288 2000 lineto
+1501 2000 lineto
+1501 1976 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1288 1976 moveto
+1288 2000 lineto
+1501 2000 lineto
+1501 1976 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1329 1984.27 moveto 131 (cells_from_dram) alignedtext
+grestore
+% STREAMSTATUS_cells_from_dram_cells_from_dram
+gsave
+0.13725 1 1 nodecolor
+newpath 1542 1909.5 moveto
+1248 1909.5 lineto
+1248 1830.5 lineto
+1542 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1542 1909.5 moveto
+1248 1909.5 lineto
+1248 1830.5 lineto
+1542 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1421 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1445.5 1865.27 moveto 59 (117008) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1458 1843.27 moveto 34 (true) alignedtext
+grestore
+% cells_from_dram->STREAMSTATUS_cells_from_dram_cells_from_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1976 moveto
+1395 1950.33 1395 1941.51 1395 1920.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 1398.5 1920 moveto
+1395 1910 lineto
+1391.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1398.5 1920 moveto
+1395 1910 lineto
+1391.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1399 1934.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_Stream_72_output
+gsave
+0.13725 1 1 nodecolor
+newpath 606 1391.5 moveto
+312 1391.5 lineto
+312 1312.5 lineto
+606 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 606 1391.5 moveto
+312 1391.5 lineto
+312 1312.5 lineto
+606 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+485 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+514.5 1347.27 moveto 49 (68113) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+325 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+474 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+522 1325.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_72_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1312 moveto
+459 1283.19 484.15 1284.72 510 1272 curveto
+550.04 1252.3 605.89 1286.98 614.79 1255.2 curveto
+stroke
+0 0 0 edgecolor
+newpath 618.29 1255.34 moveto
+616 1245 lineto
+611.34 1254.52 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 618.29 1255.34 moveto
+616 1245 lineto
+611.34 1254.52 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+513 1278.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_Stream_104_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1542 1391.5 moveto
+1248 1391.5 lineto
+1248 1312.5 lineto
+1542 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1542 1391.5 moveto
+1248 1391.5 lineto
+1248 1312.5 lineto
+1542 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1421 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1445.5 1347.27 moveto 59 (702048) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1261 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1410 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1458 1325.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_104_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1312 moveto
+1395 1295.68 1374.21 1305.86 1363 1294 curveto
+1348.95 1279.13 1341.52 1271.73 1339.55 1255.22 curveto
+stroke
+0 0 0 edgecolor
+newpath 1343.03 1254.8 moveto
+1339 1245 lineto
+1336.04 1255.17 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1343.03 1254.8 moveto
+1339 1245 lineto
+1336.04 1255.17 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1366 1278.77 moveto 30 (256) alignedtext
+grestore
+% node85_ln111_WrapperNode->STREAMSTATUS_node85_ln111_WrapperNode_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 572 moveto
+620 550.05 620 542.12 620 524.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 524 moveto
+620 514 lineto
+616.5 524 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 524 moveto
+620 514 lineto
+616.5 524 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 538.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_120_output
+gsave
+0 0 1 nodecolor
+newpath 1400 227.5 moveto
+1106 227.5 lineto
+1106 148.5 lineto
+1400 148.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1400 227.5 moveto
+1106 227.5 lineto
+1106 148.5 lineto
+1400 148.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 205.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 206.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1279 205.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 183.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 183.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1308.5 183.27 moveto 49 (58504) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 161.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 161.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1314 161.27 moveto 38 (false) alignedtext
+grestore
+% to_dram
+gsave
+0 0 1 nodecolor
+newpath 1346 89.5 moveto
+1160 89.5 lineto
+1160 .5 lineto
+1346 .5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1346 89.5 moveto
+1160 89.5 lineto
+1160 .5 lineto
+1346 .5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1172 56 moveto
+1172 81 lineto
+1334 81 lineto
+1334 56 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1172 56 moveto
+1172 81 lineto
+1334 81 lineto
+1334 56 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1172 56 moveto
+1172 81 lineto
+1334 81 lineto
+1334 56 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1220 64.77 moveto 66 (to_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1220 35.27 moveto 66 (to_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1173 13.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1216 13.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1243 13.27 moveto 90 (To_Memory) alignedtext
+grestore
+% STREAMSTATUS_Stream_120_output->to_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 148 moveto
+1253 121.94 1253 112.99 1253 91.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 91 moveto
+1253 81 lineto
+1249.5 91 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 91 moveto
+1253 81 lineto
+1249.5 91 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1257 114.77 moveto 40 (1536) alignedtext
+grestore
+% sizes
+gsave
+0 0 1 nodecolor
+newpath 245 2057.5 moveto
+47 2057.5 lineto
+47 1968.5 lineto
+245 1968.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 245 2057.5 moveto
+47 2057.5 lineto
+47 1968.5 lineto
+245 1968.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+126.5 2035.77 moveto 40 (sizes) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+60 2013.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+103 2013.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+121 2013.27 moveto 112 (From_Memory) alignedtext
+0 0 1 nodecolor
+newpath 59 1976 moveto
+59 2000 lineto
+234 2000 lineto
+234 1976 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 59 1976 moveto
+59 2000 lineto
+234 2000 lineto
+234 1976 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 59 1976 moveto
+59 2000 lineto
+234 2000 lineto
+234 1976 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+126.5 1984.27 moveto 40 (sizes) alignedtext
+grestore
+% STREAMSTATUS_sizes_sizes
+gsave
+0.13725 1 1 nodecolor
+newpath 294 1909.5 moveto
+0 1909.5 lineto
+0 1830.5 lineto
+294 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 294 1909.5 moveto
+0 1909.5 lineto
+0 1830.5 lineto
+294 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+173 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+217 1865.27 moveto 20 (16) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+210 1843.27 moveto 34 (true) alignedtext
+grestore
+% sizes->STREAMSTATUS_sizes_sizes
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1976 moveto
+147 1950.33 147 1941.51 147 1920.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 150.5 1920 moveto
+147 1910 lineto
+143.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 150.5 1920 moveto
+147 1910 lineto
+143.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+151 1934.77 moveto 40 (1536) alignedtext
+grestore
+% addresses_from_dram
+gsave
+0 0 1 nodecolor
+newpath 902 2057.5 moveto
+638 2057.5 lineto
+638 1968.5 lineto
+902 1968.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 902 2057.5 moveto
+638 2057.5 lineto
+638 1968.5 lineto
+902 1968.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+683 2035.77 moveto 175 (addresses_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+651 2013.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+715 2013.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+778 2013.27 moveto 112 (From_Memory) alignedtext
+0 0 1 nodecolor
+newpath 650 1976 moveto
+650 2000 lineto
+891 2000 lineto
+891 1976 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 650 1976 moveto
+650 2000 lineto
+891 2000 lineto
+891 1976 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 650 1976 moveto
+650 2000 lineto
+891 2000 lineto
+891 1976 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+683 1984.27 moveto 175 (addresses_from_dram) alignedtext
+grestore
+% STREAMSTATUS_addresses_from_dram_addresses_from_dram
+gsave
+0.13725 1 1 nodecolor
+newpath 918 1909.5 moveto
+624 1909.5 lineto
+624 1830.5 lineto
+918 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 918 1909.5 moveto
+624 1909.5 lineto
+624 1830.5 lineto
+918 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+797 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+826.5 1865.27 moveto 49 (65720) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+834 1843.27 moveto 34 (true) alignedtext
+grestore
+% addresses_from_dram->STREAMSTATUS_addresses_from_dram_addresses_from_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1976 moveto
+771 1950.33 771 1941.51 771 1920.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 774.5 1920 moveto
+771 1910 lineto
+767.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 774.5 1920 moveto
+771 1910 lineto
+767.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+775 1934.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_66
+gsave
+0 0 1 nodecolor
+newpath 1707 1772 moveto
+1680 1745 lineto
+1734 1745 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1707 1772 moveto
+1680 1745 lineto
+1734 1745 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_node62_ln111_WrapperNode_output->Stream_66
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1830 moveto
+1707 1808.05 1707 1800.12 1707 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 1782 moveto
+1707 1772 lineto
+1703.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 1782 moveto
+1707 1772 lineto
+1703.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 1796.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_Stream_108_output
+gsave
+0.13725 1 1 nodecolor
+newpath 918 1391.5 moveto
+624 1391.5 lineto
+624 1312.5 lineto
+918 1312.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 918 1391.5 moveto
+624 1391.5 lineto
+624 1312.5 lineto
+918 1312.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1369.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1370.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+797 1369.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1347.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1347.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+816.5 1347.27 moveto 69 (1577280) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+637 1325.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+786 1325.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+834 1325.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_108_output->ResCalcKernel
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1312 moveto
+771 1286.94 573.72 1276.11 549 1272 curveto
+513.43 1266.08 396.96 1281.39 375.44 1254.7 curveto
+stroke
+0 0 0 edgecolor
+newpath 378.64 1253.26 moveto
+372 1245 lineto
+372.04 1255.59 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 378.64 1253.26 moveto
+372 1245 lineto
+372.04 1255.59 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+731 1278.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_43_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1400 513.5 moveto
+1106 513.5 lineto
+1106 434.5 lineto
+1400 434.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1400 513.5 moveto
+1106 513.5 lineto
+1106 434.5 lineto
+1400 434.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 491.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 492.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1279 491.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 469.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 469.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1308.5 469.27 moveto 49 (58504) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 447.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 447.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1316 447.27 moveto 34 (true) alignedtext
+grestore
+% Stream_120
+gsave
+0 0 1 nodecolor
+newpath 1374 356 moveto
+1240 356 lineto
+1240 306 lineto
+1374 306 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1374 356 moveto
+1240 356 lineto
+1240 306 lineto
+1374 306 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1248 341 moveto
+1248 352 lineto
+1259 352 lineto
+1259 341 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1248 341 moveto
+1248 352 lineto
+1259 352 lineto
+1259 341 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 341 moveto
+1248 352 lineto
+1259 352 lineto
+1259 341 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1265.5 332.27 moveto 95 (Stream_120) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 334 moveto
+1248 341 lineto
+1259 341 lineto
+1259 334 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 327 moveto
+1248 334 lineto
+1259 334 lineto
+1259 327 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 320 moveto
+1248 327 lineto
+1259 327 lineto
+1259 320 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1248 310 moveto
+1248 320 lineto
+1259 320 lineto
+1259 310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1248 310 moveto
+1248 320 lineto
+1259 320 lineto
+1259 310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 310 moveto
+1248 320 lineto
+1259 320 lineto
+1259 310 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_43_output->Stream_120
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 434 moveto
+1253 401.26 1253 390.58 1253 362.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 362 moveto
+1253 352 lineto
+1249.5 362 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 362 moveto
+1253 352 lineto
+1249.5 362 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1257 400.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_112
+gsave
+0 0 1 nodecolor
+newpath 1828 1520 moveto
+1694 1520 lineto
+1694 1470 lineto
+1828 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1828 1520 moveto
+1694 1520 lineto
+1694 1470 lineto
+1828 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1702 1505 moveto
+1702 1516 lineto
+1713 1516 lineto
+1713 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1702 1505 moveto
+1702 1516 lineto
+1713 1516 lineto
+1713 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 1505 moveto
+1702 1516 lineto
+1713 1516 lineto
+1713 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1719.5 1496.27 moveto 95 (Stream_112) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 1498 moveto
+1702 1505 lineto
+1713 1505 lineto
+1713 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 1491 moveto
+1702 1498 lineto
+1713 1498 lineto
+1713 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 1484 moveto
+1702 1491 lineto
+1713 1491 lineto
+1713 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1702 1474 moveto
+1702 1484 lineto
+1713 1484 lineto
+1713 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1702 1474 moveto
+1702 1484 lineto
+1713 1484 lineto
+1713 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1702 1474 moveto
+1702 1484 lineto
+1713 1484 lineto
+1713 1474 lineto
+closepath stroke
+grestore
+% Stream_112->STREAMSTATUS_Stream_112_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1474 moveto
+1707 1441.26 1707 1430.58 1707 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 1402 moveto
+1707 1392 lineto
+1703.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 1402 moveto
+1707 1392 lineto
+1703.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 1416.77 moveto 30 (256) alignedtext
+grestore
+% addrgen_cmd_to_dram
+gsave
+0 0 1 nodecolor
+newpath 4649 2629.5 moveto
+4415 2629.5 lineto
+4415 2540.5 lineto
+4649 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4649 2629.5 moveto
+4415 2629.5 lineto
+4415 2540.5 lineto
+4649 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4441 2607.77 moveto 182 (addrgen_cmd_to_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4428 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4496 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4565 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 4427 2548 moveto
+4427 2572 lineto
+4637 2572 lineto
+4637 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4427 2548 moveto
+4427 2572 lineto
+4637 2572 lineto
+4637 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4427 2548 moveto
+4427 2572 lineto
+4637 2572 lineto
+4637 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4432 2556.27 moveto 200 (addrgen_cmd_to_dram_0) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_to_dram_addrgen_cmd_to_dram_0
+gsave
+0 0 1 nodecolor
+newpath 4679 2481.5 moveto
+4385 2481.5 lineto
+4385 2402.5 lineto
+4679 2402.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4679 2481.5 moveto
+4385 2481.5 lineto
+4385 2402.5 lineto
+4679 2402.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4398 2459.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4547 2460.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4558 2459.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4398 2437.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4547 2437.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4597 2437.27 moveto 30 (229) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4398 2415.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4547 2415.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4593 2415.27 moveto 38 (false) alignedtext
+grestore
+% addrgen_cmd_to_dram->STREAMSTATUS_addrgen_cmd_to_dram_addrgen_cmd_to_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4532 2548 moveto
+4532 2522.33 4532 2513.51 4532 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 4535.5 2492 moveto
+4532 2482 lineto
+4528.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4535.5 2492 moveto
+4532 2482 lineto
+4528.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4535 2506.77 moveto 20 (64) alignedtext
+grestore
+% read_dram
+gsave
+0 0 1 nodecolor
+newpath 2125 2629.5 moveto
+1911 2629.5 lineto
+1911 2540.5 lineto
+2125 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2125 2629.5 moveto
+1911 2629.5 lineto
+1911 2540.5 lineto
+2125 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1975.5 2607.77 moveto 86 (read_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1924 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1967 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2001 2585.27 moveto 112 (From_Memory) alignedtext
+0 0 1 nodecolor
+newpath 1923 2548 moveto
+1923 2572 lineto
+2114 2572 lineto
+2114 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1923 2548 moveto
+1923 2572 lineto
+2114 2572 lineto
+2114 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1923 2548 moveto
+1923 2572 lineto
+2114 2572 lineto
+2114 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1975.5 2556.27 moveto 86 (read_dram) alignedtext
+grestore
+% read_dram->STREAMSTATUS_read_dram_read_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 2548 moveto
+2019 2522.33 2019 2513.51 2019 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 2492 moveto
+2019 2482 lineto
+2015.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 2492 moveto
+2019 2482 lineto
+2015.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2023 2506.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_78
+gsave
+0 0 1 nodecolor
+newpath 4220 1772 moveto
+4193 1745 lineto
+4247 1745 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4220 1772 moveto
+4193 1745 lineto
+4247 1745 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_78_output
+gsave
+0.13725 1 1 nodecolor
+newpath 4367 1677.5 moveto
+4073 1677.5 lineto
+4073 1598.5 lineto
+4367 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4367 1677.5 moveto
+4073 1677.5 lineto
+4073 1598.5 lineto
+4367 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4246 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4295 1633.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1611.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4283 1611.27 moveto 34 (true) alignedtext
+grestore
+% Stream_78->STREAMSTATUS_Stream_78_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1736 moveto
+4220 1714.05 4220 1706.12 4220 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1688 moveto
+4220 1678 lineto
+4216.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1688 moveto
+4220 1678 lineto
+4216.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4224 1702.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_100->STREAMSTATUS_Stream_100_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1474 moveto
+1083 1441.26 1083 1430.58 1083 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1086.5 1402 moveto
+1083 1392 lineto
+1079.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1086.5 1402 moveto
+1083 1392 lineto
+1079.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1086 1416.77 moveto 30 (128) alignedtext
+grestore
+% Stream_96
+gsave
+0 0 1 nodecolor
+newpath 260 1520 moveto
+134 1520 lineto
+134 1470 lineto
+260 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 260 1520 moveto
+134 1520 lineto
+134 1470 lineto
+260 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 142 1505 moveto
+142 1516 lineto
+153 1516 lineto
+153 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 142 1505 moveto
+142 1516 lineto
+153 1516 lineto
+153 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 142 1505 moveto
+142 1516 lineto
+153 1516 lineto
+153 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+160 1496.27 moveto 85 (Stream_96) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 142 1498 moveto
+142 1505 lineto
+153 1505 lineto
+153 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 142 1491 moveto
+142 1498 lineto
+153 1498 lineto
+153 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 142 1484 moveto
+142 1491 lineto
+153 1491 lineto
+153 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 142 1474 moveto
+142 1484 lineto
+153 1484 lineto
+153 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 142 1474 moveto
+142 1484 lineto
+153 1484 lineto
+153 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 142 1474 moveto
+142 1484 lineto
+153 1484 lineto
+153 1474 lineto
+closepath stroke
+grestore
+% Stream_96->STREAMSTATUS_Stream_96_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1474 moveto
+147 1441.26 147 1430.58 147 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 150.5 1402 moveto
+147 1392 lineto
+143.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 150.5 1402 moveto
+147 1392 lineto
+143.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+150 1416.77 moveto 30 (256) alignedtext
+grestore
+% halo_nodes
+gsave
+0 0 1 nodecolor
+newpath 591 2343.5 moveto
+325 2343.5 lineto
+325 2254.5 lineto
+591 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 591 2343.5 moveto
+325 2343.5 lineto
+325 2254.5 lineto
+591 2254.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+413 2321.77 moveto 91 (halo_nodes) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+338 2299.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+381 2299.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+416 2299.27 moveto 163 (PCIe_From_Host_fwd) alignedtext
+0 0 1 nodecolor
+newpath 337 2262 moveto
+337 2286 lineto
+580 2286 lineto
+580 2262 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 337 2262 moveto
+337 2286 lineto
+580 2286 lineto
+580 2262 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 337 2262 moveto
+337 2286 lineto
+580 2286 lineto
+580 2262 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+413 2270.27 moveto 91 (halo_nodes) alignedtext
+grestore
+% halo_nodes->STREAMSTATUS_halo_nodes_halo_nodes
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 2262 moveto
+459 2236.33 459 2227.51 459 2206.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 2206 moveto
+459 2196 lineto
+455.5 2206 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 2206 moveto
+459 2196 lineto
+455.5 2206 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 2220.77 moveto 20 (64) alignedtext
+grestore
+% Stream_120->STREAMSTATUS_Stream_120_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 310 moveto
+1253 277.26 1253 266.58 1253 238.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 238 moveto
+1253 228 lineto
+1249.5 238 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 238 moveto
+1253 228 lineto
+1249.5 238 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1257 252.77 moveto 40 (1536) alignedtext
+grestore
+% addrgen_cmd_nodes_from_dram
+gsave
+0 0 1 nodecolor
+newpath 3752 2629.5 moveto
+3440 2629.5 lineto
+3440 2540.5 lineto
+3752 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3752 2629.5 moveto
+3440 2629.5 lineto
+3440 2540.5 lineto
+3752 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3466.5 2607.77 moveto 259 (addrgen_cmd_nodes_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3453 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3551 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3658.5 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 3452 2548 moveto
+3452 2572 lineto
+3740 2572 lineto
+3740 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3452 2548 moveto
+3452 2572 lineto
+3740 2572 lineto
+3740 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3452 2548 moveto
+3452 2572 lineto
+3740 2572 lineto
+3740 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3457.5 2556.27 moveto 277 (addrgen_cmd_nodes_from_dram_0) alignedtext
+grestore
+% addrgen_cmd_nodes_from_dram->STREAMSTATUS_addrgen_cmd_nodes_from_dram_addrgen_cmd_nodes_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3596 2548 moveto
+3596 2522.33 3596 2513.51 3596 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 3599.5 2492 moveto
+3596 2482 lineto
+3592.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3599.5 2492 moveto
+3596 2482 lineto
+3592.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3599 2506.77 moveto 20 (64) alignedtext
+grestore
+% Stream_69->STREAMSTATUS_Stream_69_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1992 moveto
+459 1959.26 459 1948.58 459 1920.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 1920 moveto
+459 1910 lineto
+455.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 1920 moveto
+459 1910 lineto
+455.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 1934.77 moveto 20 (64) alignedtext
+grestore
+% node68_ln111_WrapperNode->STREAMSTATUS_node68_ln111_WrapperNode_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1736 moveto
+459 1714.05 459 1706.12 459 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 1688 moveto
+459 1678 lineto
+455.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 1688 moveto
+459 1678 lineto
+455.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 1702.77 moveto 30 (128) alignedtext
+grestore
+% Stream_30
+gsave
+0 0 1 nodecolor
+newpath 1395 1736 moveto
+1422 1763 lineto
+1368 1763 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1395 1736 moveto
+1422 1763 lineto
+1368 1763 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_cells_from_dram_cells_from_dram->Stream_30
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1830 moveto
+1395 1808.05 1395 1800.12 1395 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1398.5 1782 moveto
+1395 1772 lineto
+1391.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1398.5 1782 moveto
+1395 1772 lineto
+1391.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1399 1796.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_Stream_92_output
+gsave
+0.13725 1 1 nodecolor
+newpath 2166 1909.5 moveto
+1872 1909.5 lineto
+1872 1830.5 lineto
+2166 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2166 1909.5 moveto
+1872 1909.5 lineto
+1872 1830.5 lineto
+2166 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2045 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2094 1865.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2082 1843.27 moveto 34 (true) alignedtext
+grestore
+% node80_ln111_WrapperNode
+gsave
+0 0 1 nodecolor
+newpath 2019 1736 moveto
+2046 1763 lineto
+1992 1763 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2019 1736 moveto
+2046 1763 lineto
+1992 1763 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_92_output->node80_ln111_WrapperNode
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 1830 moveto
+2019 1808.05 2019 1800.12 2019 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 1782 moveto
+2019 1772 lineto
+2015.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 1782 moveto
+2019 1772 lineto
+2015.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 1796.77 moveto 30 (128) alignedtext
+grestore
+% Stream_116
+gsave
+0 0 1 nodecolor
+newpath 4341 1520 moveto
+4207 1520 lineto
+4207 1470 lineto
+4341 1470 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 4341 1520 moveto
+4207 1520 lineto
+4207 1470 lineto
+4341 1470 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4215 1505 moveto
+4215 1516 lineto
+4226 1516 lineto
+4226 1505 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4215 1505 moveto
+4215 1516 lineto
+4226 1516 lineto
+4226 1505 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 1505 moveto
+4215 1516 lineto
+4226 1516 lineto
+4226 1505 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4232.5 1496.27 moveto 95 (Stream_116) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 1498 moveto
+4215 1505 lineto
+4226 1505 lineto
+4226 1498 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 1491 moveto
+4215 1498 lineto
+4226 1498 lineto
+4226 1491 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 1484 moveto
+4215 1491 lineto
+4226 1491 lineto
+4226 1484 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4215 1474 moveto
+4215 1484 lineto
+4226 1484 lineto
+4226 1474 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4215 1474 moveto
+4215 1484 lineto
+4226 1484 lineto
+4226 1474 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 1474 moveto
+4215 1484 lineto
+4226 1484 lineto
+4226 1474 lineto
+closepath stroke
+grestore
+% Stream_116->STREAMSTATUS_Stream_116_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1474 moveto
+4220 1441.26 4220 1430.58 4220 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1402 moveto
+4220 1392 lineto
+4216.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1402 moveto
+4220 1392 lineto
+4216.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4224 1416.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_Stream_81_output
+gsave
+0 0 1 nodecolor
+newpath 2166 2195.5 moveto
+1872 2195.5 lineto
+1872 2116.5 lineto
+2166 2116.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2166 2195.5 moveto
+1872 2195.5 lineto
+1872 2116.5 lineto
+2166 2116.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2173.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2174.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2045 2173.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2151.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2151.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2094 2151.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 2129.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 2129.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2080 2129.27 moveto 38 (false) alignedtext
+grestore
+% Stream_92
+gsave
+0 0 1 nodecolor
+newpath 2132 2038 moveto
+2006 2038 lineto
+2006 1988 lineto
+2132 1988 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 2132 2038 moveto
+2006 2038 lineto
+2006 1988 lineto
+2132 1988 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 2014 2023 moveto
+2014 2034 lineto
+2025 2034 lineto
+2025 2023 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2014 2023 moveto
+2014 2034 lineto
+2025 2034 lineto
+2025 2023 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2014 2023 moveto
+2014 2034 lineto
+2025 2034 lineto
+2025 2023 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2032 2014.27 moveto 85 (Stream_92) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2014 2016 moveto
+2014 2023 lineto
+2025 2023 lineto
+2025 2016 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2014 2009 moveto
+2014 2016 lineto
+2025 2016 lineto
+2025 2009 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2014 2002 moveto
+2014 2009 lineto
+2025 2009 lineto
+2025 2002 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 2014 1992 moveto
+2014 2002 lineto
+2025 2002 lineto
+2025 1992 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2014 1992 moveto
+2014 2002 lineto
+2025 2002 lineto
+2025 1992 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2014 1992 moveto
+2014 2002 lineto
+2025 2002 lineto
+2025 1992 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_81_output->Stream_92
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 2116 moveto
+2019 2083.26 2019 2072.58 2019 2044.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 2044 moveto
+2019 2034 lineto
+2015.5 2044 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 2044 moveto
+2019 2034 lineto
+2015.5 2044 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 2082.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_node80_ln111_WrapperNode_output
+gsave
+0.13725 1 1 nodecolor
+newpath 2166 1677.5 moveto
+1872 1677.5 lineto
+1872 1598.5 lineto
+2166 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2166 1677.5 moveto
+1872 1677.5 lineto
+1872 1598.5 lineto
+2166 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2045 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2094 1633.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1885 1611.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2034 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2082 1611.27 moveto 34 (true) alignedtext
+grestore
+% node80_ln111_WrapperNode->STREAMSTATUS_node80_ln111_WrapperNode_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 1736 moveto
+2019 1714.05 2019 1706.12 2019 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 1688 moveto
+2019 1678 lineto
+2015.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 1688 moveto
+2019 1678 lineto
+2015.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 1702.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_ResCalcKernel_result_pcie
+gsave
+0 0 1 nodecolor
+newpath 767 991.5 moveto
+473 991.5 lineto
+473 912.5 lineto
+767 912.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 767 991.5 moveto
+473 991.5 lineto
+473 912.5 lineto
+767 912.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 969.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 970.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+646 969.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 947.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 947.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+675.5 947.27 moveto 49 (34401) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+486 925.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+635 925.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+681 925.27 moveto 38 (false) alignedtext
+grestore
+% ResCalcKernel->STREAMSTATUS_ResCalcKernel_result_pcie
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 1058 moveto
+620 1032.33 620 1023.51 620 1002.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 1002 moveto
+620 992 lineto
+616.5 1002 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 1002 moveto
+620 992 lineto
+616.5 1002 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 1016.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_ResCalcKernel_result_dram
+gsave
+0 0 1 nodecolor
+newpath 1400 991.5 moveto
+1106 991.5 lineto
+1106 912.5 lineto
+1400 912.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1400 991.5 moveto
+1106 991.5 lineto
+1106 912.5 lineto
+1400 912.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 969.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 970.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1279 969.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 947.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 947.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1303.5 947.27 moveto 59 (702048) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1119 925.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1268 925.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1314 925.27 moveto 38 (false) alignedtext
+grestore
+% ResCalcKernel->STREAMSTATUS_ResCalcKernel_result_dram
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 1058 moveto
+1253 1032.33 1253 1023.51 1253 1002.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 1002 moveto
+1253 992 lineto
+1249.5 1002 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 1002 moveto
+1253 992 lineto
+1249.5 1002 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1256 1016.77 moveto 30 (128) alignedtext
+grestore
+% Stream_104->STREAMSTATUS_Stream_104_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1474 moveto
+1395 1441.26 1395 1430.58 1395 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1398.5 1402 moveto
+1395 1392 lineto
+1391.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1398.5 1402 moveto
+1395 1392 lineto
+1391.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1398 1416.77 moveto 30 (256) alignedtext
+grestore
+% Stream_92->STREAMSTATUS_Stream_92_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 1992 moveto
+2019 1959.26 2019 1948.58 2019 1920.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 1920 moveto
+2019 1910 lineto
+2015.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 1920 moveto
+2019 1910 lineto
+2015.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 1934.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_node74_ln111_WrapperNode_output
+gsave
+0.13725 1 1 nodecolor
+newpath 4367 1909.5 moveto
+4073 1909.5 lineto
+4073 1830.5 lineto
+4367 1830.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4367 1909.5 moveto
+4073 1909.5 lineto
+4073 1830.5 lineto
+4367 1830.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1887.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1888.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4246 1887.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1865.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1865.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4295 1865.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 1843.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 1843.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4283 1843.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_node74_ln111_WrapperNode_output->Stream_78
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1830 moveto
+4220 1808.05 4220 1800.12 4220 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1782 moveto
+4220 1772 lineto
+4216.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1782 moveto
+4220 1772 lineto
+4216.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 1796.77 moveto 30 (128) alignedtext
+grestore
+% Stream_86
+gsave
+0 0 1 nodecolor
+newpath 733 854 moveto
+607 854 lineto
+607 804 lineto
+733 804 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 733 854 moveto
+607 854 lineto
+607 804 lineto
+733 804 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 615 839 moveto
+615 850 lineto
+626 850 lineto
+626 839 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 615 839 moveto
+615 850 lineto
+626 850 lineto
+626 839 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 615 839 moveto
+615 850 lineto
+626 850 lineto
+626 839 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+633 830.27 moveto 85 (Stream_86) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 615 832 moveto
+615 839 lineto
+626 839 lineto
+626 832 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 615 825 moveto
+615 832 lineto
+626 832 lineto
+626 825 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 615 818 moveto
+615 825 lineto
+626 825 lineto
+626 818 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 615 808 moveto
+615 818 lineto
+626 818 lineto
+626 808 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 615 808 moveto
+615 818 lineto
+626 818 lineto
+626 808 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 615 808 moveto
+615 818 lineto
+626 818 lineto
+626 808 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_ResCalcKernel_result_pcie->Stream_86
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 912 moveto
+620 888.21 620 879.83 620 860.25 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 860 moveto
+620 850 lineto
+616.5 860 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 860 moveto
+620 850 lineto
+616.5 860 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 878.77 moveto 30 (128) alignedtext
+grestore
+% cmd_read_dram_0
+gsave
+0 0 1 nodecolor
+newpath 2770 2343.5 moveto
+2526 2343.5 lineto
+2526 2254.5 lineto
+2770 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 2770 2343.5 moveto
+2526 2343.5 lineto
+2526 2254.5 lineto
+2770 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 2538 2310 moveto
+2538 2335 lineto
+2758 2335 lineto
+2758 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2538 2310 moveto
+2538 2335 lineto
+2758 2335 lineto
+2758 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2538 2310 moveto
+2538 2335 lineto
+2758 2335 lineto
+2758 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2575 2318.77 moveto 146 (cmd_read_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2575 2289.27 moveto 146 (cmd_read_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2539 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2594 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2648 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_read_dram_addrgen_cmd_read_dram_0->cmd_read_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2648 2402 moveto
+2648 2375.94 2648 2366.99 2648 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 2651.5 2345 moveto
+2648 2335 lineto
+2644.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2651.5 2345 moveto
+2648 2335 lineto
+2644.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2651 2368.77 moveto 20 (64) alignedtext
+grestore
+% addrgen_cmd_write_dram
+gsave
+0 0 1 nodecolor
+newpath 3089 2629.5 moveto
+2831 2629.5 lineto
+2831 2540.5 lineto
+3089 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3089 2629.5 moveto
+2831 2629.5 lineto
+2831 2540.5 lineto
+3089 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2857 2607.77 moveto 206 (addrgen_cmd_write_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+2844 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2923 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3004 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 2843 2548 moveto
+2843 2572 lineto
+3077 2572 lineto
+3077 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 2843 2548 moveto
+2843 2572 lineto
+3077 2572 lineto
+3077 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 2843 2548 moveto
+2843 2572 lineto
+3077 2572 lineto
+3077 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+2848 2556.27 moveto 224 (addrgen_cmd_write_dram_0) alignedtext
+grestore
+% addrgen_cmd_write_dram->STREAMSTATUS_addrgen_cmd_write_dram_addrgen_cmd_write_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2960 2548 moveto
+2960 2522.33 2960 2513.51 2960 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 2963.5 2492 moveto
+2960 2482 lineto
+2956.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2963.5 2492 moveto
+2960 2482 lineto
+2956.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2963 2506.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_node80_ln111_WrapperNode_output->dram_to_host
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 1598 moveto
+2019 1571.94 2019 1562.99 2019 1541.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 1541 moveto
+2019 1531 lineto
+2015.5 1541 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 1541 moveto
+2019 1531 lineto
+2015.5 1541 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 1564.77 moveto 20 (64) alignedtext
+grestore
+% Stream_29->STREAMSTATUS_Stream_29_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1083 1736 moveto
+1083 1714.05 1083 1706.12 1083 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1086.5 1688 moveto
+1083 1678 lineto
+1079.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1086.5 1688 moveto
+1083 1678 lineto
+1079.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1086 1702.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_Stream_66_output
+gsave
+0.13725 1 1 nodecolor
+newpath 1854 1677.5 moveto
+1560 1677.5 lineto
+1560 1598.5 lineto
+1854 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 1854 1677.5 moveto
+1560 1677.5 lineto
+1560 1598.5 lineto
+1854 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1733 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1762.5 1633.27 moveto 49 (34401) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1573 1611.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1722 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+1770 1611.27 moveto 34 (true) alignedtext
+grestore
+% STREAMSTATUS_Stream_66_output->Stream_112
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1598 moveto
+1707 1565.26 1707 1554.58 1707 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 1526 moveto
+1707 1516 lineto
+1703.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 1526 moveto
+1707 1516 lineto
+1703.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 1564.77 moveto 30 (256) alignedtext
+grestore
+% Stream_31
+gsave
+0 0 1 nodecolor
+newpath 771 1736 moveto
+798 1763 lineto
+744 1763 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 771 1736 moveto
+798 1763 lineto
+744 1763 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_addresses_from_dram_addresses_from_dram->Stream_31
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1830 moveto
+771 1808.05 771 1800.12 771 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 774.5 1782 moveto
+771 1772 lineto
+767.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 774.5 1782 moveto
+771 1772 lineto
+767.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+775 1796.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_118
+gsave
+0 0 1 nodecolor
+newpath 1374 854 moveto
+1240 854 lineto
+1240 804 lineto
+1374 804 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 1374 854 moveto
+1240 854 lineto
+1240 804 lineto
+1374 804 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1248 839 moveto
+1248 850 lineto
+1259 850 lineto
+1259 839 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1248 839 moveto
+1248 850 lineto
+1259 850 lineto
+1259 839 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 839 moveto
+1248 850 lineto
+1259 850 lineto
+1259 839 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+1265.5 830.27 moveto 95 (Stream_118) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 832 moveto
+1248 839 lineto
+1259 839 lineto
+1259 832 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 825 moveto
+1248 832 lineto
+1259 832 lineto
+1259 825 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 818 moveto
+1248 825 lineto
+1259 825 lineto
+1259 818 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 1248 808 moveto
+1248 818 lineto
+1259 818 lineto
+1259 808 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 1248 808 moveto
+1248 818 lineto
+1259 818 lineto
+1259 808 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 1248 808 moveto
+1248 818 lineto
+1259 818 lineto
+1259 808 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_ResCalcKernel_result_dram->Stream_118
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 912 moveto
+1253 888.21 1253 879.83 1253 860.25 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 860 moveto
+1253 850 lineto
+1249.5 860 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 860 moveto
+1253 850 lineto
+1249.5 860 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1256 878.77 moveto 30 (128) alignedtext
+grestore
+% Stream_34
+gsave
+0 0 1 nodecolor
+newpath 147 1736 moveto
+174 1763 lineto
+120 1763 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 147 1736 moveto
+174 1763 lineto
+120 1763 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_sizes_sizes->Stream_34
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1830 moveto
+147 1808.05 147 1800.12 147 1782.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 150.5 1782 moveto
+147 1772 lineto
+143.5 1782 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 150.5 1782 moveto
+147 1772 lineto
+143.5 1782 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+151 1796.77 moveto 40 (1536) alignedtext
+grestore
+% STREAMSTATUS_Stream_34_output
+gsave
+0 0 1 nodecolor
+newpath 294 1677.5 moveto
+0 1677.5 lineto
+0 1598.5 lineto
+294 1598.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 294 1677.5 moveto
+0 1677.5 lineto
+0 1598.5 lineto
+294 1598.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1655.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1656.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+173 1655.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1633.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1633.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+217 1633.27 moveto 20 (96) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+13 1611.27 moveto 97 (stalling now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+162 1611.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+208 1611.27 moveto 38 (false) alignedtext
+grestore
+% Stream_34->STREAMSTATUS_Stream_34_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1736 moveto
+147 1714.05 147 1706.12 147 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 150.5 1688 moveto
+147 1678 lineto
+143.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 150.5 1688 moveto
+147 1678 lineto
+143.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+150 1702.77 moveto 30 (256) alignedtext
+grestore
+% cmd_to_dram_0
+gsave
+0 0 1 nodecolor
+newpath 4647 2343.5 moveto
+4417 2343.5 lineto
+4417 2254.5 lineto
+4647 2254.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4647 2343.5 moveto
+4417 2343.5 lineto
+4417 2254.5 lineto
+4647 2254.5 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4429 2310 moveto
+4429 2335 lineto
+4635 2335 lineto
+4635 2310 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4429 2310 moveto
+4429 2335 lineto
+4635 2335 lineto
+4635 2310 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4429 2310 moveto
+4429 2335 lineto
+4635 2335 lineto
+4635 2310 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4469 2318.77 moveto 126 (cmd_to_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4469 2289.27 moveto 126 (cmd_to_dram_0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4430 2267.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4478 2267.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4525 2267.27 moveto 109 (Memory_Cmd) alignedtext
+grestore
+% Stream_63->STREAMSTATUS_Stream_63_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 2278 moveto
+1707 2245.26 1707 2234.58 1707 2206.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 2206 moveto
+1707 2196 lineto
+1703.5 2206 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 2206 moveto
+1707 2196 lineto
+1703.5 2206 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 2220.77 moveto 20 (64) alignedtext
+grestore
+% Stream_108->STREAMSTATUS_Stream_108_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1474 moveto
+771 1441.26 771 1430.58 771 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 774.5 1402 moveto
+771 1392 lineto
+767.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 774.5 1402 moveto
+771 1392 lineto
+767.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+774 1416.77 moveto 20 (64) alignedtext
+grestore
+% Stream_81->STREAMSTATUS_Stream_81_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2019 2281 moveto
+2019 2246.91 2019 2235.89 2019 2206.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 2022.5 2206 moveto
+2019 2196 lineto
+2015.5 2206 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2022.5 2206 moveto
+2019 2196 lineto
+2015.5 2206 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2022 2220.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_to_dram_addrgen_cmd_to_dram_0->cmd_to_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4532 2402 moveto
+4532 2375.94 4532 2366.99 4532 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 4535.5 2345 moveto
+4532 2335 lineto
+4528.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4535.5 2345 moveto
+4532 2335 lineto
+4528.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4535 2368.77 moveto 20 (64) alignedtext
+grestore
+% Stream_118->STREAMSTATUS_Stream_118_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 808 moveto
+1253 784.21 1253 775.83 1253 756.25 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 756 moveto
+1253 746 lineto
+1249.5 756 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 756 moveto
+1253 746 lineto
+1249.5 756 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1256 770.77 moveto 30 (128) alignedtext
+grestore
+% Stream_75
+gsave
+0 0 1 nodecolor
+newpath 4333 2324 moveto
+4207 2324 lineto
+4207 2274 lineto
+4333 2274 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 1 nodecolor
+newpath 4333 2324 moveto
+4207 2324 lineto
+4207 2274 lineto
+4333 2274 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4215 2309 moveto
+4215 2320 lineto
+4226 2320 lineto
+4226 2309 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4215 2309 moveto
+4215 2320 lineto
+4226 2320 lineto
+4226 2309 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 2309 moveto
+4215 2320 lineto
+4226 2320 lineto
+4226 2309 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4233 2300.27 moveto 85 (Stream_75) alignedtext
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 2302 moveto
+4215 2309 lineto
+4226 2309 lineto
+4226 2302 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 2295 moveto
+4215 2302 lineto
+4226 2302 lineto
+4226 2295 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 2288 moveto
+4215 2295 lineto
+4226 2295 lineto
+4226 2288 lineto
+closepath stroke
+0 0 1 nodecolor
+newpath 4215 2278 moveto
+4215 2288 lineto
+4226 2288 lineto
+4226 2278 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 4215 2278 moveto
+4215 2288 lineto
+4226 2288 lineto
+4226 2278 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 4215 2278 moveto
+4215 2288 lineto
+4226 2288 lineto
+4226 2278 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_host_to_dram_host_to_dram->Stream_75
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 2402 moveto
+4220 2369.26 4220 2358.58 4220 2330.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 2330 moveto
+4220 2320 lineto
+4216.5 2330 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 2330 moveto
+4220 2320 lineto
+4216.5 2330 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 2368.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_75_output
+gsave
+0.13725 1 1 nodecolor
+newpath 4367 2195.5 moveto
+4073 2195.5 lineto
+4073 2116.5 lineto
+4367 2116.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4367 2195.5 moveto
+4073 2195.5 lineto
+4073 2116.5 lineto
+4367 2116.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2173.77 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2174.23 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4246 2173.77 moveto 108 (StreamStatus) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2151.27 moveto 142 (words transferred) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2151.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4295 2151.27 moveto 10 (0) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4086 2129.27 moveto 89 (empty now) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4235 2129.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+4283 2129.27 moveto 34 (true) alignedtext
+grestore
+% node74_ln111_WrapperNode
+gsave
+0 0 1 nodecolor
+newpath 4220 2031 moveto
+4193 2004 lineto
+4247 2004 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 4220 2031 moveto
+4193 2004 lineto
+4247 2004 lineto
+closepath stroke
+grestore
+% STREAMSTATUS_Stream_75_output->node74_ln111_WrapperNode
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 2116 moveto
+4220 2081.91 4220 2070.89 4220 2041.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 2041 moveto
+4220 2031 lineto
+4216.5 2041 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 2041 moveto
+4220 2031 lineto
+4216.5 2041 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 2082.77 moveto 20 (64) alignedtext
+grestore
+% Stream_72->STREAMSTATUS_Stream_72_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 459 1474 moveto
+459 1441.26 459 1430.58 459 1402.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 462.5 1402 moveto
+459 1392 lineto
+455.5 1402 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 462.5 1402 moveto
+459 1392 lineto
+455.5 1402 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+462 1416.77 moveto 30 (128) alignedtext
+grestore
+% addrgen_cmd_cells_from_dram
+gsave
+0 0 1 nodecolor
+newpath 3422 2629.5 moveto
+3122 2629.5 lineto
+3122 2540.5 lineto
+3422 2540.5 lineto
+closepath fill
+1 setlinewidth
+solid
+filled
+0 0 0 nodecolor
+newpath 3422 2629.5 moveto
+3122 2629.5 lineto
+3122 2540.5 lineto
+3422 2540.5 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3148.5 2607.77 moveto 247 (addrgen_cmd_cells_from_dram) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3135 2585.27 moveto 36 (type) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3229 2585.73 moveto 5 (:) alignedtext
+0 0 0 nodecolor
+16 /sans-serif set_font
+3330.5 2585.27 moveto 70 (AddrGen) alignedtext
+0 0 1 nodecolor
+newpath 3134 2548 moveto
+3134 2572 lineto
+3410 2572 lineto
+3410 2548 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 1 nodecolor
+newpath 3134 2548 moveto
+3134 2572 lineto
+3410 2572 lineto
+3410 2548 lineto
+closepath stroke
+1 setlinewidth
+solid
+0 0 0 nodecolor
+newpath 3134 2548 moveto
+3134 2572 lineto
+3410 2572 lineto
+3410 2548 lineto
+closepath stroke
+0 0 0 nodecolor
+16 /sans-serif set_font
+3139.5 2556.27 moveto 265 (addrgen_cmd_cells_from_dram_0) alignedtext
+grestore
+% addrgen_cmd_cells_from_dram->STREAMSTATUS_addrgen_cmd_cells_from_dram_addrgen_cmd_cells_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3272 2548 moveto
+3272 2522.33 3272 2513.51 3272 2492.05 curveto
+stroke
+0 0 0 edgecolor
+newpath 3275.5 2492 moveto
+3272 2482 lineto
+3268.5 2492 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3275.5 2492 moveto
+3272 2482 lineto
+3268.5 2492 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+3275 2506.77 moveto 20 (64) alignedtext
+grestore
+% node74_ln111_WrapperNode->STREAMSTATUS_node74_ln111_WrapperNode_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1995 moveto
+4220 1960.91 4220 1949.89 4220 1920.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1920 moveto
+4220 1910 lineto
+4216.5 1920 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1920 moveto
+4220 1910 lineto
+4216.5 1920 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 1934.77 moveto 30 (128) alignedtext
+grestore
+% Stream_31->STREAMSTATUS_Stream_31_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 771 1736 moveto
+771 1714.05 771 1706.12 771 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 774.5 1688 moveto
+771 1678 lineto
+767.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 774.5 1688 moveto
+771 1678 lineto
+767.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+774 1702.77 moveto 20 (64) alignedtext
+grestore
+% STREAMSTATUS_Stream_34_output->Stream_96
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 147 1598 moveto
+147 1565.26 147 1554.58 147 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 150.5 1526 moveto
+147 1516 lineto
+143.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 150.5 1526 moveto
+147 1516 lineto
+143.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+150 1564.77 moveto 30 (256) alignedtext
+grestore
+% STREAMSTATUS_Stream_78_output->Stream_116
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 1598 moveto
+4220 1565.26 4220 1554.58 4220 1526.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 1526 moveto
+4220 1516 lineto
+4216.5 1526 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 1526 moveto
+4220 1516 lineto
+4216.5 1526 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4224 1564.77 moveto 40 (1536) alignedtext
+grestore
+% Stream_75->STREAMSTATUS_Stream_75_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4220 2278 moveto
+4220 2245.26 4220 2234.58 4220 2206.32 curveto
+stroke
+0 0 0 edgecolor
+newpath 4223.5 2206 moveto
+4220 2196 lineto
+4216.5 2206 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4223.5 2206 moveto
+4220 2196 lineto
+4216.5 2206 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+4223 2220.77 moveto 20 (64) alignedtext
+grestore
+% Stream_66->STREAMSTATUS_Stream_66_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1707 1736 moveto
+1707 1714.05 1707 1706.12 1707 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1710.5 1688 moveto
+1707 1678 lineto
+1703.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1710.5 1688 moveto
+1707 1678 lineto
+1703.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1710 1702.77 moveto 30 (256) alignedtext
+grestore
+% Stream_30->STREAMSTATUS_Stream_30_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1395 1736 moveto
+1395 1714.05 1395 1706.12 1395 1688.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1398.5 1688 moveto
+1395 1678 lineto
+1391.5 1688 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1398.5 1688 moveto
+1395 1678 lineto
+1391.5 1688 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1398 1702.77 moveto 30 (256) alignedtext
+grestore
+% Stream_86->STREAMSTATUS_Stream_86_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 620 808 moveto
+620 784.21 620 775.83 620 756.25 curveto
+stroke
+0 0 0 edgecolor
+newpath 623.5 756 moveto
+620 746 lineto
+616.5 756 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 623.5 756 moveto
+620 746 lineto
+616.5 756 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+623 770.77 moveto 30 (128) alignedtext
+grestore
+% STREAMSTATUS_addrgen_cmd_addresses_from_dram_addrgen_cmd_addresses_from_dram_0->cmd_addresses_from_dram_0
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2331 2402 moveto
+2331 2375.94 2331 2366.99 2331 2345.21 curveto
+stroke
+0 0 0 edgecolor
+newpath 2334.5 2345 moveto
+2331 2335 lineto
+2327.5 2345 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2334.5 2345 moveto
+2331 2335 lineto
+2327.5 2345 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+2334 2368.77 moveto 20 (64) alignedtext
+grestore
+% Stream_43->STREAMSTATUS_Stream_43_output
+gsave
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1253 572 moveto
+1253 550.05 1253 542.12 1253 524.33 curveto
+stroke
+0 0 0 edgecolor
+newpath 1256.5 524 moveto
+1253 514 lineto
+1249.5 524 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1256.5 524 moveto
+1253 514 lineto
+1249.5 524 lineto
+closepath stroke
+0 0 0 edgecolor
+16 /sans-serif set_font
+1257 538.77 moveto 40 (1536) alignedtext
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+%%Pages: 1
+%%BoundingBox: 36 36 4723 2700
+end
+restore
+%%EOF
