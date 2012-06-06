@@ -1,5 +1,7 @@
 \documentclass[11pt]{report}
 \usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
 \usepackage{amsfonts}
 \usepackage{tabularx}
 \usepackage{tikz}
@@ -493,8 +495,8 @@ The complete iteration step in a sequential implementation of Airfoil is shown i
 the number of edges and the number of boundary edges respectively.
 
 A run of the sequential version in Listing \ref{lst:AirfoilIteration} on a mesh with 721801 nodes, 1438600 edges, 2800 boundary edges and 720000 cells
-on a machine with an Intel Core i7-2600 CPU at 3.4 GHz takes about 115.6 seconds to complete 1000 iterations.
-The time spent in each kernel is presented in table \ref{tab:Airfoil_times}. It is evident that the computation is dominated by the res\_calc and adt\_calc
+on a machine with an Intel Core i7-2600 CPU at 3.4 GHz takes about 115.6 seconds to complete 2000 iterations.
+The time spent in each kernel is presented in table \ref{tab:Airfoil_timesCPU}. It is evident that the computation is dominated by the res\_calc and adt\_calc
 kernels.
 In this project we will be concentrating on accelerating the res\_calc kernel because it is the most computationally intensive kernel and because it has the most
 complex data access patterns that make it the interesting case to study. Finding a way to accelerate res\_calc would pave the way for accelerating any similar kernel.
@@ -510,7 +512,7 @@ complex data access patterns that make it the interesting case to study. Finding
     update & 8.44  & 7.30\\ \hline
   \end{tabular}
   \caption{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.}
-  \label{tab:Airfoil_times}
+  \label{tab:Airfoil_timesCPU}
 \end{table}
 
 \begin{listing}[H]
@@ -995,7 +997,7 @@ without complex memory access patterns and relying on host-side preprocessing to
 the optimal data layout. We are focused on maximising DRAM bandwidth utilisation.}
 \end{itemize}
 
-\chapter{Design}
+\chapter{Design and Modelling}
 
 In this section we discuss the design of the hardware accelerated version of the res\_calc kernel
 from Airfoil. We present the architecture for the FPGA-based accelerator and develop a formal performance
@@ -1397,7 +1399,7 @@ are shown in merged blocks for brevity.}
 \end{tikzpicture}
 \caption{Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme.
 Note that both micro-partitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only
-been written out together with the second micro-partition after both micro-partitions ($\mu$partitions) have been processed. The red boxes
+be written out together with the second micro-partition after both micro-partitions ($\mu$partitions) have been processed. The red boxes
 represent the progress of a single (macro)partition through the accelerator phases.}
 \label{fig:partPipeline}
 \end{figure}
@@ -1610,7 +1612,7 @@ the edge data depends on the number of elements that are in a partition. A block
 of width $\lceil log_2(d) \rceil$ bits. The depth of the block RAMs in our case is the number of cells/nodes in a partition
 $C_{pp}$ (typically, the number of nodes and cells is roughly equal), 
 therefore the width of each address is $\lceil log_2(C_{pp})\rceil$ and the width of the data for each edge is
-$\overline{E_{in}} = 4 \times \lceil log_2(\overline{C_{pp}})\rceil$. Therefore the amount of data we are transferring
+$\overline{E_{in}} = 4 \times \lceil log_2(C_{pp})\rceil$. Therefore the amount of data we are transferring
 from DRAM will be $D^{in}_{DRAM} = E_{\mu p} \times \overline{E_{in}} + C_{\mu p} \times \overline{C_{in}} + N_{\mu p} \times \overline{x}$,
 while the amount of halo data transfered from PCIe will be $D^{in}_{PCIe} = C^h_{\mu p} \times \overline{C_{in}} + N^h_{\mu p} \times \overline{x}$.
 
@@ -1618,17 +1620,129 @@ As before, we calculate the times to transfer the data from DRAM $t_{DRAM} = \df
 and PCIe $t_{PCIe} = \dfrac{D^{in}_{PCIe}}{B_P}$.
 
 This time, the number of cycles taken to consume the data by the kernel will be dominated by the number of edges, since there are about
-twice the number of edges on average than cells or nodes. We assume that we consume/process one edge per cycle. The minimum time taken by
-the FPGA to consume all edges in a micro-partition in phase 2 will then be $t_{FPGA} = \dfrac{E_{\mu p}}{f}$. Again, the total
+twice the number of edges on average than cells or nodes. The number of edges we process per cycle is the number of 
+arithmetic pipelines we have $n_p$. The minimum time taken by
+the FPGA to consume all edges in a micro-partition in phase 2 will then be $t_{FPGA} = \dfrac{E_{\mu p}}{f \times n_p}$. Again, the total
 runtime for this phase will be dominated by the maximum of the three times calculated above, that is $t_2 = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$.
 \subsection{Phase 3}
 The third phase is similar to the second one, except that we are now writing back the first micro-partition and processing the second one.
-The numbers remain the same for $t_{DRAM}$, $t_{PCIe}$ and $t_{FPGA}$. $t_3 = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$.
+The numbers remain the same for $t_{DRAM}$, $t_{PCIe}$ and $t_{FPGA}$. $t_3 = max(t_{DRAM}, t_{PCIe}, t_{FPGA})$. The total time to process
+one iteration of the whole mesh is therefore: $t_{tot} = n\times(t_1 + t_2 + t_3)$. The time to execute $i$ iterations then becomes
+$t^i_{tot} = i \times n \times (t_1 + t_2 + t_3)$.
+
+\subsection{Design space exploration}
+Having the above model, we can plug in values for existing test meshes and architecture options to explore the effects that each one will have
+on the performance. This way we can identify bottlenecks in performance and optimise the architecture accordingly.
+Substituting values for our test mesh of 721801 nodes, 720000 cells and 1438600 edges and $2^13=8192$ cells/nodes per partition for an architecture
+with one arithmetic pipeline running at $f = 240$MHz we get
+values for $t_1 = 1.71\times 10^{-5}s, t_2 = 3.44\times 10^{-5}s, t_3 =  3.44\times 10^{-5}s$ for a total runtime $t_{tot} = 7.48\times 10^{-3}s$.
+Extrapolating to 2000 iterations, we get $t^{2000}_{tot} = 14.96s$. This estimated runtime beats the time of 53.99 seconds
+for res\_calc shown in table \ref{tab:Airfoil_timesCPU}, achieving a speedup of $\times 3.6$. However, it is more interesting to compare the runtime to an accelerated version.
+One such implementation, developed at the Software Performance Optimisation group at Imperial College uses the NVIDIA Tesla M2050 accelerator \cite{TeslaM2050}
+programmed using the OpenCL framework \cite{OpenCL}. It uses the large number of cores present on the card to launch thousands of threads in parallel, thus
+greatly accelerating computation.
+The times for the various Airfoil kernels on the same test mesh are shown in table \ref{tab:Airfoil_timesCPU}:
+\begin{table} [H]
+  \begin{tabular}{| c | c | c |}
+    \hline                        
+    Kernel Name & Time spent (seconds) & Percentage of total time (\%) \\ \hline \hline
+    save\_soln & 0.4593 & 4.75 \\ \hline
+    adt\_calc & 1.1310 & 11.69\\ \hline
+    res\_calc & 6.5122 & 67.34\\ \hline
+    bres\_calc & 0.0640 & 0.66 \\ \hline
+    update & 1.5042  & 15.55\\ \hline
+  \end{tabular}
+  \caption{Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. 
+The total run time is 9.67 seconds.}
+  \label{tab:Airfoil_timesCPU}
+\end{table}
+Notice how the execution time has improved in contrast to the single-threaded CPU variant and how res\_calc now dominates the execution time.
+The time we should be planning to beat is 6.51 seconds. In the graphs following, the times are reported in seconds.
+
+\subsubsection{Number of arithmetic pipelines}
+If we look at the numbers we computed for the above mesh we notice that for phases 2 and 3 of the accelerator, the time spent
+computing the edges ($t_{FPGA}$) is $3.44\times 10^{-5}s$, dominating the execution of that phase, while the time for DRAM transfer is
+$t_{DRAM} = 4.43\times 10^{-6}s$. This is a strong indication that the edge processing is the bottleneck in performance. Recall that
+$t_{FPGA} = \dfrac{E_{\mu p}}{f \times n_p}$. $E_{\mu p}$ is a characteristic of the mesh and not subject to variation. The clock frequency
+$f$ and the number of arithmetic pipelines $n_p$ we can vary. Lets start with $n_p$. Increasing the number of pipelines we get a considerable
+boost in performance, as shown in figure \ref{fig:Pipelines}.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/pipelines.pdf}
+  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the number of arithmetic pipelines in the architecture. The clock frequency
+is set to 240MHz.
+\label{fig:Pipelines}}
+\end{figure}
+Notice how after 8 pipelines we do not get a performance boost anymore because the bottleneck now shifts to the memory transfers, DRAM
+in particular. Using just 4 pipelines our architecture is estimated to beat the Tesla performance, which is an impressive result, considering
+the hundreds of concurrent cores running on the Tesla.
+
+\subsubsection{Clock frequency}
+Next we explore the effects of varying the clock frequency of the chip. Realistically, the frequencies achievable on the hardware range
+from 120MHz to 300MHz. The results of increasing the frequency are presented in figure \ref{fig:frequencies}. While frequencies above 300MHz
+are not in general achievable, we present the increase it would take to catch up to the Tesla implementation. As we can see, raising the clock
+frequency is clearly a worse choice than increasing the number of pipelines. Note also that raising the clock frequency implies more energy
+consumption leading to more heat dissipation, further reducing the temptation to raise it.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/frequencies.pdf}
+  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA using one arithmetic pipeline.
+\label{fig:frequencies}}
+\end{figure}
+
+\subsubsection{Clock frequency and arithmetic pipelines}
+It is interesting to see the effects of varying the frequency $f$ as well as the number of arithmetic pipelines $n_p$. The results of such an experimentation
+are shown in figures \ref{fig:frequencies_pipelines} and \ref{fig:frequencies_pipelines3D}. 
+\begin{figure}[H]
+  \centering
+    \includegraphics[angle=-90, width=0.8\textwidth]{graphs/frequencies_pipelines.pdf}
+  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines.
+\label{fig:frequencies_pipelines}}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=0.8\textwidth]{graphs/freq_pipes3D.pdf}
+  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines in a
+  3-dimensional plot.
+\label{fig:frequencies_pipelines3D}}
+\end{figure}
+
+We see that by using 6 or 7 pipelines and clocking the design at 300MHz, we can beat the Tesla implementation by about 66\%, offering a total of
+$\times 13.8$ speedup over the serial CPU version. These numbers validate the architecture we designed by providing some estimates about the
+potential speedup. Having performed this performance analysis, we can now move on to implementing the architecture in order to discover potential
+issues that might prevent us from achieving the maximum performance that we predict with this model.
+
+\subsubsection{Partition size}
+Once we remove the arithmetic pipeline bottleneck by adding more pipelines we can experiment with partition sizes to see the effects. varying the 
+number of cells per partition $C_{pp}$ gives us the data shown in figure \ref{fig:partition_sizes}. Note, also the ratio of non-halo to halo transfers
+in figure \ref{fig:partition_ratios}.
+
+\begin{figure}[h]
+\centering
+    \includegraphics[width=1\textwidth]{graphs/partition_sizes.pdf}
+  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the number of cells per partition. Note that the horizontal axis
+  is on a log-2 scale. The design has 8 pipelines and runs at 240MHz.}
+  \label{fig:partition_sizes}
+\end{figure}
+ \begin{figure}[h]
+\centering
+\includegraphics[width=0.9\textwidth]{graphs/partition_ratios.pdf}
+  \caption{Plot of estimated DRAM to PCIe transfer time ratio ($\dfrac{t_{DRAM}}{t_{PCIe}}$) against the number of cells per partition. Note that the horizontal axis
+  is on a log-2 scale.The design has 8 pipelines and runs at 240MHz.}
+  \label{fig:partition_ratios}
+\end{figure}
+
+We notice that for values of $C_{pp}$ less than 2048 the PCIe transfer time dominates execution time. For values of $C_{pp} > 8192$ we can see
+that the edge computations become the bottleneck once again. Notice how steeply the performance degrades when PCIe transfers dominate.
+This result is to be expected since the size of the halo region is proportional
+to the square root of the partition size, in other words $C^h_{pp} \propto \sqrt{C_{pp}}$.
 
 \chapter{Implementation}
 
 
-**************************UNDER CONSTRUCTION!!!!!*******************************************
+**************************UNDER CONSTRUCTION, OUT OF DATE INFORMATION!!!!!*******************************************
 
 In this section we present our design, implementation and evaluation plan and provide the details
 of each stage.
@@ -1747,6 +1861,16 @@ Hartstein, A. Puzak, Thomas R.\\
 \emph{The Optimum Pipeline Depth for a Microprocessor}\\
 ISCA '02 Proceedings of the 29th annual international symposium on Computer architecture
 Pages 7 - 13.
+
+\bibitem{OpenCL}
+Khronos Group\\
+\emph{The OpenCL Specification v1.2}\\
+www.khronos.org/registry/cl/specs/opencl-1.2.pdf
+
+\bibitem{TeslaM2050}
+NVIDIA\\
+\emph{Tesla M2050 / M2070 GPU Module Specification Document}\\
+http://www.nvidia.com/docs/IO/43395/BD-05238-001\_v03.pdf
 
 \end{thebibliography}
 \chapter{Appendix}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  5 JUN 2012 18:35
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  6 JUN 2012 16:04
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -51,6 +51,25 @@ File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 \Gin@req@height=\dimen103
 \Gin@req@width=\dimen104
 )
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen105
+\captionmargin@=\dimen106
+\captionwidth=\dimen107
+\caption@indent=\dimen108
+\caption@parindent=\dimen109
+\caption@hangindent=\dimen110
+)
+\c@ContinuedFloat=\count89
+)
+(/usr/share/texmf-texlive/tex/latex/caption/subcaption.sty
+Package: subcaption 2008/08/31 v1.0b Adding subcaptions (AR)
+\c@subfigure=\count90
+\c@subtable=\count91
+)
 (/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks15
@@ -64,18 +83,18 @@ Package: tabularx 1999/01/07 v2.07 `tabularx' package (DPC)
 
 (/usr/share/texmf-texlive/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
-\col@sep=\dimen105
-\extrarowheight=\dimen106
+\col@sep=\dimen111
+\extrarowheight=\dimen112
 \NC@list=\toks16
 \extratabsurround=\skip43
 \backup@length=\skip44
 )
-\TX@col@width=\dimen107
-\TX@old@table=\dimen108
-\TX@old@col=\dimen109
-\TX@target=\dimen110
-\TX@delta=\dimen111
-\TX@cols=\count89
+\TX@col@width=\dimen113
+\TX@old@table=\dimen114
+\TX@old@col=\dimen115
+\TX@target=\dimen116
+\TX@delta=\dimen117
+\TX@cols=\count92
 \TX@ftn=\toks17
 )
 (/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
@@ -99,18 +118,18 @@ Package: pgfsys 2008/02/07 v2.00 (rcs-revision 1.31)
 \pgfkeys@pathtoks=\toks19
 \pgfkeys@temptoks=\toks20
 )
-\pgf@x=\dimen112
-\pgf@y=\dimen113
-\pgf@xa=\dimen114
-\pgf@ya=\dimen115
-\pgf@xb=\dimen116
-\pgf@yb=\dimen117
-\pgf@xc=\dimen118
-\pgf@yc=\dimen119
-\c@pgf@counta=\count90
-\c@pgf@countb=\count91
-\c@pgf@countc=\count92
-\c@pgf@countd=\count93
+\pgf@x=\dimen118
+\pgf@y=\dimen119
+\pgf@xa=\dimen120
+\pgf@ya=\dimen121
+\pgf@xb=\dimen122
+\pgf@yb=\dimen123
+\pgf@xc=\dimen124
+\pgf@yc=\dimen125
+\c@pgf@counta=\count93
+\c@pgf@countb=\count94
+\c@pgf@countc=\count95
+\c@pgf@countd=\count96
 
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2008/01/13  (rcs-revision 1.6)
@@ -125,8 +144,8 @@ File: pgfsys-common-pdf.def 2007/12/17  (rcs-revision 1.8)
 )))
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2008/01/23  (rcs-revision 1.6)
-\pgfsyssoftpath@smallbuffer@items=\count94
-\pgfsyssoftpath@bigbuffer@items=\count95
+\pgfsyssoftpath@smallbuffer@items=\count97
+\pgfsyssoftpath@bigbuffer@items=\count98
 )
 (/usr/share/texmf/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2006/10/16  (rcs-revision 1.4)
@@ -158,10 +177,10 @@ Package: pgfcore 2008/01/15 v2.00 (rcs-revision 1.6)
 )
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@stack=\toks21
-\c@pgfmath@parsecounta=\count96
-\c@pgfmath@parsecountb=\count97
-\c@pgfmath@parsecountc=\count98
-\pgfmath@parsex=\dimen120
+\c@pgfmath@parsecounta=\count99
+\c@pgfmath@parsecountb=\count100
+\c@pgfmath@parsecountc=\count101
+\pgfmath@parsex=\dimen126
 )
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathoperations.code.tex
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathtrig.code.tex)
@@ -169,47 +188,47 @@ Package: pgfcore 2008/01/15 v2.00 (rcs-revision 1.6)
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathbase.code.tex)))
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2008/02/03  (rcs-revision 1.13)
-\pgf@picminx=\dimen121
-\pgf@picmaxx=\dimen122
-\pgf@picminy=\dimen123
-\pgf@picmaxy=\dimen124
-\pgf@pathminx=\dimen125
-\pgf@pathmaxx=\dimen126
-\pgf@pathminy=\dimen127
-\pgf@pathmaxy=\dimen128
-\pgf@xx=\dimen129
-\pgf@xy=\dimen130
-\pgf@yx=\dimen131
-\pgf@yy=\dimen132
-\pgf@zx=\dimen133
-\pgf@zy=\dimen134
+\pgf@picminx=\dimen127
+\pgf@picmaxx=\dimen128
+\pgf@picminy=\dimen129
+\pgf@picmaxy=\dimen130
+\pgf@pathminx=\dimen131
+\pgf@pathmaxx=\dimen132
+\pgf@pathminy=\dimen133
+\pgf@pathmaxy=\dimen134
+\pgf@xx=\dimen135
+\pgf@xy=\dimen136
+\pgf@yx=\dimen137
+\pgf@yy=\dimen138
+\pgf@zx=\dimen139
+\pgf@zy=\dimen140
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2008/02/13  (rcs-revision 1.14)
-\pgf@path@lastx=\dimen135
-\pgf@path@lasty=\dimen136
+\pgf@path@lastx=\dimen141
+\pgf@path@lasty=\dimen142
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2008/01/23  (rcs-revision 1.11)
-\pgf@shorten@end@additional=\dimen137
-\pgf@shorten@start@additional=\dimen138
+\pgf@shorten@end@additional=\dimen143
+\pgf@shorten@start@additional=\dimen144
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2008/01/15  (rcs-revision 1.26)
 \pgfpic=\box27
 \pgf@hbox=\box28
 \pgf@layerbox@main=\box29
-\pgf@picture@serial@count=\count99
+\pgf@picture@serial@count=\count102
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2007/12/12  (rcs-revision 1.8)
-\pgflinewidth=\dimen139
+\pgflinewidth=\dimen145
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2008/02/04  (rcs-revision 1.10)
-\pgf@pt@x=\dimen140
-\pgf@pt@y=\dimen141
-\pgf@pt@temp=\dimen142
+\pgf@pt@x=\dimen146
+\pgf@pt@y=\dimen147
+\pgf@pt@temp=\dimen148
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2006/10/11  (rcs-revision 1.2)
@@ -225,8 +244,8 @@ File: pgfcorearrows.code.tex 2007/06/07  (rcs-revision 1.8)
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2007/12/10  (rcs-revision 1.9)
-\pgf@max=\dimen143
-\pgf@sys@shading@range@num=\count100
+\pgf@max=\dimen149
+\pgf@sys@shading@range@num=\count103
 )
 (/usr/share/texmf/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2008/01/15  (rcs-revision 1.1)
@@ -252,8 +271,8 @@ File: pgfmoduleplot.code.tex 2008/01/15  (rcs-revision 1.1)
 )
 (/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2007/07/03 v2.00 (rcs-revision 1.7)
-\pgf@nodesepstart=\dimen144
-\pgf@nodesepend=\dimen145
+\pgf@nodesepstart=\dimen150
+\pgf@nodesepend=\dimen151
 )
 (/usr/share/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2007/07/23 v2.00 (rcs-revision 1.1)
@@ -261,37 +280,37 @@ Package: pgfcomp-version-1-18 2007/07/23 v2.00 (rcs-revision 1.1)
 (/usr/share/texmf/tex/latex/pgf/utilities/pgffor.sty
 (/usr/share/texmf/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2007/11/07 v2.00 (rcs-revision 1.8)
-\pgffor@iter=\dimen146
-\pgffor@skip=\dimen147
+\pgffor@iter=\dimen152
+\pgffor@skip=\dimen153
 ))
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2008/02/13 v2.00 (rcs-revision 1.27)
 
 (/usr/share/texmf/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
 File: pgflibraryplothandlers.code.tex 2007/03/09 v2.00 (rcs-revision 1.9)
-\pgf@plot@mark@count=\count101
-\pgfplotmarksize=\dimen148
+\pgf@plot@mark@count=\count104
+\pgfplotmarksize=\dimen154
 )
-\tikz@lastx=\dimen149
-\tikz@lasty=\dimen150
-\tikz@lastxsaved=\dimen151
-\tikz@lastysaved=\dimen152
-\tikzleveldistance=\dimen153
-\tikzsiblingdistance=\dimen154
+\tikz@lastx=\dimen155
+\tikz@lasty=\dimen156
+\tikz@lastxsaved=\dimen157
+\tikz@lastysaved=\dimen158
+\tikzleveldistance=\dimen159
+\tikzsiblingdistance=\dimen160
 \tikz@figbox=\box32
 \tikz@tempbox=\box33
-\tikztreelevel=\count102
-\tikznumberofchildren=\count103
-\tikznumberofcurrentchild=\count104
-\tikz@fig@count=\count105
+\tikztreelevel=\count105
+\tikznumberofchildren=\count106
+\tikznumberofcurrentchild=\count107
+\tikz@fig@count=\count108
 
 (/usr/share/texmf/tex/generic/pgf/modules/pgfmodulematrix.code.tex
 File: pgfmodulematrix.code.tex 2008/01/15  (rcs-revision 1.1)
-\pgfmatrixcurrentrow=\count106
-\pgfmatrixcurrentcolumn=\count107
-\pgf@matrix@numberofcolumns=\count108
+\pgfmatrixcurrentrow=\count109
+\pgfmatrixcurrentcolumn=\count110
+\pgf@matrix@numberofcolumns=\count111
 )
-\tikz@expandcount=\count109
+\tikz@expandcount=\count112
 
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
@@ -369,14 +388,14 @@ ations.pathmorphing.code.tex
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarydecor
 ations.code.tex
 (/usr/share/texmf/tex/generic/pgf/modules/pgfmoduledecorations.code.tex
-\pgfdecoratedcompleteddistance=\dimen155
-\pgfdecoratedremainingdistance=\dimen156
-\pgfdecoratedinputsegmentcompleteddistance=\dimen157
-\pgfdecoratedinputsegmentremainingdistance=\dimen158
-\pgf@decorate@distancetomove=\dimen159
-\pgf@decorate@repeatstate=\count110
-\pgfdecorationsegmentamplitude=\dimen160
-\pgfdecorationsegmentlength=\dimen161
+\pgfdecoratedcompleteddistance=\dimen161
+\pgfdecoratedremainingdistance=\dimen162
+\pgfdecoratedinputsegmentcompleteddistance=\dimen163
+\pgfdecoratedinputsegmentremainingdistance=\dimen164
+\pgf@decorate@distancetomove=\dimen165
+\pgf@decorate@repeatstate=\count113
+\pgfdecorationsegmentamplitude=\dimen166
+\pgfdecorationsegmentlength=\dimen167
 ))
 (/usr/share/texmf/tex/generic/pgf/libraries/pgflibrarydecorations.pathmorphing.
 code.tex))
@@ -395,15 +414,15 @@ Package: fancyvrb 2008/02/07
 
 Style option: `fancyvrb' v2.7a, with DG/SPQR fixes, and firstline=lastline fix 
 <2008/02/07> (tvz)
-\FV@CodeLineNo=\count111
+\FV@CodeLineNo=\count114
 \FV@InFile=\read1
 \FV@TabBox=\box38
-\c@FancyVerbLine=\count112
-\FV@StepNumber=\count113
+\c@FancyVerbLine=\count115
+\FV@StepNumber=\count116
 \FV@OutFile=\write4
 ) (/usr/share/texmf-texlive/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count114
+\c@float@type=\count117
 \float@exts=\toks23
 \float@box=\box39
 \@float@everytoks=\toks24
@@ -414,15 +433,15 @@ Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 (/usr/share/texmf-texlive/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count115
-\calc@Bcount=\count116
-\calc@Adimen=\dimen162
-\calc@Bdimen=\dimen163
+\calc@Acount=\count118
+\calc@Bcount=\count119
+\calc@Adimen=\dimen168
+\calc@Bdimen=\dimen169
 \calc@Askip=\skip45
 \calc@Bskip=\skip46
 LaTeX Info: Redefining \setlength on input line 76.
 LaTeX Info: Redefining \addtolength on input line 77.
-\calc@Ccount=\count117
+\calc@Ccount=\count120
 \calc@Cskip=\skip47
 )
 (/usr/share/texmf-texlive/tex/latex/ifplatform/ifplatform.sty
@@ -459,7 +478,7 @@ runsystem(rm -- "report.w18")...executed.
 \minted@bgbox=\box41
 \minted@code=\write5
 \@float@every@listing=\toks25
-\c@listing=\count118
+\c@listing=\count121
 )
 runsystem(which pygmentize && touch report.aex)...executed.
 
@@ -477,131 +496,137 @@ Package: amstext 2000/06/29 v2.01
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks26
-\ex@=\dimen164
+\ex@=\dimen170
 ))
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
-\pmbraise@=\dimen165
+\pmbraise@=\dimen171
 )
 (/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count119
+\inf@bad=\count122
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count120
-\leftroot@=\count121
+\uproot@=\count123
+\leftroot@=\count124
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count122
-\DOTSCASE@=\count123
+\classnum@=\count125
+\DOTSCASE@=\count126
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
 \Mathstrutbox@=\box42
 \strutbox@=\box43
-\big@size=\dimen166
+\big@size=\dimen172
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count124
-\c@MaxMatrixCols=\count125
+\macc@depth=\count127
+\c@MaxMatrixCols=\count128
 \dotsspace@=\muskip10
-\c@parentequation=\count126
-\dspbrk@lvl=\count127
+\c@parentequation=\count129
+\dspbrk@lvl=\count130
 \tag@help=\toks27
-\row@=\count128
-\column@=\count129
-\maxfields@=\count130
+\row@=\count131
+\column@=\count132
+\maxfields@=\count133
 \andhelp@=\toks28
-\eqnshift@=\dimen167
-\alignsep@=\dimen168
-\tagshift@=\dimen169
-\tagwidth@=\dimen170
-\totwidth@=\dimen171
-\lineht@=\dimen172
+\eqnshift@=\dimen173
+\alignsep@=\dimen174
+\tagshift@=\dimen175
+\tagwidth@=\dimen176
+\totwidth@=\dimen177
+\lineht@=\dimen178
 \@envbody=\toks29
 \multlinegap=\skip49
 \multlinetaggap=\skip50
 \mathdisplay@stack=\toks30
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
-) (./report.aux)
+) (./report.aux
+
+LaTeX Warning: Label `tab:Airfoil_timesCPU' multiply defined.
+
+)
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-
-(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+ (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count131
-\scratchdimen=\dimen173
+\scratchcounter=\count134
+\scratchdimen=\dimen179
 \scratchbox=\box44
-\nofMPsegments=\count132
-\nofMParguments=\count133
+\nofMPsegments=\count135
+\nofMParguments=\count136
 \everyMPshowfont=\toks31
-\MPscratchCnt=\count134
-\MPscratchDim=\dimen174
-\MPnumerator=\count135
+\MPscratchCnt=\count137
+\MPscratchDim=\dimen180
+\MPnumerator=\count138
 \everyMPtoPDFconversion=\toks32
 )
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
 runsystem(pygmentize -S default -f latex > report.pyg)...executed.
 
  (./report.pyg)
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 42.
+(Font)              size <5> substituted on input line 44.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 79.
+(Font)              size <5> substituted on input line 81.
 
-LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 86.
+LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 88.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.76653> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.54753> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 88.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 86.
+LaTeX Font Info:    Try loading font information for U+msa on input line 88.
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 86.
+LaTeX Font Info:    Try loading font information for U+msb on input line 88.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -655,14 +680,14 @@ File: pics/graph_simple.png Graphic file (type png)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6 <./pics/airfoil_mesh.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 275.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 277.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 275.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 277.
  [7 <./pics/graph_simple.png (PNG copy)>] [8]
 Chapter 2.
 [9
@@ -675,20 +700,20 @@ File: pics/mesh_small.png Graphic file (type png)
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
-Underfull \hbox (badness 5475) in paragraph at lines 341--341
-[]\OT1/cmr/m/n/10.95 Figure 2.2: An ex-am-ple mesh with co-or-di-nate data as-s
-o-ci-ated
+Underfull \hbox (badness 5475) in paragraph at lines 343--343
+[]\OT1/cmr/m/n/10.95 Figure 2.2: |An ex-am-ple mesh with co-or-di-nate data as-
+so-ci-ated
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 341--341
+Underfull \hbox (badness 1521) in paragraph at lines 343--343
 \OT1/cmr/m/n/10.95 with each node ($(\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95
  )$ from $\OML/cmm/m/it/10.95 node[]id []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.9
 5 x; y\OT1/cmr/m/n/10.95 )$). The co-or-di-nate data
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 341--341
+Underfull \hbox (badness 3009) in paragraph at lines 343--343
 \OT1/cmr/m/n/10.95 will be rep-re-sented as an ar-ray of float-ing point num-be
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
@@ -698,17 +723,17 @@ rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
-Underfull \hbox (badness 2608) in paragraph at lines 396--396
+Underfull \hbox (badness 2608) in paragraph at lines 398--398
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 396--396
+Underfull \hbox (badness 1057) in paragraph at lines 398--398
 \OT1/cmr/m/n/10.95 bound-ary of the
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 396--397
+Overfull \hbox (30.0pt too wide) in paragraph at lines 398--399
  [] 
  []
 
@@ -754,16 +779,16 @@ runsystem(rm report.out.pyg)...executed.
 runsystem(rm report.pyg)...executed.
 
  [17]
-Overfull \vbox (14.73744pt too high) has occurred while \output is active []
+Overfull \vbox (18.60411pt too high) has occurred while \output is active []
 
 
 [18]
-Overfull \hbox (0.72623pt too wide) in paragraph at lines 565--565
+Overfull \hbox (0.72623pt too wide) in paragraph at lines 567--567
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
 
 
-Overfull \hbox (4.29962pt too wide) in paragraph at lines 566--573
+Overfull \hbox (4.29962pt too wide) in paragraph at lines 568--575
 \OT1/cmr/m/n/10.95 pro-vides a Java-compatible object-oriented API to spec-ify 
 the dataflow graph.
  []
@@ -783,12 +808,13 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- <pics/MovAvgKernel.png, id=108, 324.46219pt x 350.05782pt>
+ [21
+
+]
+<pics/MovAvgKernel.png, id=111, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
-<use pics/MovAvgKernel.png> [21
-
-] [22 <./pics/MovAvgKernel.png (PNG copy)>]
+<use pics/MovAvgKernel.png> [22 <./pics/MovAvgKernel.png (PNG copy)>]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l java -f latex -F tokenmerge            -P linenos -P "v
@@ -824,11 +850,11 @@ runsystem(rm report.out.pyg)...executed.
 runsystem(rm report.pyg)...executed.
 
  [24]
-Overfull \vbox (1.13744pt too high) has occurred while \output is active []
+Overfull \vbox (5.0041pt too high) has occurred while \output is active []
 
 
 [25] [26] [27] [28]
-Overfull \hbox (11.17102pt too wide) in paragraph at lines 887--889
+Overfull \hbox (11.17102pt too wide) in paragraph at lines 889--891
 [][] 
  []
 
@@ -837,16 +863,16 @@ Chapter 3.
 [33
 
 ] [34] [35]
-Overfull \hbox (96.44386pt too wide) in paragraph at lines 1173--1176
+Overfull \hbox (96.44386pt too wide) in paragraph at lines 1175--1178
  [] 
  []
 
 [36]
-Overfull \vbox (91.65253pt too high) has occurred while \output is active []
+Overfull \vbox (91.65251pt too high) has occurred while \output is active []
 
 
 [37] [38]
-Overfull \hbox (78.75056pt too wide) in paragraph at lines 1297--1298
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1299--1300
  [] 
  []
 
@@ -868,45 +894,67 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (62.26428pt too wide) in paragraph at lines 1397--1401
+Overfull \hbox (62.26428pt too wide) in paragraph at lines 1399--1403
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 57.18346pt on input line 1403.
+LaTeX Warning: Float too large for page by 54.44595pt on input line 1405.
 
 [40] [41] [42] [43]
-Overfull \hbox (87.47011pt too wide) in paragraph at lines 1529--1530
+Overfull \hbox (87.47011pt too wide) in paragraph at lines 1531--1532
 [][] 
  []
 
 [44] [45] [46]
-Overfull \hbox (0.2757pt too wide) in paragraph at lines 1605--1616
+Overfull \hbox (0.2757pt too wide) in paragraph at lines 1607--1618
 \OT1/cmr/m/n/10.95 In phase 2, the first micro-partition gets pro-cessed, i.e. 
 its edges are streamed
  []
 
 [47]
-Overfull \hbox (16.64537pt too wide) in paragraph at lines 1625--1627
+Overfull \hbox (16.64537pt too wide) in paragraph at lines 1628--1632
 \OT1/cmr/m/n/10.95 re-main the same for $\OML/cmm/m/it/10.95 t[]$\OT1/cmr/m/n/1
 0.95 , $\OML/cmm/m/it/10.95 t[]$ \OT1/cmr/m/n/10.95 and $\OML/cmm/m/it/10.95 t[
 ]$\OT1/cmr/m/n/10.95 . $\OML/cmm/m/it/10.95 t[] \OT1/cmr/m/n/10.95 = \OML/cmm/m
 /it/10.95 max\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 t[]; t[]; t[]\OT1/cmr/m/n/
-10.95 )$. 
+10.95 )$.
  []
 
-[48]
+[48] [49] <graphs/pipelines.pdf, id=205, 361.35pt x 252.945pt>
+File: graphs/pipelines.pdf Graphic file (type pdf)
+
+<use graphs/pipelines.pdf>
+<graphs/frequencies.pdf, id=206, 361.35pt x 252.945pt>
+File: graphs/frequencies.pdf Graphic file (type pdf)
+
+<use graphs/frequencies.pdf> [50 <./graphs/pipelines.pdf>]
+<graphs/frequencies_pipelines.pdf, id=215, 505.89pt x 722.7pt>
+File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
+
+<use graphs/frequencies_pipelines.pdf> [51 <./graphs/frequencies.pdf>]
+<graphs/freq_pipes3D.pdf, id=224, 361.35pt x 252.945pt>
+File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
+
+<use graphs/freq_pipes3D.pdf> [52 <./graphs/frequencies_pipelines.pdf> <./graph
+s/freq_pipes3D.pdf>]
+<graphs/partition_sizes.pdf, id=238, 361.35pt x 252.945pt>
+File: graphs/partition_sizes.pdf Graphic file (type pdf)
+
+<use graphs/partition_sizes.pdf>
+<graphs/partition_ratios.pdf, id=239, 361.35pt x 252.945pt>
+File: graphs/partition_ratios.pdf Graphic file (type pdf)
+
+<use graphs/partition_ratios.pdf>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[53 <./graphs/partition_sizes.pdf>] [54 <./graphs/partition_ratios.pdf>]
 Chapter 4.
+[55
 
-Overfull \hbox (166.81606pt too wide) in paragraph at lines 1631--1632
-\OT1/cmr/m/n/10.95 **************************UNDER CON-STRUC-TION!!!!!*********
-********************************** 
- []
-
-[49
-
-] [50]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 1684--1687
+] [56]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 1798--1801
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -914,7 +962,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[51
+[57
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -922,7 +970,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [52] [53]
+ [58] [59]
 Chapter 5.
 \openout4 = `report.pyg'.
 
@@ -939,7 +987,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [54
+ (./report.out.pyg [60
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -951,7 +999,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [55])
+ (./report.out.pyg [61])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -977,20 +1025,23 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [56] (./report.aux)
+ [62] (./report.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.45247pt have occurred.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 11735 strings out of 495000
- 223577 string characters out of 1180493
- 333659 words of memory out of 3000000
- 14606 multiletter control sequences out of 15000+50000
+ 12751 strings out of 495000
+ 242065 string characters out of 1180493
+ 343810 words of memory out of 3000000
+ 15607 multiletter control sequences out of 15000+50000
  14337 words of font info for 55 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
- 47i,12n,65p,785b,673s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,12n,65p,792b,694s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts
@@ -1010,9 +1061,9 @@ ublic/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmti7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
 
-Output written on report.pdf (58 pages, 655499 bytes).
+Output written on report.pdf (64 pages, 701854 bytes).
 PDF statistics:
- 294 PDF objects out of 1000 (max. 8388607)
+ 349 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 83 words of extra memory for PDF output out of 10000 (max. 10000000)
 
