@@ -30,6 +30,7 @@
 \contentsline {subsubsection}{Clock frequency and arithmetic pipelines}{51}
 \contentsline {subsubsection}{Partition size}{53}
 \contentsline {chapter}{\numberline {4}Implementation}{55}
-\contentsline {section}{\numberline {4.1}Plan}{55}
-\contentsline {chapter}{\numberline {5}Appendix}{60}
-\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{60}
+\contentsline {section}{\numberline {4.1}Mesh partitioning}{55}
+\contentsline {section}{\numberline {4.2}Edge scheduling}{56}
+\contentsline {chapter}{\numberline {5}Appendix}{63}
+\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{63}

@@ -3,10 +3,14 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsfonts}
+\usepackage{color}
 \usepackage{tabularx}
 \usepackage{tikz}
+\usepackage{float}
+\usepackage{algpseudocode}
 \usetikzlibrary{arrows}
 \usetikzlibrary{calc}
+\usetikzlibrary{matrix}
 \usetikzlibrary{shapes,snakes}
 \usetikzlibrary{shapes.multipart}
 \usepackage{scalefnt}
@@ -1428,7 +1432,7 @@ phase will remain at one result per cycle, regardless of the actual computationa
 gets deeper and therefore takes more cycles to fill in the beginning and flush at the end, but during the time when it's filled (which is most of the time if the
 architecture works properly and supplies inputs continuously) it produces one result per clock cycle. This gives us an intuition of why this approach to acceleration
 is a good idea. Assuming large enough data sets, as in Airfoil, the time to fill and flush the pipeline will be amortised by the time spent executing. Compare this
-observation with the execution of Airfoil on a CPU or a GPU. On those architectures the execution time is expected to increase proportionally to the number of floating
+observation with the execution of Airfoil on a CPU or a GPU. On those architectures the arithmetic execution time is expected to increase proportionally to the number of floating
 point calculations performed. Using a custom streaming datapath, the increase in floating point calculations translates into more resources being used (LUTs, Flip Flops and
 DSPs), but does not imply a corresponding increase in execution time. This means that a custom, deeply pipelined architecture must win in the asymptotic case
 against any general purpose architecture as the number of arithmetic operations increases. Of course, in practice, the complexity of the arithmetic pipeline will be
@@ -1740,34 +1744,223 @@ This result is to be expected since the size of the halo region is proportional
 to the square root of the partition size, in other words $C^h_{pp} \propto \sqrt{C_{pp}}$.
 
 \chapter{Implementation}
+In this chapter we present the issues that arise when trying to implement the FPGA-based accelerator and the host-side mesh
+preprocessing code. Due to time limitations we attempt to build a design using one arithmetic pipeline with 8192 ($2^13$) cells
+per partition.
+
+\section{Mesh partitioning}
+We use the METIS partitioning tool through its C API to assign a partition number to each cell and node. This is where we use
+the indirection maps that define the connectivity. When assigning edges to partitions we must take care to also add the nodes and
+edges that they reference from neighbouring partitions. These nodes and cells will be part of the halo region.
+
+Next, we need to perform the second level of partitioning. For this we need to translate the global indirection maps (\emph{cell, edge} etc)
+into local maps for each partition. For this we need to remap the nodes and cells to a local numbering. We use hash maps to store the associations
+between global and local numbering and use them to translate the \emph{cell} indirection map into local maps for each partition.
+
+Now we can perform the second level of partitioning by breaking up each partition into 2 micro-partitions. We actually want three regions
+from this process: the two micro-partitions and the intra-partition halo (\emph{IPH}). We assign edges to each partition again
+taking care to add the nodes and cells from the neighbouring micro-partition. Since METIS provides a partition number for each cell and node,
+we need to figure out the IPH region ourselves. We store the nodes for each micro-partition into a set (we used a hash set but any implementation
+could be used) called $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$ and calculate the IPH region by $Nodes_{IPH} = Nodes_{\mu p1} \cap Nodes_{\mu p2}$. Now
+we need to remove the common nodes from $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$, that is $Nodes_{\mu p1} := Nodes_{\mu p1} \backslash Nodes_{IPH}$ and
+$Nodes_{\mu p2} := Nodes_{\mu p2} \backslash Nodes_{IPH}$, where $A \backslash B$ is the set $A$ with the elements of set $B$ removed ($\backslash$ is the set difference operator).
+ We follow the same procedure for cells and we arrive at the partitions that we need.
+
+\section{Edge scheduling}
+Recall the use of the accumulator that adds the increments computed by the arithmetic pipeline to the current values of $res$ (figure \ref{fig:Architecture1st}), creating
+a loop in the architecture.
+This has implications on the order with which we process the edges. Suppose the accumulator has latency $l$, that is if the operands for addition
+arrive to it at cycle $c$ the corresponding result will appear on its output at cycle $c + l$. That latency depends on the number of pipeline stages in the adder.
+One of the operands is the increment computed by the
+arithmetic pipeline and the other is the previous value of $res$ that was read from the corresponding BRAM. The new $res$ result that must be written
+back to the BRAMs will be produced in $l$ cycles. This means that within that window we must not access the same BRAM address (i.e. the same cell) because
+we will have not commited the previous result of $res$ that is still in the accumulator pipeline, thus getting two values for $res$ that will be commited to
+the BRAM with the earliest one being overwritten instead of being added. This outcome is shown in figure \ref{fig:edge_dependency} where two values $v_1$ and $v_4$
+for the cell at $\alpha_0$ are being computed. When $v_4$ exits the pipeline it will be written at address $\alpha_0$ in the BRAM, only to be overriden by $v_1$ 3 cycles
+later. To work around this issue we constrain the iteration order of the edges in each micro-partition. The constraint is that for every edge no edge in a window of
+width $l$ must access the any of the two cells. Thus, given an ordering of $n$ edges $sch$ the validity of the schedule $sch$ for a window width $l$ can be determined
+by algorithm \ref{alg:valid_schedule}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\matrix (acc) at (10,10)
+[
+  draw,
+  inner sep=0,
+  matrix of nodes,
+  fill=orange!10!white,
+  every node/.style={
+    inner sep=1ex
+  }
+]
+{
+  \node{\textcolor{red}{$v_1@\alpha_{0}$}};\\
+  \hline
+  \node{$v_2@\alpha_{1}$};\\
+  \hline
+  \node{$v_3@\alpha_{2}$};\\
+  \hline
+  \node{\textcolor{red}{$v_4@\alpha_{0}$}};\\
+  \hline
+  \node{$v_5@\alpha_{3}$};\\
+  \hline
+  \node{$v_6@\alpha_{4}$};\\
+};
+
+\draw [<->, dashed, thick] ($(acc.north) + (1, 0)$) -- ($(acc.south) + (1, 0)$);
+\node at ($(acc) + (1.5, 0)$) {\emph{$l=6$}};
+\draw [black,decorate,decoration={brace,amplitude=4pt}]
+($(acc.south) + (-1, 0)$) -- ($(acc.north) + (-1, 0)$) node [black,midway,xshift=-0.5cm] 
+{\Large \textbf{$+$}};
+% \node at ($(acc) + (-1, 0)$) {\Large \emph{$+$}};
+
+\node (bram) at (10, 6.5) [draw, fill=red!10!white] {\emph{BRAM}};
+\node (arith) at (10, 14) [draw, fill=green!10!white] {\emph{ARITH}};
+\draw [->, thick] (acc.south) -- (bram.north);
+\draw [->, thick] ($(arith.south) + (-0.2, 0)$) -- ($(acc.north) + (-0.2, 0)$);
+\draw [->, thick] (bram.east) -- ++(1.75, 0) -- ++(0, 6) -- ($(acc.north) + (0.25, 0.5)$) -- ($(acc.north) + (0.25, 0)$);
+
+\end{tikzpicture}
+\caption{Architecture diagram of the accumulation part of the accelerator design showing the conflicting values of $res$ being
+computed in the accumulator pipeline. The conflicting values for address $\alpha_{0}$ are shown in red.}
+\label{fig:edge_dependency}
+\end{figure}
+
+\newfloat{program}{thp}{prog}
+\floatname{program}{Algorithm}
+
+\begin{program}[H]
+ \begin{algorithmic}
+ \Function{$boolean$ validSchedule} {$sch[~]$, $n$, $l$}
+   \For{$i$ in $[0..n-1]$}
+     \State $C_i:=$ set of cells referenced by edge $sch[i]$
+     \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
+       \State $C_{(i+j)\%n}:=$ set of cells referenced by edge $sch[(i+j)\%n]$
+       \If{$C_i \cap C_{(i+j)\%n} \neq \emptyset$}
+         \State\Return $False$
+       \EndIf
+     \EndFor
+   \EndFor
+   \State \Return $True$
+ \EndFunction
+ \end{algorithmic}
+\caption{Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.}
+\label{alg:valid_schedule}
+\end{program}
+
+In order to compute that schedule we partition each micro-partition again into multiple partitions, calling them
+\emph{edge partitions}.
+We define two edge partitions being \emph{adjacent} if an edge in one references a cell in the other. Using
+this definition we construct an \emph{adjacency graph} where the nodes are the edge partitions and we connect two
+nodes with an edge if the two edge partitions are adjacent. That way we know that edges belonging to two
+non-adjacent partitions will never conflict and can be scheduled one after the other. That way, the problem
+of finding a schedule for the edges can be reduced to finding a schedule for the nodes in the adjacency graph
+such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in figure
+\ref{fig:parts_graph}. Using the adjacency graph we can transform algorithm \ref{alg:valid_schedule} into
+algorithm \ref{alg:valid_schedule_graph}.
 
 
-**************************UNDER CONSTRUCTION, OUT OF DATE INFORMATION!!!!!*******************************************
+\begin{figure}[h]
+\begin{tikzpicture}[scale=0.7]
+  \fill[green!10!white] (0, 0) rectangle (10,10);
+  \draw[step=0.5cm] (0, 0) grid (10, 10);
 
-In this section we present our design, implementation and evaluation plan and provide the details
-of each stage.
-\section{Plan}
-We start by proposing various architectures for solving the problem and we propose a formal model
-for each one that allows us to predict the performance of the architecture. We then implement our
-scheme in order to provide real-world results and assess the feasibility of the implementation.
-This model will also allow us to pick the optimal values of the parameters of the application,
-thus maximizing performance and saving us the effort of using a trial and error approach to
-fine tune them. After that we proceed with the implementation of our chosen architecture.
+  \fill [blue!20!white] (0, 0) rectangle (10,10);
+  \fill [orange!20!white] (0, 0) rectangle (3, 4);
+  \fill [green!20!white] (3, 4) rectangle (0, 7.5);
+  \fill [magenta!20!white] (0, 10) rectangle (5, 7.5);
+  \fill [red!40!white] (3, 7.5) rectangle (7, 4);
+  \fill [purple!20!white] (7, 7.5) rectangle (10,10);
+  \fill [orange!40!white] (5, 0) rectangle (7, 4);
 
-During our work we realize that we have to partition the mesh into chunks that we can fit into the
-on-chip memory (called BRAM or block RAM) for processing. This requires us to think about and deal
-with data that overlap partitions (for example edges that begin in one partition and end in 
-another). The set of shared data is known as the 'halo' of the partition and various halo exchange
-schemes exist. We use the ghost cell exchange mechanism, presented in~\cite{GhostCellPaper}.
+  \fill [yellow!20!white] (7, 0) rectangle (10, 4);
+  \fill [olive!40!white] (3, 0) rectangle (5, 4);
+  \fill [violet!40!white] (5, 7.5) rectangle (7, 10);
 
-After we have decided on the various parameters of the design (partition size, number of arithmetic
-pipelines, streaming responsibilities etc) we implement our design using MaxCompiler to produce a 
-maxfile that we link to the Airfoil executable that we have modified to partition and layout the data
-in the decided way.
+  \draw[step=0.5cm] (0, 0) grid (10, 10);
 
-We can then compare our implementation against the theoretical model developed earlier and track down
-and explain any and all discrepancies. Then we can compare our implementation against existing implementations
-that use Nvidia's OpenCL CUDA implementation.
+  \draw [red, very thick] (0, 0) rectangle (10,10);
+
+  \draw [red, very thick] (0, 0) rectangle (3, 4);
+  \node at (1.5, 2) [fill=orange!20!white]{\Large 1};
+
+  \draw [red, very thick] (3, 4) rectangle (0, 7.5);
+  \node at (1.5, 5.75) [fill=green!20!white]{\Large 2};
+
+  \draw [red, very thick] (0, 10) rectangle (5, 7.5);
+  \node at (2.5, 8.75) [fill=magenta!20!white]{\Large 3};
+
+  \draw [red, very thick] (3, 7.5) rectangle (7, 4);
+  \node at (5, 5.75) [fill=red!40!white]{\Large 4};
+
+  \draw [red, very thick] (7, 7.5) rectangle (10,10);
+  \node at (8.5, 8.75) [fill=purple!20!white]{\Large 5};
+
+  \draw [red, very thick] (5, 0) rectangle (10, 4);
+  \node at (8.5, 2) [fill=yellow!20!white]{\Large 6};
+
+  \node at (4, 2) [fill=olive!40!white]{\Large 7};
+  \node at (8.5, 5.75) [fill=blue!20!white]{\Large 8};
+  \node at (6, 8.75)[fill=violet!40!white] {\Large 9};
+
+  \draw [red, very thick] (5, 0) rectangle (7, 4);
+  \node at (6, 2)[fill=orange!40!white] {\Large 10};
+
+
+
+  \draw [thick, dashed] (11, 11) -- (11, -1);
+
+  \node (one) at (18, 10) [circle, draw, fill=orange!20!white] {\Large 1};
+  \node (two) at (17, 8) [circle, draw, fill=green!20!white] {\Large 2};
+  \node (three) at (16, 6) [circle, draw, fill=magenta!20!white] {\Large 3};
+  \node (four) at (17, 4) [circle, draw, fill=red!40!white] {\Large 4};
+  \node (five) at (14.5, 4.5) [circle, draw, fill=purple!20!white] {\Large 5};
+  \node (six) at (13, 4.5) [circle, draw, fill=yellow!20!white] {\Large 6};
+  \node (seven) at (19, 2) [circle, draw, fill=olive!40!white] {\Large 7};
+  \node (eight) at (13.5, 2.3) [circle, draw, fill=blue!20!white] {\Large 8};
+  \node (nine) at (15, 2) [circle, draw, fill=violet!40!white] {\Large 9};
+  \node (ten) at (17, 0) [circle, draw, fill=orange!40!white] {\Large 10};
+
+  \draw [thick](one) -- (seven);
+  \draw [thick](one) -- (two);
+  \draw [thick](two) -- (four);
+  \draw [thick](two) -- (three);
+  \draw [thick](three) -- (four);
+  \draw [thick](three) -- (nine);
+  \draw [thick](four) -- (seven);
+  \draw [thick](four) -- (eight);
+  \draw [thick](four) -- (nine);
+  \draw [thick](four) -- (ten);
+  \draw [thick](five) -- (eight);
+  \draw [thick](five) -- (nine);
+  \draw [thick](six) -- (eight);
+  \draw [thick](six.west) to[out=180, in=180] (ten.west);
+  \draw [thick](seven) -- (ten);
+
+\end{tikzpicture}
+\caption{An example partitioning of a micro-partition into 9 edge partitions (left) and the adjacency graph generated 
+from that partitioning (right).}
+\label{fig:parts_graph}
+\end{figure}
+
+\begin{program}[H]
+ \begin{algorithmic}
+ \Function{$boolean$ validGraphSchedule} {$sch[~]$, $n$, $l$, $g$}
+   \For{$i$ in $[0..n-1]$}
+     \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
+       \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
+         \State\Return $False$
+       \EndIf
+     \EndFor
+   \EndFor
+   \State \Return $True$
+ \EndFunction
+ \end{algorithmic}
+\caption{Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with
+$n$ elements for a window width of $l$.}
+\label{alg:valid_schedule_graph}
+\end{program}
 
 
 % \chapter{Evaluation}

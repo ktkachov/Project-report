@@ -126,11 +126,19 @@
 \newlabel{fig:partition_sizes}{{3.11}{53}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces Plot of estimated DRAM to PCIe transfer time ratio ($\genfrac  {}{}{}0{t_{DRAM}}{t_{PCIe}}$) against the number of cells per partition. Note that the horizontal axis is on a log-2 scale.The design has 8 pipelines and runs at 240MHz.\relax }}{54}}
 \newlabel{fig:partition_ratios}{{3.12}{54}}
-\citation{GhostCellPaper}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{55}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Plan}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Mesh partitioning}{55}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Edge scheduling}{56}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Architecture diagram of the accumulation part of the accelerator design showing the conflicting values of $res$ being computed in the accumulator pipeline. The conflicting values for address $\alpha _{0}$ are shown in red.\relax }}{57}}
+\newlabel{fig:edge_dependency}{{4.1}{57}}
+\@writefile{prog}{\contentsline {program}{\numberline {1}{\ignorespaces Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.\relax }}{57}}
+\newlabel{alg:valid_schedule}{{1}{57}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces An example partitioning of a micro-partition into 9 edge partitions (left) and the adjacency graph generated from that partitioning (right).\relax }}{58}}
+\newlabel{fig:parts_graph}{{4.2}{58}}
+\@writefile{prog}{\contentsline {program}{\numberline {2}{\ignorespaces Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with $n$ elements for a window width of $l$.\relax }}{59}}
+\newlabel{alg:valid_schedule_graph}{{2}{59}}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
 \bibcite{Virtex6Spec}{3}
@@ -149,7 +157,7 @@
 \bibcite{Pipeline}{16}
 \bibcite{OpenCL}{17}
 \bibcite{TeslaM2050}{18}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{60}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Appendix}{63}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{60}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{63}}

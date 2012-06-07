@@ -1,0 +1,132 @@
+\relax 
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{3}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}The domain}{3}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}The Airfoil program}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}FPGAs, streaming and acceleration}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Visualisation of a reduced version of the Airfoil mesh \relax }}{5}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:airfoil_mesh}{{1.1}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces A simple dataflow graph that implements the function $y(x) = x^2 + x$. \relax }}{6}}
+\newlabel{fig:graph_simple}{{1.2}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Contributions}{6}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{8}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Unstructured meshes and their representation}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces An example mesh and its representation using indirection arrays. The cell numbers are shown inside the quadrilaterals formed by the nodes (circles) and edges (edges connecting the nodes). Together with the indirection map, we also store an integer $dim \in \mathbb  {N}$ which specifies the dimension of the mapping. Thus, the data associated with element $i$ are stored in the range $[i*dim$, ... , $i*(dim+1)-1]$ of the relevant indirection map (in the example: the nodes associated with edge 3 are stored at indices $3*2=6$ and $3*2+1=7$). Note: in the edge-to-cell map $-1$ represents a boundary cell that may be handled in a special way by a computational kernel. \relax }}{9}}
+\newlabel{fig:mesh_small_example}{{2.1}{9}}
+\citation{OP2_presentation}
+\citation{OP2_presentation}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces An example mesh with coordinate data associated with each node ($(x,y)$ from $node\_id\nobreakspace  {}(x,y)$). The coordinate data will be represented as an array of floating point numbers $x = \{0.0,0.0, 2.78,5.0, 3.0,1.0, 3.0,6.7, 7.5,3.14, 9.0,7.7\}$. Again we also record the dimension of the data (in this case $dim=2$) in order to access the data set associated with each element. In this example, the coordinate data for node 4 is stored at indices $4*2=8$ and $4*2+1=9$ of the array $x$. \relax }}{10}}
+\newlabel{fig:data_set_ex}{{2.2}{10}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Airfoil}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces An example mesh, showing data dependencies between edges that affect cell data. \relax }}{11}}
+\newlabel{fig:mesh_coloured}{{2.3}{11}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Computational kernels and data sets}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb  {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax }}{12}}
+\newlabel{tab:Airfoil_datasets}{{2.1}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Table showing the kernels defined in airfoil and their data requirements.\relax }}{13}}
+\newlabel{tab:Airfoil_kernels}{{2.2}{13}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces  Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing. The important part of this are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly. \relax }}{14}}
+\newlabel{lst:ResCalcKernelC}{{1}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Diagram showing the maps between the mesh elements The dimension of the map is shown in parentheses next to the name. Thus the map \emph  {edge} relating edges to nodes with dimension 2 means that for each edge, there are two nodes associated with it. \relax }}{15}}
+\newlabel{fig:Airfoil_maps}{{2.4}{15}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.\relax }}{16}}
+\newlabel{tab:Airfoil_timesCPU}{{2.3}{16}}
+\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces  The iteration structure of Airfoil.  \relax }}{17}}
+\newlabel{lst:AirfoilIteration}{{2}{17}}
+\citation{Virtex6Spec}
+\citation{MaxCompiler_whitepaper}
+\citation{MaxCompiler_whitepaper}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces A diagram of the Maxeler toolchain. The data-flow graphs of the computational kernels are defined using a Java API. A manager connects multiple kernels together and handles the streaming to and from the kernels of data. These are combined by MaxCompiler and compiled into a .max file that can then be linked to a host C/C++ or Fortran application using standard tools (gcc, ld etc). \relax }}{18}}
+\newlabel{fig:max_toolchain}{{2.5}{18}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{19}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces  A MaxCompiler definition of a kernel that computes a moving 3-point average with boundary conditions. Note that the arithmetic operators as well as the ternary if operator have been overloaded for HWVar objects that represent the value of a hardware stream.  \relax }}{20}}
+\newlabel{lst:MaxCompilerMovAvg}{{3}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces The dataflow graph resulting from the code in Listing\nobreakspace  {}3\hbox {} \relax }}{21}}
+\newlabel{fig:MovAvgGraph}{{2.6}{21}}
+\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces  Manager specification for a MovingAverageKernel that streams the input data "x" from the host and streams the output data "y" to the host. The $<==$ operator means connect the right hand side stream to the left hand side stream. The above code instantiates the MovingAverageKernel, creates a stream called "x" from the host and connects it to the input stream "x" in the kernel. Then it creates a stream to the host called "y" and connects to it the output stream "y" from the kernel.  \relax }}{22}}
+\newlabel{lst:MaxCompilerMovAvgManager}{{4}{22}}
+\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces  A sample host code using the MaxCompilerRT API for the C language.  \relax }}{24}}
+\newlabel{lst:MovAvgHostCode}{{5}{24}}
+\citation{Virtex6Spec}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Hardware}{25}}
+\citation{METISPaper}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces Diagram of the hardware parts of a MAX card, showing the relationships between the DRAM, PCIe, the host and the FPGA.\relax }}{26}}
+\newlabel{fig:maxHW}{{2.7}{26}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{26}}
+\citation{IEEEFP}
+\citation{IEEEFP}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges belonging to the halo region can be accessed by another partition.\relax }}{27}}
+\newlabel{fig:partition}{{2.8}{27}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{27}}
+\citation{OP2_presentation}
+\citation{OP2_Cluster}
+\citation{OP2_presentation}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa. However, one bit of the mantissa is used to represent the sign, and is therefore unavailable to the rest of the mantissa.\relax }}{28}}
+\newlabel{fig:FPSP}{{2.9}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Previous work}{28}}
+\citation{UnstructuredMeshCCM}
+\citation{MemoryHierarchy}
+\citation{SpanishFPGAAirfoil}
+\citation{SpanishFPGAAirfoil2}
+\citation{SpanishFPGAAirfoil}
+\citation{ElectromagneticsFPGA}
+\citation{MeshIntensityROSE}
+\citation{MeshCache}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design and Modelling}{32}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{32}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{33}}
+\citation{GhostCellPaper}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs and the accumulator. The connectivity information is used to address the block RAMs.\relax }}{34}}
+\newlabel{fig:Architecture1st}{{3.1}{34}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{34}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select which RAM to read the cell and node data from based on the edge information. They are also used to pick the RAM to write the results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.\relax }}{36}}
+\newlabel{fig:ArchitecturePCIe}{{3.2}{36}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Partitioning of a macro-partition into two micro-partitions. This introduces a new intra-partition halo region, shown here in crimson.\relax }}{38}}
+\newlabel{fig:upartition}{{3.3}{38}}
+\citation{Pipeline}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing. The red wires represent the boolean enable signals. The halo and normal RAMs as well as the RAM selectors are shown in merged blocks for brevity.\relax }}{39}}
+\newlabel{fig:ArchitectureSM}{{3.4}{39}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme. Note that both micro-partitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only be written out together with the second micro-partition after both micro-partitions ($\mu $partitions) have been processed. The red boxes represent the progress of a single (macro)partition through the accelerator phases.\relax }}{40}}
+\newlabel{fig:partPipeline}{{3.5}{40}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{41}}
+\citation{SpanishFPGAAirfoil}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Diagram showing the computation of the function $r=x^2 + y - \sqrt  {z}$\relax }}{44}}
+\newlabel{fig:StreamVsCPU}{{3.6}{44}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Performance Model}{44}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Phase 1}{46}}
+\citation{TeslaM2050}
+\citation{OpenCL}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Phase 2}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Phase 3}{47}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Design space exploration}{48}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. The total run time is 9.67 seconds.\relax }}{48}}
+\newlabel{tab:Airfoil_timesCPU}{{3.1}{48}}
+\@writefile{toc}{\contentsline {subsubsection}{Number of arithmetic pipelines}{48}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Plot of estimated execution time for 2000 iterations of res\_calc against the number of arithmetic pipelines in the architecture. The clock frequency is set to 240MHz. \relax }}{49}}
+\newlabel{fig:Pipelines}{{3.7}{49}}
+\@writefile{toc}{\contentsline {subsubsection}{Clock frequency}{50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA using one arithmetic pipeline. \relax }}{50}}
+\newlabel{fig:frequencies}{{3.8}{50}}
+\@writefile{toc}{\contentsline {subsubsection}{Clock frequency and arithmetic pipelines}{50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines. \relax }}{51}}
+\newlabel{fig:frequencies_pipelines}{{3.9}{51}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines in a 3-dimensional plot. \relax }}{51}}
+\newlabel{fig:frequencies_pipelines3D}{{3.10}{51}}
+\@writefile{toc}{\contentsline {subsubsection}{Partition size}{52}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Plot of estimated execution time for 2000 iterations of res\_calc against the number of cells per partition. Note that the horizontal axis is on a log-2 scale. The design has 8 pipelines and runs at 240MHz.\relax }}{52}}
+\newlabel{fig:partition_sizes}{{3.11}{52}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces Plot of estimated DRAM to PCIe transfer time ratio ($\genfrac  {}{}{}0{t_{DRAM}}{t_{PCIe}}$) against the number of cells per partition. Note that the horizontal axis is on a log-2 scale.The design has 8 pipelines and runs at 240MHz.\relax }}{53}}
+\newlabel{fig:partition_ratios}{{3.12}{53}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{54}}
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Mesh partitioning}{54}}
