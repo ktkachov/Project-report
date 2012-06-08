@@ -151,7 +151,7 @@
 In this report we present a methodology for accelerating computations performed on 
 unstructured meshes in the course of a finite volume approach. We implement a custom streaming datapath using
 Field Programmable Gate Arrays, or FPGAs to perform the bulk of the floating point 
-operations required by the application. In particular, we focus on dealing with irregular
+operations required by an application. In particular, we focus on dealing with irregular
  memory access patterns that are a consequence of using an unstructured mesh in such a way as
 to facilitate a streaming model of computation. We describe the partitioning of the mesh and 
 the techniques used to exchange information between neighbouring partitions, using so-called halos. We provide an implementation of a concrete 2D finite volume application and consider
@@ -239,18 +239,18 @@ they provide the development flexibility of software with the benefits of an exp
 hardware datapath. At a high level, FPGAs can be viewed as a two-dimensional grid of logic
 elements that can be interconnected in any desirable way.
 
-The FPGA acceleration approach we look at is the streaming model of comutation. In a 
+The FPGA acceleration approach we look at is the streaming model of computation. In a 
 streaming approach we create a dataflow graph out of simple computational nodes that perform 
 a specific operation on pieces of data pushed in and out of them. Connecting these nodes
 together creates a pipeline through which one can stream an array of data and get one output
 per cycle thus achieving high throughput. A simple dataflow graph can be seen in 
-figure~\ref{fig:graph_simple}.
+Figure~\ref{fig:graph_simple}.
 FPGAs are usually programmed using a low level hardware description language like VHDL or
  Verilog, however many tools have been designed that allow a developer to specify high-level designs.
  We use MaxCompiler, a compiler that lets
 us specify the computational graph through a high-level Java API, so we focus on the
 functional aspects of our design and the tool generates a hardware implementation of it.
-We use this approach to implement a datapath the kernel described
+We use this approach to implement a datapath for a kernel described
 in Airfoil and we then look at approaches to utilise the streaming bandwidth. The 
 FPGAs we consider have a large DRAM storage area attached ($>$24GB) to them that can be used to store
 the mesh and utilising the bandwidth of that DRAM fully is key to achieving maximum 
@@ -259,7 +259,9 @@ performance.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.2\textwidth]{pics/graph_simple.png}
-  \caption{A simple dataflow graph that implements the function $y(x) = x^2 + x$.
+  \caption{A simple dataflow graph that implements the function $y(x) = x^2 + x$. The adder and the multiplication nodes
+  are fully pipelined, enabling a throughput of one result per cycle, thus providing us with the intuition for
+accelerating floating point calculations
    \label{fig:graph_simple}}
 \end{figure}
 
@@ -282,13 +284,14 @@ GPGPU and multi-processors cluster implementations.
 \item We present a methodology for accelerating unstructured mesh computations using deeply
 pipelined streaming FPGA designs.
 \item We investigate memory layout issues that arise from efforts to maximise the spatial
-locality of the mesh.
+locality of the mesh and consquently increase utilisation of the streaming bandwidth.
 \item We provide a hardware accelerated version of part of the Airfoil program using the methodologies 
 described in this report.
 \item We provide a predictive performance model that is used to justify our design decisions
 and provide a formal expression of the potential speedup.
 \item We investigate the potential for generalisation of the problem and the acceleration of
-more complex industry-grade unstructured mesh simulations.
+more complex industry-grade unstructured mesh simulations by applying mesh partitioning and reordering
+techniques, custom designed for our proposed architecture.
 \end{itemize}
 
 \chapter{Background}
@@ -310,7 +313,7 @@ coarsened around particular areas of interest. This provides much greater flexib
 expense of losing the regularity of the mesh, forcing us to store the connectivity information
 that defines its topology. It is useful to have an intimate understanding of the representation
 of unstructured meshes in order to understand the techniques discussed further on. A graphical 
-example is shown in figure \ref{fig:mesh_small_example}
+example is shown in Figure \ref{fig:mesh_small_example}
 
 In our sample application the mesh distinguishes three main elements: nodes, cells and edges.
 We have to represent the connectivity information between them. This is done through
@@ -334,8 +337,8 @@ But we do not consider such meshes here.
 \end{figure}
 
 The above method deals with the connectivity information amongst the different elements of the mesh.
-The data on which we perform the actual arithmetic calculations is stored in arrays indexed by element number.
-Such an approach is presented in figure \ref{fig:data_set_ex}.
+The data on which we perform the arithmetic calculations is stored in arrays indexed by element number.
+Such an approach is presented in Figure \ref{fig:data_set_ex}.
 
 \begin{figure}[h]
   \centering
@@ -356,12 +359,12 @@ this context is provided by MB Giles et al \cite{OP2_presentation} because it di
 issues arising from the memory access pattern.
 
 The computational work in Airfoil is performed by 5 loops that work one after the other
-and operate on the nodes, cells and edges of the mesh. They work by applying a kernel
-on the data item referenced by the node, edge or cell. Conceptually, the application
+and operate on the nodes, cells and edges of the mesh. Each loop iterates over the cells or edges of the mesh,
+applying a computational kernel to elements of a data set associated with each mesh element. Conceptually, the application
 of a kernel to a data item is independent of the application to any other item in the same set, and can therefore
-be executed in parallel.
-The complexity comes from reduce operations, where some edges or cells update the same data item
-(associated with the same node). In these cases care must be taken to ensure the correct update
+be executed in parallel with an application of the same kernel on another mesh element.
+The complexity comes from reduction operations, where some edges or cells update the same data item
+(e.g associated with the same cell). In these cases care must be taken to ensure the correct update
 of the data. For parallel architectures such as GPUs and multi-processor clusters this issue can be
 resolved by enforcing an atomic commit scheme or by colouring the mesh partitions, so that no two
 partitions update the same data item simultaneously \cite{OP2_presentation}.
@@ -373,21 +376,22 @@ partitions update the same data item simultaneously \cite{OP2_presentation}.
 \label{fig:mesh_coloured}}
 \end{figure}
 
-Consider figure \ref{fig:mesh_coloured}.
-Take for example edges $\alpha=(1,4)$ and $\beta=(4,5)$. Say there is a data item $x$ associated 
-with every cell and the processing of an edge increments the data items associated with it's two cells.
+Consider Figure \ref{fig:mesh_coloured}.
+Take for example edges $\alpha=(1,4)$ and $\beta=(4,5)$. Suppose there is a data item $x$ associated 
+with every cell and the processing of an edge increments the data items associated with its two cells.
 $\alpha$ and $\beta$ cannot execute in parallel because they are both associated with cell 0 and can therefore
 end up using out of date copies of the data associated with cell 0 by the following sequence of events:
 $\alpha$ reads initial $x_0$, $\beta$ reads $x_0$, $\alpha$ computes $x_{\alpha}=x_0 + 1$, $\beta$ computes $x_{\beta} = x_0 + 1$,
 $\alpha$ writes back $x_{\alpha}$, $\beta$ writes back $x_{\beta}$ and the final value of $x$ turns out to be $x_{\beta} = x_0 + 1$
 instead of the desired $x_0 + 2$. Some implementations work around this issue by colouring the edges, such that no two edges of the same
 colour share a cell and can therefore be processed in parallel. Figure \ref{fig:mesh_coloured} shows such a colouring. Another option
-would be to introduce atomic operations and/or locking, but that approach would severely limit parallelisation opportunities.
+would be to introduce atomic operations and/or locking, but that would serialise the memory accesses, reducing parallelism, or requiring
+more exotic memory architectures (i.e one that reduces all of the memory write requests with addition before commiting the result).
 
 \subsection{Computational kernels and data sets}
 Airfoil defines five computational kernels that iterate over the mesh, performing floating point calculations on the data sets defined over the
 elements of the mesh. We shall describe them by the elements they iterate over and by the elements they read and modify. As described above,
-we also define some data sets that are associated with the mesh elements. The datasets defined in Airfoil are shown in table \ref{tab:Airfoil_datasets}.
+we also define some data sets that are associated with the mesh elements. The datasets defined in Airfoil are shown in Table \ref{tab:Airfoil_datasets}.
 
 \begin{table} [H]
 \begin{center}
@@ -409,7 +413,7 @@ we also define some data sets that are associated with the mesh elements. The da
   \label{tab:Airfoil_datasets}
 \end{table}
 
- The kernels are presented in table  \ref{tab:Airfoil_kernels} along with the datasets they require and modify.
+ The kernels are presented in Table  \ref{tab:Airfoil_kernels} along with the datasets they require and modify.
 \begin{table} [H]
   \begin{tabular}{| l | c | c | c |}
     \hline                        
@@ -424,7 +428,8 @@ we also define some data sets that are associated with the mesh elements. The da
   \label{tab:Airfoil_kernels}
 \end{table}
 To show a more concrete example of what these kernels do, the res\_calc kernel code in the C language is presented in
-Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in the appendix.
+Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in the appendix. The res\_calc kernel applied during
+an iteration over edges and requires data sets associated with the two nodes and two cells that each edge references.
 
 \begin{listing}[H]
   \begin{minted}[linenos]{c}
@@ -458,7 +463,8 @@ Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in the 
     Definition of the res\_calc kernel with reals represented as single precision floating point numbers.
     Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes
     of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge.
-    Note that the res set is updated by incrementing. The important part of this are the data requirements of the kernel
+    Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges.
+  The important part of this definition are the data requirements of the kernel
     and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not
     need to be passed in explicitly.\label{lst:ResCalcKernelC}
   }
@@ -467,7 +473,7 @@ Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in the 
 \subsection{Indirection maps}
 Having defined the data sets and the kernels, we now need to define the indirection maps that express the connectivity
 of the mesh and the relationships between the elements of the mesh. Airfoil has five such maps called: edge, cell, ecell, bedge, becell.
-They are presented in figure \ref{fig:Airfoil_maps}.
+They are presented in Figure \ref{fig:Airfoil_maps}.
 
 \begin{figure}[H]
   \centering
@@ -487,11 +493,11 @@ For example, the invokation of the res\_calc kernel defined in Listing \ref{lst:
           &res[4*ecell[2*i]], &res[4*ecell[2*i+1]]
           );
 \end{minted}
-Recall that res\_calc operates on edges, and correlate the arguments to the type signature in Listing \ref{lst:ResCalcKernelC}. There
-is a double level of indirection going on here. $i$ is the number of the edge we are currently processing ($i$ ranges in $[0..number\_of\_edges - 1]$).
-As described in the section on mesh representation, the two nodes corresponding to the edge are stored at indices $2*i$ and $2*i+1$ of the \emph{edge} map.
-For each of those nodes, res\_calc requires the corresponding element in the $x$ data set. Recall from table \ref{tab:Airfoil_datasets} that the $x$ set
-has a dimension of 2. Therefore the node numbers acquired from  $edge[2*i]$ and $edge[2*i+1]$ are multiplied by 2 and used as indices
+Recall that res\_calc operates on edges. There
+is a double level of indirection going on here. \verb!i! is the number of the edge we are currently processing (\verb!i! ranges in $[0..number\_of\_edges - 1]$).
+As described in the section on mesh representation, the two nodes corresponding to the edge are stored at indices \verb!2*i! and \verb!2*i+1! of the \emph{edge} map.
+For each of those nodes, res\_calc requires the corresponding element in the $x$ data set. Recall from Table \ref{tab:Airfoil_datasets} that the $x$ set
+has a dimension of 2. Therefore the node numbers acquired from  \verb!edge[2*i]! and \verb!edge[2*i+1]! are multiplied by 2 and used as indices
 into the array $x$ to access the correct data. Similarly for the rest of the arguments.
 
 The complete iteration step in a sequential implementation of Airfoil is shown in Listing \ref{lst:AirfoilIteration}.
@@ -501,10 +507,11 @@ the number of edges and the number of boundary edges respectively.
 
 A run of the sequential version in Listing \ref{lst:AirfoilIteration} on a mesh with 721801 nodes, 1438600 edges, 2800 boundary edges and 720000 cells
 on a machine with an Intel Core i7-2600 CPU at 3.4 GHz takes about 115.6 seconds to complete 2000 iterations.
-The time spent in each kernel is presented in table \ref{tab:Airfoil_timesCPU}. It is evident that the computation is dominated by the res\_calc and adt\_calc
+The time spent in each kernel is presented in Table \ref{tab:Airfoil_timesCPU}. It is evident that the computation is dominated by the res\_calc and adt\_calc
 kernels.
+
 In this project we will be concentrating on accelerating the res\_calc kernel because it is the most computationally intensive kernel and because it has the most
-complex data access patterns that make it the interesting case to study. Finding a way to accelerate res\_calc would pave the way for accelerating any similar kernel.
+complex data access patterns that make it the interesting case to study. Finding a way to accelerate res\_calc will pave the way for accelerating any similar kernel.
 
 \begin{table} [H]
   \begin{tabular}{| c | c | c |}
@@ -594,7 +601,7 @@ then included in what is termed a \emph{maxfile} that contains various other met
 design such as I/O stream names, named memory and register names, various runtime parameters etc.
 The maxfile can be linked against a normal C/C++ application using standard tools (gcc, ld etc).
 The interaction with the FPGA is performed by a low-level runtime: MaxCompilerRT and a driver
-layer: MaxelerOS. A diagram of the toolchain is shown in figure~\ref{fig:max_toolchain}
+layer: MaxelerOS. A diagram of the toolchain is shown in Figure~\ref{fig:max_toolchain}
 \cite{MaxCompiler_whitepaper}.
 
 Computational kernels in MaxCompiler have input streams that are pushed through a pipelined
@@ -603,10 +610,8 @@ is seen as analogous to a variable in conventional programming languages. It's v
 changes each cycle.
 
 \subsection{MaxCompiler example}
-We present a MaxCompiler design that computes a running 3-point average of a stream of floating point values (32 bits)
-in Listing~\ref{lst:MaxCompilerMovAvg}.
-\clearpage
-\begin{listing}[h]
+Listing \ref{lst:MaxCompilerMovAvg} shows a MaxCompiler design that computes a running 3-point average of a stream of floating point values (32 bits).
+\begin{listing}[H]
 	\begin{minted}[linenos]{java}
 pulic class MovingAverageKernel extends Kernel {
 
@@ -644,11 +649,14 @@ MaxCompiler code is written in a Java-like language called MaxJ that provides ov
  that express choice. A Java API is provided that contains various useful design elements, such as counters (HWVars that increment
  their values in many configurable ways every cycle) that can be accessed through the control.count field.
 
-The resulting dataflow graph can be seen in figure~\ref{fig:MovAvgGraph}
+The resulting dataflow graph can be seen in Figure~\ref{fig:MovAvgGraph}
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.75\textwidth]{pics/MovAvgKernel.png}
-  \caption{The dataflow graph resulting from the code in Listing~\ref{lst:MaxCompilerMovAvg}   \label{fig:MovAvgGraph}}
+  \caption{The dataflow graph resulting from the code in Listing~\ref{lst:MaxCompilerMovAvg}. Note: the $stream.offset(x,-1)$ and $stream.offset(x,+1)$
+expressions are shown here using the rhombuses with $+1$ and $-1$, evaluating the value of $x$ one cycle in the 'future' and one cycle in the past
+respectively. The other nodes have the obvious meanings.}
+\label{fig:MovAvgGraph}
 \end{figure}
 
 Kernel designs form part of a MaxCompiler design. The user also specifies a manager that describes the streaming connections
@@ -699,7 +707,8 @@ After we have specified a manger, we can build the design in order to create the
    }
  }
 \end{minted}
-This builds our design for a MAX3 card (containing a Xilinx Virtex6 FPGA) using the "MovingAverage" name for the design.
+This builds our design for a MAX3 card (containing a Xilinx Virtex6 FPGA) using the "MovingAverage" name for the design. The second
+argument to the constructor (\verb!false!) signifies that we are building a hardware design and not a simulation.
 
 Now that we have a .max file, we can interact with the FPGA from the host code by using
 the MaxCompilerRT API, an example of which is shown in Listing~\ref{lst:MovAvgHostCode}.
@@ -762,7 +771,7 @@ The Virtex6\cite{Virtex6Spec} FPGA by Xilinx used in the MAX3 card has about 4MB
 be confused with the external DRAM. The host machine can communicate with the card through the PCIe bus
 using the MaxCompilerRT API. The external DRAM will be used to store the bulk of the mesh data and therefore
 achieving maximum utilisation of it is be one of the focal points of this project. The top-level parts of the hardware
-we are dealing with are presented in figure \ref{fig:maxHW}.
+we are dealing with are presented in Figure \ref{fig:maxHW}.
 
 The FPGA provides a number of resources that can be used to specify a design. The Xilinx Virtex6 chip we
 are using defines four such elements:
@@ -805,14 +814,14 @@ and the FPGA.}
 \label{fig:maxHW}
 \end{figure}
 
-\subsection{Mesh Partitioning and halos}
+\subsection{Mesh partitioning and halos}
 In computing the optimal memory layout for our application, we have to partition large meshes into partitions
 that fit in the block RAM of the FPGA. We use a popular and widely available set of tools called METIS developed
 by George Karypis \cite{METISPaper} that uses state of the art techniques to partition meshes, graphs, hypergraphs and matrices
 according to various parameters like size, edge/hyperedge cut, minimising certain metrics etc. It is a highly robust and efficient
  tool that we use through its C API. Since an iteration over a mesh element may require data associated with another element, partitions have a set of elements
 called a \emph{halo region} that consists of all the elements (cells, nodes, edges) that maybe accessed from another partition.
-Consider figure \ref{fig:partition}. The partitioning is shown with the red line. The four partitions share cells (shown in purple), edges (shown in red)
+Consider Figure \ref{fig:partition}. The partitioning is shown with the red line. The four partitions share cells (shown in purple), edges (shown in red)
 and nodes (along the red line). This presents a difficulty when computing an edge that uses cells in the halo region of another partition,
 since we are storing a single partition at a time on the device. The method used to deal with this issue is called the
 \emph{halo exchange mechanism} and it opens up a large design space, with decisions usually dependent on the hardware and communication
@@ -862,11 +871,11 @@ frameworks.
 \end{figure}
 
 \subsection{Floating point vs fixed point arithmetic}
-As presented in table \ref{tab:Airfoil_datasets}, the most important data sets in Airfoil (q, adt, res) consist of
+As presented in Table \ref{tab:Airfoil_datasets}, the most important data sets in Airfoil (q, adt, res) consist of
 real numbers. Therefore a decision must be made on the low level number representation. The most common representation
 for real numbers in most modern architectures is the IEEE-754\cite{IEEEFP} floating point representation. This representation
 stores the number using three fields: the sign bit, the mantissa and the exponent. The representation of a 32-bit floating point
-number is shown in figure \ref{fig:FPSP}. The standard also specifies double precision floating point numbers using 64 bits:
+number is shown in Figure \ref{fig:FPSP}. The standard also specifies double precision floating point numbers using 64 bits:
 11 bits for the exponent and 53 bits for the mantissa. In general, a floating point number with $N$ bits for the exponent
 can represent a range from $\pm 1 \times 2^{-\frac{2^N}{2}-2}$ to $\pm 2 \times 2^{\frac{2^N}{2} - 1}$. For 32-bit single precision
 numbers, this range is $[\pm 1\times 2^{-126}..\pm 2\times 2^{127}]$. The details of how the mantissa, the exponent and the sign bit
@@ -998,7 +1007,7 @@ The differentiating factors of this project from existing work are:
 reordering techniques custom-fitted for the chosen architecture.}
 \item{Our design aims to work for large meshes, in the order of $10^5$ - $10^6$ nodes.}
 \item{We attempt to keep the design of the hardware accelerator as simple as possible,
-without complex memory access patterns and relying on host-side preprocessing to figure out
+without complex memory access patterns and relying on host-side preprocessing to Figure out
 the optimal data layout. We are focused on maximising DRAM bandwidth utilisation.}
 \end{itemize}
 
@@ -1036,7 +1045,7 @@ that must be correctly summed up for each cell before that cell is output. Thus 
 pipeline must be added to the current value of res for the relevant cells. We use more block RAMs to store the intermediate
 $res$ results, since the access pattern to $res$ is the same as the access pattern for the cells.
 
-The architecture diagram of that description is shown in figure \ref{fig:Architecture1st}. The node and cell data for the
+The architecture diagram of that description is shown in Figure \ref{fig:Architecture1st}. The node and cell data for the
 current partition are streamed in from the DRAM and stored in the block RAMs. They are then read in a pattern described
 by the connectivity between edges, nodes and cells and fed into the pipeline that produces the $res$ increments for two
 cells that must then be added to the currenty values of $res$ for those cells. Thus we have an accumulator node between
@@ -1093,7 +1102,7 @@ The accelerator will then have all the data it needs to process all its edges, h
 it computes for the halo cells will be only partial results that need to be combined with the results
 of the other partitions that access those cells. This addition of partial results will be performed on the host.
 We add some logic to choose the whether to read the cell and node data from the halo RAMs or the normal RAMs to obtain
-an architecture shown in figure \ref{fig:ArchitecturePCIe}. This approach to halo exchange is similar to the
+an architecture shown in Figure \ref{fig:ArchitecturePCIe}. This approach to halo exchange is similar to the
 ghost cell mechanism \cite{GhostCellPaper}.
 Thus the stages for processing a partition become:
 \begin{enumerate}
@@ -1194,7 +1203,7 @@ the first mircro-partition, we can immediately start processing it while reading
 the second mircro-partition has finished streaming in and the processing has finished for the first one, we can write out the results
 of the first one while processing the second. This allows us to achieve an overlap of data transfer and computation 
 in a scheme reminiscent of a simple processor pipeline, where the fetch, computation and commit stages overlap to increase the utilisation of the relevant units.
-As shown in figure \ref{fig:upartition}, the two micro-partitions will invariably share some elements in a small region we 
+As shown in Figure \ref{fig:upartition}, the two micro-partitions will invariably share some elements in a small region we 
 call the \emph{intra-partition halo}(IPH). Care must be taken to not write out the results of the intra-partition halo or overwrite
 the data in it before both mirco-partitions have finished processing. 
 To avoid confusion we call the top-level partitions macro-partitions.
@@ -1244,7 +1253,7 @@ state machine will need to know the sizes of the micro-partitions, the intra-par
 the external halo. This can be added to the design as a separate stream that contains vectors
 of integers that represent the required sizes. Compared to the sizes of the partitions, the size
 of the size vector is negligible and therefore does not impact the performance of the memory system.
-Finally, we arrive at the architecture shown in figure \ref{fig:ArchitectureSM}. 
+Finally, we arrive at the architecture shown in Figure \ref{fig:ArchitectureSM}. 
 The interleaving of I/O and processing gives rise to a pipeline-like execution pattern, shown in
 figure \ref{fig:partPipeline}. Notice how at every stage there is I/O activity that keeps the DRAM
 and PCIe streams busy.
@@ -1642,11 +1651,11 @@ Substituting values for our test mesh of 721801 nodes, 720000 cells and 1438600 
 with one arithmetic pipeline running at $f = 240$MHz we get
 values for $t_1 = 1.71\times 10^{-5}s, t_2 = 3.44\times 10^{-5}s, t_3 =  3.44\times 10^{-5}s$ for a total runtime $t_{tot} = 7.48\times 10^{-3}s$.
 Extrapolating to 2000 iterations, we get $t^{2000}_{tot} = 14.96s$. This estimated runtime beats the time of 53.99 seconds
-for res\_calc shown in table \ref{tab:Airfoil_timesCPU}, achieving a speedup of $\times 3.6$. However, it is more interesting to compare the runtime to an accelerated version.
+for res\_calc shown in Table \ref{tab:Airfoil_timesCPU}, achieving a speedup of $\times 3.6$. However, it is more interesting to compare the runtime to an accelerated version.
 One such implementation, developed at the Software Performance Optimisation group at Imperial College uses the NVIDIA Tesla M2050 accelerator \cite{TeslaM2050}
 programmed using the OpenCL framework \cite{OpenCL}. It uses the large number of cores present on the card to launch thousands of threads in parallel, thus
 greatly accelerating computation.
-The times for the various Airfoil kernels on the same test mesh are shown in table \ref{tab:Airfoil_timesCPU}:
+The times for the various Airfoil kernels on the same test mesh are shown in Table \ref{tab:Airfoil_timesCPU}:
 \begin{table} [H]
   \begin{tabular}{| c | c | c |}
     \hline                        
@@ -1664,13 +1673,13 @@ The total run time is 9.67 seconds.}
 Notice how the execution time has improved in contrast to the single-threaded CPU variant and how res\_calc now dominates the execution time.
 The time we should be planning to beat is 6.51 seconds. In the graphs following, the times are reported in seconds.
 
-\subsubsection{Number of arithmetic pipelines}
+\subsubsection{Number of arithmetic pipelines $n_p$}
 If we look at the numbers we computed for the above mesh we notice that for phases 2 and 3 of the accelerator, the time spent
 computing the edges ($t_{FPGA}$) is $3.44\times 10^{-5}s$, dominating the execution of that phase, while the time for DRAM transfer is
 $t_{DRAM} = 4.43\times 10^{-6}s$. This is a strong indication that the edge processing is the bottleneck in performance. Recall that
 $t_{FPGA} = \dfrac{E_{\mu p}}{f \times n_p}$. $E_{\mu p}$ is a characteristic of the mesh and not subject to variation. The clock frequency
 $f$ and the number of arithmetic pipelines $n_p$ we can vary. Lets start with $n_p$. Increasing the number of pipelines we get a considerable
-boost in performance, as shown in figure \ref{fig:Pipelines}.
+boost in performance, as shown in Figure \ref{fig:Pipelines}.
 
 \begin{figure}[H]
   \centering
@@ -1683,10 +1692,10 @@ Notice how after 8 pipelines we do not get a performance boost anymore because t
 in particular. Using just 4 pipelines our architecture is estimated to beat the Tesla performance, which is an impressive result, considering
 the hundreds of concurrent cores running on the Tesla.
 
-\subsubsection{Clock frequency}
+\subsubsection{Clock frequency $f$}
 Next we explore the effects of varying the clock frequency of the chip. Realistically, the frequencies achievable on the hardware range
-from 120MHz to 300MHz. The results of increasing the frequency are presented in figure \ref{fig:frequencies}. While frequencies above 300MHz
-are not in general achievable, we present the increase it would take to catch up to the Tesla implementation. As we can see, raising the clock
+from 120MHz to 300MHz. The results of increasing the frequency are presented in Figure \ref{fig:frequencies}. While frequencies above 300MHz
+are not in general achievable, we present the theoretical increase it would take to catch up to the Tesla implementation. As we can see, raising the clock
 frequency is clearly a worse choice than increasing the number of pipelines. Note also that raising the clock frequency implies more energy
 consumption leading to more heat dissipation, further reducing the temptation to raise it.
 \begin{figure}[H]
@@ -1696,9 +1705,9 @@ consumption leading to more heat dissipation, further reducing the temptation to
 \label{fig:frequencies}}
 \end{figure}
 
-\subsubsection{Clock frequency and arithmetic pipelines}
+\subsubsection{Clock frequency $f$ and arithmetic pipelines $n_p$}
 It is interesting to see the effects of varying the frequency $f$ as well as the number of arithmetic pipelines $n_p$. The results of such an experimentation
-are shown in figures \ref{fig:frequencies_pipelines} and \ref{fig:frequencies_pipelines3D}. 
+are shown in Figures \ref{fig:frequencies_pipelines} and \ref{fig:frequencies_pipelines3D}. 
 \begin{figure}[H]
   \centering
     \includegraphics[angle=-90, width=0.8\textwidth]{graphs/frequencies_pipelines.pdf}
@@ -1719,10 +1728,10 @@ $\times 13.8$ speedup over the serial CPU version. These numbers validate the ar
 potential speedup. Having performed this performance analysis, we can now move on to implementing the architecture in order to discover potential
 issues that might prevent us from achieving the maximum performance that we predict with this model.
 
-\subsubsection{Partition size}
+\subsubsection{Partition size $C_{pp}$}
 Once we remove the arithmetic pipeline bottleneck by adding more pipelines we can experiment with partition sizes to see the effects. varying the 
-number of cells per partition $C_{pp}$ gives us the data shown in figure \ref{fig:partition_sizes}. Note, also the ratio of non-halo to halo transfers
-in figure \ref{fig:partition_ratios}.
+number of cells per partition $C_{pp}$ gives us the data shown in Figure \ref{fig:partition_sizes}. Note, also the ratio of non-halo to halo transfers
+in Figure \ref{fig:partition_ratios}.
 
 \begin{figure}[h]
 \centering
@@ -1761,7 +1770,7 @@ between global and local numbering and use them to translate the \emph{cell} ind
 Now we can perform the second level of partitioning by breaking up each partition into 2 micro-partitions. We actually want three regions
 from this process: the two micro-partitions and the intra-partition halo (\emph{IPH}). We assign edges to each partition again
 taking care to add the nodes and cells from the neighbouring micro-partition. Since METIS provides a partition number for each cell and node,
-we need to figure out the IPH region ourselves. We store the nodes for each micro-partition into a set (we used a hash set but any implementation
+we need to Figure out the IPH region ourselves. We store the nodes for each micro-partition into a set (we used a hash set but any implementation
 could be used) called $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$ and calculate the IPH region by $Nodes_{IPH} = Nodes_{\mu p1} \cap Nodes_{\mu p2}$. Now
 we need to remove the common nodes from $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$, that is $Nodes_{\mu p1} := Nodes_{\mu p1} \backslash Nodes_{IPH}$ and
 $Nodes_{\mu p2} := Nodes_{\mu p2} \backslash Nodes_{IPH}$, where $A \backslash B$ is the set $A$ with the elements of set $B$ removed ($\backslash$ is the set difference operator).
@@ -1776,7 +1785,7 @@ One of the operands is the increment computed by the
 arithmetic pipeline and the other is the previous value of $res$ that was read from the corresponding BRAM. The new $res$ result that must be written
 back to the BRAMs will be produced in $l$ cycles. This means that within that window we must not access the same BRAM address (i.e. the same cell) because
 we will have not commited the previous result of $res$ that is still in the accumulator pipeline, thus getting two values for $res$ that will be commited to
-the BRAM with the earliest one being overwritten instead of being added. This outcome is shown in figure \ref{fig:edge_dependency} where two values $v_1$ and $v_4$
+the BRAM with the earliest one being overwritten instead of being added. This outcome is shown in Figure \ref{fig:edge_dependency} where two values $v_1$ and $v_4$
 for the cell at $\alpha_0$ are being computed. When $v_4$ exits the pipeline it will be written at address $\alpha_0$ in the BRAM, only to be overriden by $v_1$ 3 cycles
 later. To work around this issue we constrain the iteration order of the edges in each micro-partition. The constraint is that for every edge no edge in a window of
 width $l$ must access the any of the two cells. Thus, given an ordering of $n$ edges $sch$ the validity of the schedule $sch$ for a window width $l$ can be determined
@@ -1833,7 +1842,7 @@ computed in the accumulator pipeline. The conflicting values for address $\alpha
 
 \begin{program}[H]
  \begin{algorithmic}
- \Function{$boolean$ validSchedule} {$sch[~]$, $n$, $l$}
+ \Function{$boolean$ validSchedule} {node[~]$sch$, int $n$, int $l$}
    \For{$i$ in $[0..n-1]$}
      \State $C_i \gets$ set of cells referenced by edge $sch[i]$
      \For{$j\gets 1$ ; $j < l$ ; $j\gets j+1$}
@@ -1857,7 +1866,7 @@ this definition we construct an \emph{adjacency graph} where the nodes are the e
 nodes with an edge if the two edge partitions are adjacent. That way we know that edges belonging to two
 non-adjacent partitions will never conflict and can be scheduled one after the other. That way, the problem
 of finding a schedule for the edges can be reduced to finding a schedule for the nodes in the adjacency graph
-such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in figure
+such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in Figure
 \ref{fig:parts_graph}. Using the adjacency graph we can transform algorithm \ref{alg:valid_schedule} for checking
 the validity of a schedule into algorithm \ref{alg:valid_schedule_graph}.
 
@@ -1953,7 +1962,7 @@ from that partitioning (right).}
 
 \begin{program}[H]
  \begin{algorithmic}
- \Function{$boolean$ validGraphSchedule} {$sch[~]$, $n$, $l$, $g$}
+ \Function{$boolean$ validSchedule'} {node[~] $sch$, int $n$, int $l$, Graph $g$}
    \For{$i$ in $[0..n-1]$}
      \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
        \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
@@ -2008,7 +2017,7 @@ schedule and determine which of its
     \If{$count =$ number of nodes in $g$}
       \State \Return $TRUE$
     \EndIf
-    \ForAll{$nn$ in $g$ and not adjacen to $n$}
+    \ForAll{$nn$ in $g$ and not adjacent to $n$}
       \If{$nn \notin res~ \wedge$ \Call{validPos}{$res, nn, count, l, g$}}
         \State enqueue $nn$ in $q$
       \EndIf

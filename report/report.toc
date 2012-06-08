@@ -11,7 +11,7 @@
 \contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{19}{section.2.3}
 \contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{20}{subsection.2.3.1}
 \contentsline {subsection}{\numberline {2.3.2}Hardware}{26}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Mesh Partitioning and halos}{27}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.3}Mesh partitioning and halos}{27}{subsection.2.3.3}
 \contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{28}{subsection.2.3.4}
 \contentsline {section}{\numberline {2.4}Previous work}{29}{section.2.4}
 \contentsline {chapter}{\numberline {3}Design and Modelling}{33}{chapter.3}
@@ -25,10 +25,10 @@
 \contentsline {subsection}{\numberline {3.6.2}Phase 2}{48}{subsection.3.6.2}
 \contentsline {subsection}{\numberline {3.6.3}Phase 3}{48}{subsection.3.6.3}
 \contentsline {subsection}{\numberline {3.6.4}Design space exploration}{49}{subsection.3.6.4}
-\contentsline {subsubsection}{Number of arithmetic pipelines}{49}{section*.24}
-\contentsline {subsubsection}{Clock frequency}{51}{section*.26}
-\contentsline {subsubsection}{Clock frequency and arithmetic pipelines}{51}{section*.28}
-\contentsline {subsubsection}{Partition size}{53}{section*.31}
+\contentsline {subsubsection}{Number of arithmetic pipelines $n_p$}{49}{section*.24}
+\contentsline {subsubsection}{Clock frequency $f$}{51}{section*.26}
+\contentsline {subsubsection}{Clock frequency $f$ and arithmetic pipelines $n_p$}{51}{section*.28}
+\contentsline {subsubsection}{Partition size $C_{pp}$}{53}{section*.31}
 \contentsline {chapter}{\numberline {4}Implementation}{55}{chapter.4}
 \contentsline {section}{\numberline {4.1}Mesh partitioning}{55}{section.4.1}
 \contentsline {section}{\numberline {4.2}Edge scheduling}{56}{section.4.2}

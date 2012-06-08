@@ -11,7 +11,7 @@
 \BOOKMARK [1][-]{section.2.3}{Hardware platform, Maxeler toolchain and the streaming model of computation}{chapter.2}
 \BOOKMARK [2][-]{subsection.2.3.1}{MaxCompiler example}{section.2.3}
 \BOOKMARK [2][-]{subsection.2.3.2}{Hardware}{section.2.3}
-\BOOKMARK [2][-]{subsection.2.3.3}{Mesh Partitioning and halos}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.3}{Mesh partitioning and halos}{section.2.3}
 \BOOKMARK [2][-]{subsection.2.3.4}{Floating point vs fixed point arithmetic}{section.2.3}
 \BOOKMARK [1][-]{section.2.4}{Previous work}{chapter.2}
 \BOOKMARK [0][-]{chapter.3}{Design and Modelling}{}
