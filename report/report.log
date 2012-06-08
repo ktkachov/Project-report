@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  7 JUN 2012 19:20
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  8 JUN 2012 13:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -574,6 +574,98 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 \mathdisplay@stack=\toks30
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
+)
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2009/04/10 v2.0 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2009/10/02 xcolor patch
+))
+\@linkdim=\dimen179
+\Hy@linkcounter=\count141
+\Hy@pagecounter=\count142
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Option `linktocpage' set `true' on input line 2864.
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing OFF on input line 2995.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3191.
+(/vol/lab/tex/inputs/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
+)
+LaTeX Info: Redefining \url on input line 3428.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+))
+\Fld@menulength=\count143
+\Field@Width=\dimen180
+\Fld@charsize=\dimen181
+\Field@toks=\toks31
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring OFF on input line 4397.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count144
+\c@Item=\count145
+)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
+\Fld@listcount=\count146
 ) (./report.aux
 
 LaTeX Warning: Label `tab:Airfoil_timesCPU' multiply defined.
@@ -581,84 +673,105 @@ LaTeX Warning: Label `tab:Airfoil_timesCPU' multiply defined.
 )
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 23.
-LaTeX Font Info:    ... okay on input line 23.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
+LaTeX Font Info:    ... okay on input line 24.
  (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count141
-\scratchdimen=\dimen179
+\scratchcounter=\count147
+\scratchdimen=\dimen182
 \scratchbox=\box44
-\nofMPsegments=\count142
-\nofMParguments=\count143
-\everyMPshowfont=\toks31
-\MPscratchCnt=\count144
-\MPscratchDim=\dimen180
-\MPnumerator=\count145
-\everyMPtoPDFconversion=\toks32
+\nofMPsegments=\count148
+\nofMParguments=\count149
+\everyMPshowfont=\toks32
+\MPscratchCnt=\count150
+\MPscratchDim=\dimen183
+\MPnumerator=\count151
+\everyMPtoPDFconversion=\toks33
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
+Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
 runsystem(pygmentize -S default -f latex > report.pyg)...executed.
 
  (./report.pyg)
+Package hyperref Info: Link coloring OFF on input line 24.
+ (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count152
+)
+LaTeX Info: Redefining \ref on input line 24.
+LaTeX Info: Redefining \pageref on input line 24.
+ (./report.out)
+(./report.out)
+\@outlinefile=\write6
+\openout6 = `report.out'.
+
+\AtBeginShipoutBox=\box45
+
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 48.
+(Font)              size <5> substituted on input line 49.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 85.
+(Font)              size <5> substituted on input line 86.
 
-LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 92.
+LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 93.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.76653> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.54753> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 92.
+(Font)              size <5> substituted on input line 93.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 92.
+LaTeX Font Info:    Try loading font information for U+msa on input line 93.
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 92.
+LaTeX Font Info:    Try loading font information for U+msb on input line 93.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -681,7 +794,18 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [1] [1] (./report.toc
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): dest
+ination with the same identifier (name{page.1}) has been already used, duplicat
+e ignored
+<to be read again> 
+                   \relax 
+l.161 \end{abstract}
+                     [1]pdfTeX warning (ext4): destination with the same identi
+fier (name{page.1}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.178 \newpage
+               [1] (./report.toc
 Overfull \hbox (8.0727pt too wide) in paragraph at lines 11--11
  [][] []\OT1/cmr/m/n/10.95 Hardware plat-form, Max-eler toolchain and the strea
 m-ing model 
@@ -690,21 +814,21 @@ m-ing model
 [2
 
 ])
-\tf@toc=\write6
-\openout6 = `report.toc'.
+\tf@toc=\write7
+\openout7 = `report.toc'.
 
  [3]
 Chapter 1.
 [4
 
-] <pics/airfoil_mesh.png, id=32, 363.60844pt x 352.31625pt>
+] <pics/airfoil_mesh.png, id=200, 363.60844pt x 352.31625pt>
 File: pics/airfoil_mesh.png Graphic file (type png)
 
 <use pics/airfoil_mesh.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5] <pics/graph_simple.png, id=37, 127.97812pt x 370.38374pt>
+[5] <pics/graph_simple.png, id=207, 127.97812pt x 370.38374pt>
 File: pics/graph_simple.png Graphic file (type png)
 
 <use pics/graph_simple.png>
@@ -712,60 +836,60 @@ File: pics/graph_simple.png Graphic file (type png)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6 <./pics/airfoil_mesh.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 281.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 282.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 281.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 282.
  [7 <./pics/graph_simple.png (PNG copy)>] [8]
 Chapter 2.
 [9
 
-] <pics/mesh_small.png, id=53, 621.82312pt x 412.54124pt>
+] <pics/mesh_small.png, id=231, 621.82312pt x 412.54124pt>
 File: pics/mesh_small.png Graphic file (type png)
 
 <use pics/mesh_small.png> [10 <./pics/mesh_small.png (PNG copy)>]
-<pics/data_set_ex.png, id=59, 417.56pt x 358.33875pt>
+<pics/data_set_ex.png, id=239, 417.56pt x 358.33875pt>
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
-Underfull \hbox (badness 5475) in paragraph at lines 347--347
+Underfull \hbox (badness 5475) in paragraph at lines 348--348
 []\OT1/cmr/m/n/10.95 Figure 2.2: |An ex-am-ple mesh with co-or-di-nate data as-
 so-ci-ated
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 347--347
+Underfull \hbox (badness 1521) in paragraph at lines 348--348
 \OT1/cmr/m/n/10.95 with each node ($(\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95
  )$ from $\OML/cmm/m/it/10.95 node[]id []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.9
 5 x; y\OT1/cmr/m/n/10.95 )$). The co-or-di-nate data
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 347--347
+Underfull \hbox (badness 3009) in paragraph at lines 348--348
 \OT1/cmr/m/n/10.95 will be rep-re-sented as an ar-ray of float-ing point num-be
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
 
 [11 <./pics/data_set_ex.png (PNG copy)>]
-<pics/coloured_mesh.png, id=64, 207.02344pt x 343.2825pt>
+<pics/coloured_mesh.png, id=249, 207.02344pt x 343.2825pt>
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
-Underfull \hbox (badness 2608) in paragraph at lines 402--402
+Underfull \hbox (badness 2608) in paragraph at lines 403--403
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 402--402
+Underfull \hbox (badness 1057) in paragraph at lines 403--403
 \OT1/cmr/m/n/10.95 bound-ary of the
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 402--403
+Overfull \hbox (30.0pt too wide) in paragraph at lines 403--404
  [] 
  []
 
@@ -783,8 +907,10 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
+Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
+t line 464.
  [14] [15]
-<pics/airfoil_maps.pdf, id=80, 259.97125pt x 224.84pt>
+<pics/airfoil_maps.pdf, id=279, 259.97125pt x 224.84pt>
 File: pics/airfoil_maps.pdf Graphic file (type pdf)
 
 <use pics/airfoil_maps.pdf>
@@ -815,17 +941,17 @@ Overfull \vbox (18.60411pt too high) has occurred while \output is active []
 
 
 [18]
-Overfull \hbox (0.72623pt too wide) in paragraph at lines 571--571
+Overfull \hbox (0.72623pt too wide) in paragraph at lines 572--572
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
 
 
-Overfull \hbox (4.29962pt too wide) in paragraph at lines 572--579
+Overfull \hbox (4.29962pt too wide) in paragraph at lines 573--580
 \OT1/cmr/m/n/10.95 pro-vides a Java-compatible object-oriented API to spec-ify 
 the dataflow graph.
  []
 
-<pics/max_toolchain.pdf, id=96, 541.02126pt x 411.5375pt>
+<pics/max_toolchain.pdf, id=310, 541.02126pt x 411.5375pt>
 File: pics/max_toolchain.pdf Graphic file (type pdf)
 
 <use pics/max_toolchain.pdf> [19 <./pics/max_toolchain.pdf>] [20]
@@ -843,7 +969,7 @@ runsystem(rm report.pyg)...executed.
  [21
 
 ]
-<pics/MovAvgKernel.png, id=111, 324.46219pt x 350.05782pt>
+<pics/MovAvgKernel.png, id=337, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
 <use pics/MovAvgKernel.png> [22 <./pics/MovAvgKernel.png (PNG copy)>]
@@ -886,7 +1012,7 @@ Overfull \vbox (5.0041pt too high) has occurred while \output is active []
 
 
 [25] [26] [27] [28]
-Overfull \hbox (11.17102pt too wide) in paragraph at lines 893--895
+Overfull \hbox (11.17102pt too wide) in paragraph at lines 894--896
 [][] 
  []
 
@@ -895,7 +1021,7 @@ Chapter 3.
 [33
 
 ] [34] [35]
-Overfull \hbox (96.44386pt too wide) in paragraph at lines 1179--1182
+Overfull \hbox (96.44386pt too wide) in paragraph at lines 1180--1183
  [] 
  []
 
@@ -904,7 +1030,7 @@ Overfull \vbox (91.65251pt too high) has occurred while \output is active []
 
 
 [37] [38]
-Overfull \hbox (78.75056pt too wide) in paragraph at lines 1303--1304
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1304--1305
  [] 
  []
 
@@ -926,26 +1052,26 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (62.26428pt too wide) in paragraph at lines 1403--1407
+Overfull \hbox (62.26428pt too wide) in paragraph at lines 1404--1408
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 54.44595pt on input line 1409.
+LaTeX Warning: Float too large for page by 54.44595pt on input line 1410.
 
 [40] [41] [42] [43]
-Overfull \hbox (87.47011pt too wide) in paragraph at lines 1535--1536
+Overfull \hbox (87.47011pt too wide) in paragraph at lines 1536--1537
 [][] 
  []
 
 [44] [45] [46]
-Overfull \hbox (0.2757pt too wide) in paragraph at lines 1611--1622
+Overfull \hbox (0.2757pt too wide) in paragraph at lines 1612--1623
 \OT1/cmr/m/n/10.95 In phase 2, the first micro-partition gets pro-cessed, i.e. 
 its edges are streamed
  []
 
 [47]
-Overfull \hbox (16.64537pt too wide) in paragraph at lines 1632--1636
+Overfull \hbox (16.64537pt too wide) in paragraph at lines 1633--1637
 \OT1/cmr/m/n/10.95 re-main the same for $\OML/cmm/m/it/10.95 t[]$\OT1/cmr/m/n/1
 0.95 , $\OML/cmm/m/it/10.95 t[]$ \OT1/cmr/m/n/10.95 and $\OML/cmm/m/it/10.95 t[
 ]$\OT1/cmr/m/n/10.95 . $\OML/cmm/m/it/10.95 t[] \OT1/cmr/m/n/10.95 = \OML/cmm/m
@@ -953,28 +1079,28 @@ Overfull \hbox (16.64537pt too wide) in paragraph at lines 1632--1636
 10.95 )$.
  []
 
-[48] [49] <graphs/pipelines.pdf, id=205, 361.35pt x 252.945pt>
+[48] [49] <graphs/pipelines.pdf, id=537, 361.35pt x 252.945pt>
 File: graphs/pipelines.pdf Graphic file (type pdf)
 
 <use graphs/pipelines.pdf>
-<graphs/frequencies.pdf, id=206, 361.35pt x 252.945pt>
+<graphs/frequencies.pdf, id=539, 361.35pt x 252.945pt>
 File: graphs/frequencies.pdf Graphic file (type pdf)
 
 <use graphs/frequencies.pdf> [50 <./graphs/pipelines.pdf>]
-<graphs/frequencies_pipelines.pdf, id=215, 505.89pt x 722.7pt>
+<graphs/frequencies_pipelines.pdf, id=552, 505.89pt x 722.7pt>
 File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
 
 <use graphs/frequencies_pipelines.pdf> [51 <./graphs/frequencies.pdf>]
-<graphs/freq_pipes3D.pdf, id=224, 361.35pt x 252.945pt>
+<graphs/freq_pipes3D.pdf, id=567, 361.35pt x 252.945pt>
 File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
 
 <use graphs/freq_pipes3D.pdf> [52 <./graphs/frequencies_pipelines.pdf> <./graph
 s/freq_pipes3D.pdf>]
-<graphs/partition_sizes.pdf, id=238, 361.35pt x 252.945pt>
+<graphs/partition_sizes.pdf, id=584, 361.35pt x 252.945pt>
 File: graphs/partition_sizes.pdf Graphic file (type pdf)
 
 <use graphs/partition_sizes.pdf>
-<graphs/partition_ratios.pdf, id=239, 361.35pt x 252.945pt>
+<graphs/partition_ratios.pdf, id=585, 361.35pt x 252.945pt>
 File: graphs/partition_ratios.pdf Graphic file (type pdf)
 
 <use graphs/partition_ratios.pdf>
@@ -986,15 +1112,21 @@ Chapter 4.
 [55
 
 ] [56]
-\@float@every@program=\toks33
-\c@program=\count146
+\@float@every@program=\toks34
+\c@program=\count153
+Package hyperref Info: bookmark level for unknown program defaults to 0 on inpu
+t line 1849.
  [57]
-Overfull \hbox (30.15854pt too wide) in paragraph at lines 1941--1943
+Overfull \hbox (50.07538pt too wide) in paragraph at lines 1948--1950
 [][] 
  []
 
 [58] [59]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 1991--1994
+Overfull \vbox (9.40245pt too high) has occurred while \output is active []
+
+
+[60] [61]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 2089--2092
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -1002,7 +1134,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[60
+[62
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -1010,7 +1142,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [61] [62]
+ [63] [64]
 Chapter 5.
 \openout4 = `report.pyg'.
 
@@ -1027,7 +1159,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [63
+ (./report.out.pyg [65
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -1039,7 +1171,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [64])
+ (./report.out.pyg [66])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -1065,7 +1197,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [65] (./report.aux)
+ [67] (./report.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.45247pt have occurred.
@@ -1075,13 +1207,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 13421 strings out of 495000
- 252668 string characters out of 1180493
- 352298 words of memory out of 3000000
- 16261 multiletter control sequences out of 15000+50000
+ 16644 strings out of 495000
+ 300884 string characters out of 1180493
+ 421396 words of memory out of 3000000
+ 19245 multiletter control sequences out of 15000+50000
  16939 words of font info for 66 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
- 47i,16n,68p,792b,865s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 47i,16n,68p,836b,878s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/font
@@ -1101,9 +1233,9 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 onts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmt
 i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (67 pages, 728390 bytes).
+Output written on report.pdf (69 pages, 786975 bytes).
 PDF statistics:
- 363 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 788 PDF objects out of 1000 (max. 8388607)
+ 176 named destinations out of 1000 (max. 500000)
+ 339 words of extra memory for PDF output out of 10000 (max. 10000000)
 

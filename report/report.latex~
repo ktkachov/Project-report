@@ -16,10 +16,11 @@
 \usepackage{scalefnt}
 \usepackage{minted}
 \usepackage{amsmath}
+\usepackage[linktocpage]{hyperref}
 
 \title{Accelerating Unstructured Mesh Computations using a Custom Streaming Architecture}
 \author{Kyrylo Tkachov\\\\ Supervisor: Professor Paul Kelly\\\\Second marker: Dr. Tony Field.}
-
+\hypersetup{pdfborder = {0 0 0}}
 \begin{document}
 \begin{titlepage}
 \begin{center}
@@ -1834,9 +1835,9 @@ computed in the accumulator pipeline. The conflicting values for address $\alpha
  \begin{algorithmic}
  \Function{$boolean$ validSchedule} {$sch[~]$, $n$, $l$}
    \For{$i$ in $[0..n-1]$}
-     \State $C_i:=$ set of cells referenced by edge $sch[i]$
-     \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
-       \State $C_{(i+j)\%n}:=$ set of cells referenced by edge $sch[(i+j)\%n]$
+     \State $C_i \gets$ set of cells referenced by edge $sch[i]$
+     \For{$j\gets 1$ ; $j < l$ ; $j\gets j+1$}
+       \State $C_{(i+j)\%n}\gets$ set of cells referenced by edge $sch[(i+j)\%n]$
        \If{$C_i \cap C_{(i+j)\%n} \neq \emptyset$}
          \State\Return $False$
        \EndIf
@@ -1857,8 +1858,8 @@ nodes with an edge if the two edge partitions are adjacent. That way we know tha
 non-adjacent partitions will never conflict and can be scheduled one after the other. That way, the problem
 of finding a schedule for the edges can be reduced to finding a schedule for the nodes in the adjacency graph
 such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in figure
-\ref{fig:parts_graph}. Using the adjacency graph we can transform algorithm \ref{alg:valid_schedule} into
-algorithm \ref{alg:valid_schedule_graph}.
+\ref{fig:parts_graph}. Using the adjacency graph we can transform algorithm \ref{alg:valid_schedule} for checking
+the validity of a schedule into algorithm \ref{alg:valid_schedule_graph}.
 
 
 \begin{figure}[h]
@@ -1866,10 +1867,10 @@ algorithm \ref{alg:valid_schedule_graph}.
   \fill[green!10!white] (0, 0) rectangle (10,10);
   \draw[step=0.5cm] (0, 0) grid (10, 10);
 
-  \fill [blue!20!white] (0, 0) rectangle (10,10);
+  \fill [blue!40!white] (0, 0) rectangle (10,10);
   \fill [orange!20!white] (0, 0) rectangle (3, 4);
   \fill [green!20!white] (3, 4) rectangle (0, 7.5);
-  \fill [magenta!20!white] (0, 10) rectangle (5, 7.5);
+  \fill [magenta!20!white] (0, 10) rectangle (3, 7.5);
   \fill [red!40!white] (3, 7.5) rectangle (7, 4);
   \fill [purple!20!white] (7, 7.5) rectangle (10,10);
   \fill [orange!40!white] (5, 0) rectangle (7, 4);
@@ -1877,6 +1878,7 @@ algorithm \ref{alg:valid_schedule_graph}.
   \fill [yellow!20!white] (7, 0) rectangle (10, 4);
   \fill [olive!40!white] (3, 0) rectangle (5, 4);
   \fill [violet!40!white] (5, 7.5) rectangle (7, 10);
+  \fill [blue!20!white] (7, 4) rectangle (10, 7.5);
 
   \draw[step=0.5cm] (0, 0) grid (10, 10);
 
@@ -1888,8 +1890,8 @@ algorithm \ref{alg:valid_schedule_graph}.
   \draw [red, very thick] (3, 4) rectangle (0, 7.5);
   \node at (1.5, 5.75) [fill=green!20!white]{\Large 2};
 
-  \draw [red, very thick] (0, 10) rectangle (5, 7.5);
-  \node at (2.5, 8.75) [fill=magenta!20!white]{\Large 3};
+  \draw [red, very thick] (0, 10) rectangle (3, 7.5);
+  \node at (1.5, 8.75) [fill=magenta!20!white]{\Large 3};
 
   \draw [red, very thick] (3, 7.5) rectangle (7, 4);
   \node at (5, 5.75) [fill=red!40!white]{\Large 4};
@@ -1902,44 +1904,49 @@ algorithm \ref{alg:valid_schedule_graph}.
 
   \node at (4, 2) [fill=olive!40!white]{\Large 7};
   \node at (8.5, 5.75) [fill=blue!20!white]{\Large 8};
+
   \node at (6, 8.75)[fill=violet!40!white] {\Large 9};
 
   \draw [red, very thick] (5, 0) rectangle (7, 4);
   \node at (6, 2)[fill=orange!40!white] {\Large 10};
 
+  \node at (4, 8.75) [fill=blue!40!white]{\Large 11};
+
+  \draw [red, very thick] (3, 7.5) rectangle (5, 10);
 
 
   \draw [thick, dashed] (11, 11) -- (11, -1);
 
-  \node (one) at (18, 10) [circle, draw, fill=orange!20!white] {\Large 1};
-  \node (two) at (17, 8) [circle, draw, fill=green!20!white] {\Large 2};
-  \node (three) at (16, 6) [circle, draw, fill=magenta!20!white] {\Large 3};
-  \node (four) at (17, 4) [circle, draw, fill=red!40!white] {\Large 4};
-  \node (five) at (15.5, 4.5) [circle, draw, fill=purple!20!white] {\Large 5};
-  \node (six) at (13, 4.5) [circle, draw, fill=yellow!20!white] {\Large 6};
-  \node (seven) at (19, 2) [circle, draw, fill=olive!40!white] {\Large 7};
-  \node (eight) at (13.5, 2.3) [circle, draw, fill=blue!20!white] {\Large 8};
-  \node (nine) at (15, 2) [circle, draw, fill=violet!40!white] {\Large 9};
-  \node (ten) at (17, 0) [circle, draw, fill=orange!40!white] {\Large 10};
+  \node (one) at (14, 10) [circle, draw, fill=orange!20!white] {\Large 1};
+  \node (two) at (16, 8) [circle, draw, fill=green!20!white] {\Large 2};
+  \node (three) at (20, 4) [circle, draw, fill=magenta!20!white] {\Large 3};
+  \node (four) at (16, 6) [circle, draw, fill=red!40!white] {\Large 4};
+  \node (five) at (18, 6) [circle, draw, fill=purple!20!white] {\Large 5};
+  \node (six) at (14.5, 3) [circle, draw, fill=yellow!20!white] {\Large 6};
+  \node (seven) at (12, 6) [circle, draw, fill=olive!40!white] {\Large 7};
+  \node (eight) at (17, 4) [circle, draw, fill=blue!20!white] {\Large 8};
+  \node (nine) at (18.5, 4) [circle, draw, fill=violet!40!white] {\Large 9};
+  \node (ten) at (12, 2) [circle, draw, fill=orange!40!white] {\Large 10};
+  \node (eleven) at (18.5, 2) [circle, draw, fill=blue!40!white] {\Large 11};
 
   \draw [thick](one) -- (seven);
   \draw [thick](one) -- (two);
   \draw [thick](two) -- (four);
-  \draw [thick](two) -- (three);
-  \draw [thick](three) -- (four);
-  \draw [thick](three) -- (nine);
+  \draw [thick](two.east) to[out=0, in=90] (three.north);
+  \draw [thick](three) -- (eleven);
   \draw [thick](four) -- (seven);
   \draw [thick](four) -- (eight);
   \draw [thick](four) -- (nine);
   \draw [thick](four) -- (ten);
+  \draw [thick](four.south) to[out=270, in=180] (eleven.west);
   \draw [thick](five) -- (eight);
   \draw [thick](five) -- (nine);
   \draw [thick](six) -- (eight);
-  \draw [thick](six.west) to[out=180, in=180] (ten.west);
+  \draw [thick](six) -- (ten);
   \draw [thick](seven) -- (ten);
-
+  \draw [thick](nine) -- (eleven);
 \end{tikzpicture}
-\caption{An example partitioning of a micro-partition into 9 edge partitions (left) and the adjacency graph generated 
+\caption{An example partitioning of a micro-partition into 11 edge partitions (left) and the adjacency graph generated 
 from that partitioning (right).}
 \label{fig:parts_graph}
 \end{figure}
@@ -1962,7 +1969,98 @@ $n$ elements for a window width of $l$.}
 \label{alg:valid_schedule_graph}
 \end{program}
 
+To actually compute a schedule given an adjacency graph and a window width, we can use 
+algorithm \ref{alg:schedule_algorithm}. Note that the $sch$ function is recursive and 
+uses the $validPos$ function defined in algorithm \ref{alg:schedule_validPos} to
+pick which nodes to attempt to schedule.
+Due to the high number of adjacency checks, we choose to represent the graphs
+as two-dimensional adjacency matrices $mat$ where $mat[i][j] = 1$ if nodes $i$ and $j$
+are adjacent and $max[i][j] = 0$ otherwise. Algorithm \ref{alg:schedule_algorithm} performs a 
+depth-first search of the state space, backtracking to try different paths if a particular
+path fails thanks to the use of queues to store nodes that should be tried next. The recursion
+handles the backtracking. At every call of $sch$ the algorithm will try to place a node into the
+schedule and determine which of its
 
+\begin{program}[H]
+ \begin{algorithmic}
+ \Function{$node[~]$ scheduleGraph} {Graph $g$, int $l$}
+  \State $nnodes \gets $ number of nodes in $g$
+  \State $res \gets node[nnodes]$ \Comment{array of size $nnodes$}
+  \State $count \gets 0$
+  \State $q \gets empty$ $Queue$
+  \ForAll{$node$ in $g$}
+    \State enqueue $node$ in $q$
+  \EndFor
+  \While{$q$ not empty}
+    \State $n \gets q.dequeue()$
+    \If{\Call{sch}{$n, \&count, \&res, g,$}}
+      \State \Return $sch$
+    \EndIf
+  \EndWhile
+  \State \Call{print}{"Could not schedule graph"}
+  \State \Return $NULL$
+  \EndFunction
+
+  \Function{$boolean$ sch}{node $n$, node[~] $res$, int $count$, Graph $g$, int $l$}
+    \State $res[count] \gets n$
+    \State $count \gets count + 1$
+    \State $q \gets empty$ $Queue$
+    \If{$count =$ number of nodes in $g$}
+      \State \Return $TRUE$
+    \EndIf
+    \ForAll{$nn$ in $g$ and not adjacen to $n$}
+      \If{$nn \notin res~ \wedge$ \Call{validPos}{$res, nn, count, l, g$}}
+        \State enqueue $nn$ in $q$
+      \EndIf
+    \EndFor
+    \While{$q$ not empty}
+      \State $child \gets q.dequeue()$
+      \If{\Call{sched}{child, \&res, \&count, g, l}}
+        \State \Return $TRUE$
+      \EndIf
+    \EndWhile
+    \State $count \gets count - 1$ \Comment{Failed to find schedule down this path}
+    \State \Return $FALSE$
+  \EndFunction
+
+ \end{algorithmic}
+\caption{Pseudocode that computes a schedule for the nodes in a graph $g$ with window width $l$.}
+\label{alg:schedule_algorithm}
+\end{program}
+
+\begin{program}
+\begin{algorithmic}
+  \Function{$boolean$ validPos}{node[~] $arr$, node $n$, int $c$, int $l$, Graph $g$}
+    \If{$c \leq l$}
+      \For{$p \gets 0$ ; $p < count$ ; $++p$}
+        \If{$arr[p]$ adjacent to $n$ in $g$}
+          \State \Return $FALSE$
+        \EndIf
+      \EndFor
+    \EndIf
+    \State $nnodes \gets$ number of nodes in $g$
+    \If{$c > nnodes - l$}
+      \For{$p \gets 0$ ; $p < l - (nnodes - c)$ ; $p \gets p+1$}
+        \If{$arr[p]$ adjacent to $n$ in $g$}
+          \State \Return $FALSE$
+        \EndIf
+      \EndFor
+    \EndIf
+    \For{$p \gets c - l - 1$ ; $p < c$ ; $p\gets p + 1$}
+      \If{$arr[p]$ adjacent to $n$ in $g$}
+        \State \Return $FALSE$
+      \EndIf
+    \EndFor
+  \State \Return $TRUE$
+  \EndFunction
+\end{algorithmic}
+\caption{Pseudocode that checks whether inserting node $n$ at position $c$ into the
+schedule $arr$ will produce a valid partial schedule for window width $l$ of the nodes in
+graph $g$.}
+\label{alg:schedule_validPos}
+\end{program}
+
+ 
 % \chapter{Evaluation}
 % In this section we present the evaluation strategy for our approach. We explain the alternative
 % implementations of Airfoil and contrast their performance with our scheme. We test the various

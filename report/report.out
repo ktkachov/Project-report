@@ -1,0 +1,32 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}
+\BOOKMARK [1][-]{section.1.1}{The domain}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{The Airfoil program}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{FPGAs, streaming and acceleration}{chapter.1}
+\BOOKMARK [1][-]{section.1.4}{Contributions}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{Background}{}
+\BOOKMARK [1][-]{section.2.1}{Unstructured meshes and their representation}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{Airfoil}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.2.1}{Computational kernels and data sets}{section.2.2}
+\BOOKMARK [2][-]{subsection.2.2.2}{Indirection maps}{section.2.2}
+\BOOKMARK [1][-]{section.2.3}{Hardware platform, Maxeler toolchain and the streaming model of computation}{chapter.2}
+\BOOKMARK [2][-]{subsection.2.3.1}{MaxCompiler example}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.2}{Hardware}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.3}{Mesh Partitioning and halos}{section.2.3}
+\BOOKMARK [2][-]{subsection.2.3.4}{Floating point vs fixed point arithmetic}{section.2.3}
+\BOOKMARK [1][-]{section.2.4}{Previous work}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{Design and Modelling}{}
+\BOOKMARK [1][-]{section.3.1}{DRAM and mesh storage}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{Result accumulation and storage}{chapter.3}
+\BOOKMARK [1][-]{section.3.3}{Halo exchange mechanism}{chapter.3}
+\BOOKMARK [1][-]{section.3.4}{Two-level partitioning}{chapter.3}
+\BOOKMARK [1][-]{section.3.5}{The case for a custom streaming pipeline}{chapter.3}
+\BOOKMARK [1][-]{section.3.6}{Performance Model}{chapter.3}
+\BOOKMARK [2][-]{subsection.3.6.1}{Phase 1}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.2}{Phase 2}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.3}{Phase 3}{section.3.6}
+\BOOKMARK [2][-]{subsection.3.6.4}{Design space exploration}{section.3.6}
+\BOOKMARK [0][-]{chapter.4}{Implementation}{}
+\BOOKMARK [1][-]{section.4.1}{Mesh partitioning}{chapter.4}
+\BOOKMARK [1][-]{section.4.2}{Edge scheduling}{chapter.4}
+\BOOKMARK [0][-]{chapter.5}{Appendix}{}
+\BOOKMARK [1][-]{section.5.1}{Airfoil Kernel definitions in C}{chapter.5}
