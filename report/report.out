@@ -28,5 +28,9 @@
 \BOOKMARK [0][-]{chapter.4}{Implementation}{}
 \BOOKMARK [1][-]{section.4.1}{Mesh partitioning}{chapter.4}
 \BOOKMARK [1][-]{section.4.2}{Edge scheduling}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.2.1}{No-op edges}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.2}{Complexity}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.3}{No-op edge-partitions}{section.4.2}
+\BOOKMARK [2][-]{subsection.4.2.4}{Graph colouring and edge scheduling revisited}{section.4.2}
 \BOOKMARK [0][-]{chapter.5}{Appendix}{}
 \BOOKMARK [1][-]{section.5.1}{Airfoil Kernel definitions in C}{chapter.5}

@@ -1848,11 +1848,11 @@ computed in the accumulator pipeline. The conflicting values for address $\alpha
      \For{$j\gets 1$ ; $j < l$ ; $j\gets j+1$}
        \State $C_{(i+j)\%n}\gets$ set of cells referenced by edge $sch[(i+j)\%n]$
        \If{$C_i \cap C_{(i+j)\%n} \neq \emptyset$}
-         \State\Return $False$
+         \State\Return $FALSE$
        \EndIf
      \EndFor
    \EndFor
-   \State \Return $True$
+   \State \Return $TRUE$
  \EndFunction
  \end{algorithmic}
 \caption{Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.}
@@ -1874,7 +1874,6 @@ the validity of a schedule into algorithm \ref{alg:valid_schedule_graph}.
 \begin{figure}[h]
 \begin{tikzpicture}[scale=0.7]
   \fill[green!10!white] (0, 0) rectangle (10,10);
-  \draw[step=0.5cm] (0, 0) grid (10, 10);
 
   \fill [blue!40!white] (0, 0) rectangle (10,10);
   \fill [orange!20!white] (0, 0) rectangle (3, 4);
@@ -1962,15 +1961,15 @@ from that partitioning (right).}
 
 \begin{program}[H]
  \begin{algorithmic}
- \Function{$boolean$ validSchedule'} {node[~] $sch$, int $n$, int $l$, Graph $g$}
+ \Function{$boolean$ validSchedule} {node[~] $sch$, int $n$, int $l$, Graph $g$}
    \For{$i$ in $[0..n-1]$}
      \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
        \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
-         \State\Return $False$
+         \State\Return $FALSE$
        \EndIf
      \EndFor
    \EndFor
-   \State \Return $True$
+   \State \Return $TRUE$
  \EndFunction
  \end{algorithmic}
 \caption{Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with
@@ -1987,8 +1986,9 @@ as two-dimensional adjacency matrices $mat$ where $mat[i][j] = 1$ if nodes $i$ a
 are adjacent and $max[i][j] = 0$ otherwise. Algorithm \ref{alg:schedule_algorithm} performs a 
 depth-first search of the state space, backtracking to try different paths if a particular
 path fails thanks to the use of queues to store nodes that should be tried next. The recursion
-handles the backtracking. At every call of $sch$ the algorithm will try to place a node into the
-schedule and determine which of its
+handles the backtracking. At every call of $sched$ the algorithm will try to place a node into the
+schedule and determine which of its non-adjacent nodes are eligible for consideration, calling
+itself recursively to place the next node.
 
 \begin{program}[H]
  \begin{algorithmic}
@@ -2010,7 +2010,7 @@ schedule and determine which of its
   \State \Return $NULL$
   \EndFunction
 
-  \Function{$boolean$ sch}{node $n$, node[~] $res$, int $count$, Graph $g$, int $l$}
+  \Function{$boolean$ sched}{node $n$, node[~] $res$, int $count$, Graph $g$, int $l$}
     \State $res[count] \gets n$
     \State $count \gets count + 1$
     \State $q \gets empty$ $Queue$
@@ -2069,7 +2069,148 @@ graph $g$.}
 \label{alg:schedule_validPos}
 \end{program}
 
- 
+\subsection{No-op edges}
+Once the edge-partition schedule has been computed, the edge order can be computed by taking an edge from each partition
+in the scheduled order in turn. However, in practice each edge-partition will not contain exactly the same amount of edges,
+leaving "gaps" in the pipeline. To work around this, we add \emph{no-op edges}(no operation edges), dummy edges that will be used to fill
+the gaps in the pipeline and whose resulting $res$ increments will be ignored by the accelerator commit phase. The conversion
+from an edge-partition schedule to a schedule for the edges is shown in Figure \ref{fig:edge_sched_order}. No-op edges
+clearly are a necessary but undesirable addition to the edge schedule since they take up pipeline stages in order to
+preserve the independency between each pipeline stage, but producing no useful arithmetic result. In practice, we introduce
+no-op cells and no-op nodes in the accelerator that when processed (upon encountering a no-op edge) will produce NaN (Not a Number)
+floating point values that will be ignored by the RAM selector. The number of no-op edges depends on how uneven the partitioning is.
+In practice, the disparity between the number of edges in each edge-partition increases in proportion to the size of the partitions.
+We can ask METIS to produce as even partitions as possible, but there will always be some disparities.
+
+\begin{figure}
+\hspace*{-4.5em}
+\begin{tikzpicture}
+  \fill [green!10!white] (0,0) rectangle +(1, 5);
+  \fill [red!20!white] (1,0) rectangle +(1, 6);
+  \fill [blue!10!white] (2,0) rectangle +(1, 5);
+  \fill [orange!10!white] (3,0) rectangle +(1, 4);
+  \fill [purple!10!white] (4,0) rectangle +(1, 6);
+  \fill [blue!40!white] (5,0) rectangle +(1, 5);
+
+  \fill [black!30!white] (0,5) rectangle +(1, 1);
+  \fill [black!30!white] (2,5) rectangle +(2, 1);
+  \fill [black!30!white] (3,4) rectangle +(1, 1);
+  \fill [black!30!white] (5,5) rectangle +(1, 1);
+
+
+  \draw[black, fill=black!30!white] (7, 4) rectangle +(1, 1);
+  \node at (9.5, 4.5) {= no-op edge};
+
+  \draw[->, red, thick] (7, 2) -- +(1, 0);
+  \node at (10.5, 2) {= edge scheduling order};
+
+
+  \draw[step=1] (0, 0) grid (6, 6);
+
+  \node at (0.5, -0.5) {\Large 1};
+  \node at (1.5, -0.5) {\Large 2};
+  \node at (2.5, -0.5) {\Large 3};
+  \node at (3.5, -0.5) {\Large 4};
+  \node at (4.5, -0.5) {\Large 5};
+  \node at (5.5, -0.5) {\Large 6};
+\draw [->, dashed] (0, -1) -- +(6, 0);
+\node at (3, -1.5) {\emph{Scheduled edge partitions}};
+
+  \node at (-0.5, 0.5) {\Large 1};
+  \node at (-0.5, 1.5) {\Large 2};
+  \node at (-0.5, 2.5) {\Large 3};
+  \node at (-0.5, 3.5) {\Large 4};
+  \node at (-0.5, 4.5) {\Large 5};
+  \node at (-0.5, 5.5) {\Large 6};
+\node at (-1.5, 3)[rotate=90] {\emph{Number of Edges}};
+\draw[->, dashed] (-1, 0) -- +(0, 6);
+  
+\draw[red, thick, ->] (0.5, 0.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 0.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 1.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 1.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 2.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 2.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 3.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 3.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 4.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 4.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 5.5) -- ++(5,0);
+
+
+  \fill [green!10!white] (-1,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (-0.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (0,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (0.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (1,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (1.5,-3) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (2,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (2.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (3,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (3.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (4,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (4.5,-3) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (5,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (5.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (6,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (6.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (7,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (7.5,-3) rectangle +(0.5, 0.5);
+
+  \fill [green!10!white] (-1,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (-0.5,-5) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (0,-5) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (0.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (1,-5) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (1.5,-5) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (2,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (2.5,-5) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (3,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (3.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (4,-5) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (4.5,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (5,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (5.5,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (6,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (6.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (7,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (7.5,-5) rectangle +(0.5, 0.5);
+
+
+  \draw[step=0.5] (-1, -3) grid +(9, 0.5);
+  \draw[step=0.5] (-1, -5) grid +(9, 0.5);
+\draw [red, ->] (8, -2.85) to[out=0, in=180] (-1, -4.6);
+\end{tikzpicture}
+\caption{Diagram showing the conversion of an edge-partition schedule (top) to an edge schedule (bottom) with the no-op edges shown in gray.}
+\label{fig:edge_sched_order}
+\end{figure}
+
+\subsection{Complexity}
+The algorithm described above (Algorithm \ref{alg:schedule_algorithm}) will find a correct schedule of the
+adjacency graph, but has a forbiddingly high complexity. Consider the \emph{dual adjacency graph} defined as
+the nodes of the adjacency graph connected by an edge iff they are not connected in the adjacency graph. The task
+of scheduling the adjacency graph $g$ with window width $l$ can be transformed into finding a path visiting every node 
+of the dual graph $\overline{g}$ once where each node in the schedule is adjacent to every node in a window of $l$ around it. Intuitively,
+we can see that this problem is at least as hard as the problem of finding a Hamiltonian path, which is known to be
+NP-complete \cite{HamiltonianPath} and thus NP-hard. This has serious implications on the performance of our scheduling algorithm,
+since NP-complete problems do not have any known fast (polynomial-time) algorithms for solving them. In fact, finding an efficient
+polynomial time algorithm would be tantamount to proving {\textbf P}={\textbf{NP}}, thus revolutionising computer science as we know it.
+Algorithm \ref{alg:schedule_algorithm} performs little better than a blind search through the space of possible permutations
+of the nodes, hence its complexity is $O(n) = n!$ where $n$ is the number of nodes in the graph. This is quite poor
+complexity for an algorithm, giving us very poor scaling characteristics. 
+
+\subsection{No-op edge-partitions}
+Fortunately, we can work around this issue by introducing
+\emph{no-op edge-partitions}. No-op edge-partitions contain only no-op edges and are conceptually non-adjacent to any node in the
+adjacency graph (or, conversely, adjacent to every node in the dual adjacency graph) and can therefore be placed at any position in
+the schedule, thus padding it out and making it easier to find a schedule. Obviously, we want to add as few no-op partitions as possible since we
+are trying to reduce the no-op edge count.
+
+\subsection{Graph colouring and edge scheduling revisited}
+A trivial solution for scheduling a graph with window-width $l$ would be to add $l$ no-op partitions after each node, but this would increase the
+edge count in the mesh by a huge amount, adding $l \times e$ edges, where $e$ is the maximum number of edges per edge-partition. The approach we
+use utilises graph colouring to group nodes together and using no-op partitions to pad the space between different colours.
+
 % \chapter{Evaluation}
 % In this section we present the evaluation strategy for our approach. We explain the alternative
 % implementations of Airfoil and contrast their performance with our scheme. We test the various
@@ -2171,6 +2312,11 @@ www.khronos.org/registry/cl/specs/opencl-1.2.pdf
 NVIDIA\\
 \emph{Tesla M2050 / M2070 GPU Module Specification Document}\\
 http://www.nvidia.com/docs/IO/43395/BD-05238-001\_v03.pdf
+
+\bibitem{HamiltonianPath}
+Trummel, K. E. ; Weisinger, J. R.\\
+\emph{The Complexity of the Optimal Searcher Path Problem}\\
+Operations Research , Vol. 34, No. 2 (Mar. - Apr., 1986), pp. 324-327
 
 \end{thebibliography}
 \chapter{Appendix}

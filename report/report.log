@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  8 JUN 2012 15:07
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  11 JUN 2012 19:08
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -821,14 +821,14 @@ m-ing model
 Chapter 1.
 [4
 
-] <pics/airfoil_mesh.png, id=200, 363.60844pt x 352.31625pt>
+] <pics/airfoil_mesh.png, id=220, 363.60844pt x 352.31625pt>
 File: pics/airfoil_mesh.png Graphic file (type png)
 
 <use pics/airfoil_mesh.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5] <pics/graph_simple.png, id=207, 127.97812pt x 370.38374pt>
+[5] <pics/graph_simple.png, id=227, 127.97812pt x 370.38374pt>
 File: pics/graph_simple.png Graphic file (type png)
 
 <use pics/graph_simple.png>
@@ -848,11 +848,11 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 Chapter 2.
 [9
 
-] <pics/mesh_small.png, id=231, 621.82312pt x 412.54124pt>
+] <pics/mesh_small.png, id=251, 621.82312pt x 412.54124pt>
 File: pics/mesh_small.png Graphic file (type png)
 
 <use pics/mesh_small.png> [10 <./pics/mesh_small.png (PNG copy)>]
-<pics/data_set_ex.png, id=239, 417.56pt x 358.33875pt>
+<pics/data_set_ex.png, id=259, 417.56pt x 358.33875pt>
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
@@ -875,7 +875,7 @@ rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
 
 [11 <./pics/data_set_ex.png (PNG copy)>]
-<pics/coloured_mesh.png, id=249, 207.02344pt x 343.2825pt>
+<pics/coloured_mesh.png, id=269, 207.02344pt x 343.2825pt>
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
@@ -910,7 +910,7 @@ runsystem(rm report.pyg)...executed.
 Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
 t line 470.
  [15]
-<pics/airfoil_maps.pdf, id=279, 259.97125pt x 224.84pt>
+<pics/airfoil_maps.pdf, id=299, 259.97125pt x 224.84pt>
 File: pics/airfoil_maps.pdf Graphic file (type pdf)
 
 <use pics/airfoil_maps.pdf>
@@ -951,7 +951,7 @@ Overfull \hbox (4.29962pt too wide) in paragraph at lines 580--587
 the dataflow graph.
  []
 
-<pics/max_toolchain.pdf, id=309, 541.02126pt x 411.5375pt>
+<pics/max_toolchain.pdf, id=329, 541.02126pt x 411.5375pt>
 File: pics/max_toolchain.pdf Graphic file (type pdf)
 
 <use pics/max_toolchain.pdf> [19 <./pics/max_toolchain.pdf>]
@@ -965,7 +965,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
-[20] <pics/MovAvgKernel.png, id=332, 324.46219pt x 350.05782pt>
+[20] <pics/MovAvgKernel.png, id=352, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
 <use pics/MovAvgKernel.png>
@@ -1079,28 +1079,28 @@ Overfull \hbox (16.64537pt too wide) in paragraph at lines 1642--1646
 10.95 )$.
  []
 
-[48] [49] <graphs/pipelines.pdf, id=536, 361.35pt x 252.945pt>
+[48] [49] <graphs/pipelines.pdf, id=556, 361.35pt x 252.945pt>
 File: graphs/pipelines.pdf Graphic file (type pdf)
 
 <use graphs/pipelines.pdf>
-<graphs/frequencies.pdf, id=538, 361.35pt x 252.945pt>
+<graphs/frequencies.pdf, id=558, 361.35pt x 252.945pt>
 File: graphs/frequencies.pdf Graphic file (type pdf)
 
 <use graphs/frequencies.pdf> [50 <./graphs/pipelines.pdf>]
-<graphs/frequencies_pipelines.pdf, id=551, 505.89pt x 722.7pt>
+<graphs/frequencies_pipelines.pdf, id=571, 505.89pt x 722.7pt>
 File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
 
 <use graphs/frequencies_pipelines.pdf> [51 <./graphs/frequencies.pdf>]
-<graphs/freq_pipes3D.pdf, id=566, 361.35pt x 252.945pt>
+<graphs/freq_pipes3D.pdf, id=586, 361.35pt x 252.945pt>
 File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
 
 <use graphs/freq_pipes3D.pdf> [52 <./graphs/frequencies_pipelines.pdf> <./graph
 s/freq_pipes3D.pdf>]
-<graphs/partition_sizes.pdf, id=583, 361.35pt x 252.945pt>
+<graphs/partition_sizes.pdf, id=603, 361.35pt x 252.945pt>
 File: graphs/partition_sizes.pdf Graphic file (type pdf)
 
 <use graphs/partition_sizes.pdf>
-<graphs/partition_ratios.pdf, id=584, 361.35pt x 252.945pt>
+<graphs/partition_ratios.pdf, id=604, 361.35pt x 252.945pt>
 File: graphs/partition_ratios.pdf Graphic file (type pdf)
 
 <use graphs/partition_ratios.pdf>
@@ -1117,7 +1117,7 @@ Chapter 4.
 Package hyperref Info: bookmark level for unknown program defaults to 0 on inpu
 t line 1858.
  [57]
-Overfull \hbox (50.07538pt too wide) in paragraph at lines 1957--1959
+Overfull \hbox (50.07538pt too wide) in paragraph at lines 1956--1958
 [][] 
  []
 
@@ -1126,7 +1126,12 @@ Overfull \vbox (9.40245pt too high) has occurred while \output is active []
 
 
 [60] [61]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 2098--2101
+Overfull \hbox (83.75795pt too wide) in paragraph at lines 2086--2184
+[]|  [] 
+ []
+
+[62] [63]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 2239--2242
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -1134,7 +1139,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[62
+[64
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -1142,7 +1147,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [63] [64]
+ [65] [66]
 Chapter 5.
 \openout4 = `report.pyg'.
 
@@ -1159,7 +1164,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [65
+ (./report.out.pyg [67
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -1171,7 +1176,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [66])
+ (./report.out.pyg [68])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -1197,7 +1202,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [67] (./report.aux)
+ [69] (./report.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 4.45247pt have occurred.
@@ -1207,10 +1212,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 16644 strings out of 495000
- 300884 string characters out of 1180493
- 422936 words of memory out of 3000000
- 19245 multiletter control sequences out of 15000+50000
+ 16664 strings out of 495000
+ 301245 string characters out of 1180493
+ 423144 words of memory out of 3000000
+ 19257 multiletter control sequences out of 15000+50000
  16939 words of font info for 66 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  47i,16n,68p,860b,878s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1233,9 +1238,9 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 onts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmt
 i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (69 pages, 788109 bytes).
+Output written on report.pdf (71 pages, 800608 bytes).
 PDF statistics:
- 787 PDF objects out of 1000 (max. 8388607)
- 176 named destinations out of 1000 (max. 500000)
- 339 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 823 PDF objects out of 1000 (max. 8388607)
+ 184 named destinations out of 1000 (max. 500000)
+ 371 words of extra memory for PDF output out of 10000 (max. 10000000)
 

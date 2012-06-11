@@ -32,5 +32,9 @@
 \contentsline {chapter}{\numberline {4}Implementation}{55}{chapter.4}
 \contentsline {section}{\numberline {4.1}Mesh partitioning}{55}{section.4.1}
 \contentsline {section}{\numberline {4.2}Edge scheduling}{56}{section.4.2}
-\contentsline {chapter}{\numberline {5}Appendix}{65}{chapter.5}
-\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{65}{section.5.1}
+\contentsline {subsection}{\numberline {4.2.1}No-op edges}{61}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Complexity}{63}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}No-op edge-partitions}{63}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Graph colouring and edge scheduling revisited}{63}{subsection.4.2.4}
+\contentsline {chapter}{\numberline {5}Appendix}{67}{chapter.5}
+\contentsline {section}{\numberline {5.1}Airfoil Kernel definitions in C}{67}{section.5.1}
