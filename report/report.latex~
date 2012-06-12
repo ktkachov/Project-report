@@ -227,7 +227,7 @@ section of this report.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.75\textwidth]{pics/airfoil_mesh.png}
-  \caption{Visualisation of a reduced version of the Airfoil mesh  \label{fig:airfoil_mesh}}
+  \caption[Example Airfoil mesh]{Visualisation of a reduced version of the Airfoil mesh  \label{fig:airfoil_mesh}}
  
 \end{figure}
 
@@ -259,7 +259,7 @@ performance.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.2\textwidth]{pics/graph_simple.png}
-  \caption{A simple dataflow graph that implements the function $y(x) = x^2 + x$. The adder and the multiplication nodes
+  \caption[Simple dataflow graph]{A simple dataflow graph that implements the function $y(x) = x^2 + x$. The adder and the multiplication nodes
   are fully pipelined, enabling a throughput of one result per cycle, thus providing us with the intuition for
 accelerating floating point calculations
    \label{fig:graph_simple}}
@@ -327,7 +327,7 @@ But we do not consider such meshes here.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.95\textwidth]{pics/mesh_small.png}
-  \caption{An example mesh and its representation using indirection arrays. The cell numbers are shown inside
+  \caption[Mesh representation with indirection arrays]{An example mesh and its representation using indirection arrays. The cell numbers are shown inside
   the quadrilaterals formed by the nodes (circles) and edges (edges connecting the nodes). Together with the
   indirection map, we also store an integer $dim \in \mathbb{N}$ which specifies the dimension of the mapping.
   Thus, the data associated with element $i$ are stored in the range $[i*dim$, ... , $i*(dim+1)-1]$ of the relevant indirection
@@ -343,7 +343,7 @@ Such an approach is presented in Figure \ref{fig:data_set_ex}.
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.60\textwidth]{pics/data_set_ex.png}
-  \caption{An example mesh with coordinate data associated with each node ($(x,y)$ from $node\_id~(x,y)$).
+  \caption[Mesh data set example]{An example mesh with coordinate data associated with each node ($(x,y)$ from $node\_id~(x,y)$).
   The coordinate data will be represented as an array of floating point numbers
   $x = \{0.0,0.0, 2.78,5.0, 3.0,1.0, 3.0,6.7, 7.5,3.14, 9.0,7.7\}$.
   Again we also record the dimension of the data (in this case $dim=2$) in order to access the data set associated with each
@@ -372,7 +372,7 @@ partitions update the same data item simultaneously \cite{OP2_presentation}.
 \begin{figure}[H]
   \centering
     \includegraphics[width=0.45\textwidth]{pics/coloured_mesh.png}
-  \caption{An example mesh, showing data dependencies between edges that affect cell data.
+  \caption[Example mesh coloring]{An example mesh, showing data dependencies between edges that affect cell data.
 \label{fig:mesh_coloured}}
 \end{figure}
 
@@ -428,7 +428,7 @@ we also define some data sets that are associated with the mesh elements. The da
   \label{tab:Airfoil_kernels}
 \end{table}
 To show a more concrete example of what these kernels do, the res\_calc kernel code in the C language is presented in
-Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in the appendix. The res\_calc kernel applied during
+Listing \ref{lst:ResCalcKernelC}. The rest of the kernels are reproduced in \ref{app_kernels}. The res\_calc kernel applied during
 an iteration over edges and requires data sets associated with the two nodes and two cells that each edge references.
 
 \begin{listing}[H]
@@ -478,7 +478,7 @@ They are presented in Figure \ref{fig:Airfoil_maps}.
 \begin{figure}[H]
   \centering
     \includegraphics[width=0.60\textwidth]{pics/airfoil_maps.pdf}
-  \caption{Diagram showing the maps between the mesh elements The dimension of the map is shown in parentheses next to the name. 
+  \caption[Airfoil maps relationships]{Diagram showing the maps between the mesh elements The dimension of the map is shown in parentheses next to the name. 
   Thus the map \emph{edge} relating edges to nodes with dimension 2 means that for each edge, there are two nodes associated with it.
 \label{fig:Airfoil_maps}}
 \end{figure}
@@ -588,7 +588,7 @@ the correct values will reach the appropriate stages in the pipeline at the corr
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.74\textwidth]{pics/max_toolchain.pdf}
-  \caption{A diagram of the Maxeler toolchain. The data-flow graphs of the computational kernels
+  \caption[Maxeler toolchain diagram]{A diagram of the Maxeler toolchain. The data-flow graphs of the computational kernels
 are defined using a Java API. A manager connects multiple kernels together and handles the
 streaming to and from the kernels of data. These are combined by MaxCompiler and compiled
 into a .max file that can then be linked to a host C/C++ or Fortran application using standard
@@ -653,7 +653,7 @@ The resulting dataflow graph can be seen in Figure~\ref{fig:MovAvgGraph}
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.75\textwidth]{pics/MovAvgKernel.png}
-  \caption{The dataflow graph resulting from the code in Listing~\ref{lst:MaxCompilerMovAvg}. Note: the $stream.offset(x,-1)$ and $stream.offset(x,+1)$
+  \caption[Example data flow graph for MaxCompiler example]{The dataflow graph resulting from the code in Listing~\ref{lst:MaxCompilerMovAvg}. Note: the $stream.offset(x,-1)$ and $stream.offset(x,+1)$
 expressions are shown here using the rhombuses with $+1$ and $-1$, evaluating the value of $x$ one cycle in the 'future' and one cycle in the past
 respectively. The other nodes have the obvious meanings.}
 \label{fig:MovAvgGraph}
@@ -809,7 +809,7 @@ these numbers place a limit on the partition size we can store on the chip at an
 \draw [->] ($(pcie.east) + (0, -0.1)$) -- ($(host.west) + (0, -0.1)$);
 \draw [->] ($(host.west) + (0, 0.1)$) -- ($(pcie.east) + (0, 0.1)$);
 \end{tikzpicture}
-\caption{Diagram of the hardware parts of a MAX card, showing the relationships between the DRAM, PCIe, the host
+\caption[MAX3 card components]{Diagram of the hardware parts of a MAX card, showing the relationships between the DRAM, PCIe, the host
 and the FPGA.}
 \label{fig:maxHW}
 \end{figure}
@@ -865,7 +865,7 @@ frameworks.
   \draw (-0.5,-2.5) node[rotate=270] {Halo region 4};
 
   \end{tikzpicture}
-  \caption{A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges
+  \caption[Mesh partitioning and halos]{A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges
   belonging to the halo region can be accessed by another partition.}
   \label{fig:partition}
 \end{figure}
@@ -901,7 +901,7 @@ mantissa by 2 raised to the power of the exponent, which is typically an expensi
 \draw (12.5, 1.5) node {31};
 
 \end{tikzpicture}
-\caption{The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa.
+\caption[IEEE-754 floating point representation]{The representation of an IEEE-754 single precision floating point number. It has 8 bits for the exponent and 24 bits for the mantissa.
 However, one bit of the mantissa is used to represent the sign, and is therefore unavailable to the rest of the mantissa.}
 \label{fig:FPSP}
 \end{figure}
@@ -1083,7 +1083,7 @@ The steps required to process a partition become:
 \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
 \end{tikzpicture}
 \end{center}
-\caption{Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs
+\caption[Initial accelerator architecture diagram]{Simplified architecture diagram of the accelerator showing the block RAMs storing the node and cell data, the arithmetic pipeline, the result block RAMs
 and the accumulator. The connectivity information is used to address the block RAMs.}
 \label{fig:Architecture1st}
 \end{figure}
@@ -1119,9 +1119,10 @@ dominant and the DRAM will end up being poorly utilised because the kernel will 
 This is a factor to keep in mind when choosing partition sizes and partitioning techniques.
 
 \begin{figure}[H]
+\hspace*{-3.5em}
 \begin{center}
 \begin{tikzpicture}
-[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}]
+[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=3cm, minimum height=1cm}, scale=0.95]
 
 \node (dram) at (5, 23) [input] {Node/Cell data};
 \node (edges) at (14.5, 12) [input] {Edges (addresses)};
@@ -1161,18 +1162,18 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \node (hres) at (12, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} Halo $res$};
 
 \node (rsel) at (9, 7.5) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
-\draw [->, very thick] (res.east) to [out=0, in=270] ($(rsel.south) + (-0.5, 0)$);
-\draw [->, very thick] (hres.west) to [out=180, in=270] ($(rsel.south) + (0.5, 0)$); 
+\draw [->, very thick] (res.east) -| ($(rsel.south) + (-0.5, 0)$);
+\draw [->, very thick] (hres.west) -| ($(rsel.south) + (0.5, 0)$); 
 % \draw [->, very thick] (rsel.east) to [out=0, in=90] (hres.north);
 % \draw [->, very thick] (rsel.west) to [out=180, in=90] (res.north); 
 
 \draw [->, very thick] ($(rsel.north)$) to (add.south);
-\draw [->, dashed, thick] (rsel.east) to[out=0, in=90] ($(hres.north) + (-1, 0)$);
-\draw [->, dashed, thick] (rsel.west) to[out=180, in=90] ($(res.north) + (1, 0)$);
+\draw [->, dashed, thick] (rsel.east) -| ($(hres.north) + (-1, 0)$);
+\draw [->, dashed, thick] (rsel.west) -| ($(res.north) + (1, 0)$);
 
 % \draw [->, very thick] (add.east) to [out=0, in=45] ($(rsel.north) + (0.5cm,0)$);
-\draw [->, very thick] (add.east) to [out=0, in=90] (hres.north);
-\draw [->, very thick] (add.west) to [out=180, in=90] (res.north);
+\draw [->, very thick] (add.east) -| (hres.north);
+\draw [->, very thick] (add.west) -| (res.north);
 
 \draw [->, dashed, thick] (edges.west) to [out=135, in=0] (sel.east);
 \draw [->, dashed, thick] (edges.west) to [out=225, in=45] ($(rsel.north) + (1, 0)$);
@@ -1187,7 +1188,7 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \draw [->,very thick] (arith.south) -- (add.north);
 % \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
 \end{tikzpicture}
-\caption{Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select
+\caption[Accelerator architecture diagram with halo exchange]{Architecture diagram of the accelerator with the PCIe halo exchange mechanism. The RAM selectors will select
 which RAM to read the cell and node data from based on the edge information. They are also used to pick the RAM to write the
 results back to. The dashed lines represent addresses that are used to access the RAMs and to determine which RAMs to access.}
 \label{fig:ArchitecturePCIe}
@@ -1238,7 +1239,7 @@ on the host machine. The first micro-partition should be stored before the intra
 \draw[step=1cm] (-5, 0) grid (7, 6);
 
   \end{tikzpicture}
-  \caption{Partitioning of a macro-partition into two micro-partitions. This introduces a new
+  \caption[Two-level partitioning]{Partitioning of a macro-partition into two micro-partitions. This introduces a new
 intra-partition halo region, shown here in crimson.}
   \label{fig:upartition}
 \end{figure}
@@ -1312,7 +1313,7 @@ and PCIe streams busy.
 \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
 \end{tikzpicture}
 \end{center}
-\caption{Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing.
+\caption[Architecture diagram with state machine added]{Architecture diagram showing the addition of a state machine (node SM) that controls the I/O and the processing.
 The red wires represent the boolean enable signals. The halo and normal RAMs as well as the RAM selectors
 are shown in merged blocks for brevity.}
 \label{fig:ArchitectureSM}
@@ -1405,13 +1406,10 @@ are shown in merged blocks for brevity.}
 
 \draw [red, very thick, rounded corners] (0.2, 2.1) -- ++(4, 0) -- ++(0, -2.6);
 \draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
-
-
-
 % \draw [->, very thick, dashed] (-3.5, 21) -- (-3.5, -1);
 % \draw (-3.5, 10) node {\emph{TIME}};
 \end{tikzpicture}
-\caption{Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme.
+\caption[Overlapping of execution and I/O on the FPGA]{Diagram showing the overlapping of execution and I/O thanks to the two-level partitioning scheme.
 Note that both micro-partitions need the intra-partition halo (IPH) in order to be processed, so the IPH can only
 be written out together with the second micro-partition after both micro-partitions ($\mu$partitions) have been processed. The red boxes
 represent the progress of a single (macro)partition through the accelerator phases.}
@@ -1543,7 +1541,7 @@ discussed in this section.
 \draw [->, thick] (ALU.south) -- ++(0, -2) -- ++(7,0) -- (REGS.south);
 \draw [->, thick, dashed] (8.5, 19.25) to[out=180, in=90] (FD.north);
 \end{tikzpicture}
-\caption{Diagram showing the computation of the function $r=x^2 + y - \sqrt{z}$} by using a custom streaming datapath (left)
+\caption[Custom pipeline vs conventional CPU]{Diagram showing the computation of the function $r=x^2 + y - \sqrt{z}$} by using a custom streaming datapath (left)
 and using a sequence of instructions in a conventional CPU (right).
 \label{fig:StreamVsCPU}
 \end{figure}
@@ -1684,7 +1682,7 @@ boost in performance, as shown in Figure \ref{fig:Pipelines}.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/pipelines.pdf}
-  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the number of arithmetic pipelines in the architecture. The clock frequency
+  \caption[Execution time against number of pipelines]{Plot of estimated execution time for 2000 iterations of res\_calc against the number of arithmetic pipelines in the architecture. The clock frequency
 is set to 240MHz.
 \label{fig:Pipelines}}
 \end{figure}
@@ -1701,7 +1699,7 @@ consumption leading to more heat dissipation, further reducing the temptation to
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/frequencies.pdf}
-  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA using one arithmetic pipeline.
+  \caption[Execution time against clock frequency]{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA using one arithmetic pipeline.
 \label{fig:frequencies}}
 \end{figure}
 
@@ -1711,14 +1709,14 @@ are shown in Figures \ref{fig:frequencies_pipelines} and \ref{fig:frequencies_pi
 \begin{figure}[H]
   \centering
     \includegraphics[angle=-90, width=0.8\textwidth]{graphs/frequencies_pipelines.pdf}
-  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines.
+  \caption[Execution time against number of pipelines and frequency]{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines.
 \label{fig:frequencies_pipelines}}
 \end{figure}
 
 \begin{figure}[H]
   \centering
     \includegraphics[width=0.8\textwidth]{graphs/freq_pipes3D.pdf}
-  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines in a
+  \caption[3-D plot of execution time against number of pipelines and frequency]{Plot of estimated execution time for 2000 iterations of res\_calc against the clock frequency of the FPGA for various numbers of arithmetic pipelines in a
   3-dimensional plot.
 \label{fig:frequencies_pipelines3D}}
 \end{figure}
@@ -1736,20 +1734,19 @@ in Figure \ref{fig:partition_ratios}.
 \begin{figure}[h]
 \centering
     \includegraphics[width=1\textwidth]{graphs/partition_sizes.pdf}
-  \caption{Plot of estimated execution time for 2000 iterations of res\_calc against the number of cells per partition. Note that the horizontal axis
+  \caption[Execution time against partition size]{Plot of estimated execution time for 2000 iterations of res\_calc against the number of cells per partition. Note that the horizontal axis
   is on a log-2 scale. The design has 8 pipelines and runs at 240MHz.}
   \label{fig:partition_sizes}
 \end{figure}
  \begin{figure}[h]
 \centering
 \includegraphics[width=0.9\textwidth]{graphs/partition_ratios.pdf}
-  \caption{Plot of estimated DRAM to PCIe transfer time ratio ($\dfrac{t_{DRAM}}{t_{PCIe}}$) against the number of cells per partition. Note that the horizontal axis
+  \caption[DRAM to PCIe transfer time ratio]{Plot of estimated DRAM to PCIe transfer time ratio ($\dfrac{t_{DRAM}}{t_{PCIe}}$) against the number of cells per partition. Note that the horizontal axis
   is on a log-2 scale.The design has 8 pipelines and runs at 240MHz.}
   \label{fig:partition_ratios}
 \end{figure}
 
-We notice that for values of $C_{pp}$ less than 2048 the PCIe transfer time dominates execution time. For values of $C_{pp} > 8192$ we can see
-that the edge computations become the bottleneck once again. Notice how steeply the performance degrades when PCIe transfers dominate.
+We notice that for values of $C_{pp}$ less than 2048 the PCIe transfer time dominates execution time. Notice how steeply the performance degrades when PCIe transfers dominate.
 This result is to be expected since the size of the halo region is proportional
 to the square root of the partition size, in other words $C^h_{pp} \propto \sqrt{C_{pp}}$.
 
@@ -1832,7 +1829,7 @@ by algorithm \ref{alg:valid_schedule}.
 \draw [->, thick] (bram.east) -- ++(1.75, 0) -- ++(0, 6) -- ($(acc.north) + (0.25, 0.5)$) -- ($(acc.north) + (0.25, 0)$);
 
 \end{tikzpicture}
-\caption{Architecture diagram of the accumulation part of the accelerator design showing the conflicting values of $res$ being
+\caption[Accumulation part with edge dependencies]{Architecture diagram of the accumulation part of the accelerator design showing the conflicting values of $res$ being
 computed in the accumulator pipeline. The conflicting values for address $\alpha_{0}$ are shown in red.}
 \label{fig:edge_dependency}
 \end{figure}
@@ -1867,8 +1864,8 @@ nodes with an edge if the two edge partitions are adjacent. That way we know tha
 non-adjacent partitions will never conflict and can be scheduled one after the other. That way, the problem
 of finding a schedule for the edges can be reduced to finding a schedule for the nodes in the adjacency graph
 such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in Figure
-\ref{fig:parts_graph}. Using the adjacency graph we can transform algorithm \ref{alg:valid_schedule} for checking
-the validity of a schedule into algorithm \ref{alg:valid_schedule_graph}.
+\ref{fig:parts_graph}. Using the adjacency graph we can transform Algorithm \ref{alg:valid_schedule} for checking
+the validity of a schedule into Algorithm \ref{alg:valid_schedule_graph}.
 
 
 \begin{figure}[h]
@@ -1954,7 +1951,7 @@ the validity of a schedule into algorithm \ref{alg:valid_schedule_graph}.
   \draw [thick](seven) -- (ten);
   \draw [thick](nine) -- (eleven);
 \end{tikzpicture}
-\caption{An example partitioning of a micro-partition into 11 edge partitions (left) and the adjacency graph generated 
+\caption[Edge partitions and adjacency graph]{An example partitioning of a micro-partition into 11 edge partitions (left) and the adjacency graph generated 
 from that partitioning (right).}
 \label{fig:parts_graph}
 \end{figure}
@@ -2003,7 +2000,7 @@ itself recursively to place the next node.
   \While{$q$ not empty}
     \State $n \gets q.dequeue()$
     \If{\Call{sch}{$n, \&count, \&res, g,$}}
-      \State \Return $sch$
+      \State \Return $res$
     \EndIf
   \EndWhile
   \State \Call{print}{"Could not schedule graph"}
@@ -2078,7 +2075,7 @@ from an edge-partition schedule to a schedule for the edges is shown in Figure \
 clearly are a necessary but undesirable addition to the edge schedule since they take up pipeline stages in order to
 preserve the independency between each pipeline stage, but producing no useful arithmetic result. In practice, we introduce
 no-op cells and no-op nodes in the accelerator that when processed (upon encountering a no-op edge) will produce NaN (Not a Number)
-floating point values that will be ignored by the RAM selector. The number of no-op edges depends on how uneven the partitioning is.
+floating point values that will be ignored by the result committing mechanism. The number of no-op edges depends on how uneven the partitioning is.
 In practice, the disparity between the number of edges in each edge-partition increases in proportion to the size of the partitions.
 We can ask METIS to produce as even partitions as possible, but there will always be some disparities.
 
@@ -2113,7 +2110,7 @@ We can ask METIS to produce as even partitions as possible, but there will alway
   \node at (3.5, -0.5) {\Large 4};
   \node at (4.5, -0.5) {\Large 5};
   \node at (5.5, -0.5) {\Large 6};
-\draw [->, dashed] (0, -1) -- +(6, 0);
+\draw [->, dashed, >=triangle 45] (0, -1) -- +(6, 0);
 \node at (3, -1.5) {\emph{Scheduled edge partitions}};
 
   \node at (-0.5, 0.5) {\Large 1};
@@ -2123,7 +2120,7 @@ We can ask METIS to produce as even partitions as possible, but there will alway
   \node at (-0.5, 4.5) {\Large 5};
   \node at (-0.5, 5.5) {\Large 6};
 \node at (-1.5, 3)[rotate=90] {\emph{Number of Edges}};
-\draw[->, dashed] (-1, 0) -- +(0, 6);
+\draw[->, dashed, >=triangle 45] (-1, 0) -- +(0, 6);
   
 \draw[red, thick, ->] (0.5, 0.5) -- ++(5,0);
 \draw[red, dashed] (5.5, 0.5) -- +(-5, 1);
@@ -2181,7 +2178,7 @@ We can ask METIS to produce as even partitions as possible, but there will alway
   \draw[step=0.5] (-1, -5) grid +(9, 0.5);
 \draw [red, ->] (8, -2.85) to[out=0, in=180] (-1, -4.6);
 \end{tikzpicture}
-\caption{Diagram showing the conversion of an edge-partition schedule (top) to an edge schedule (bottom) with the no-op edges shown in gray.}
+\caption[Graph schedule to edge schedule]{Diagram showing the conversion of an edge-partition schedule (top) to an edge schedule (bottom) with the no-op edges shown in gray.}
 \label{fig:edge_sched_order}
 \end{figure}
 
@@ -2190,26 +2187,281 @@ The algorithm described above (Algorithm \ref{alg:schedule_algorithm}) will find
 adjacency graph, but has a forbiddingly high complexity. Consider the \emph{dual adjacency graph} defined as
 the nodes of the adjacency graph connected by an edge iff they are not connected in the adjacency graph. The task
 of scheduling the adjacency graph $g$ with window width $l$ can be transformed into finding a path visiting every node 
-of the dual graph $\overline{g}$ once where each node in the schedule is adjacent to every node in a window of $l$ around it. Intuitively,
-we can see that this problem is at least as hard as the problem of finding a Hamiltonian path, which is known to be
+of the dual graph $\overline{g}$ once where each node in the path is adjacent to every node in a window of $l$ around it along that path.
+ Intuitively, we can see that this problem is at least as hard as the problem of finding a Hamiltonian path, which is known to be
 NP-complete \cite{HamiltonianPath} and thus NP-hard. This has serious implications on the performance of our scheduling algorithm,
 since NP-complete problems do not have any known fast (polynomial-time) algorithms for solving them. In fact, finding an efficient
 polynomial time algorithm would be tantamount to proving {\textbf P}={\textbf{NP}}, thus revolutionising computer science as we know it.
 Algorithm \ref{alg:schedule_algorithm} performs little better than a blind search through the space of possible permutations
 of the nodes, hence its complexity is $O(n) = n!$ where $n$ is the number of nodes in the graph. This is quite poor
-complexity for an algorithm, giving us very poor scaling characteristics. 
+complexity for an algorithm that does not scale well at all. For example, a trial attempt at scheduling a graph with 300 nodes
+with window width 18 did not terminate even after an overnight run. Clearly we must do better.
 
 \subsection{No-op edge-partitions}
 Fortunately, we can work around this issue by introducing
 \emph{no-op edge-partitions}. No-op edge-partitions contain only no-op edges and are conceptually non-adjacent to any node in the
 adjacency graph (or, conversely, adjacent to every node in the dual adjacency graph) and can therefore be placed at any position in
-the schedule, thus padding it out and making it easier to find a schedule. Obviously, we want to add as few no-op partitions as possible since we
+the schedule, thus padding it out and making it easier to find a schedule. We want to add as few no-op partitions as possible since we
 are trying to reduce the no-op edge count.
 
 \subsection{Graph colouring and edge scheduling revisited}
 A trivial solution for scheduling a graph with window-width $l$ would be to add $l$ no-op partitions after each node, but this would increase the
-edge count in the mesh by a huge amount, adding $l \times e$ edges, where $e$ is the maximum number of edges per edge-partition. The approach we
-use utilises graph colouring to group nodes together and using no-op partitions to pad the space between different colours.
+edge count in the mesh by a huge amount, adding $l \times e \times n$ no-op edges, where $e$ is the maximum number of edges per edge-partition and $n$ is the
+number of nodes in the adjacency graph or the number of edge-partitions. In this section we transform the scheduling problem (Hamiltonian path problem) to a graph colouring problem
+for which we can compute a sub-optimal but tolerably good solution in polynomial time. The approach we
+use utilises graph colouring to group nodes together and using no-op partitions to pad the space between different colours. We define a 
+colouring of a graph as an assignment of a colour to each node such that no two adjacent nodes have the same colour. Graph colouring is a popular
+problem in computer science and a lot of work has been done in this area. Finding an optimal colouring, one which uses the minimal number of colours
+is known to be NP-complete \cite{GraphColouring}. However, we use a greedy colouring algorithm to compute a sub-optimal but adequate colouring
+that enables us to group independent partitions together (Algorithm \ref{alg:colouring}). Algorithm \ref{alg:colouring} iterates through every node
+in the graph and tries to assign it the lowest numbered colour not assigned to its neighbours (that's where the greediness shows). In the worst case
+each node will be assigned a different colour ($ncolours = nn$), forcing the algorithm to go through all $nn-1$ colours before finding a valid colour
+for itself. Thus, in the worst case we iterate over all the nodes, then through all colours (which will be $O(nn)$) and then through all the neighbours
+of each node (again bounded by $O(nn)$) giving us a worst case complexity of $O(nn^3)$ for a graph with $nn$ nodes. In practice we noticed that the
+algorithm performs well enough and hardly ever encounters the worst case.
+
+Having coloured the adjacency graph, we can now schedule it with a window width $l$ by grouping the nodes with the same colour one after another, safely knowing that they
+do not interfere. Transitioning from one colour to the next though can present a problem, since nodes with different colours are not guaranteed to
+be independent. We mitigate this by adding $l$ no-op edge partitions after each colour group. This means adding $l\times c \times e$ no-op edges
+to the schedule where $c$ is the number of colours. Evidently, the fewer colours we use the less no-op edges are added, so an optimal colouring of the
+adjacency graph is desirable, but cannot be computed efficiently.
+
+With this approach we are guaranteed to add no-op edge-partitions. Recall that for a colouring with $c$ colours of a graph that we are trying to schedule
+with window width $l$ such that the maximum number of edges in each edge partition is $e$, the number of no-op edges we add is $N_{nop} =l\times c \times e $.
+We want to minimise $N_{nop}$. $l$ is a problem parameter and is a characteristic of the hardware. $c$ depends on the quality of the colouring as discussed
+above. $e$ can be minimised by using smaller edge-partitions. Using smaller edge-partitions means creating more of them per micro-partition. Therefore, using
+this scheme, it is in our best interests to use as many edge-partitions as possible.
+
+
+\begin{program}[H]
+\begin{algorithmic}
+\Function{$int[~]$ colourGraph}{Graph $g$}
+\State $nn \gets $ number of nodes in $g$
+\State $colours \gets int[nn]$
+\ForAll{node $n$ in $g$}
+  \State $colours[n] \gets -1$ \Comment{Initialise colours to invalid colour}
+\EndFor
+\State $ncolours \gets 1$
+\ForAll{node $n$ in $g$}
+  \State $c \gets 0$
+  \State $repeat \gets TRUE$
+  \While{$repeat$}
+    \State $available \gets TRUE$
+    \ForAll{node $neigh$ adjacent to $n$ and while $available$}
+      \If{$colours[neigh] = c$}
+        \State $available \gets FALSE$
+      \EndIf
+    \EndFor
+    \If{$available$}
+      \State $colours[n] \gets c$
+      \State $repeat \gets FALSE$
+    \EndIf
+    \State $c \gets c+1$
+    \If{$c = ncolours$}
+     \State $ncolours \gets ncolours + 1$
+    \EndIf
+  \EndWhile
+\EndFor
+\State \Return $colours$
+\EndFunction
+\end{algorithmic}
+\caption{A greedy colouring algorithm that takes an undirected graph $g$ and returns an array containing the colour of each node in $g$}
+\label{alg:colouring}
+\end{program}
+\clearpage
+
+\section{Data sets and padding}
+As dicussed earlier, the kernel on the accelerator has 6 inputs and two outputs:
+\begin{enumerate}
+\item{cell data from DRAM}
+\item{node data from DRAM}
+\item{halo cell data from PCIe}
+\item{halo node data from PCIe}
+\item{Edge/address data from DRAM}
+\item{Size vectors from DRAM}
+\item{$res$ cell data to DRAM}
+\item{$res$ halo cell data to PCIe}
+\end{enumerate}
+The memory system on the MAX3 card places certain limitations on the size of the data streams. In particular: PCIe
+stream widths must be multiples of 128 bits, while DRAM streams must fit into multiples of 1536 bits. These limitations
+force us to pad out data sets so that they can be streamed in and out of the accelerator. Remember that cell data consists
+of the $q$ and $adt$ data sets and the $res$ result. The node data is just the $x$ data set. The edge data is a vector
+of the addresses into the BRAMs while the size vectors contain the sizes of the constituent parts of a partition
+(number of cells, nodes, halo sizes, IPH size etc). For the types of the individual data sets refer to Table \ref{tab:Airfoil_datasets}
+on page \pageref{tab:Airfoil_datasets}. We represent real numbers ($\mathbb{R}$) with 32-bit IEEE-754 floating point numbers. The
+padding required for each data set is shown in Table \ref{tab:data_padding}. Notice how in some cases the padding is quite extensive,
+in the case of node data doubling the size of the input.
+
+The padding will introduce a degradation in performance, since bandwidth is used to transfer these unutilised data items. 
+Due to time limitations we have not had an opportunity to explore more efficient data packing and compression techniques,
+but it is certainly something worth looking into in future work. For now we are interested in getting a working solution
+so that we can identify implementation issues such as this.
+
+\begin{table} [H]
+\begin{center}
+  \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X |}
+    \hline                        
+    I/O stream & Original width(bits) & Padding(bits) & Total width(bits) \\ \hline \hline
+    cell data from DRAM & 160 & 96 & 256\\ \hline
+    node data from DRAM & 64 & 64 & 128 \\ \hline
+    halo cell data from PCIe & 160 & 96 & 256 \\ \hline
+    halo node data from PCIe & 64 & 64 & 128 \\ \hline
+    Edge/address data from DRAM & 56 & 8 & 64\\ \hline
+    Size vectors from DRAM & 238 & 18 & 256\\ \hline
+    $res$ cell data to DRAM & 128 & 0 & 128\\ \hline
+    $res$ halo cell data to PCIe & 128 & 0 & 128 \\ \hline
+  \end{tabularx}
+\end{center}
+  \caption{Table showing the amount of padding added to each dataset to enable streaming.}
+  \label{tab:data_padding}
+\end{table}
+
+\section{FPGA accelerator}
+\subsection{I/O streams and manager}
+The accelerator architecture design has been discussed in the design chapter and its implementation follows those guidelines.
+A high-level diagram of the input and output streams is shown in Figure \ref{fig:ManagerGraph}. In practice there is also an
+extra stream from PCIe directly to DRAM that is used to load the data into the DRAM upon initialisation from the host, but it is ommited from this
+diagram. The DRAM streams need \emph{address generators} that define the memory access pattern and tell the system where to fetch data from.
+In our architecture the DRAM address generators provide a simple linear, contiguous stream of increasing addresses for each of the DRAM data streams
+so that the memory controller can take advantage of the locality and provide the maximum bandwidth possible.
+\begin{figure}[h]
+\hspace*{-2.5em}
+\begin{tikzpicture}
+
+\draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
+\draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
+
+\node at (4, 11.5) {\emph{DRAM}};
+\node at (10.25, 11.5) {\emph{PCIe}};
+
+
+\draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);
+\draw (0,8) rectangle +(2, -1);
+\draw (2,8) rectangle +(2, -1);
+\draw (4,8) rectangle +(2, -1);
+\draw (6,8) rectangle +(2, -1);
+\draw (8,8) rectangle +(2, -1);
+\draw (10,8) rectangle +(2, -1);
+
+\node at (1, 7.5) {\emph{cells}};
+\node at (3, 7.5) {\emph{nodes}};
+\node at (5, 7.5) {\emph{edges}};
+\node at (7, 7.5) {\emph{sizes}};
+\node at (9, 7.5) {\emph{halo cells}};
+\node at (11, 7.5) {\emph{halo nodes}};
+
+\node at (6, 6.5) {\emph{RES\_CALC KERNEL}};
+
+\draw (0, 6) rectangle +(6, -1);
+\draw (6, 6) rectangle +(6, -1);
+
+\node at (3, 5.5) {\emph{res}};
+\node at (9, 5.5) {\emph{halo res}};
+
+\path[draw, thick, ->, >=triangle 45] (1, 11) -- node [near end, left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (3, 11) -- node [near end,left] {128} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (5, 11) -- node [near end,left] {64} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (7, 11) -- node [near end,left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (9, 11) -- node [near end,left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (11, 11) -- node [near end,left] {128} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (3, 5) -- ++(0, -1) -- ++(-4, 0) |- node [left] {128} (0, 11.5);
+\path[draw, thick, ->, >=triangle 45] (9, 5) -- ++(0, -1) -- ++(4, 0)  |- node [right] {128} (12, 11.5);
+
+\end{tikzpicture}
+\caption[Manager graph of the FPGA]{The manager graph of the accelerator showing the widths of the I/O streams. The host communicates with the FPGA
+through the PCIe channel.}
+\label{fig:ManagerGraph}
+\end{figure}
+
+\subsection{Result RAM division and duplication}
+The kernel itself is programmed using the MaxCompiler API. As discussed earlier, resulting $res$ vectors will be stored
+in local BRAM storage. The RAMs on the Xilinx Virtex6 chip have a limitation of only two ports, meaning that at any
+single cycle they can accept two address streams, two input data streams, two write-enable signals and produce
+two output streams. This presents a challenge to the implementation. Recall that, because of the accumulator latency,
+we must read one value from the result RAM and write the corresponding result of the addition $l$ cycles later, where
+$l$ is the latency of the accumulator. The only way to implement this is to read the current value of $res$ for the cell
+we are processing from port A and write the corresponding result of the accumulation $l$ cycles later on port B. This
+is a fine approach, but it presents a difficulty when we want to read out the RAMs for output. Remember that thanks to our
+two-level partitioning scheme and the resulting interleaving of computation and I/O we are potentially processing and edge
+and outputting the result of the previous micro-partition, thus needing access to the BRAMs from three different addresses.
+
+To overcome this, we notice that this contention for addresses happens only during phase 3 of the accelerator where we are
+processing the second micro-partition and the intra-partition halo while writing out the first micro-partition. We know that 
+the first micro-partition will not be accessed by the edge data (because of the two-level partitioning scheme). We therefore
+make the decision to split the RAMs for storing the $res$ data into two RAMs, one for each micro-partition. The intra-partition
+halo will be stored in the RAM of the second micro-partition, since it is written out together with the second micro-partition.
+
+This limit on port numbers drives us towards another design decision. Recall that the processing of each edge requires the update of two
+cells. But we have already used up both ports on the result RAMs for processing just one cell. Therefore we make the decision to use two
+sets of RAMs, one for each cell access. Of course, this means that the results stored in the RAMs will only be partial $res$ vectors
+that must be summed up on output. Such an arrangement is shown in Figure \ref{fig:ram_division}. We end up with 8 RAMs for the result data since
+the arrangement in Figure \ref{fig:ram_division} is repeated again for the halo RAMs.
+
+\begin{figure}[h]
+\begin{tikzpicture}
+
+\node (addr) at (5, 9)[draw=black, fill=red!15!white] {Output addresses};
+
+\node (knot) at (5, 8) {};
+\draw [dashed, thick] (addr.south) -- (knot.south);
+\path [draw, ->, dashed, thick] (knot.south) -| (1.05, 6);
+\path [draw, ->, dashed, thick] (knot.south) -| (3.6, 6);
+\path [draw, ->, dashed, thick] (knot.south) -| (6.1, 6);
+\path [draw, ->, dashed, thick] (knot.south) -| (8.6, 6);
+
+
+\draw[black, fill=green!10!white] (0, 6) rectangle +(2.1, -1);
+\node at (1.1, 5.5) {$\mu$p1 RAM 1};
+\draw[black, fill=green!10!white] (2.5, 6) rectangle +(2.2, -1);
+\node at (3.6, 5.5) {$\mu$p2 RAM 1};
+
+\draw[black, fill=green!10!white] (5, 6) rectangle +(2.2, -1);
+\node at (6.1, 5.5) {$\mu$p1 RAM 2};
+\draw[black, fill=green!10!white] (7.5, 6) rectangle +(2.2, -1);
+\node at (8.6, 5.5) {$\mu$p2 RAM 2};
+
+\node (sel1) at (2.3, 3)[draw, fill=orange!15!white] {\emph{selector}};
+\node (sel2) at (7.3, 3)[draw, fill=orange!15!white] {\emph{selector}};
+\draw [->, thick] (1.05, 5) |- (sel1.west);
+\draw [->, thick] (3.6, 5) |- (sel1.east);
+\draw [->, thick] (6.1, 5) |- (sel2.west);
+\draw [->, thick] (8.6, 5) |- (sel2.east);
+
+\node (add) at (5, 1)[circle, draw=black, fill=orange!30!white] {\emph{+}};
+\draw [->, thick] (sel1.south) |- (add.west);
+\draw [->, thick] (sel2.south) |- (add.east);
+
+\node (out) at (5, -1) [draw, fill=blue!15!white] {Output};
+\draw [->, thick] (add.south) -- (out.north);
+\end{tikzpicture}
+\caption[Division of result RAMs]{Diagram showing the division of the result RAMs and the data flow during the output phase. The selectors
+choose whether to read from the first or the second micro-partition, dependent on the accelerator phase. The addition node adds the partial results
+before writing them back. The normal and halo data RAMs are shown here merged, but they are in fact set up as shown in the design chapter.}
+\label{fig:ram_division}
+\end{figure}
+
+\subsection{Resource usage}
+The FPGA has a limited amount of resources and any extensions to the design must not require more resource than are available.
+Table \ref{tab:resource_usage} shows the resource usage of our design. Notice that the arithmetic pipeline uses all of the 
+DSP resources that are used in multiplication operations, but does not consume too much. This gives an indication that
+adding more pipelines would not be a problem, at least from a resource usage view. MaxCompiler uses extra block RAM resources to
+schedule the data flow graph and for other low-level "plumbing".
+
+\begin{table} [H]
+\begin{center}
+  \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X | X |}
+    \hline                        
+     & LUTs & Flip Flops (FFs) & BlockRAMs & DSPs \\ \hline \hline
+    Total available & 297600 & 595200 & 1064 & 2016\\ \hline
+    Total used & 83863 & 113985 & 649 & 62 \\ \hline
+    Used by kernel & 37989 & 45524 & 433 & 62\\ \hline
+    Used by arithmetic pipeline & 17426 & 22120 & 0 & 62 \\ \hline
+    Total used as percentage of available &28.18\% &  19.15\% &  60.95\% & 3.08\% \\ \hline
+  \end{tabularx}
+\end{center}
+  \caption{Table showing the resource usage of our implementation}
+  \label{tab:resource_usage}
+\end{table}
 
 % \chapter{Evaluation}
 % In this section we present the evaluation strategy for our approach. We explain the alternative
@@ -2218,7 +2470,7 @@ use utilises graph colouring to group nodes together and using no-op partitions 
 
 % \chapter{Conclusion and further work}
 \begin{thebibliography}{9}
-
+\addcontentsline{toc}{chapter}{Bibliography}
 \bibitem{OP2_presentation}
   MB Giles, GR Mudalige, Z Sharif, G Markall, PHJ Kelly,\\
   \emph{Performance Analysis of the OP2 Framework on Many-core Architectures}.\\
@@ -2318,9 +2570,17 @@ Trummel, K. E. ; Weisinger, J. R.\\
 \emph{The Complexity of the Optimal Searcher Path Problem}\\
 Operations Research , Vol. 34, No. 2 (Mar. - Apr., 1986), pp. 324-327
 
+\bibitem{GraphColouring}
+Karp, Richard M.\\
+\emph{50 Years of Integer Programming 1958-2008}\\
+Springer Berlin Heidelberg, ISBN:978-3-540-68279-0, pp.219-241
+
 \end{thebibliography}
-\chapter{Appendix}
+
+\appendix
+\chapter{Code Samples}
 \section{Airfoil Kernel definitions in C}
+\label{app_kernels}
 Even though we focused on accelerating the res\_calc kernel, the other kernels are shown here for the sake of completeness.
 \begin{minted}{c}
 void adt_calc(float *x1,float *x2,float *x3,float *x4,float *q,float *adt){
@@ -2433,5 +2693,8 @@ void update(float *qold, float *q, float *res, float *adt, float *rms){
 }
 \end{minted}
 
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
 
 \end{document}

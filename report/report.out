@@ -32,5 +32,12 @@
 \BOOKMARK [2][-]{subsection.4.2.2}{Complexity}{section.4.2}
 \BOOKMARK [2][-]{subsection.4.2.3}{No-op edge-partitions}{section.4.2}
 \BOOKMARK [2][-]{subsection.4.2.4}{Graph colouring and edge scheduling revisited}{section.4.2}
-\BOOKMARK [0][-]{chapter.5}{Appendix}{}
-\BOOKMARK [1][-]{section.5.1}{Airfoil Kernel definitions in C}{chapter.5}
+\BOOKMARK [1][-]{section.4.3}{Data sets and padding}{chapter.4}
+\BOOKMARK [1][-]{section.4.4}{FPGA accelerator}{chapter.4}
+\BOOKMARK [2][-]{subsection.4.4.1}{I/O streams and manager}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.2}{Result RAM division and duplication}{section.4.4}
+\BOOKMARK [2][-]{subsection.4.4.3}{Resource usage}{section.4.4}
+\BOOKMARK [0][-]{chapter*.41}{Bibliography}{}
+\BOOKMARK [0][-]{appendix.A}{Code Samples}{}
+\BOOKMARK [1][-]{section.A.1}{Airfoil Kernel definitions in C}{appendix.A}
+\BOOKMARK [0][-]{appendix*.42}{List of Figures}{}
