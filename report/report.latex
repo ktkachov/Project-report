@@ -287,6 +287,8 @@ pipelined streaming FPGA designs.
 \item We investigate memory layout issues that arise from efforts to maximise the spatial
 locality of the mesh and consquently increase utilisation of the streaming bandwidth. This is achieved
 through interleaving of I/O and computation thanks to a two-level partitioning scheme.
+\item We develop a scheme for handling dependencies across partitions by offloading 
+a workload to the host machine.
 \item We provide a hardware accelerated version of part of the Airfoil program using the methodologies 
 described in this report.
 \item We provide a predictive performance model that is used to justify our design decisions
@@ -583,6 +585,9 @@ and up to 48GB of DDR3 DRAM. These cards can be programmed through
 API to specify the dataflow graph. MaxCompiler will then schedule the graph, i.e. it will 
 insert buffers that will introduce the appropriate delays in the design that will ensure
 the correct values will reach the appropriate stages in the pipeline at the correct clock cycle.
+After MaxCompiler has generated the VHDL code control is given to the Xilinx ISE tools\cite{XilinxISE} that will
+synthesize, place and route the design and generate a bitstring that can be used to configure
+the FPGA.
 
 \begin{figure}[h]
   \centering
@@ -2564,6 +2569,11 @@ is done automatically by MaxCompiler, so the clock signal is shown here only for
   \emph{Predictive Modeling and Analysis of OP2 on DistributedMemory GPU Clusters}\\
   PMBS '11 Proceedings of the second international workshop on Performance modeling, benchmarking and simulation of high performance computing systems
   Pages 3-4 
+
+\bibitem{XilinxISE}
+  Xilinx Inc.\\
+  \emph{ISE Design Suite Software Manuals and Help}\\
+  http://www.xilinx.com/support/documentation/dt\_ise11-1.htm
 
 \bibitem{Virtex6Spec}
   Xilinx Inc.\\

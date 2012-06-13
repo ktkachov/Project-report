@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  13 JUN 2012 15:00
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  13 JUN 2012 19:11
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -858,20 +858,20 @@ File: pics/mesh_small.png Graphic file (type png)
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
-Underfull \hbox (badness 5475) in paragraph at lines 350--350
+Underfull \hbox (badness 5475) in paragraph at lines 352--352
 []\OT1/cmr/m/n/10.95 Figure 2.2: |An ex-am-ple mesh with co-or-di-nate data as-
 so-ci-ated
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 350--350
+Underfull \hbox (badness 1521) in paragraph at lines 352--352
 \OT1/cmr/m/n/10.95 with each node ($(\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95
  )$ from $\OML/cmm/m/it/10.95 node[]id []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.9
 5 x; y\OT1/cmr/m/n/10.95 )$). The co-or-di-nate data
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 350--350
+Underfull \hbox (badness 3009) in paragraph at lines 352--352
 \OT1/cmr/m/n/10.95 will be rep-re-sented as an ar-ray of float-ing point num-be
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
@@ -881,17 +881,17 @@ rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
-Underfull \hbox (badness 2608) in paragraph at lines 406--406
+Underfull \hbox (badness 2608) in paragraph at lines 408--408
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 406--406
+Underfull \hbox (badness 1057) in paragraph at lines 408--408
 \OT1/cmr/m/n/10.95 bound-ary of the
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 406--407
+Overfull \hbox (30.0pt too wide) in paragraph at lines 408--409
  [] 
  []
 
@@ -910,7 +910,7 @@ runsystem(rm report.out.pyg)...executed.
 runsystem(rm report.pyg)...executed.
 
 Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
-t line 469.
+t line 471.
  [15]
 <pics/airfoil_maps.pdf, id=340, 259.97125pt x 224.84pt>
 File: pics/airfoil_maps.pdf Graphic file (type pdf)
@@ -943,17 +943,17 @@ Overfull \vbox (18.60411pt too high) has occurred while \output is active []
 
 
 [18]
-Overfull \hbox (0.72623pt too wide) in paragraph at lines 578--578
+Overfull \hbox (0.72623pt too wide) in paragraph at lines 580--580
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
 
 
-Overfull \hbox (4.29962pt too wide) in paragraph at lines 579--586
+Overfull \hbox (4.29962pt too wide) in paragraph at lines 581--591
 \OT1/cmr/m/n/10.95 pro-vides a Java-compatible object-oriented API to spec-ify 
 the dataflow graph.
  []
 
-<pics/max_toolchain.pdf, id=370, 541.02126pt x 411.5375pt>
+<pics/max_toolchain.pdf, id=371, 541.02126pt x 411.5375pt>
 File: pics/max_toolchain.pdf Graphic file (type pdf)
 
 <use pics/max_toolchain.pdf> [19 <./pics/max_toolchain.pdf>]
@@ -967,20 +967,17 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
-[20] <pics/MovAvgKernel.png, id=393, 324.46219pt x 350.05782pt>
+[20] [21] <pics/MovAvgKernel.png, id=399, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
-<use pics/MovAvgKernel.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[21] [22 <./pics/MovAvgKernel.png (PNG copy)>]
+<use pics/MovAvgKernel.png> [22 <./pics/MovAvgKernel.png (PNG copy)>]
 \openout4 = `report.pyg'.
 
 runsystem(pygmentize -l java -f latex -F tokenmerge            -P linenos -P "v
 erboptions= " -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg)
+
+(./report.out.pyg)
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -990,8 +987,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l java -f latex -F tokenmerge             -P "verboptions
 = " -o report.out.pyg report.pyg)...executed.
 
-
-(./report.out.pyg)
+ (./report.out.pyg)
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -1014,7 +1010,7 @@ Overfull \vbox (5.0041pt too high) has occurred while \output is active []
 
 
 [25] [26] [27] [28]
-Overfull \hbox (11.17102pt too wide) in paragraph at lines 905--907
+Overfull \hbox (11.17102pt too wide) in paragraph at lines 910--912
 [][] 
  []
 
@@ -1023,7 +1019,7 @@ Chapter 3.
 [33
 
 ] [34] [35]
-Overfull \hbox (73.67679pt too wide) in paragraph at lines 1193--1196
+Overfull \hbox (73.67679pt too wide) in paragraph at lines 1198--1201
  [] 
  []
 
@@ -1032,7 +1028,7 @@ Overfull \vbox (86.35802pt too high) has occurred while \output is active []
 
 
 [37] [38]
-Overfull \hbox (78.75056pt too wide) in paragraph at lines 1318--1319
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1323--1324
  [] 
  []
 
@@ -1056,26 +1052,26 @@ Missing character: There is no ) in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (62.26428pt too wide) in paragraph at lines 1415--1419
+Overfull \hbox (62.26428pt too wide) in paragraph at lines 1420--1424
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 54.44595pt on input line 1421.
+LaTeX Warning: Float too large for page by 54.44595pt on input line 1426.
 
 [40] [41] [42] [43]
-Overfull \hbox (87.47011pt too wide) in paragraph at lines 1547--1548
+Overfull \hbox (87.47011pt too wide) in paragraph at lines 1552--1553
 [][] 
  []
 
 [44] [45] [46]
-Overfull \hbox (0.2757pt too wide) in paragraph at lines 1623--1634
+Overfull \hbox (0.2757pt too wide) in paragraph at lines 1628--1639
 \OT1/cmr/m/n/10.95 In phase 2, the first micro-partition gets pro-cessed, i.e. 
 its edges are streamed
  []
 
 [47]
-Overfull \hbox (16.64537pt too wide) in paragraph at lines 1644--1648
+Overfull \hbox (16.64537pt too wide) in paragraph at lines 1649--1653
 \OT1/cmr/m/n/10.95 re-main the same for $\OML/cmm/m/it/10.95 t[]$\OT1/cmr/m/n/1
 0.95 , $\OML/cmm/m/it/10.95 t[]$ \OT1/cmr/m/n/10.95 and $\OML/cmm/m/it/10.95 t[
 ]$\OT1/cmr/m/n/10.95 . $\OML/cmm/m/it/10.95 t[] \OT1/cmr/m/n/10.95 = \OML/cmm/m
@@ -1083,28 +1079,28 @@ Overfull \hbox (16.64537pt too wide) in paragraph at lines 1644--1648
 10.95 )$.
  []
 
-[48] [49] <graphs/pipelines.pdf, id=597, 361.35pt x 252.945pt>
+[48] [49] <graphs/pipelines.pdf, id=599, 361.35pt x 252.945pt>
 File: graphs/pipelines.pdf Graphic file (type pdf)
 
 <use graphs/pipelines.pdf>
-<graphs/frequencies.pdf, id=599, 361.35pt x 252.945pt>
+<graphs/frequencies.pdf, id=601, 361.35pt x 252.945pt>
 File: graphs/frequencies.pdf Graphic file (type pdf)
 
 <use graphs/frequencies.pdf> [50 <./graphs/pipelines.pdf>]
-<graphs/frequencies_pipelines.pdf, id=612, 505.89pt x 722.7pt>
+<graphs/frequencies_pipelines.pdf, id=614, 505.89pt x 722.7pt>
 File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
 
 <use graphs/frequencies_pipelines.pdf> [51 <./graphs/frequencies.pdf>]
-<graphs/freq_pipes3D.pdf, id=627, 361.35pt x 252.945pt>
+<graphs/freq_pipes3D.pdf, id=629, 361.35pt x 252.945pt>
 File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
 
 <use graphs/freq_pipes3D.pdf> [52 <./graphs/frequencies_pipelines.pdf> <./graph
 s/freq_pipes3D.pdf>]
-<graphs/partition_sizes.pdf, id=644, 361.35pt x 252.945pt>
+<graphs/partition_sizes.pdf, id=646, 361.35pt x 252.945pt>
 File: graphs/partition_sizes.pdf Graphic file (type pdf)
 
 <use graphs/partition_sizes.pdf>
-<graphs/partition_ratios.pdf, id=645, 361.35pt x 252.945pt>
+<graphs/partition_ratios.pdf, id=647, 361.35pt x 252.945pt>
 File: graphs/partition_ratios.pdf Graphic file (type pdf)
 
 <use graphs/partition_ratios.pdf>
@@ -1119,9 +1115,9 @@ Chapter 4.
 \@float@every@program=\toks34
 \c@program=\count153
 Package hyperref Info: bookmark level for unknown program defaults to 0 on inpu
-t line 1859.
+t line 1864.
  [57]
-Overfull \hbox (50.07538pt too wide) in paragraph at lines 1957--1959
+Overfull \hbox (50.07538pt too wide) in paragraph at lines 1962--1964
 [][] 
  []
 
@@ -1130,49 +1126,49 @@ Overfull \vbox (9.40245pt too high) has occurred while \output is active []
 
 
 [60] [61]
-Overfull \hbox (83.75795pt too wide) in paragraph at lines 2087--2185
+Overfull \hbox (83.75795pt too wide) in paragraph at lines 2092--2190
 []|  [] 
  []
 
 [62] [63] [64] [65]
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+Underfull \hbox (badness 10000) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 Original
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+Underfull \hbox (badness 10000) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 cell data from
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 2317--2317
+Underfull \hbox (badness 3009) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 node data from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+Underfull \hbox (badness 10000) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 halo cell data
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 2317--2317
+Underfull \hbox (badness 5077) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 halo node data
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
+Underfull \hbox (badness 10000) in paragraph at lines 2322--2322
 []|\OT1/cmr/m/n/10.95 Edge/address
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2317--2318
+Overfull \hbox (30.0pt too wide) in paragraph at lines 2322--2323
  [] 
  []
 
 [66
 
 ]
-Overfull \hbox (61.64516pt too wide) in paragraph at lines 2332--2376
+Overfull \hbox (61.64516pt too wide) in paragraph at lines 2337--2381
 []|  [] 
  []
 
@@ -1180,27 +1176,27 @@ Overfull \hbox (61.64516pt too wide) in paragraph at lines 2332--2376
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [67] [68] [69]
-Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
+Underfull \hbox (badness 10000) in paragraph at lines 2469--2469
 []|\OT1/cmr/m/n/10.95 Total avail-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
+Underfull \hbox (badness 10000) in paragraph at lines 2469--2469
 []|\OT1/cmr/m/n/10.95 Used by
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
+Underfull \hbox (badness 10000) in paragraph at lines 2469--2469
 \OT1/cmr/m/n/10.95 arith-metic
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2464--2465
+Overfull \hbox (30.0pt too wide) in paragraph at lines 2469--2470
  [] 
  []
 
 [70] [71] [72]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 2574--2577
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 2584--2587
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -1288,10 +1284,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 16792 strings out of 495000
- 303211 string characters out of 1180493
- 416943 words of memory out of 3000000
- 19349 multiletter control sequences out of 15000+50000
+ 16794 strings out of 495000
+ 303236 string characters out of 1180493
+ 417975 words of memory out of 3000000
+ 19350 multiletter control sequences out of 15000+50000
  16939 words of font info for 66 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  47i,16n,68p,860b,878s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1314,9 +1310,9 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 onts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmt
 i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (82 pages, 845241 bytes).
+Output written on report.pdf (82 pages, 846366 bytes).
 PDF statistics:
- 974 PDF objects out of 1000 (max. 8388607)
- 217 named destinations out of 1000 (max. 500000)
+ 976 PDF objects out of 1000 (max. 8388607)
+ 218 named destinations out of 1000 (max. 500000)
  435 words of extra memory for PDF output out of 10000 (max. 10000000)
 
