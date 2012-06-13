@@ -41,7 +41,8 @@
 \contentsline {subsection}{\numberline {4.4.1}I/O streams and manager}{67}{subsection.4.4.1}
 \contentsline {subsection}{\numberline {4.4.2}Result RAM division and duplication}{68}{subsection.4.4.2}
 \contentsline {subsection}{\numberline {4.4.3}Resource usage}{70}{subsection.4.4.3}
-\contentsline {chapter}{Bibliography}{72}{chapter*.41}
-\contentsline {chapter}{\numberline {A}Code Samples}{75}{appendix.A}
-\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{75}{section.A.1}
-\contentsline {chapter}{List of Figures}{79}{appendix*.42}
+\contentsline {subsection}{\numberline {4.4.4}State machine}{71}{subsection.4.4.4}
+\contentsline {chapter}{Bibliography}{73}{chapter*.42}
+\contentsline {chapter}{\numberline {A}Code Samples}{76}{appendix.A}
+\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{76}{section.A.1}
+\contentsline {chapter}{List of Figures}{80}{appendix*.43}

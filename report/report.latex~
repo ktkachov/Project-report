@@ -1,5 +1,6 @@
 \documentclass[11pt]{report}
 \usepackage{graphicx}
+\usepackage{savetrees}
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{amsfonts}
@@ -47,7 +48,7 @@
 \end{verbatim}
 
 {\scalefont{0.1}
-\begin{tikzpicture}[scale=0.3]
+\begin{tikzpicture}[scale=0.35]
 \newcommand{\firstiph}[1] {
   \fill [green!10!white] #1 rectangle +(3, -2);
   \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
@@ -107,17 +108,17 @@
 \draw [dashed] (-2.5, 17.2) -- (15, 17.2);
 \draw [dashed] (-2.5, 14.2) -- (15, 14.2);
 \draw [dashed] (-2.5, 11.2) -- (15, 11.2);
-\draw [dashed] (-2.5, 8.2) -- (15, 8.2);
+\draw [dashed] (-2.5, 8.2) -- (15, 8.2);))
 \draw [dashed] (-2.5, 5.2) -- (15, 5.2);
 \draw [dashed] (-2.5, 2.2) -- (15, 2.2);
 \draw [very thick] (0, 21.5) -- (0, 0);
-\draw (-1.2, 18.5) node {\emph{ST 1}};
-\draw (-1.2, 15.5) node {\emph{ST 2}};
-\draw (-1.2, 12.5) node {\emph{ST 3}};
-\draw (-1.2, 9.5) node {\emph{ST 1}};
-\draw (-1.2, 6.5) node {\emph{ST 2}};
-\draw (-1.2, 3.5) node {\emph{ST 3}};
-\draw (-1.2, 0.5) node {\emph{ST 1}};
+\draw (-1.2, 18.5) node {\emph{PH 1}};
+\draw (-1.2, 15.5) node {\emph{PH 2}};
+\draw (-1.2, 12.5) node {\emph{PH 3}};
+\draw (-1.2, 9.5) node {\emph{PH 1}};
+\draw (-1.2, 6.5) node {\emph{PH 2}};
+\draw (-1.2, 3.5) node {\emph{PH 3}};
+\draw (-1.2, 0.5) node {\emph{PH 1}};
 
 \draw [->,densely dashed, very thick] (-2.9, 21) -- (-2.9, 0);
 \draw (-3.2, 10.5) node[rotate=90]{\emph{TIME}};
@@ -133,7 +134,8 @@
 
 \draw [red, very thick, rounded corners] (0.2, 2.1) -- ++(4, 0) -- ++(0, -2.6);
 \draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
-
+% \draw [->, very thick, dashed] (-3.5, 21) -- (-3.5, -1);
+% \draw (-3.5, 10) node {\emph{TIME}};
 \end{tikzpicture}
 }
 \begin{verbatim}
@@ -154,10 +156,9 @@ Field Programmable Gate Arrays, or FPGAs to perform the bulk of the floating poi
 operations required by an application. In particular, we focus on dealing with irregular
  memory access patterns that are a consequence of using an unstructured mesh in such a way as
 to facilitate a streaming model of computation. We describe the partitioning of the mesh and 
-the techniques used to exchange information between neighbouring partitions, using so-called halos. We provide an implementation of a concrete 2D finite volume application and consider
-the extension to 3D and more complex computations.
-We evaluate our results by comparing the speedup achieved with analogous GPGPU and multi-core
- processor implementations.
+the techniques used to exchange information between neighbouring partitions, using so-called halos.
+ We provide hardware accelerated version of a concrete application and develop a performance model
+ used to predict performance and justify our design decisions and guide the implementation.
 \end{abstract}
 \section*{Acknowledgements \centering}
 I would like to thank Professor Paul Kelly for giving me so much of his time and ideas and 
@@ -165,10 +166,10 @@ making me aware of scope of the project and the intricacies involved. I would al
  thank Dr. Carlo Bertolli for providing practical advice and explaining the labyrinth that is
 heterogenous computing.
 Special thanks go to the team at Maxeler Technologies for helping me out with the details
-of FPGA-based acceleration and providing support for their excellent toolchain
+of FPGA-based acceleration and providing support for their excellent toolchain.
 I extend my gratitude to Dr. Tony Field, my personal tutor, who supported me throughout my 
 years at Imperial College and guided so much of my academic development, as well as being
-the second supervisor on this project.
+the second marker for this project.
 
 I would like to thank my mother and grandfather for supporting me through university, both 
 materially and psychologically.
@@ -281,17 +282,15 @@ GPGPU and multi-processors cluster implementations.
 
 \section{Contributions}
 \begin{itemize}
-\item We present a methodology for accelerating unstructured mesh computations using deeply
+\item We present an architecture for accelerating unstructured mesh computations using deeply
 pipelined streaming FPGA designs.
 \item We investigate memory layout issues that arise from efforts to maximise the spatial
-locality of the mesh and consquently increase utilisation of the streaming bandwidth.
+locality of the mesh and consquently increase utilisation of the streaming bandwidth. This is achieved
+through interleaving of I/O and computation thanks to a two-level partitioning scheme.
 \item We provide a hardware accelerated version of part of the Airfoil program using the methodologies 
 described in this report.
 \item We provide a predictive performance model that is used to justify our design decisions
 and provide a formal expression of the potential speedup.
-\item We investigate the potential for generalisation of the problem and the acceleration of
-more complex industry-grade unstructured mesh simulations by applying mesh partitioning and reordering
-techniques, custom designed for our proposed architecture.
 \end{itemize}
 
 \chapter{Background}
@@ -784,12 +783,14 @@ are using defines four such elements:
 When building an FPGA design, one must be careful to not use more resources than the chip has to offer, therefore
 these numbers place a limit on the partition size we can store on the chip at any time, the number of arithmetic pipelines available etc.
 
+The card is connected to the host machine via a PCIe bus, a popular standard that is found on most modern motherboards.
+
 \begin{figure}[H]
 \begin{tikzpicture}
 \draw [thick](0, 20) rectangle (5, 12);
-\fill [blue!3!white] (0, 20) rectangle (5, 12);
+\fill [blue!10!white] (0, 20) rectangle (5, 12);
 \draw [thick](0.5, 17.5) rectangle (4.5, 13);
-\fill [red!6!white](0.5, 17.5) rectangle (4.5, 13);
+\fill [red!10!white](0.5, 17.5) rectangle (4.5, 13);
 
 \node (maxcard) at (1, 19.5) {MAX card};
 \node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 4cm] {DRAM};
@@ -798,7 +799,7 @@ these numbers place a limit on the partition size we can store on the chip at an
 \node (fpga) at (2, 13.5) {FPGA (Virtex 6)};
 
 \node (pcie) at (7, 17) [draw=black, fill=green!10!white, minimum height = 5cm] {PCIe};
-\node (host) at (9, 17) [draw=black, fill=blue!3!white, minimum height = 5cm] {Host};
+\node (host) at (9, 17) [draw=black, fill=blue!10!white, minimum height = 5cm] {Host};
 
 \draw [->] ($(dram.south) + (-0.2, 0)$) -- ($(manager.north) + (-0.2, 0)$);
 \draw [->] ($(manager.north) + (0.2, 0)$) -- ($(dram.south) + (0.2, 0)$);
@@ -813,6 +814,7 @@ these numbers place a limit on the partition size we can store on the chip at an
 and the FPGA.}
 \label{fig:maxHW}
 \end{figure}
+
 
 \subsection{Mesh partitioning and halos}
 In computing the optimal memory layout for our application, we have to partition large meshes into partitions
@@ -1004,8 +1006,9 @@ for optimal DRAM bandwidth utilisation on FPGAs.
 The differentiating factors of this project from existing work are:
 \begin{itemize}
 \item{We explore the architectural design space for the accelerator in conjunction with mesh 
-reordering techniques custom-fitted for the chosen architecture.}
-\item{Our design aims to work for large meshes, in the order of $10^5$ - $10^6$ nodes.}
+reordering techniques custom-fitted for the chosen architecture. One is custom made for the other. Previous attempts
+do not go any further than doing simple partitioning.}
+\item{Our design aims to work for larger meshes, in the order of $10^5$ - $10^6$ nodes.}
 \item{We attempt to keep the design of the hardware accelerator as simple as possible,
 without complex memory access patterns and relying on host-side preprocessing to Figure out
 the optimal data layout. We are focused on maximising DRAM bandwidth utilisation.}
@@ -1229,14 +1232,15 @@ on the host machine. The first micro-partition should be stored before the intra
 \fill[purple!50!white] (0, 0) rectangle (1,6);
 \fill[purple!50!white] (1, 0) rectangle (2,6);
 
-\draw (-1.9, 3.5) node {$\mu$partition~~ 1};
-\draw (4.1, 3.5) node {$\mu$partition~~ 2};
+\draw[step=1cm] (-5, 0) grid (7, 6);
+\node at (-1.9, 3.5) [fill=green!10!white] {$\mu$partition~~ 1};
+\node at (4.1, 3.5) [fill=green!10!white] {$\mu$partition~~ 2};
 \draw[red, very thick] (-5, 0) rectangle (7,6);
-\node (iph1) at(0.5, 3) [rotate=90] {\emph{IPH}};
-\node (iph2) at(1.5, 3) [rotate=270] {\emph{IPH}};
+\node (iph1) at(0.5, 3) [fill=purple!50!white, rotate=90] {\emph{IPH}};
+\node (iph2) at(1.5, 3) [fill=purple!50!white, rotate=270] {\emph{IPH}};
 
 \draw [red, very thick, dashed] (1,0) -- (1,6);
-\draw[step=1cm] (-5, 0) grid (7, 6);
+
 
   \end{tikzpicture}
   \caption[Two-level partitioning]{Partitioning of a macro-partition into two micro-partitions. This introduces a new
@@ -1380,7 +1384,7 @@ are shown in merged blocks for brevity.}
 \draw [dashed] (-2.5, 17.2) -- (15, 17.2);
 \draw [dashed] (-2.5, 14.2) -- (15, 14.2);
 \draw [dashed] (-2.5, 11.2) -- (15, 11.2);
-\draw [dashed] (-2.5, 8.2) -- (15, 8.2);
+\draw [dashed] (-2.5, 8.2) -- (15, 8.2);))
 \draw [dashed] (-2.5, 5.2) -- (15, 5.2);
 \draw [dashed] (-2.5, 2.2) -- (15, 2.2);
 \draw [very thick] (0, 21.5) -- (0, 0);
@@ -2397,7 +2401,7 @@ sets of RAMs, one for each cell access. Of course, this means that the results s
 that must be summed up on output. Such an arrangement is shown in Figure \ref{fig:ram_division}. We end up with 8 RAMs for the result data since
 the arrangement in Figure \ref{fig:ram_division} is repeated again for the halo RAMs.
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{tikzpicture}
 
 \node (addr) at (5, 9)[draw=black, fill=red!15!white] {Output addresses};
@@ -2451,7 +2455,7 @@ schedule the data flow graph and for other low-level "plumbing".
 \begin{center}
   \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X | X |}
     \hline                        
-     & LUTs & Flip Flops (FFs) & BlockRAMs & DSPs \\ \hline \hline
+     & LUTs & FFs & BlockRAMs & DSPs \\ \hline \hline
     Total available & 297600 & 595200 & 1064 & 2016\\ \hline
     Total used & 83863 & 113985 & 649 & 62 \\ \hline
     Used by kernel & 37989 & 45524 & 433 & 62\\ \hline
@@ -2462,6 +2466,85 @@ schedule the data flow graph and for other low-level "plumbing".
   \caption{Table showing the resource usage of our implementation}
   \label{tab:resource_usage}
 \end{table}
+
+\subsection{State machine}
+The inputs, outputs and enable signals for all elements in the kernel are controlled by a state machine.
+This is required to implement the overlapping of I/O and execution that we are trying to achieve from the
+two-level partitioning scheme. The state machine is implemented as a collection of hardware counters that
+count up to an appropriate maximum defined by the size vector input. For example: in phase 2 (reading in
+micro-partition 2, processing micro-partition 1) there are counters counting the number of cells and nodes we have
+read in from DRAM and PCIe and also a counter counting the number of edges we have read in for the processing stage.
+Once the counters have reached their maximum, that is the number of the relevant elements in the micro-partition,
+the enable signals for reading and writing are turned off.
+
+Because the bandwidth of halo exchange is slower than that of the DRAM, the halo read/write actions must be delayed
+since the kernel operates in lock-step, stalling on unavailable inputs.
+The state machine provides the addresses for writing out the result RAMs. This is a simple matter of writing out
+the RAMs serially, so we implement this with standard hardware counters. An example of how a counter can be implemented in hardware
+is shown in Figure \ref{fig:hw_counter}. MaxCompiler provides an API for constructing much more complicated counter configurations
+with different wrapping protocols, incrementing modes and edge cases. We use counters mostly to generate RAM addresses that are
+used to store the node and cell data during the read in phase and to read the results during the write out phase. The kernel state
+machine also uses counters to keep track of the I/O and processing state.
+
+\begin{figure}
+\begin{tikzpicture}
+
+\draw[black, fill=orange!20!white] (5,5) rectangle (8, 7);
+\node at (6.6, 6) {\emph{REG}};
+\draw[black, fill=red!25!white] (5, 5.2) rectangle +(1, 0.5);
+\node at (5.5, 5.45) {\emph{res}};
+
+\draw[black, fill=red!25!white] (5, 6.3) rectangle +(1, 0.5);
+\node at (5.5, 6.55) {\emph{en}};
+
+\draw[black, fill=red!25!white] (6.5, 7) rectangle +(1, -0.5);
+\node at (7, 6.75) {\emph{in}};
+
+\draw[black, fill=red!25!white] (6.5, 5.5) rectangle +(1, -0.5);
+\node at (7, 5.25) {\emph{out}};
+
+\draw[black, fill=red!25!white] (7.5, 5.6) rectangle +(0.5, 0.8);
+\node at (7.75, 6)[rotate=90] {\emph{clk}};
+
+\node (clk) at (9.5, 7) {\emph{CLK}};
+\draw[->, thick, dashed] (clk) |- (8, 6);
+
+\node (add) at (10.5, 6)[circle,draw, fill=orange!20!white] {\emph{+}};
+\draw[->, thick] (7, 5) -- ++(0, -1.5) -| (add.south);
+
+\draw[->, thick] (7,5) -- +(0, -2.5);
+
+\node (one) at (12, 7) {\emph{1}};
+\draw[->, thick] (one.south) |- (add.east);
+
+\node (MUX) at (7, 8)[trapezium, draw=black, fill=blue!10!white, shape border rotate=180] {\emph{MUX}};
+\draw[->, thick] (MUX.south) -- (7, 7);
+
+\node (comp) at (9, 8)[circle,draw, fill=orange!20!white] {\emph{$<$}};
+\draw[->, thick] (add.north) |- (comp.east);
+
+\node (max) at (9, 9){\emph{MAX}};
+\draw[->,thick] (max) -- (comp.north);
+
+\draw[->, thick] (comp.west) -- (MUX.east);
+\draw [->, thick] (add.north) -- ++(0, 3.5) -| ($(MUX.north) + (0.3, 0)$);
+
+\node (zero) at ($(MUX.north) + (-0.3, 0.75)$) {\emph{0}};
+\draw [->, thick] (zero) -- +(0, -0.75); 
+
+\node (en) at (3, 6.55) {\emph{ENABLE}};
+\node (res) at (3, 5.45) {\emph{RESET}};
+\draw [->, thick] (en) -- (5, 6.55);
+\draw [->, thick] (res) -- (5, 5.45);
+
+\end{tikzpicture}
+\caption[Hardware counter example]{Diagram of a hardware counter that increments by one up to a value of \emph{MAX}. A register is used
+to store the state and has the usual \emph{ENABLE} and \emph{RESET} signals tha can be produced by the kernel state machine. We compare the output
+with the maximum permitted value and use the result together with a multiplexer to choose whether to wrap around or continue incrementing. The clocking of the design
+is done automatically by MaxCompiler, so the clock signal is shown here only for completeness.}
+\label{fig:hw_counter}
+\end{figure}
+
 
 % \chapter{Evaluation}
 % In this section we present the evaluation strategy for our approach. We explain the alternative

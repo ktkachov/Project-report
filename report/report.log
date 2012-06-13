@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  12 JUN 2012 18:22
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  13 JUN 2012 15:00
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -673,20 +673,20 @@ LaTeX Warning: Label `tab:Airfoil_timesCPU' multiply defined.
 )
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
  (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count147
@@ -707,7 +707,7 @@ Package caption Info: End \AtBeginDocument code.
 runsystem(pygmentize -S default -f latex > report.pyg)...executed.
 
  (./report.pyg)
-Package hyperref Info: Link coloring OFF on input line 24.
+Package hyperref Info: Link coloring OFF on input line 25.
  (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
@@ -716,8 +716,8 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 \c@section@level=\count152
 )
-LaTeX Info: Redefining \ref on input line 24.
-LaTeX Info: Redefining \pageref on input line 24.
+LaTeX Info: Redefining \ref on input line 25.
+LaTeX Info: Redefining \pageref on input line 25.
  (./report.out)
 (./report.out)
 \@outlinefile=\write6
@@ -727,51 +727,51 @@ LaTeX Info: Redefining \pageref on input line 24.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 49.
+(Font)              size <5> substituted on input line 50.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 86.
+(Font)              size <5> substituted on input line 87.
 
-LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 93.
+LaTeX Font Info:    Calculating math sizes for size <1.09506> on input line 94.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <1.09506> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.76653> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.54753> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <1.09506> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.76653> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.54753> not available
-(Font)              size <5> substituted on input line 93.
+(Font)              size <5> substituted on input line 94.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 93.
+LaTeX Font Info:    Try loading font information for U+msa on input line 94.
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 93.
+LaTeX Font Info:    Try loading font information for U+msb on input line 94.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -790,6 +790,8 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
  [1
@@ -799,12 +801,12 @@ ination with the same identifier (name{page.1}) has been already used, duplicat
 e ignored
 <to be read again> 
                    \relax 
-l.161 \end{abstract}
+l.162 \end{abstract}
                      [1]pdfTeX warning (ext4): destination with the same identi
 fier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.178 \newpage
+l.179 \newpage
                [1] (./report.toc
 Overfull \hbox (8.0727pt too wide) in paragraph at lines 11--11
  [][] []\OT1/cmr/m/n/10.95 Hardware plat-form, Max-eler toolchain and the strea
@@ -821,14 +823,14 @@ m-ing model
 Chapter 1.
 [4
 
-] <pics/airfoil_mesh.png, id=255, 363.60844pt x 352.31625pt>
+] <pics/airfoil_mesh.png, id=260, 363.60844pt x 352.31625pt>
 File: pics/airfoil_mesh.png Graphic file (type png)
 
 <use pics/airfoil_mesh.png>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5] <pics/graph_simple.png, id=262, 127.97812pt x 370.38374pt>
+[5] <pics/graph_simple.png, id=267, 127.97812pt x 370.38374pt>
 File: pics/graph_simple.png Graphic file (type png)
 
 <use pics/graph_simple.png>
@@ -836,60 +838,60 @@ File: pics/graph_simple.png Graphic file (type png)
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [6 <./pics/airfoil_mesh.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 284.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 285.
 
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 284.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 285.
  [7 <./pics/graph_simple.png (PNG copy)>] [8]
 Chapter 2.
 [9
 
-] <pics/mesh_small.png, id=286, 621.82312pt x 412.54124pt>
+] <pics/mesh_small.png, id=291, 621.82312pt x 412.54124pt>
 File: pics/mesh_small.png Graphic file (type png)
 
 <use pics/mesh_small.png> [10 <./pics/mesh_small.png (PNG copy)>]
-<pics/data_set_ex.png, id=294, 417.56pt x 358.33875pt>
+<pics/data_set_ex.png, id=299, 417.56pt x 358.33875pt>
 File: pics/data_set_ex.png Graphic file (type png)
 
 <use pics/data_set_ex.png>
-Underfull \hbox (badness 5475) in paragraph at lines 351--351
+Underfull \hbox (badness 5475) in paragraph at lines 350--350
 []\OT1/cmr/m/n/10.95 Figure 2.2: |An ex-am-ple mesh with co-or-di-nate data as-
 so-ci-ated
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 351--351
+Underfull \hbox (badness 1521) in paragraph at lines 350--350
 \OT1/cmr/m/n/10.95 with each node ($(\OML/cmm/m/it/10.95 x; y\OT1/cmr/m/n/10.95
  )$ from $\OML/cmm/m/it/10.95 node[]id []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.9
 5 x; y\OT1/cmr/m/n/10.95 )$). The co-or-di-nate data
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 351--351
+Underfull \hbox (badness 3009) in paragraph at lines 350--350
 \OT1/cmr/m/n/10.95 will be rep-re-sented as an ar-ray of float-ing point num-be
 rs $\OML/cmm/m/it/10.95 x \OT1/cmr/m/n/10.95 =
  []
 
 [11 <./pics/data_set_ex.png (PNG copy)>]
-<pics/coloured_mesh.png, id=304, 207.02344pt x 343.2825pt>
+<pics/coloured_mesh.png, id=309, 207.02344pt x 343.2825pt>
 File: pics/coloured_mesh.png Graphic file (type png)
 
 <use pics/coloured_mesh.png> [12 <./pics/coloured_mesh.png (PNG copy)>]
-Underfull \hbox (badness 2608) in paragraph at lines 407--407
+Underfull \hbox (badness 2608) in paragraph at lines 406--406
 []|\OT1/cmr/m/n/10.95 density, mo-men-
  []
 
 
-Underfull \hbox (badness 1057) in paragraph at lines 407--407
+Underfull \hbox (badness 1057) in paragraph at lines 406--406
 \OT1/cmr/m/n/10.95 bound-ary of the
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 407--408
+Overfull \hbox (30.0pt too wide) in paragraph at lines 406--407
  [] 
  []
 
@@ -908,9 +910,9 @@ runsystem(rm report.out.pyg)...executed.
 runsystem(rm report.pyg)...executed.
 
 Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
-t line 470.
+t line 469.
  [15]
-<pics/airfoil_maps.pdf, id=335, 259.97125pt x 224.84pt>
+<pics/airfoil_maps.pdf, id=340, 259.97125pt x 224.84pt>
 File: pics/airfoil_maps.pdf Graphic file (type pdf)
 
 <use pics/airfoil_maps.pdf>
@@ -941,17 +943,17 @@ Overfull \vbox (18.60411pt too high) has occurred while \output is active []
 
 
 [18]
-Overfull \hbox (0.72623pt too wide) in paragraph at lines 579--579
+Overfull \hbox (0.72623pt too wide) in paragraph at lines 578--578
 []\OT1/cmr/bx/n/14.4 Hardware plat-form, Max-eler toolchain and the
  []
 
 
-Overfull \hbox (4.29962pt too wide) in paragraph at lines 580--587
+Overfull \hbox (4.29962pt too wide) in paragraph at lines 579--586
 \OT1/cmr/m/n/10.95 pro-vides a Java-compatible object-oriented API to spec-ify 
 the dataflow graph.
  []
 
-<pics/max_toolchain.pdf, id=365, 541.02126pt x 411.5375pt>
+<pics/max_toolchain.pdf, id=370, 541.02126pt x 411.5375pt>
 File: pics/max_toolchain.pdf Graphic file (type pdf)
 
 <use pics/max_toolchain.pdf> [19 <./pics/max_toolchain.pdf>]
@@ -965,7 +967,7 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
-[20] <pics/MovAvgKernel.png, id=388, 324.46219pt x 350.05782pt>
+[20] <pics/MovAvgKernel.png, id=393, 324.46219pt x 350.05782pt>
 File: pics/MovAvgKernel.png Graphic file (type png)
 
 <use pics/MovAvgKernel.png>
@@ -1012,7 +1014,7 @@ Overfull \vbox (5.0041pt too high) has occurred while \output is active []
 
 
 [25] [26] [27] [28]
-Overfull \hbox (11.17102pt too wide) in paragraph at lines 903--905
+Overfull \hbox (11.17102pt too wide) in paragraph at lines 905--907
 [][] 
  []
 
@@ -1021,7 +1023,7 @@ Chapter 3.
 [33
 
 ] [34] [35]
-Overfull \hbox (73.67679pt too wide) in paragraph at lines 1190--1193
+Overfull \hbox (73.67679pt too wide) in paragraph at lines 1193--1196
  [] 
  []
 
@@ -1030,7 +1032,7 @@ Overfull \vbox (86.35802pt too high) has occurred while \output is active []
 
 
 [37] [38]
-Overfull \hbox (78.75056pt too wide) in paragraph at lines 1314--1315
+Overfull \hbox (78.75056pt too wide) in paragraph at lines 1318--1319
  [] 
  []
 
@@ -1049,29 +1051,31 @@ Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
+Missing character: There is no ) in font nullfont!
+Missing character: There is no ) in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 
-Overfull \hbox (62.26428pt too wide) in paragraph at lines 1411--1415
+Overfull \hbox (62.26428pt too wide) in paragraph at lines 1415--1419
 [][] 
  []
 
 
-LaTeX Warning: Float too large for page by 54.44595pt on input line 1417.
+LaTeX Warning: Float too large for page by 54.44595pt on input line 1421.
 
 [40] [41] [42] [43]
-Overfull \hbox (87.47011pt too wide) in paragraph at lines 1543--1544
+Overfull \hbox (87.47011pt too wide) in paragraph at lines 1547--1548
 [][] 
  []
 
 [44] [45] [46]
-Overfull \hbox (0.2757pt too wide) in paragraph at lines 1619--1630
+Overfull \hbox (0.2757pt too wide) in paragraph at lines 1623--1634
 \OT1/cmr/m/n/10.95 In phase 2, the first micro-partition gets pro-cessed, i.e. 
 its edges are streamed
  []
 
 [47]
-Overfull \hbox (16.64537pt too wide) in paragraph at lines 1640--1644
+Overfull \hbox (16.64537pt too wide) in paragraph at lines 1644--1648
 \OT1/cmr/m/n/10.95 re-main the same for $\OML/cmm/m/it/10.95 t[]$\OT1/cmr/m/n/1
 0.95 , $\OML/cmm/m/it/10.95 t[]$ \OT1/cmr/m/n/10.95 and $\OML/cmm/m/it/10.95 t[
 ]$\OT1/cmr/m/n/10.95 . $\OML/cmm/m/it/10.95 t[] \OT1/cmr/m/n/10.95 = \OML/cmm/m
@@ -1079,28 +1083,28 @@ Overfull \hbox (16.64537pt too wide) in paragraph at lines 1640--1644
 10.95 )$.
  []
 
-[48] [49] <graphs/pipelines.pdf, id=592, 361.35pt x 252.945pt>
+[48] [49] <graphs/pipelines.pdf, id=597, 361.35pt x 252.945pt>
 File: graphs/pipelines.pdf Graphic file (type pdf)
 
 <use graphs/pipelines.pdf>
-<graphs/frequencies.pdf, id=594, 361.35pt x 252.945pt>
+<graphs/frequencies.pdf, id=599, 361.35pt x 252.945pt>
 File: graphs/frequencies.pdf Graphic file (type pdf)
 
 <use graphs/frequencies.pdf> [50 <./graphs/pipelines.pdf>]
-<graphs/frequencies_pipelines.pdf, id=607, 505.89pt x 722.7pt>
+<graphs/frequencies_pipelines.pdf, id=612, 505.89pt x 722.7pt>
 File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
 
 <use graphs/frequencies_pipelines.pdf> [51 <./graphs/frequencies.pdf>]
-<graphs/freq_pipes3D.pdf, id=622, 361.35pt x 252.945pt>
+<graphs/freq_pipes3D.pdf, id=627, 361.35pt x 252.945pt>
 File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
 
 <use graphs/freq_pipes3D.pdf> [52 <./graphs/frequencies_pipelines.pdf> <./graph
 s/freq_pipes3D.pdf>]
-<graphs/partition_sizes.pdf, id=639, 361.35pt x 252.945pt>
+<graphs/partition_sizes.pdf, id=644, 361.35pt x 252.945pt>
 File: graphs/partition_sizes.pdf Graphic file (type pdf)
 
 <use graphs/partition_sizes.pdf>
-<graphs/partition_ratios.pdf, id=640, 361.35pt x 252.945pt>
+<graphs/partition_ratios.pdf, id=645, 361.35pt x 252.945pt>
 File: graphs/partition_ratios.pdf Graphic file (type pdf)
 
 <use graphs/partition_ratios.pdf>
@@ -1115,9 +1119,9 @@ Chapter 4.
 \@float@every@program=\toks34
 \c@program=\count153
 Package hyperref Info: bookmark level for unknown program defaults to 0 on inpu
-t line 1855.
+t line 1859.
  [57]
-Overfull \hbox (50.07538pt too wide) in paragraph at lines 1953--1955
+Overfull \hbox (50.07538pt too wide) in paragraph at lines 1957--1959
 [][] 
  []
 
@@ -1126,49 +1130,49 @@ Overfull \vbox (9.40245pt too high) has occurred while \output is active []
 
 
 [60] [61]
-Overfull \hbox (83.75795pt too wide) in paragraph at lines 2083--2181
+Overfull \hbox (83.75795pt too wide) in paragraph at lines 2087--2185
 []|  [] 
  []
 
 [62] [63] [64] [65]
-Underfull \hbox (badness 10000) in paragraph at lines 2313--2313
+Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 Original
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2313--2313
+Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 cell data from
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 2313--2313
+Underfull \hbox (badness 3009) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 node data from
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2313--2313
+Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 halo cell data
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 2313--2313
+Underfull \hbox (badness 5077) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 halo node data
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2313--2313
+Underfull \hbox (badness 10000) in paragraph at lines 2317--2317
 []|\OT1/cmr/m/n/10.95 Edge/address
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2313--2314
+Overfull \hbox (30.0pt too wide) in paragraph at lines 2317--2318
  [] 
  []
 
 [66
 
 ]
-Overfull \hbox (61.64516pt too wide) in paragraph at lines 2328--2372
+Overfull \hbox (61.64516pt too wide) in paragraph at lines 2332--2376
 []|  [] 
  []
 
@@ -1176,32 +1180,27 @@ Overfull \hbox (61.64516pt too wide) in paragraph at lines 2328--2372
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 [67] [68] [69]
-Underfull \hbox (badness 10000) in paragraph at lines 2460--2460
-[]|\OT1/cmr/m/n/10.95 Flip Flops
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2460--2460
+Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
 []|\OT1/cmr/m/n/10.95 Total avail-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2460--2460
+Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
 []|\OT1/cmr/m/n/10.95 Used by
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2460--2460
+Underfull \hbox (badness 10000) in paragraph at lines 2464--2464
 \OT1/cmr/m/n/10.95 arith-metic
  []
 
 
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2460--2461
+Overfull \hbox (30.0pt too wide) in paragraph at lines 2464--2465
  [] 
  []
 
-[70] [71]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 2491--2494
+[70] [71] [72]
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 2574--2577
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -1209,7 +1208,7 @@ xCompiler.pdf
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no ” in font cmr10!
-[72
+[73
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -1217,7 +1216,7 @@ Missing character: There is no ³ in font cmr10!
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
- [73] [74]
+ [74] [75]
 Appendix A.
 \openout4 = `report.pyg'.
 
@@ -1234,7 +1233,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [75
+ (./report.out.pyg [76
 
 ])
 runsystem(rm report.out.pyg)...executed.
@@ -1246,7 +1245,7 @@ runsystem(rm report.pyg)...executed.
 runsystem(pygmentize -l c -f latex -F tokenmerge             -P "verboptions= "
  -o report.out.pyg report.pyg)...executed.
 
- (./report.out.pyg [76])
+ (./report.out.pyg [77])
 runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
@@ -1272,13 +1271,13 @@ runsystem(rm report.out.pyg)...executed.
 
 runsystem(rm report.pyg)...executed.
 
- [77] (./report.lof [78
+ [78] (./report.lof [79
 
 ])
 \tf@lof=\write8
 \openout8 = `report.lof'.
 
- [79]
+ [80]
 (./report.aux)
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1289,10 +1288,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 16753 strings out of 495000
- 302700 string characters out of 1180493
- 417884 words of memory out of 3000000
- 19313 multiletter control sequences out of 15000+50000
+ 16792 strings out of 495000
+ 303211 string characters out of 1180493
+ 416943 words of memory out of 3000000
+ 19349 multiletter control sequences out of 15000+50000
  16939 words of font info for 66 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  47i,16n,68p,860b,878s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1315,9 +1314,9 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 onts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmt
 i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (81 pages, 837699 bytes).
+Output written on report.pdf (82 pages, 845241 bytes).
 PDF statistics:
- 958 PDF objects out of 1000 (max. 8388607)
- 214 named destinations out of 1000 (max. 500000)
- 427 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 974 PDF objects out of 1000 (max. 8388607)
+ 217 named destinations out of 1000 (max. 500000)
+ 435 words of extra memory for PDF output out of 10000 (max. 10000000)
 
