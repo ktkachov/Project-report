@@ -38,7 +38,9 @@
 \BOOKMARK [2][-]{subsection.4.4.2}{Result RAM division and duplication}{section.4.4}
 \BOOKMARK [2][-]{subsection.4.4.3}{Resource usage}{section.4.4}
 \BOOKMARK [2][-]{subsection.4.4.4}{State machine}{section.4.4}
-\BOOKMARK [0][-]{chapter*.42}{Bibliography}{}
+\BOOKMARK [0][-]{chapter.5}{Experimentation}{}
+\BOOKMARK [1][-]{section.5.1}{No-op edges}{chapter.5}
+\BOOKMARK [0][-]{chapter*.43}{Bibliography}{}
 \BOOKMARK [0][-]{appendix.A}{Code Samples}{}
 \BOOKMARK [1][-]{section.A.1}{Airfoil Kernel definitions in C}{appendix.A}
-\BOOKMARK [0][-]{appendix*.43}{List of Figures}{}
+\BOOKMARK [0][-]{appendix*.44}{List of Figures}{}

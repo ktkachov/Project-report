@@ -1556,6 +1556,7 @@ and using a sequence of instructions in a conventional CPU (right).
 \end{figure}
 
 \section{Performance Model}
+\label{sec:perf_model}
 In order to justify the design decisions made, we present a performance model that aims to predict the maximum achievable performance
 increase. For this we need to take into account the hardware characteristics, such as DRAM and PCIe bandwidth and the chip clock frequency
 as well as the format of the data, in particular the widths of the data sets. 
@@ -2214,6 +2215,7 @@ the schedule, thus padding it out and making it easier to find a schedule. We wa
 are trying to reduce the no-op edge count.
 
 \subsection{Graph colouring and edge scheduling revisited}
+\label{sec:colouring}
 A trivial solution for scheduling a graph with window-width $l$ would be to add $l$ no-op partitions after each node, but this would increase the
 edge count in the mesh by a huge amount, adding $l \times e \times n$ no-op edges, where $e$ is the maximum number of edges per edge-partition and $n$ is the
 number of nodes in the adjacency graph or the number of edge-partitions. In this section we transform the scheduling problem (Hamiltonian path problem) to a graph colouring problem
@@ -2548,6 +2550,27 @@ to store the state and has the usual \emph{ENABLE} and \emph{RESET} signals tha 
 with the maximum permitted value and use the result together with a multiplexer to choose whether to wrap around or continue incrementing. The clocking of the design
 is done automatically by MaxCompiler, so the clock signal is shown here only for completeness.}
 \label{fig:hw_counter}
+\end{figure}
+
+\chapter{Experimentation}
+\section{No-op edges}
+During our implementation we commented on the necessity of adding no-op edges that arise from the uneveness of the partitioning and the complexity
+of scheduling. As dicussed in the performance model (section \ref{sec:perf_model}), for an architecture with less than four pipelines the execution time
+is dominated by the edge processing. Therefore we want to minimise the number of no-op edges we add. In the section on graph colouring (\ref{sec:colouring}) we
+predicted that using smaller but more edge-partitions will reduce the number of no-op edges we add due to METIS producing more even partitions and also since the
+ratio of edge-partitions to no-op edge-partitions will increase. We test this hypothesis by using our test mesh of 
+721801 nodes, 1438600 edges and 720000 cells and varying the number of edge-partitions per micro-partition and recording the number of no-op edges our graph colouring-based
+scheduling algorithm ends up adding. The window-width $l$ is 18. The results are shown in Figure \ref{fig:nop_edge_ratio}. We notice varying the number of edge-partitions does indeed
+affect the number of no-op edges added significantly with the number of no-op edges added ranging from 2064540 (ratio 1.44) for 80 edge partitions down to 435088 (ratio 0.3)
+for 920 edge-partitions. The decrease, however, seems to have unexpected fluctuations that seem to become more and more pronounced as we increase the number of edge-partitions.
+We believe the cause of these to be inconsistent partitioning from the METIS tool.
+
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
+  \caption[No-op edges to edges ratio against number of edge-partitions]{ Plot of the ratio of no-op edges to normal edges against the number of edge-partitions per
+micro-partition.}
+\label{fig:nop_edge_ratio}
 \end{figure}
 
 
