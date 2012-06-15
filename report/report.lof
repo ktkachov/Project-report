@@ -1,37 +1,39 @@
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {1.1}{\ignorespaces Example Airfoil mesh}}{6}{figure.caption.3}
-\contentsline {figure}{\numberline {1.2}{\ignorespaces Simple dataflow graph}}{7}{figure.caption.4}
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Example Airfoil mesh}}{5}{figure.caption.3}
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Simple dataflow graph}}{6}{figure.caption.4}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Mesh representation with indirection arrays}}{10}{figure.caption.5}
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Mesh data set example}}{11}{figure.caption.6}
-\contentsline {figure}{\numberline {2.3}{\ignorespaces Example mesh coloring}}{12}{figure.caption.7}
-\contentsline {figure}{\numberline {2.4}{\ignorespaces Airfoil maps relationships}}{16}{figure.caption.10}
-\contentsline {figure}{\numberline {2.5}{\ignorespaces Maxeler toolchain diagram}}{19}{figure.caption.12}
-\contentsline {figure}{\numberline {2.6}{\ignorespaces Example data flow graph for MaxCompiler example}}{22}{figure.caption.13}
-\contentsline {figure}{\numberline {2.7}{\ignorespaces MAX3 card components}}{27}{figure.caption.14}
-\contentsline {figure}{\numberline {2.8}{\ignorespaces Mesh partitioning and halos}}{28}{figure.caption.15}
-\contentsline {figure}{\numberline {2.9}{\ignorespaces IEEE-754 floating point representation}}{29}{figure.caption.16}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Mesh representation with indirection arrays}}{9}{figure.caption.5}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Mesh data set example}}{10}{figure.caption.6}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Example mesh coloring}}{11}{figure.caption.7}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Airfoil maps relationships}}{15}{figure.caption.10}
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Maxeler toolchain diagram}}{18}{figure.caption.12}
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Example data flow graph for MaxCompiler example}}{21}{figure.caption.13}
+\contentsline {figure}{\numberline {2.7}{\ignorespaces MAX3 card components}}{26}{figure.caption.14}
+\contentsline {figure}{\numberline {2.8}{\ignorespaces Mesh partitioning and halos}}{27}{figure.caption.15}
+\contentsline {figure}{\numberline {2.9}{\ignorespaces IEEE-754 floating point representation}}{28}{figure.caption.16}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Initial accelerator architecture diagram}}{35}{figure.caption.17}
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Accelerator architecture diagram with halo exchange}}{37}{figure.caption.18}
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Two-level partitioning}}{39}{figure.caption.19}
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram with state machine added}}{40}{figure.caption.20}
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Overlapping of execution and I/O on the FPGA}}{41}{figure.caption.21}
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Custom pipeline vs conventional CPU}}{45}{figure.caption.22}
-\contentsline {figure}{\numberline {3.7}{\ignorespaces Execution time against number of pipelines}}{50}{figure.caption.25}
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Execution time against clock frequency}}{51}{figure.caption.27}
-\contentsline {figure}{\numberline {3.9}{\ignorespaces Execution time against number of pipelines and frequency}}{52}{figure.caption.29}
-\contentsline {figure}{\numberline {3.10}{\ignorespaces 3-D plot of execution time against number of pipelines and frequency}}{52}{figure.caption.30}
-\contentsline {figure}{\numberline {3.11}{\ignorespaces Execution time against partition size}}{53}{figure.caption.32}
-\contentsline {figure}{\numberline {3.12}{\ignorespaces DRAM to PCIe transfer time ratio}}{54}{figure.caption.33}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Initial accelerator architecture diagram}}{34}{figure.caption.17}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Accelerator architecture diagram with halo exchange}}{36}{figure.caption.18}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Two-level partitioning}}{38}{figure.caption.19}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram with state machine added}}{39}{figure.caption.20}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Overlapping of execution and I/O on the FPGA}}{40}{figure.caption.21}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Custom pipeline vs conventional CPU}}{44}{figure.caption.22}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Execution time against number of pipelines}}{49}{figure.caption.25}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Execution time against clock frequency}}{50}{figure.caption.27}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Execution time against number of pipelines and frequency}}{51}{figure.caption.29}
+\contentsline {figure}{\numberline {3.10}{\ignorespaces 3-D plot of execution time against number of pipelines and frequency}}{51}{figure.caption.30}
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Execution time against partition size}}{52}{figure.caption.32}
+\contentsline {figure}{\numberline {3.12}{\ignorespaces DRAM to PCIe transfer time ratio}}{53}{figure.caption.33}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Accumulation part with edge dependencies}}{57}{figure.caption.34}
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Edge partitions and adjacency graph}}{58}{figure.caption.35}
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Graph schedule to edge schedule}}{62}{figure.caption.36}
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{68}{figure.caption.38}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{70}{figure.caption.39}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{72}{figure.caption.41}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Accumulation part with edge dependencies}}{56}{figure.caption.34}
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Edge partitions and adjacency graph}}{57}{figure.caption.35}
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Graph schedule to edge schedule}}{61}{figure.caption.36}
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{67}{figure.caption.38}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{69}{figure.caption.39}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{71}{figure.caption.41}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{74}{figure.caption.42}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Predicted execution time against number of edge-partitions}}{75}{figure.caption.43}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{73}{figure.caption.42}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Predicted execution time against number of edge-partitions}}{74}{figure.caption.43}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Measured execution time against number of edge-partitions}}{75}{figure.caption.44}
+\addvspace {10\p@ }
 \addvspace {10\p@ }

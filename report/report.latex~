@@ -158,7 +158,8 @@ operations required by an application. In particular, we focus on dealing with i
 to facilitate a streaming model of computation. We describe the partitioning of the mesh and 
 the techniques used to exchange information between neighbouring partitions, using so-called halos.
  We provide hardware accelerated version of a concrete application and develop a performance model
- used to predict performance and justify our design decisions and guide the implementation.
+ used to predict performance and justify our design decisions and guide the implementation. Practical experiments
+confirm that our performance model can be used to predict the performance of a whole design space of custom architectures.
 \end{abstract}
 \section*{Acknowledgements \centering}
 I would like to thank Professor Paul Kelly for giving me so much of his time and ideas and 
@@ -182,13 +183,13 @@ always kept me motivated, even when I doubted myself.
 \chapter{Introduction}
 This project presents a methodology for accelerating computations performed on unstructured
 meshes in the context of Computational Fluid Dynamics (CFD). We use Field Programmable Gate
-Arrays, or FPGAs, to construct a high-throughput streaming pipeline which is kept filled thanks
+Arrays, or FPGAs, to design a high-throughput streaming pipeline which is kept filled thanks
 to an appropriate data layout and partitioning scheme for the mesh. We explore the rearrangement
 and grouping schemes used to achieve locality of the data points. A formal performance
 model is constructed to predict the performance characteristics of our architecture and hence
-justify the design choices made. Appropriate evaluation
-tests are performed to evaluate the results on a sample CFD application, achieving speedup
-comparable with state of the art GPGPU and multi-processor solutions. 
+justify the design choices made. The performance model shows that interesting speedups can be achieved
+using our proposed architecture, comparable to state of the art implementations on other hardware platforms. 
+We build an implementation that is used to validate the model.
 In this section we present a general overview of the problem domain, the hardware platform and the
 contributions of this project.
 
@@ -277,8 +278,8 @@ utilisation and maximise pipelining.
 
 We present a performance model that will be used to describe the theoretical performance
 increase of the system in terms of various parameters like DRAM utilisation, clock frequency etc.
-Finally we evaluate the performance of our implementation of Airfoil against existing
-GPGPU and multi-processors cluster implementations.
+Finally, we present an implementation of a point in the architeture design space and use it to
+validate the model.
 
 \section{Contributions}
 \begin{itemize}
@@ -293,6 +294,8 @@ a workload to the host machine.
 described in this report.
 \item We provide a predictive performance model that is used to justify our design decisions
 and provide a formal expression of the potential speedup.
+\item We validate the performance model, allowing the exploration of a variety of architectures
+custom-built for this type of application.
 \end{itemize}
 
 \chapter{Background}
@@ -797,7 +800,7 @@ The card is connected to the host machine via a PCIe bus, a popular standard tha
 \draw [thick](0.5, 17.5) rectangle (4.5, 13);
 \fill [red!10!white](0.5, 17.5) rectangle (4.5, 13);
 
-\node (maxcard) at (1, 19.5) {MAX card};
+\node (maxcard) at (1, 19.5) {MAX3 card};
 \node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 4cm] {DRAM};
 \node (manager) at (2.5, 17) [draw=black, fill=orange!10!white,  minimum width = 2.7cm, minimum height=0.7cm] {Manager};
 \node (kernel) at (2.5, 15) [draw=black, fill=red!10!white, minimum height=2cm,  minimum width = 2.7cm] {Kernel};
@@ -1760,10 +1763,14 @@ We notice that for values of $C_{pp}$ less than 2048 the PCIe transfer time domi
 This result is to be expected since the size of the halo region is proportional
 to the square root of the partition size, in other words $C^h_{pp} \propto \sqrt{C_{pp}}$.
 
+An important point in our approach is the observation that the performance of our design is highly predictable, much more so than conventional CPU and GPU implementations. If we had tried to
+predict the performance of a CPU or a GPU implementation we would have to deal with a lot of system-dependent factors like cache misses, thread creation overhead, register spilling etc that
+make a significant impact on performance, yet cannot be easily accounted for in a preliminary analysis such as this.
+
 \chapter{Implementation}
 In this chapter we present the issues that arise when trying to implement the FPGA-based accelerator and the host-side mesh
-preprocessing code. Due to time limitations we attempt to build a design using one arithmetic pipeline with 8192 ($2^13$) cells
-per partition.
+preprocessing code. Due to time limitations we attempt to build a design using one arithmetic pipeline with 8192 ($2^{13}$) cells
+per partition running at 100MHz.
 
 \section{Mesh partitioning}
 We use the METIS partitioning tool through its C API to assign a partition number to each cell and node. This is where we use
@@ -1777,11 +1784,14 @@ between global and local numbering and use them to translate the \emph{cell} ind
 Now we can perform the second level of partitioning by breaking up each partition into 2 micro-partitions. We actually want three regions
 from this process: the two micro-partitions and the intra-partition halo (\emph{IPH}). We assign edges to each partition again
 taking care to add the nodes and cells from the neighbouring micro-partition. Since METIS provides a partition number for each cell and node,
-we need to Figure out the IPH region ourselves. We store the nodes for each micro-partition into a set (we used a hash set but any implementation
+we need to determine the IPH region ourselves. We store the nodes for each micro-partition into a set (we used a hash set but any implementation
 could be used) called $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$ and calculate the IPH region by $Nodes_{IPH} = Nodes_{\mu p1} \cap Nodes_{\mu p2}$. Now
 we need to remove the common nodes from $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$, that is $Nodes_{\mu p1} := Nodes_{\mu p1} \backslash Nodes_{IPH}$ and
 $Nodes_{\mu p2} := Nodes_{\mu p2} \backslash Nodes_{IPH}$, where $A \backslash B$ is the set $A$ with the elements of set $B$ removed ($\backslash$ is the set difference operator).
  We follow the same procedure for cells and we arrive at the partitions that we need.
+
+We calculate the halo regions using the same procedures (using set intersection) and reorder the data to separate the halo data from normal data. After execution
+of the FPGA we iterate over the halo data, adding up all the contributions from all the partitions.
 
 \section{Edge scheduling}
 Recall the use of the accumulator that adds the increments computed by the arithmetic pipeline to the current values of $res$ (figure \ref{fig:Architecture1st}), creating
@@ -1990,7 +2000,7 @@ uses the $validPos$ function defined in algorithm \ref{alg:schedule_validPos} to
 pick which nodes to attempt to schedule.
 Due to the high number of adjacency checks, we choose to represent the graphs
 as two-dimensional adjacency matrices $mat$ where $mat[i][j] = 1$ if nodes $i$ and $j$
-are adjacent and $max[i][j] = 0$ otherwise. Algorithm \ref{alg:schedule_algorithm} performs a 
+are adjacent and $mat[i][j] = 0$ otherwise. Algorithm \ref{alg:schedule_algorithm} performs a 
 depth-first search of the state space, backtracking to try different paths if a particular
 path fails thanks to the use of queues to store nodes that should be tried next. The recursion
 handles the backtracking. At every call of $sched$ the algorithm will try to place a node into the
@@ -2239,9 +2249,9 @@ adjacency graph is desirable, but cannot be computed efficiently.
 
 With this approach we are guaranteed to add no-op edge-partitions. Recall that for a colouring with $c$ colours of a graph that we are trying to schedule
 with window width $l$ such that the maximum number of edges in each edge partition is $e$, the number of no-op edges we add is $N_{nop} =l\times c \times e $.
-We want to minimise $N_{nop}$. $l$ is a problem parameter and is a characteristic of the hardware. $c$ depends on the quality of the colouring as discussed
+We want to minimise $N_{nop}$. $l$ is a parameter of the problem and is a characteristic of the hardware. $c$ depends on the quality of the colouring as discussed
 above. $e$ can be minimised by using smaller edge-partitions. Using smaller edge-partitions means creating more of them per micro-partition. Therefore, using
-this scheme, it is in our best interests to use as many edge-partitions as possible.
+this scheme, it is in our best interests to use as many edge-partitions as possible to minimise the ratio of no-op to normal edge-partitions.
 
 
 \begin{program}[H]
@@ -2282,7 +2292,7 @@ this scheme, it is in our best interests to use as many edge-partitions as possi
 \clearpage
 
 \section{Data sets and padding}
-As dicussed earlier, the kernel on the accelerator has 6 inputs and two outputs:
+As discussed earlier, the kernel on the accelerator has 6 inputs and two outputs:
 \begin{enumerate}
 \item{cell data from DRAM}
 \item{node data from DRAM}
@@ -2568,7 +2578,9 @@ for 920 edge-partitions. The decrease, however, seems to have unexpected fluctua
 We believe the cause of these to be inconsistent partitioning from the METIS tool. Therefore we try to schedule the same mesh but with a window-width of 0. This does not produces
 any no-op partitions (because now there is no independence constraint) and therefore all no-op edges must come from the differences in the edge-partitions. The results are shown in
 Figure \ref{fig:nop_edge_ratio} in blue. Notice that the fluctuations in the two patterns are identical, giving us strong evidence that the unexpected extra no-op edges in the useful (red)
-schedule are caused by METIS and not by unexpected behaviour of our graph colouring scheduling approach.
+schedule are caused by METIS and not by unexpected behaviour of our graph colouring scheduling approach. In fact, it seems that METIS partitioning degrades somewhat as the number of partitions
+asked of it increases. We can see that increasing the number of edge-partitions per micro-partitions is a very effective way to reduce the number of no-op edges, but some experimentation
+is needed to pick a number that will not trigger a pathologically bad partitioning by METIS.
 
 \begin{figure}[H]
   \centering
@@ -2579,22 +2591,128 @@ micro-partition for schedules window-width 18 and 0.}
 \end{figure}
 
 Using our performance we can make a prediction about the execution time in correlation to the number of no-op edges that we add. The results, for 1 and 5 arithmetic pipelines
-are sh
+are shown in Figure \ref{fig:nop_edge_model}. From section \ref{sec:perf_model} we expected that for a low number of arithmetic pipelines the execution time would be dominated by
+edge processing and we can see that the predicted execution time is very sensitive to the number of no-op edges we add when we have only one arithmetic pipeline.
+We see that the fluctuations are expected to become less pronounced as we increase the number of pipelines (and therfore the number of edges we process simultaneously) which is
+a positive thing. Notice how increasing the number of pipelines also decreases the added runtime caused by the no-op edges.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/noop_model.pdf}
   \caption[Predicted execution time against number of edge-partitions]{ Plot of predicted execution time for 2000 iterations against the number of edge-partitions per
-micro-partition for architectures with 1 and 5 arithmetic pipelines.}
+micro-partition for architectures with 1 and 5 arithmetic pipelines. The predicted execution time in the ideal case of no no-op edges being added is shown in dashed red
+and blue lines. The assumed clock frequency is 100MHz.}
 \label{fig:nop_edge_model}
 \end{figure}
 
+Unfortunately, our implementation of the architecture does not give correct results. From reviewing the code, we see that the errors arise from the
+the intricacies of the enable signals in the result RAMs that result in the accelerator commiting NaN values caused by no-op edges,
+and we believe that the required fix would not impact the performance of the design
+in a measurable way, nor would it require any fundamental re-engineering that would demand a different performance model. We claim this on the observation
+that while the end results are wrong, various simulation runs with debugging information suggest that all of the data is processed in a correct order with
+the accelerator producing and consuming the exactly correct amount of data and more importantly processing the correct amount of edges which dominates execution
+time. The errors arise from commiting invalid no-op results at the wrong cycle. 
+Therefore, we feel confident in using our implementation to test the performance model. Due to time limitations we implemented an accelerator
+with one arithmetic pipeline running at 100MHz. The effects of varying edge-partition size on the measured execution time are shown in Figure \ref{fig:nop_edge_modelvsreal}.
+We run one iteration over the mesh and time it and extrapolate from there by multiplying the number by 2000 to estimate the execution time for 2000 iterations.
+We notice that the measured execution time is consistent with the predicted time. The measured time is slightly larger than the predicted one. We believe that is down to
+the overhead of setting up the streams. Overall, the model is validated in its prediction that computation is dominated by edge processing and provides a reasonably accurate
+estimate.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
+  \caption[Measured execution time against number of edge-partitions]{ Plot of extrapolated measured execution time for 2000 iterations against the number of edge-partitions per
+micro-partition for architectures. The measured time is shown in blue. The corresponding predictions of the performance model are shown in red.}
+\label{fig:nop_edge_modelvsreal}
+\end{figure}
 
-% \chapter{Evaluation}
-% In this section we present the evaluation strategy for our approach. We explain the alternative
-% implementations of Airfoil and contrast their performance with our scheme. We test the various
-% imlementations against progressively larger mesh sizes and present and interpret the results.
 
-% \chapter{Conclusion and further work}
+\section{Resource usage}
+Recall Table \ref{tab:resource_usage} showing the resource usage of our test design and Table \ref{tab:resource_usage_arith} showing the resource usage
+of the arithmetic pipeline. The resources available on the FPGA place a limit on the amount of logic we can fit onto the device. Since we have shown through
+the performance model that the bottleneck is edge processing, the obvious extension to consider is adding more arithmetic pipelines. As shown in Table \ref{tab:resource_usage_arith}
+we have plenty of DSP resources for at least 30 more pipelines, but the LUT count will place a limitation on that ambition. As shown in Figure \ref{fig:Pipelines} on page \pageref{fig:Pipelines} 
+we would need at most 8 pipelines to remove the edge processing bottleneck, a feat that is perfectly accomplishable from a resource usage point of view.
+
+\begin{table} [H]
+\begin{center}
+  \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X | X |}
+    \hline                        
+     & LUTs & FFs & BlockRAMs & DSPs \\ \hline \hline
+    Total available & 297600 & 595200 & 1064 & 2016\\ \hline
+    Used by arithmetic pipeline & 17426 & 22120 & 0 & 62 \\ \hline
+    Total used by pipeline as percentage of available &5.86\% & 3.73\% &  0\% & 3.08\% \\ \hline
+  \end{tabularx}
+\end{center}
+  \caption{Table showing the resource usage of our implementation}
+  \label{tab:resource_usage_arith}
+\end{table}
+
+
+\chapter{Conclusions and further work}
+\section{Contributions and reflection}
+
+In this project we tackled a problem that is generally thought to be unfit for acceleration with
+a custom streaming approach due to the irregular memory access pattern. We reviewed existing work to 
+learn from their experiences (avoid using fixed-point numbers, use on-chip memory to buffer data) and
+indentify areas that were left unexplored (mesh reorganisation to fit a custom architecture).
+
+ We took the approach of designing both hardware and software at the same time, custom-fitting each other to extract
+the best performance we can, tackling some challenging problems on the way. We devised a novel scheme for overlapping I/O and arithmetic calculations and developed
+an elegant and well-behaved way to work around the NP-hard problem of edge scheduling by transforming it into an abstract graph colouring problem and applying 
+known graph algorithms. This presents an intuition that when we can transform a performance hacking problem into a well-behaved abstract mathematical problem then
+we are doing it right.
+
+ We applied these techniques to accelerate
+the most complex part of a non-trivial CFD application and while we did not produce correct arithmetic results, we have reason to believe
+that a functionally correct implementation of our architecture will not exhibit different performance characteristics than the ones
+predicted by our model and validated by the test runs. The test runs confirm the validity of our model and pave the way for the implementation
+of any of the architectures in the design space.
+
+While the design of the accelerator is not terribly complex when compared to modern CPUs and memory systems, partly on purpose, the implementation
+required much more effort than initially anticipated due to limitations of the hardware (port numbers on RAMs), edge cases (kernel state machine
+counters) and fundamentally computationally hard problems (edge scheduling). The majority of the difficulties have been overcome and the end result
+validates our initial mathematical model.
+
+We claim that the project has been a success because we developed an approach to acceleration that gives highly predictable performance for a problem with
+irregular memory accesses that usually make the prediction of performance on conventional architectures a much less accurate endeavour. This characteristic
+of predictability is very valuable, since it can be used to choose the optimal architecture setup based on hardware resources available without having
+to go through the demonstrably hard process of implementing any particular architecture.
+
+The novelty of the project lies in our approach of modifying the mesh to optimally fit the streaming model implemented on the accelerator. To the best
+of the authors' knowledge, this project is the first attempt at evolving the architecture and mesh format to fit each other optimally.
+The second major original contribution is the halo exchange mechanism that uses the slower PCIe channel to send data to the host that will
+handle the comlicated task of adding up contributions to halo cells from different partitions. We make sure that using the PCIe bus to 
+transmit halo data does not limit our performance by adjusting the ratio of halo data to non-halo dat so that DRAM transfers dominate
+the data transfer times.
+
+\section{Further work}
+There are a number of possible directions for future work, most notably:
+\begin{itemize}
+\item{Ensuring that the design produces correct results is priority number one, since it is a necessary precondition for future extensions that will
+prove beyond doubt that the approach presented here is a good one.}
+\item{Implementing more architectures from the design space is the next logical step, in particular a design with multiple arithmetic pipelines is expected
+to offer a dramatic improvement in performance and would be a good way to further validate the performance model.}
+\item{A major step forward would be to fit multiple kernels onto the FPGA, since Airfoil can only be accelerated as a whole when all calculations run on the 
+FPGA. Accelerating only res\_calc works well as a proof of concept but to fully benefit from this approach we cannot afford any transfers between the DRAM and the host
+apart from the initial uploading of the mesh data. Achieving this would require all kernels to be computed on the FPGA. The major difficulty in this regard lies with
+the different iteration structure of other kernels. For example: the adt\_calc kernel iterates over cells, not edges and by our current approach would require
+a different data layout in the DRAM that would not be optimal for res\_calc.}
+\item{Currently, the limitation on the number of ports available on the RAMs forces us to duplicate RAMs which can be viewed as wasteful. Devising a smarter scheme for
+accessing node and cell data is a valuable extension.}
+\item{An interesting direction for future work would be to use multiple FPGAs to either compute multiple partitions of the mesh in parallel, or through some shared memory
+mechanism be used to interleave the execution of different kernels.}
+\item{In this project we implemented one architecture but specified a whole design space of architectures parametrised by factors such as number of pipelines, clock frequency,
+partition size etc. A natural extension along this line of thought is to implement a compilation system that, given a set of parameters will generate the accelerator design and configure
+the host code to format the data appropriately.}
+\item{It is shown that the no-op edges that arise from edge scheduling add a performance penalty. Therefore extensions that improve the scheduling algorithms are certainly well-worth
+the consideration. These can range from improving the graph colouring algorithm to use fewer colours to improving the partitioning produced by METIS or maybe even implementing a custom
+mesh partitioning application.}
+\item{While the performance model presented here has proved to be adequately accurate, it can be improved by taking into account smaller details such as pipeline fill/drain
+times.}
+\items{The accelerator implementation could be improved by reducing the number of resources used by the state machine and the RAM selection logic, thus allowing one to fit more computational logic
+onto the chip.}
+\end{itemize}
+
 \begin{thebibliography}{9}
 \addcontentsline{toc}{chapter}{Bibliography}
 \bibitem{OP2_presentation}
@@ -2630,8 +2748,8 @@ micro-partition for architectures with 1 and 5 arithmetic pipelines.}
 
 \bibitem{IEEEFP}
   IEEE \\
-  \emph{IEEE Std 754-2008 } \\
-  Publication Year: 2008 , Page(s): 1 - 58
+  \emph{IEEE Standard for Floating-Point Arithmetic } \\
+  IEEE Std 754-2008 (Revision of IEEE Std 754-1985)
 
 \bibitem{GhostCellPaper}
   F. B. Kjolstad, M Snir\\

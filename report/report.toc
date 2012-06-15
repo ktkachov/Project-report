@@ -1,50 +1,54 @@
-\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}
-\contentsline {section}{\numberline {1.1}The domain}{4}{section.1.1}
-\contentsline {section}{\numberline {1.2}The Airfoil program}{5}{section.1.2}
-\contentsline {section}{\numberline {1.3}FPGAs, streaming and acceleration}{5}{section.1.3}
-\contentsline {section}{\numberline {1.4}Contributions}{7}{section.1.4}
-\contentsline {chapter}{\numberline {2}Background}{9}{chapter.2}
-\contentsline {section}{\numberline {2.1}Unstructured meshes and their representation}{9}{section.2.1}
-\contentsline {section}{\numberline {2.2}Airfoil}{11}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}Computational kernels and data sets}{13}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{16}{subsection.2.2.2}
-\contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{19}{section.2.3}
-\contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{20}{subsection.2.3.1}
-\contentsline {subsection}{\numberline {2.3.2}Hardware}{26}{subsection.2.3.2}
-\contentsline {subsection}{\numberline {2.3.3}Mesh partitioning and halos}{27}{subsection.2.3.3}
-\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{28}{subsection.2.3.4}
-\contentsline {section}{\numberline {2.4}Previous work}{29}{section.2.4}
-\contentsline {chapter}{\numberline {3}Design and Modelling}{33}{chapter.3}
-\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{33}{section.3.1}
-\contentsline {section}{\numberline {3.2}Result accumulation and storage}{34}{section.3.2}
-\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{35}{section.3.3}
-\contentsline {section}{\numberline {3.4}Two-level partitioning}{38}{section.3.4}
-\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{42}{section.3.5}
-\contentsline {section}{\numberline {3.6}Performance Model}{45}{section.3.6}
-\contentsline {subsection}{\numberline {3.6.1}Phase 1}{47}{subsection.3.6.1}
-\contentsline {subsection}{\numberline {3.6.2}Phase 2}{48}{subsection.3.6.2}
-\contentsline {subsection}{\numberline {3.6.3}Phase 3}{48}{subsection.3.6.3}
-\contentsline {subsection}{\numberline {3.6.4}Design space exploration}{49}{subsection.3.6.4}
-\contentsline {subsubsection}{Number of arithmetic pipelines $n_p$}{49}{section*.24}
-\contentsline {subsubsection}{Clock frequency $f$}{51}{section*.26}
-\contentsline {subsubsection}{Clock frequency $f$ and arithmetic pipelines $n_p$}{51}{section*.28}
-\contentsline {subsubsection}{Partition size $C_{pp}$}{53}{section*.31}
-\contentsline {chapter}{\numberline {4}Implementation}{55}{chapter.4}
-\contentsline {section}{\numberline {4.1}Mesh partitioning}{55}{section.4.1}
-\contentsline {section}{\numberline {4.2}Edge scheduling}{56}{section.4.2}
-\contentsline {subsection}{\numberline {4.2.1}No-op edges}{61}{subsection.4.2.1}
-\contentsline {subsection}{\numberline {4.2.2}Complexity}{63}{subsection.4.2.2}
-\contentsline {subsection}{\numberline {4.2.3}No-op edge-partitions}{63}{subsection.4.2.3}
-\contentsline {subsection}{\numberline {4.2.4}Graph colouring and edge scheduling revisited}{63}{subsection.4.2.4}
-\contentsline {section}{\numberline {4.3}Data sets and padding}{66}{section.4.3}
-\contentsline {section}{\numberline {4.4}FPGA accelerator}{67}{section.4.4}
-\contentsline {subsection}{\numberline {4.4.1}I/O streams and manager}{67}{subsection.4.4.1}
-\contentsline {subsection}{\numberline {4.4.2}Result RAM division and duplication}{68}{subsection.4.4.2}
-\contentsline {subsection}{\numberline {4.4.3}Resource usage}{70}{subsection.4.4.3}
-\contentsline {subsection}{\numberline {4.4.4}State machine}{71}{subsection.4.4.4}
-\contentsline {chapter}{\numberline {5}Experimentation}{73}{chapter.5}
-\contentsline {section}{\numberline {5.1}No-op edges}{73}{section.5.1}
-\contentsline {chapter}{Bibliography}{76}{chapter*.44}
-\contentsline {chapter}{\numberline {A}Code Samples}{79}{appendix.A}
-\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{79}{section.A.1}
-\contentsline {chapter}{List of Figures}{83}{appendix*.45}
+\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}
+\contentsline {section}{\numberline {1.1}The domain}{3}{section.1.1}
+\contentsline {section}{\numberline {1.2}The Airfoil program}{4}{section.1.2}
+\contentsline {section}{\numberline {1.3}FPGAs, streaming and acceleration}{4}{section.1.3}
+\contentsline {section}{\numberline {1.4}Contributions}{6}{section.1.4}
+\contentsline {chapter}{\numberline {2}Background}{8}{chapter.2}
+\contentsline {section}{\numberline {2.1}Unstructured meshes and their representation}{8}{section.2.1}
+\contentsline {section}{\numberline {2.2}Airfoil}{10}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Computational kernels and data sets}{12}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{15}{subsection.2.2.2}
+\contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{18}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{19}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Hardware}{25}{subsection.2.3.2}
+\contentsline {subsection}{\numberline {2.3.3}Mesh partitioning and halos}{26}{subsection.2.3.3}
+\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{27}{subsection.2.3.4}
+\contentsline {section}{\numberline {2.4}Previous work}{28}{section.2.4}
+\contentsline {chapter}{\numberline {3}Design and Modelling}{32}{chapter.3}
+\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{32}{section.3.1}
+\contentsline {section}{\numberline {3.2}Result accumulation and storage}{33}{section.3.2}
+\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{34}{section.3.3}
+\contentsline {section}{\numberline {3.4}Two-level partitioning}{37}{section.3.4}
+\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{41}{section.3.5}
+\contentsline {section}{\numberline {3.6}Performance Model}{44}{section.3.6}
+\contentsline {subsection}{\numberline {3.6.1}Phase 1}{46}{subsection.3.6.1}
+\contentsline {subsection}{\numberline {3.6.2}Phase 2}{47}{subsection.3.6.2}
+\contentsline {subsection}{\numberline {3.6.3}Phase 3}{47}{subsection.3.6.3}
+\contentsline {subsection}{\numberline {3.6.4}Design space exploration}{48}{subsection.3.6.4}
+\contentsline {subsubsection}{Number of arithmetic pipelines $n_p$}{48}{section*.24}
+\contentsline {subsubsection}{Clock frequency $f$}{50}{section*.26}
+\contentsline {subsubsection}{Clock frequency $f$ and arithmetic pipelines $n_p$}{50}{section*.28}
+\contentsline {subsubsection}{Partition size $C_{pp}$}{52}{section*.31}
+\contentsline {chapter}{\numberline {4}Implementation}{54}{chapter.4}
+\contentsline {section}{\numberline {4.1}Mesh partitioning}{54}{section.4.1}
+\contentsline {section}{\numberline {4.2}Edge scheduling}{55}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}No-op edges}{60}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Complexity}{62}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}No-op edge-partitions}{62}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}Graph colouring and edge scheduling revisited}{62}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}Data sets and padding}{65}{section.4.3}
+\contentsline {section}{\numberline {4.4}FPGA accelerator}{66}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}I/O streams and manager}{66}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Result RAM division and duplication}{67}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Resource usage}{69}{subsection.4.4.3}
+\contentsline {subsection}{\numberline {4.4.4}State machine}{70}{subsection.4.4.4}
+\contentsline {chapter}{\numberline {5}Experimentation}{72}{chapter.5}
+\contentsline {section}{\numberline {5.1}No-op edges}{72}{section.5.1}
+\contentsline {section}{\numberline {5.2}Resource usage}{76}{section.5.2}
+\contentsline {chapter}{\numberline {6}Conclusions and further work}{77}{chapter.6}
+\contentsline {section}{\numberline {6.1}Contributions and reflection}{77}{section.6.1}
+\contentsline {section}{\numberline {6.2}Further work}{78}{section.6.2}
+\contentsline {chapter}{Bibliography}{80}{chapter*.46}
+\contentsline {chapter}{\numberline {A}Code Samples}{83}{appendix.A}
+\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{83}{section.A.1}
+\contentsline {chapter}{List of Figures}{87}{appendix*.47}
