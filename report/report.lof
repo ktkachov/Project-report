@@ -33,4 +33,5 @@
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{72}{figure.caption.41}
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{74}{figure.caption.42}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Predicted execution time against number of edge-partitions}}{75}{figure.caption.43}
 \addvspace {10\p@ }

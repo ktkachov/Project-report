@@ -2558,19 +2558,34 @@ During our implementation we commented on the necessity of adding no-op edges th
 of scheduling. As dicussed in the performance model (section \ref{sec:perf_model}), for an architecture with less than four pipelines the execution time
 is dominated by the edge processing. Therefore we want to minimise the number of no-op edges we add. In the section on graph colouring (\ref{sec:colouring}) we
 predicted that using smaller but more edge-partitions will reduce the number of no-op edges we add due to METIS producing more even partitions and also since the
-ratio of edge-partitions to no-op edge-partitions will increase. We test this hypothesis by using our test mesh of 
+ratio of edge-partitions to no-op edge-partitions will increase. 
+
+We test this hypothesis by using our test mesh of 
 721801 nodes, 1438600 edges and 720000 cells and varying the number of edge-partitions per micro-partition and recording the number of no-op edges our graph colouring-based
 scheduling algorithm ends up adding. The window-width $l$ is 18. The results are shown in Figure \ref{fig:nop_edge_ratio}. We notice varying the number of edge-partitions does indeed
 affect the number of no-op edges added significantly with the number of no-op edges added ranging from 2064540 (ratio 1.44) for 80 edge partitions down to 435088 (ratio 0.3)
 for 920 edge-partitions. The decrease, however, seems to have unexpected fluctuations that seem to become more and more pronounced as we increase the number of edge-partitions.
-We believe the cause of these to be inconsistent partitioning from the METIS tool.
+We believe the cause of these to be inconsistent partitioning from the METIS tool. Therefore we try to schedule the same mesh but with a window-width of 0. This does not produces
+any no-op partitions (because now there is no independence constraint) and therefore all no-op edges must come from the differences in the edge-partitions. The results are shown in
+Figure \ref{fig:nop_edge_ratio} in blue. Notice that the fluctuations in the two patterns are identical, giving us strong evidence that the unexpected extra no-op edges in the useful (red)
+schedule are caused by METIS and not by unexpected behaviour of our graph colouring scheduling approach.
 
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
   \caption[No-op edges to edges ratio against number of edge-partitions]{ Plot of the ratio of no-op edges to normal edges against the number of edge-partitions per
-micro-partition.}
+micro-partition for schedules window-width 18 and 0.}
 \label{fig:nop_edge_ratio}
+\end{figure}
+
+Using our performance we can make a prediction about the execution time in correlation to the number of no-op edges that we add. The results, for 1 and 5 arithmetic pipelines
+are shown in Figure \ref{fig:nop_edge_model}.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/noop_model.pdf}
+  \caption[Predicted execution time against number of edge-partitions]{ Plot of predicted execution time for 2000 iterations against the number of edge-partitions per
+micro-partition for architectures with 1 and 5 arithmetic pipelines.}
+\label{fig:nop_edge_model}
 \end{figure}
 
 

@@ -44,7 +44,7 @@
 \contentsline {subsection}{\numberline {4.4.4}State machine}{71}{subsection.4.4.4}
 \contentsline {chapter}{\numberline {5}Experimentation}{73}{chapter.5}
 \contentsline {section}{\numberline {5.1}No-op edges}{73}{section.5.1}
-\contentsline {chapter}{Bibliography}{75}{chapter*.43}
-\contentsline {chapter}{\numberline {A}Code Samples}{78}{appendix.A}
-\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{78}{section.A.1}
-\contentsline {chapter}{List of Figures}{82}{appendix*.44}
+\contentsline {chapter}{Bibliography}{76}{chapter*.44}
+\contentsline {chapter}{\numberline {A}Code Samples}{79}{appendix.A}
+\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{79}{section.A.1}
+\contentsline {chapter}{List of Figures}{83}{appendix*.45}
