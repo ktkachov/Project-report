@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  16 JUN 2012 16:28
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  16 JUN 2012 16:33
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1248,7 +1248,7 @@ Chapter 6.
 [82
 
 ] [83] [84] [85]
-Overfull \hbox (50.07805pt too wide) in paragraph at lines 2844--2847
+Overfull \hbox (50.07805pt too wide) in paragraph at lines 2846--2849
 \OT1/cmr/m/n/10.95 http://www.maxeler.com/content/briefings/MaxelerWhitePaperMa
 xCompiler.pdf 
  []
@@ -1362,7 +1362,7 @@ fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1
 onts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmt
 i7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (96 pages, 933732 bytes).
+Output written on report.pdf (96 pages, 933989 bytes).
 PDF statistics:
  1153 PDF objects out of 1200 (max. 8388607)
  252 named destinations out of 1000 (max. 500000)

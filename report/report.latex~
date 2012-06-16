@@ -2745,6 +2745,10 @@ due to time limitations, we have not been able to implement a large number of de
 the approach presented in this project can provide interesting performance rests on the correctness of the performance model and its prediction that
 in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile.
 
+We have explored the effect of edge scheduling and no-op edges on performance and have come to the conclusion that for a certain number of configurations
+(particularly with many arithmetic pipelines) the current scheduling approach provides adequate results. In the next chapter we draw the final conclusions
+and contemplate future directions for work in this area.
+
 \chapter{Conclusions and further work}
 \section{Contributions and reflection}
 

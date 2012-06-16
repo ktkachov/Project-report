@@ -2743,7 +2743,9 @@ dimension.
 Having performed the experiments, we have demonstrated the accuracy of the performance model and its robustness. This was a very important result because,
 due to time limitations, we have not been able to implement a large number of designs from the defined design space, and therefore our argument that
 the approach presented in this project can provide interesting performance rests on the correctness of the performance model and its prediction that
-in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile.
+in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile. By considering
+the resource usage of our sample implementation we can make an argument that increasing the complexity of the design (by adding extra pipelines for example)
+is a realistic scenario thus giving evidence that the optimal architecture configurations recommended by the analytical model are indeed achievable.
 
 We have explored the effect of edge scheduling and no-op edges on performance and have come to the conclusion that for a certain number of configurations
 (particularly with many arithmetic pipelines) the current scheduling approach provides adequate results. In the next chapter we draw the final conclusions
