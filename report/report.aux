@@ -11,197 +11,212 @@
 \global \let \hyper@last\relax 
 \fi
 
-\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{3}{chapter.1}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{4}{chapter.1}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}The domain}{3}{section.1.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.2}The Airfoil program}{4}{section.1.2}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}FPGAs, streaming and acceleration}{4}{section.1.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Example Airfoil mesh}}{5}{figure.caption.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}The domain}{4}{section.1.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}The Airfoil program}{5}{section.1.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}FPGAs, streaming and acceleration}{5}{section.1.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Example Airfoil mesh}}{6}{figure.caption.3}}
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:airfoil_mesh}{{1.1}{5}{Example Airfoil mesh\relax }{figure.caption.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Simple dataflow graph}}{6}{figure.caption.4}}
-\newlabel{fig:graph_simple}{{1.2}{6}{Simple dataflow graph\relax }{figure.caption.4}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.4}Contributions}{6}{section.1.4}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{8}{chapter.2}}
+\newlabel{fig:airfoil_mesh}{{1.1}{6}{Example Airfoil mesh\relax }{figure.caption.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Simple dataflow graph}}{7}{figure.caption.4}}
+\newlabel{fig:graph_simple}{{1.2}{7}{Simple dataflow graph\relax }{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}Contributions}{7}{section.1.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{9}{chapter.2}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Unstructured meshes and their representation}{8}{section.2.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Mesh representation with indirection arrays}}{9}{figure.caption.5}}
-\newlabel{fig:mesh_small_example}{{2.1}{9}{Mesh representation with indirection arrays\relax }{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Unstructured meshes and their representation}{9}{section.2.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Mesh representation with indirection arrays}}{10}{figure.caption.5}}
+\newlabel{fig:mesh_small_example}{{2.1}{10}{Mesh representation with indirection arrays\relax }{figure.caption.5}{}}
 \citation{OP2_presentation}
 \citation{OP2_presentation}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Mesh data set example}}{10}{figure.caption.6}}
-\newlabel{fig:data_set_ex}{{2.2}{10}{Mesh data set example\relax }{figure.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.2}Airfoil}{10}{section.2.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Example mesh coloring}}{11}{figure.caption.7}}
-\newlabel{fig:mesh_coloured}{{2.3}{11}{Example mesh coloring\relax }{figure.caption.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Computational kernels and data sets}{12}{subsection.2.2.1}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb  {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax }}{13}{table.caption.8}}
-\newlabel{tab:Airfoil_datasets}{{2.1}{13}{Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax \relax }{table.caption.8}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Table showing the kernels defined in airfoil and their data requirements.\relax }}{13}{table.caption.9}}
-\newlabel{tab:Airfoil_kernels}{{2.2}{13}{Table showing the kernels defined in airfoil and their data requirements.\relax \relax }{table.caption.9}{}}
-\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces  Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly. \relax }}{14}{listing.1}}
-\newlabel{lst:ResCalcKernelC}{{1}{14}{ Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly.\label {lst:ResCalcKernelC} \relax \relax }{listing.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{15}{subsection.2.2.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Airfoil maps relationships}}{15}{figure.caption.10}}
-\newlabel{fig:Airfoil_maps}{{2.4}{15}{Airfoil maps relationships\relax }{figure.caption.10}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.\relax }}{16}{table.caption.11}}
-\newlabel{tab:Airfoil_timesCPU}{{2.3}{16}{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.\relax \relax }{table.caption.11}{}}
-\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces  The iteration structure of Airfoil.  \relax }}{17}{listing.2}}
-\newlabel{lst:AirfoilIteration}{{2}{17}{ The iteration structure of Airfoil. \label {lst:AirfoilIteration} \relax \relax }{listing.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Mesh data set example}}{11}{figure.caption.6}}
+\newlabel{fig:data_set_ex}{{2.2}{11}{Mesh data set example\relax }{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Airfoil}{11}{section.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.3}{\ignorespaces Example mesh coloring}}{12}{figure.caption.7}}
+\newlabel{fig:mesh_coloured}{{2.3}{12}{Example mesh coloring\relax }{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Computational kernels and data sets}{13}{subsection.2.2.1}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb  {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax }}{14}{table.caption.8}}
+\newlabel{tab:Airfoil_datasets}{{2.1}{14}{Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax \relax }{table.caption.8}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Table showing the kernels defined in airfoil and their data requirements.\relax }}{14}{table.caption.9}}
+\newlabel{tab:Airfoil_kernels}{{2.2}{14}{Table showing the kernels defined in airfoil and their data requirements.\relax \relax }{table.caption.9}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces  Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly. \relax }}{15}{listing.1}}
+\newlabel{lst:ResCalcKernelC}{{1}{15}{ Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly.\label {lst:ResCalcKernelC} \relax \relax }{listing.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{16}{subsection.2.2.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Airfoil maps relationships}}{16}{figure.caption.10}}
+\newlabel{fig:Airfoil_maps}{{2.4}{16}{Airfoil maps relationships\relax }{figure.caption.10}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2.3}{\ignorespaces Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.\relax }}{17}{table.caption.11}}
+\newlabel{tab:Airfoil_timesCPU}{{2.3}{17}{Table showing the time spent in each kernel during a run of a single-threaded sequential version of Airfoil on a current CPU. The total run time is 115.6 seconds.\relax \relax }{table.caption.11}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces  The iteration structure of Airfoil.  \relax }}{18}{listing.2}}
+\newlabel{lst:AirfoilIteration}{{2}{18}{ The iteration structure of Airfoil. \label {lst:AirfoilIteration} \relax \relax }{listing.2}{}}
 \citation{Virtex6Spec}
 \citation{MaxCompiler_whitepaper}
 \citation{XilinxISE}
 \citation{MaxCompiler_whitepaper}
-\@writefile{toc}{\contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{18}{section.2.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Maxeler toolchain diagram}}{18}{figure.caption.12}}
-\newlabel{fig:max_toolchain}{{2.5}{18}{Maxeler toolchain diagram\relax }{figure.caption.12}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{19}{subsection.2.3.1}}
-\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces  A MaxCompiler definition of a kernel that computes a moving 3-point average with boundary conditions. Note that the arithmetic operators as well as the ternary if operator have been overloaded for HWVar objects that represent the value of a hardware stream.  \relax }}{20}{listing.3}}
-\newlabel{lst:MaxCompilerMovAvg}{{3}{20}{ A MaxCompiler definition of a kernel that computes a moving 3-point average with boundary conditions. Note that the arithmetic operators as well as the ternary if operator have been overloaded for HWVar objects that represent the value of a hardware stream. \label {lst:MaxCompilerMovAvg} \relax \relax }{listing.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Example data flow graph for MaxCompiler example}}{21}{figure.caption.13}}
-\newlabel{fig:MovAvgGraph}{{2.6}{21}{Example data flow graph for MaxCompiler example\relax }{figure.caption.13}{}}
-\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces  Manager specification for a MovingAverageKernel that streams the input data "x" from the host and streams the output data "y" to the host. The $<==$ operator means connect the right hand side stream to the left hand side stream. The above code instantiates the MovingAverageKernel, creates a stream called "x" from the host and connects it to the input stream "x" in the kernel. Then it creates a stream to the host called "y" and connects to it the output stream "y" from the kernel.  \relax }}{22}{listing.4}}
-\newlabel{lst:MaxCompilerMovAvgManager}{{4}{22}{ Manager specification for a MovingAverageKernel that streams the input data "x" from the host and streams the output data "y" to the host. The $<==$ operator means connect the right hand side stream to the left hand side stream. The above code instantiates the MovingAverageKernel, creates a stream called "x" from the host and connects it to the input stream "x" in the kernel. Then it creates a stream to the host called "y" and connects to it the output stream "y" from the kernel. \label {lst:MaxCompilerMovAvgManager} \relax \relax }{listing.4}{}}
-\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces  A sample host code using the MaxCompilerRT API for the C language.  \relax }}{24}{listing.5}}
-\newlabel{lst:MovAvgHostCode}{{5}{24}{ A sample host code using the MaxCompilerRT API for the C language. \label {lst:MovAvgHostCode} \relax \relax }{listing.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Hardware platform, Maxeler toolchain and the streaming model of computation}{19}{section.2.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.5}{\ignorespaces Maxeler toolchain diagram}}{19}{figure.caption.12}}
+\newlabel{fig:max_toolchain}{{2.5}{19}{Maxeler toolchain diagram\relax }{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}MaxCompiler example}{20}{subsection.2.3.1}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces  A MaxCompiler definition of a kernel that computes a moving 3-point average with boundary conditions. Note that the arithmetic operators as well as the ternary if operator have been overloaded for HWVar objects that represent the value of a hardware stream.  \relax }}{21}{listing.3}}
+\newlabel{lst:MaxCompilerMovAvg}{{3}{21}{ A MaxCompiler definition of a kernel that computes a moving 3-point average with boundary conditions. Note that the arithmetic operators as well as the ternary if operator have been overloaded for HWVar objects that represent the value of a hardware stream. \label {lst:MaxCompilerMovAvg} \relax \relax }{listing.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.6}{\ignorespaces Example data flow graph for MaxCompiler example}}{22}{figure.caption.13}}
+\newlabel{fig:MovAvgGraph}{{2.6}{22}{Example data flow graph for MaxCompiler example\relax }{figure.caption.13}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces  Manager specification for a MovingAverageKernel that streams the input data "x" from the host and streams the output data "y" to the host. The $<==$ operator means connect the right hand side stream to the left hand side stream. The above code instantiates the MovingAverageKernel, creates a stream called "x" from the host and connects it to the input stream "x" in the kernel. Then it creates a stream to the host called "y" and connects to it the output stream "y" from the kernel.  \relax }}{23}{listing.4}}
+\newlabel{lst:MaxCompilerMovAvgManager}{{4}{23}{ Manager specification for a MovingAverageKernel that streams the input data "x" from the host and streams the output data "y" to the host. The $<==$ operator means connect the right hand side stream to the left hand side stream. The above code instantiates the MovingAverageKernel, creates a stream called "x" from the host and connects it to the input stream "x" in the kernel. Then it creates a stream to the host called "y" and connects to it the output stream "y" from the kernel. \label {lst:MaxCompilerMovAvgManager} \relax \relax }{listing.4}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces  A sample host code using the MaxCompilerRT API for the C language.  \relax }}{25}{listing.5}}
+\newlabel{lst:MovAvgHostCode}{{5}{25}{ A sample host code using the MaxCompilerRT API for the C language. \label {lst:MovAvgHostCode} \relax \relax }{listing.5}{}}
 \citation{Virtex6Spec}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Hardware}{25}{subsection.2.3.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}Hardware}{26}{subsection.2.3.2}}
 \citation{METISPaper}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces MAX3 card components}}{26}{figure.caption.14}}
-\newlabel{fig:maxHW}{{2.7}{26}{MAX3 card components\relax }{figure.caption.14}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Mesh partitioning and halos}{26}{subsection.2.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.7}{\ignorespaces MAX3 card components}}{27}{figure.caption.14}}
+\newlabel{fig:maxHW}{{2.7}{27}{MAX3 card components\relax }{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}Mesh partitioning and halos}{27}{subsection.2.3.3}}
 \citation{IEEEFP}
 \citation{IEEEFP}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Mesh partitioning and halos}}{27}{figure.caption.15}}
-\newlabel{fig:partition}{{2.8}{27}{Mesh partitioning and halos\relax }{figure.caption.15}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{27}{subsection.2.3.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.8}{\ignorespaces Mesh partitioning and halos}}{28}{figure.caption.15}}
+\newlabel{fig:partition}{{2.8}{28}{Mesh partitioning and halos\relax }{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}Floating point vs fixed point arithmetic}{28}{subsection.2.3.4}}
 \citation{OP2_presentation}
 \citation{OP2_Cluster}
 \citation{OP2_presentation}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces IEEE-754 floating point representation}}{28}{figure.caption.16}}
-\newlabel{fig:FPSP}{{2.9}{28}{IEEE-754 floating point representation\relax }{figure.caption.16}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2.4}Previous work}{28}{section.2.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.9}{\ignorespaces IEEE-754 floating point representation}}{29}{figure.caption.16}}
+\newlabel{fig:FPSP}{{2.9}{29}{IEEE-754 floating point representation\relax }{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Previous work}{29}{section.2.4}}
 \citation{UnstructuredMeshCCM}
 \citation{MemoryHierarchy}
 \citation{SpanishFPGAAirfoil}
 \citation{SpanishFPGAAirfoil2}
 \citation{SpanishFPGAAirfoil}
 \citation{ElectromagneticsFPGA}
+\citation{Biology}
+\citation{GPUModel}
+\citation{GPUGhost}
 \citation{MeshIntensityROSE}
 \citation{MeshCache}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design and Modelling}{32}{chapter.3}}
+\citation{WLuk}
+\citation{MemoryHierarchy}
+\citation{WLuk}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Design and Modelling}{34}{chapter.3}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{32}{section.3.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{33}{section.3.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}DRAM and mesh storage}{34}{section.3.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Result accumulation and storage}{35}{section.3.2}}
 \citation{GhostCellPaper}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Initial accelerator architecture diagram}}{34}{figure.caption.17}}
-\newlabel{fig:Architecture1st}{{3.1}{34}{Initial accelerator architecture diagram\relax }{figure.caption.17}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{34}{section.3.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Accelerator architecture diagram with halo exchange}}{36}{figure.caption.18}}
-\newlabel{fig:ArchitecturePCIe}{{3.2}{36}{Accelerator architecture diagram with halo exchange\relax }{figure.caption.18}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{37}{section.3.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Two-level partitioning}}{38}{figure.caption.19}}
-\newlabel{fig:upartition}{{3.3}{38}{Two-level partitioning\relax }{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Initial accelerator architecture diagram}}{36}{figure.caption.17}}
+\newlabel{fig:Architecture1st}{{3.1}{36}{Initial accelerator architecture diagram\relax }{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Halo exchange mechanism}{36}{section.3.3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Accelerator architecture diagram with halo exchange}}{38}{figure.caption.18}}
+\newlabel{fig:ArchitecturePCIe}{{3.2}{38}{Accelerator architecture diagram with halo exchange\relax }{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Two-level partitioning}{39}{section.3.4}}
+\newlabel{sec:two_part}{{3.4}{39}{Two-level partitioning\relax }{section.3.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Two-level partitioning}}{40}{figure.caption.19}}
+\newlabel{fig:upartition}{{3.3}{40}{Two-level partitioning\relax }{figure.caption.19}{}}
 \citation{Pipeline}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram with state machine added}}{39}{figure.caption.20}}
-\newlabel{fig:ArchitectureSM}{{3.4}{39}{Architecture diagram with state machine added\relax }{figure.caption.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Overlapping of execution and I/O on the FPGA}}{40}{figure.caption.21}}
-\newlabel{fig:partPipeline}{{3.5}{40}{Overlapping of execution and I/O on the FPGA\relax }{figure.caption.21}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{41}{section.3.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Architecture diagram with state machine added}}{41}{figure.caption.20}}
+\newlabel{fig:ArchitectureSM}{{3.4}{41}{Architecture diagram with state machine added\relax }{figure.caption.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Overlapping of execution and I/O on the FPGA}}{42}{figure.caption.21}}
+\newlabel{fig:partPipeline}{{3.5}{42}{Overlapping of execution and I/O on the FPGA\relax }{figure.caption.21}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{43}{section.3.5}}
 \citation{SpanishFPGAAirfoil}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Custom pipeline vs conventional CPU}}{44}{figure.caption.22}}
-\newlabel{fig:StreamVsCPU}{{3.6}{44}{Custom pipeline vs conventional CPU\relax }{figure.caption.22}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.6}Performance Model}{44}{section.3.6}}
-\newlabel{sec:perf_model}{{3.6}{44}{Performance Model\relax }{section.3.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Phase 1}{46}{subsection.3.6.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Custom pipeline vs conventional CPU}}{46}{figure.caption.22}}
+\newlabel{fig:StreamVsCPU}{{3.6}{46}{Custom pipeline vs conventional CPU\relax }{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.6}Performance Model}{46}{section.3.6}}
+\newlabel{sec:perf_model}{{3.6}{46}{Performance Model\relax }{section.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}Phase 1}{48}{subsection.3.6.1}}
 \citation{TeslaM2050}
 \citation{OpenCL}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Phase 2}{47}{subsection.3.6.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Phase 3}{47}{subsection.3.6.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Design space exploration}{48}{subsection.3.6.4}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. The total run time is 9.67 seconds.\relax }}{48}{table.caption.23}}
-\newlabel{tab:Airfoil_timesCPU}{{3.1}{48}{Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. The total run time is 9.67 seconds.\relax \relax }{table.caption.23}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Number of arithmetic pipelines $n_p$}{48}{section*.24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Execution time against number of pipelines}}{49}{figure.caption.25}}
-\newlabel{fig:Pipelines}{{3.7}{49}{Execution time against number of pipelines\relax }{figure.caption.25}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Clock frequency $f$}{50}{section*.26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Execution time against clock frequency}}{50}{figure.caption.27}}
-\newlabel{fig:frequencies}{{3.8}{50}{Execution time against clock frequency\relax }{figure.caption.27}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Clock frequency $f$ and arithmetic pipelines $n_p$}{50}{section*.28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Execution time against number of pipelines and frequency}}{51}{figure.caption.29}}
-\newlabel{fig:frequencies_pipelines}{{3.9}{51}{Execution time against number of pipelines and frequency\relax }{figure.caption.29}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces 3-D plot of execution time against number of pipelines and frequency}}{51}{figure.caption.30}}
-\newlabel{fig:frequencies_pipelines3D}{{3.10}{51}{3-D plot of execution time against number of pipelines and frequency\relax }{figure.caption.30}{}}
-\@writefile{toc}{\contentsline {subsubsection}{Partition size $C_{pp}$}{52}{section*.31}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Execution time against partition size}}{52}{figure.caption.32}}
-\newlabel{fig:partition_sizes}{{3.11}{52}{Execution time against partition size\relax }{figure.caption.32}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces DRAM to PCIe transfer time ratio}}{53}{figure.caption.33}}
-\newlabel{fig:partition_ratios}{{3.12}{53}{DRAM to PCIe transfer time ratio\relax }{figure.caption.33}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{54}{chapter.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.2}Phase 2}{49}{subsection.3.6.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.3}Phase 3}{49}{subsection.3.6.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6.4}Design space exploration}{50}{subsection.3.6.4}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. The total run time is 9.67 seconds.\relax }}{50}{table.caption.23}}
+\newlabel{tab:Airfoil_timesCPU}{{3.1}{50}{Table showing the time spent in each kernel during a run of a hardware accelerated version of Airfoil on a Tesla M2050 GPU. The total run time is 9.67 seconds.\relax \relax }{table.caption.23}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Number of arithmetic pipelines $n_p$}{50}{section*.24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Execution time against number of pipelines}}{51}{figure.caption.25}}
+\newlabel{fig:Pipelines}{{3.7}{51}{Execution time against number of pipelines\relax }{figure.caption.25}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Clock frequency $f$}{52}{section*.26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Execution time against clock frequency}}{52}{figure.caption.27}}
+\newlabel{fig:frequencies}{{3.8}{52}{Execution time against clock frequency\relax }{figure.caption.27}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Clock frequency $f$ and arithmetic pipelines $n_p$}{52}{section*.28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Execution time against number of pipelines and frequency}}{53}{figure.caption.29}}
+\newlabel{fig:frequencies_pipelines}{{3.9}{53}{Execution time against number of pipelines and frequency\relax }{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces 3-D plot of execution time against number of pipelines and frequency}}{53}{figure.caption.30}}
+\newlabel{fig:frequencies_pipelines3D}{{3.10}{53}{3-D plot of execution time against number of pipelines and frequency\relax }{figure.caption.30}{}}
+\@writefile{toc}{\contentsline {subsubsection}{Partition size $C_{pp}$}{54}{section*.31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces Execution time against partition size}}{54}{figure.caption.32}}
+\newlabel{fig:partition_sizes}{{3.11}{54}{Execution time against partition size\relax }{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces DRAM to PCIe transfer time ratio}}{55}{figure.caption.33}}
+\newlabel{fig:partition_ratios}{{3.12}{55}{DRAM to PCIe transfer time ratio\relax }{figure.caption.33}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Implementation}{56}{chapter.4}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Mesh partitioning}{54}{section.4.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Edge scheduling}{55}{section.4.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Accumulation part with edge dependencies}}{56}{figure.caption.34}}
-\newlabel{fig:edge_dependency}{{4.1}{56}{Accumulation part with edge dependencies\relax }{figure.caption.34}{}}
-\@writefile{prog}{\contentsline {program}{\numberline {1}{\ignorespaces Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.\relax }}{56}{program.1}}
-\newlabel{alg:valid_schedule}{{1}{56}{Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.\relax \relax }{program.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Edge partitions and adjacency graph}}{57}{figure.caption.35}}
-\newlabel{fig:parts_graph}{{4.2}{57}{Edge partitions and adjacency graph\relax }{figure.caption.35}{}}
-\@writefile{prog}{\contentsline {program}{\numberline {2}{\ignorespaces Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with $n$ elements for a window width of $l$.\relax }}{58}{program.2}}
-\newlabel{alg:valid_schedule_graph}{{2}{58}{Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with $n$ elements for a window width of $l$.\relax \relax }{program.2}{}}
-\@writefile{prog}{\contentsline {program}{\numberline {3}{\ignorespaces Pseudocode that computes a schedule for the nodes in a graph $g$ with window width $l$.\relax }}{59}{program.3}}
-\newlabel{alg:schedule_algorithm}{{3}{59}{Pseudocode that computes a schedule for the nodes in a graph $g$ with window width $l$.\relax \relax }{program.3}{}}
-\@writefile{prog}{\contentsline {program}{\numberline {4}{\ignorespaces Pseudocode that checks whether inserting node $n$ at position $c$ into the schedule $arr$ will produce a valid partial schedule for window width $l$ of the nodes in graph $g$.\relax }}{60}{program.4}}
-\newlabel{alg:schedule_validPos}{{4}{60}{Pseudocode that checks whether inserting node $n$ at position $c$ into the schedule $arr$ will produce a valid partial schedule for window width $l$ of the nodes in graph $g$.\relax \relax }{program.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}No-op edges}{60}{subsection.4.2.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Mesh partitioning}{56}{section.4.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Edge scheduling}{57}{section.4.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Accumulation part with edge dependencies}}{58}{figure.caption.34}}
+\newlabel{fig:edge_dependency}{{4.1}{58}{Accumulation part with edge dependencies\relax }{figure.caption.34}{}}
+\@writefile{prog}{\contentsline {program}{\numberline {1}{\ignorespaces Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.\relax }}{58}{program.1}}
+\newlabel{alg:valid_schedule}{{1}{58}{Pseudocode that validates an edge schedule $sch$ of $n$ edges with window width $l$.\relax \relax }{program.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Edge partitions and adjacency graph}}{59}{figure.caption.35}}
+\newlabel{fig:parts_graph}{{4.2}{59}{Edge partitions and adjacency graph\relax }{figure.caption.35}{}}
+\@writefile{prog}{\contentsline {program}{\numberline {2}{\ignorespaces Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with $n$ elements for a window width of $l$.\relax }}{60}{program.2}}
+\newlabel{alg:valid_schedule_graph}{{2}{60}{Pseudocode that validates a node schedule $sch$ of an adjacency graph $g$ with $n$ elements for a window width of $l$.\relax \relax }{program.2}{}}
+\@writefile{prog}{\contentsline {program}{\numberline {3}{\ignorespaces Pseudocode that computes a schedule for the nodes in a graph $g$ with window width $l$.\relax }}{61}{program.3}}
+\newlabel{alg:schedule_algorithm}{{3}{61}{Pseudocode that computes a schedule for the nodes in a graph $g$ with window width $l$.\relax \relax }{program.3}{}}
+\@writefile{prog}{\contentsline {program}{\numberline {4}{\ignorespaces Pseudocode that checks whether inserting node $n$ at position $c$ into the schedule $arr$ will produce a valid partial schedule for window width $l$ of the nodes in graph $g$.\relax }}{62}{program.4}}
+\newlabel{alg:schedule_validPos}{{4}{62}{Pseudocode that checks whether inserting node $n$ at position $c$ into the schedule $arr$ will produce a valid partial schedule for window width $l$ of the nodes in graph $g$.\relax \relax }{program.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}No-op edges}{62}{subsection.4.2.1}}
 \citation{HamiltonianPath}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Graph schedule to edge schedule}}{61}{figure.caption.36}}
-\newlabel{fig:edge_sched_order}{{4.3}{61}{Graph schedule to edge schedule\relax }{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Graph schedule to edge schedule}}{63}{figure.caption.36}}
+\newlabel{fig:edge_sched_order}{{4.3}{63}{Graph schedule to edge schedule\relax }{figure.caption.36}{}}
 \citation{GraphColouring}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Complexity}{62}{subsection.4.2.2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}No-op edge-partitions}{62}{subsection.4.2.3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Graph colouring and edge scheduling revisited}{62}{subsection.4.2.4}}
-\newlabel{sec:colouring}{{4.2.4}{62}{Graph colouring and edge scheduling revisited\relax }{subsection.4.2.4}{}}
-\@writefile{prog}{\contentsline {program}{\numberline {5}{\ignorespaces A greedy colouring algorithm that takes an undirected graph $g$ and returns an array containing the colour of each node in $g$\relax }}{64}{program.5}}
-\newlabel{alg:colouring}{{5}{64}{A greedy colouring algorithm that takes an undirected graph $g$ and returns an array containing the colour of each node in $g$\relax \relax }{program.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Data sets and padding}{65}{section.4.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Table showing the amount of padding added to each dataset to enable streaming.\relax }}{66}{table.caption.37}}
-\newlabel{tab:data_padding}{{4.1}{66}{Table showing the amount of padding added to each dataset to enable streaming.\relax \relax }{table.caption.37}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}FPGA accelerator}{66}{section.4.4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}I/O streams and manager}{66}{subsection.4.4.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{67}{figure.caption.38}}
-\newlabel{fig:ManagerGraph}{{4.4}{67}{Manager graph of the FPGA\relax }{figure.caption.38}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Result RAM division and duplication}{67}{subsection.4.4.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{69}{figure.caption.39}}
-\newlabel{fig:ram_division}{{4.5}{69}{Division of result RAMs\relax }{figure.caption.39}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Resource usage}{69}{subsection.4.4.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Table showing the resource usage of our implementation\relax }}{70}{table.caption.40}}
-\newlabel{tab:resource_usage}{{4.2}{70}{Table showing the resource usage of our implementation\relax \relax }{table.caption.40}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}State machine}{70}{subsection.4.4.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{71}{figure.caption.41}}
-\newlabel{fig:hw_counter}{{4.6}{71}{Hardware counter example\relax }{figure.caption.41}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Experimentation}{72}{chapter.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Complexity}{64}{subsection.4.2.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.3}No-op edge-partitions}{64}{subsection.4.2.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.4}Graph colouring and edge scheduling revisited}{64}{subsection.4.2.4}}
+\newlabel{sec:colouring}{{4.2.4}{64}{Graph colouring and edge scheduling revisited\relax }{subsection.4.2.4}{}}
+\@writefile{prog}{\contentsline {program}{\numberline {5}{\ignorespaces A greedy colouring algorithm that takes an undirected graph $g$ and returns an array containing the colour of each node in $g$\relax }}{66}{program.5}}
+\newlabel{alg:colouring}{{5}{66}{A greedy colouring algorithm that takes an undirected graph $g$ and returns an array containing the colour of each node in $g$\relax \relax }{program.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Data sets and padding}{67}{section.4.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Table showing the amount of padding added to each dataset to enable streaming.\relax }}{68}{table.caption.37}}
+\newlabel{tab:data_padding}{{4.1}{68}{Table showing the amount of padding added to each dataset to enable streaming.\relax \relax }{table.caption.37}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Data layout and preparation for streaming}{68}{section.4.4}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}FPGA accelerator}{69}{section.4.5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}I/O streams and manager}{69}{subsection.4.5.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Result RAM division and duplication}{69}{subsection.4.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{70}{figure.caption.38}}
+\newlabel{fig:ManagerGraph}{{4.4}{70}{Manager graph of the FPGA\relax }{figure.caption.38}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{71}{figure.caption.39}}
+\newlabel{fig:ram_division}{{4.5}{71}{Division of result RAMs\relax }{figure.caption.39}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Resource usage}{72}{subsection.4.5.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Table showing the resource usage of our implementation\relax }}{72}{table.caption.40}}
+\newlabel{tab:resource_usage}{{4.2}{72}{Table showing the resource usage of our implementation\relax \relax }{table.caption.40}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}State machine}{72}{subsection.4.5.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{73}{figure.caption.41}}
+\newlabel{fig:hw_counter}{{4.6}{73}{Hardware counter example\relax }{figure.caption.41}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Experimentation}{74}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}No-op edges}{72}{section.5.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{73}{figure.caption.42}}
-\newlabel{fig:nop_edge_ratio}{{5.1}{73}{No-op edges to edges ratio against number of edge-partitions\relax }{figure.caption.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Predicted execution time against number of edge-partitions}}{74}{figure.caption.43}}
-\newlabel{fig:nop_edge_model}{{5.2}{74}{Predicted execution time against number of edge-partitions\relax }{figure.caption.43}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Measured execution time against number of edge-partitions}}{75}{figure.caption.44}}
-\newlabel{fig:nop_edge_modelvsreal}{{5.3}{75}{Measured execution time against number of edge-partitions\relax }{figure.caption.44}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Resource usage}{76}{section.5.2}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Table showing the resource usage of our implementation\relax }}{76}{table.caption.45}}
-\newlabel{tab:resource_usage_arith}{{5.1}{76}{Table showing the resource usage of our implementation\relax \relax }{table.caption.45}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusions and further work}{77}{chapter.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}No-op edges}{74}{section.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{75}{figure.caption.42}}
+\newlabel{fig:nop_edge_ratio}{{5.1}{75}{No-op edges to edges ratio against number of edge-partitions\relax }{figure.caption.42}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Partitioning time agains number of edge-partitions}}{76}{figure.caption.43}}
+\newlabel{fig:part_time}{{5.2}{76}{Partitioning time agains number of edge-partitions\relax }{figure.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Predicted execution time against number of edge-partitions}}{77}{figure.caption.44}}
+\newlabel{fig:nop_edge_model}{{5.3}{77}{Predicted execution time against number of edge-partitions\relax }{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Performance model validation}{78}{section.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Measured execution time against number of edge-partitions}}{79}{figure.caption.45}}
+\newlabel{fig:nop_edge_modelvsreal}{{5.4}{79}{Measured execution time against number of edge-partitions\relax }{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Measured execution time against number of edge-partitions for 100, 120 and 140MHz}}{80}{figure.caption.46}}
+\newlabel{fig:100_120MHz}{{5.5}{80}{Measured execution time against number of edge-partitions for 100, 120 and 140MHz\relax }{figure.caption.46}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Resource usage}{80}{section.5.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Table showing the resource usage of our implementation\relax }}{81}{table.caption.47}}
+\newlabel{tab:resource_usage_arith}{{5.1}{81}{Table showing the resource usage of our implementation\relax \relax }{table.caption.47}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Conclusion}{81}{section.5.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusions and further work}{82}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions and reflection}{77}{section.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Further work}{78}{section.6.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions and reflection}{82}{section.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Further work}{83}{section.6.2}}
+\citation{ParMETIS}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
 \bibcite{XilinxISE}{3}
@@ -210,23 +225,28 @@
 \bibcite{METISPaper}{6}
 \bibcite{IEEEFP}{7}
 \bibcite{GhostCellPaper}{8}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{80}{chapter*.46}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{86}{chapter*.48}}
 \bibcite{UnstructuredMeshCCM}{9}
 \bibcite{MemoryHierarchy}{10}
 \bibcite{SpanishFPGAAirfoil}{11}
 \bibcite{SpanishFPGAAirfoil2}{12}
 \bibcite{ElectromagneticsFPGA}{13}
-\bibcite{MeshIntensityROSE}{14}
-\bibcite{MeshCache}{15}
-\bibcite{floatFPGA}{16}
-\bibcite{Pipeline}{17}
-\bibcite{OpenCL}{18}
-\bibcite{TeslaM2050}{19}
-\bibcite{HamiltonianPath}{20}
-\bibcite{GraphColouring}{21}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Code Samples}{83}{appendix.A}}
+\bibcite{WLuk}{14}
+\bibcite{Biology}{15}
+\bibcite{GPUModel}{16}
+\bibcite{GPUGhost}{17}
+\bibcite{MeshIntensityROSE}{18}
+\bibcite{MeshCache}{19}
+\bibcite{floatFPGA}{20}
+\bibcite{Pipeline}{21}
+\bibcite{OpenCL}{22}
+\bibcite{TeslaM2050}{23}
+\bibcite{HamiltonianPath}{24}
+\bibcite{GraphColouring}{25}
+\bibcite{ParMETIS}{26}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Code Samples}{90}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{83}{section.A.1}}
-\newlabel{app_kernels}{{A.1}{83}{Airfoil Kernel definitions in C\relax }{section.A.1}{}}
-\@writefile{toc}{\contentsline {chapter}{List of Figures}{87}{appendix*.47}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{90}{section.A.1}}
+\newlabel{app_kernels}{{A.1}{90}{Airfoil Kernel definitions in C\relax }{section.A.1}{}}
+\@writefile{toc}{\contentsline {chapter}{List of Figures}{94}{appendix*.49}}

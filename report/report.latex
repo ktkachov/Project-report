@@ -1003,6 +1003,22 @@ by reordering, partitioning and laying out the mesh data in a way that facilitat
 of streaming. To do that we add a mesh preprocessing stage on the host side that partitions and reorganises
 the layout in memory of the data.
 
+The benefits of developing a performance model to predict the achievable speedups on FPGA-accelerated applications
+have been recognised before. Alam, S.R et al \cite{Biology} used a model parametrised by hardware characteristics
+like clock frequency and memory transfer bandwidth and also by specific problem parameters, in their case the details
+of biomolecular simulations. In this project we also define a design space of architectures and parametris them by
+hardware features and problem specific parameters. Using an analytical model is actually a widely adopted approach that
+is used to predict performances on various other architectures, not just custom ones. Sunpyo et al\cite{GPUModel} use
+an analytical model of a GPU to predict its performance based on a number of GPU-specific parameters like warp size,
+number of threads/cores and memory bandwidth. Their performance model notably does not account for cache misses and
+issues like temporal locality, as well as branching execution. The complicated and hard to predict nature of memory accesses
+leads us into designing an architecture with as simple a memory hierarchy as possible, using only one level of caching in
+the on-board block RAMs for which we ensure by laying out the data appropriately that no misses will be possible and
+all DRAM (large external storage) accesses are accounted for and predicted. Meng et al \cite{GPUGhost} develop a memory
+model of the cache on an Nvidia card when used to compute a stencil operation and they do it accurately enough, but still do 
+not model cache hierarchies and Direct Memory Accesses (DMAs), a further hint that modelling memory accesses is a
+hard task.
+
 Some exploration has been done in adapting meshes for particular memory architectures or reordering computations
 to optimise memory accesses.
 White B. et al. \cite{MeshIntensityROSE} have explored techniques for reordering computations on CPUs to
@@ -1011,15 +1027,33 @@ There has been some work done in storing meshes for efficient access\cite{MeshCa
 focused on block-based CPU and GPU caches. We explore issues that are associated with laying out mesh data
 for optimal DRAM bandwidth utilisation on FPGAs.
 
+Managing memory and data transfers is a central theme in many applications involving FPGAs and attempts have been
+made to increase data reuse and hide latencies. A common approach is to use multiple memory hierarchies \cite{WLuk}\cite{MemoryHierarchy},
+ akin to modern CPU architectures. M.Weinhardt et al \cite{WLuk} also mention the need to reuse data and memory so as to minimise memory
+transfers from external sources like the host machine. They also mention the possibility of interleaving computation and data transfer, an
+idea that will feature prominently in our design by adding a second level of mesh partitioning (section \ref{sec:two_part}) to the host-side preprocessing code.
+
 The differentiating factors of this project from existing work are:
 \begin{itemize}
 \item{We explore the architectural design space for the accelerator in conjunction with mesh 
 reordering techniques custom-fitted for the chosen architecture. One is custom made for the other. Previous attempts
-do not go any further than doing simple partitioning.}
+do not go any further down this path than doing simple partitioning.}
 \item{Our design aims to work for larger meshes, in the order of $10^5$ - $10^6$ nodes.}
 \item{We attempt to keep the design of the hardware accelerator as simple as possible,
-without complex memory access patterns and relying on host-side preprocessing to Figure out
-the optimal data layout. We are focused on maximising DRAM bandwidth utilisation.}
+without complex memory access patterns and relying on host-side preprocessing to figure out
+the optimal data layout. Keeping the memory hierarchy simple allows us to construct a model with better
+predictive powers and more stable results.}
+\item{In order to keep memory accesses simple (and hence predictable) we offload a small portion of the work
+to the host CPU, using a halo exchange mechanism.}
+\end{itemize}
+
+Ideas that we take from previous work are:
+\begin{itemize}
+\item{We aim to design a simple memory architecture and develop a performance model that is robust and accurate thanks to this simplicity property.}
+\item{We will use block RAM resources on the FPGA to store partitions of the mesh, since block RAMs can be accessed efficiently and with constant latency.}
+\item{We will avoid the use of fixed-point numbers due to hints at potential error accumulation.}
+\item{We will develop an analytical model to predict the performance of a whole design space of architectures instead of designing and implementing just one that
+may turn out to not provide interesting performance.}
 \end{itemize}
 
 \chapter{Design and Modelling}
@@ -1207,6 +1241,7 @@ results back to. The dashed lines represent addresses that are used to access th
 \end{figure}
 
 \section{Two-level partitioning}
+\label{sec:two_part}
 The astute reader will notice that in order to process the partition, we first need to stream in the entire partition,
 process it fully and write it back. During the processing phase we are not streaming anything in or out of the kernel,
 leaving the DRAM unutilised, thus wasting bandwidth. To mitigate this, we introduce a second level of partitioning on
@@ -1770,7 +1805,7 @@ make a significant impact on performance, yet cannot be easily accounted for in 
 \chapter{Implementation}
 In this chapter we present the issues that arise when trying to implement the FPGA-based accelerator and the host-side mesh
 preprocessing code. Due to time limitations we attempt to build a design using one arithmetic pipeline with 8192 ($2^{13}$) cells
-per partition running at 100MHz.
+per partition. We build designs with clock frequencies ranging from 100MHz to 160MHz.
 
 \section{Mesh partitioning}
 We use the METIS partitioning tool through its C API to assign a partition number to each cell and node. This is where we use
@@ -1790,8 +1825,6 @@ we need to remove the common nodes from $Nodes_{\mu p1}$ and $Nodes_{\mu p2}$, t
 $Nodes_{\mu p2} := Nodes_{\mu p2} \backslash Nodes_{IPH}$, where $A \backslash B$ is the set $A$ with the elements of set $B$ removed ($\backslash$ is the set difference operator).
  We follow the same procedure for cells and we arrive at the partitions that we need.
 
-We calculate the halo regions using the same procedures (using set intersection) and reorder the data to separate the halo data from normal data. After execution
-of the FPGA we iterate over the halo data, adding up all the contributions from all the partitions.
 
 \section{Edge scheduling}
 Recall the use of the accumulator that adds the increments computed by the arithmetic pipeline to the current values of $res$ (figure \ref{fig:Architecture1st}), creating
@@ -2337,6 +2370,27 @@ so that we can identify implementation issues such as this.
   \label{tab:data_padding}
 \end{table}
 
+\section{Data layout and preparation for streaming}
+Having performed the partitioning and scheduling of the mesh we have to separate the data that will be loaded onto the DRAM of the card
+from the halo data that will be sent from the host. Calculating the halo regions is a simple matter of taking the set intersections of the
+nodes and cells in each partition and placing them into a separate data structure.
+
+Then we order the partition data such that for each partition the first micro-partition is laid out before the IPH region and then the second
+micro-partition. This is a fairly intuitive layout that ensures that the partition data will be read in the correct order. We make sure to lay out
+the halo data that will be streamed from the host in a corresponding manner, with the halo data that belongs to the first micro-partition coming before
+the halo data that is in the IPH region, followed by the halo data of the second micro-partition. The sizes of each of these sub-regions is recorded in
+the size vector for the partition that will be used to control the state machine in the FPGA.
+
+Having determined the layout of the nodes, cells and edges we rearrange the data sets to prepare them for streaming by going through each node/cell in the schedule
+and copying accross each data set that is associated with it. In the end we have the data sets in the correct format, ready for contiguous streaming to and from DRAM.
+
+During preparation for loading the data to the FPGA we set up the DRAM address generators to generate simple linearly increasing addresses that will
+maximise the performance of the memory system. Another issue that has to be overcome is the limitation that memory streams to/from DRAM have a size that
+is a multiple of 384 bytes (called the burst size). If mesh data does not fit exactly into this multiple we pad out the end of the stream with junk data
+that will be consumed but ignored by the kernel.
+
+
+
 \section{FPGA accelerator}
 \subsection{I/O streams and manager}
 The accelerator architecture design has been discussed in the design chapter and its implementation follows those guidelines.
@@ -2398,7 +2452,7 @@ through the PCIe channel.}
 The kernel itself is programmed using the MaxCompiler API. As discussed earlier, resulting $res$ vectors will be stored
 in local BRAM storage. The RAMs on the Xilinx Virtex6 chip have a limitation of only two ports, meaning that at any
 single cycle they can accept two address streams, two input data streams, two write-enable signals and produce
-two output streams. This presents a challenge to the implementation. Recall that, because of the accumulator latency,
+two output streams. This presents a challenge to the implementation. Recall that because of the accumulator latency,
 we must read one value from the result RAM and write the corresponding result of the addition $l$ cycles later, where
 $l$ is the latency of the accumulator. The only way to implement this is to read the current value of $res$ for the cell
 we are processing from port A and write the corresponding result of the accumulation $l$ cycles later on port B. This
@@ -2412,7 +2466,7 @@ the first micro-partition will not be accessed by the edge data (because of the 
 make the decision to split the RAMs for storing the $res$ data into two RAMs, one for each micro-partition. The intra-partition
 halo will be stored in the RAM of the second micro-partition, since it is written out together with the second micro-partition.
 
-This limit on port numbers drives us towards another design decision. Recall that the processing of each edge requires the update of two
+This limit on port numbers drives us towards another implementation decision. Recall that the processing of each edge requires the update of two
 cells. But we have already used up both ports on the result RAMs for processing just one cell. Therefore we make the decision to use two
 sets of RAMs, one for each cell access. Of course, this means that the results stored in the RAMs will only be partial $res$ vectors
 that must be summed up on output. Such an arrangement is shown in Figure \ref{fig:ram_division}. We end up with 8 RAMs for the result data since
@@ -2590,11 +2644,29 @@ micro-partition for schedules window-width 18 and 0.}
 \label{fig:nop_edge_ratio}
 \end{figure}
 
+While adding more edge-partitions reduces the number of no-op edges in general, it should also increases the time needed to prepare the mesh, since the performance of the scheduling
+algorithm depends on the size of the adjacency graph. We test this hypothesis by performing a set of trial runs that preprocess the mesh with varying numbers of edge-partitions per
+micro-partition and we time taken to partition the mesh, perform the second level of partitioning and then partition the micro-partitions into edge-partitions and schedule them.
+We use the same test mesh as above and run the preprocessing code on a machine with an Intel Xeon X5650 CPU running at 2.67GHz. The pre-processing code is single-threaded and does
+not take advantage of the multiple cores in the test machine.
+The results of this experimentation are shown in Figure \ref{fig:part_time}
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/partition_times.pdf}
+  \caption[Partitioning time agains number of edge-partitions]{ Plot of measured times to partition the test mesh against the number of edge-partitions.}
+\label{fig:part_time}
+\end{figure}
+We notice that execution time scales in a linear fashion which is an indication that the graph colouring algorithm presented in section \ref{sec:colouring} performs well
+and does not encounter its worst case. Note that the mesh pre-processing does not factor into the runtime of the kernel because it is performed only once while the 
+kernel loops will be performed potentially thousands of times in real applications and will therefore dominate execution time in the asymptotic case.
+
 Using our performance we can make a prediction about the execution time in correlation to the number of no-op edges that we add. The results, for 1 and 5 arithmetic pipelines
 are shown in Figure \ref{fig:nop_edge_model}. From section \ref{sec:perf_model} we expected that for a low number of arithmetic pipelines the execution time would be dominated by
 edge processing and we can see that the predicted execution time is very sensitive to the number of no-op edges we add when we have only one arithmetic pipeline.
 We see that the fluctuations are expected to become less pronounced as we increase the number of pipelines (and therfore the number of edges we process simultaneously) which is
-a positive thing. Notice how increasing the number of pipelines also decreases the added runtime caused by the no-op edges.
+a positive thing. Notice how increasing the number of pipelines also decreases the added runtime caused by the no-op edges. This is encouraging since we can now expect that
+adding more arithmetic pipelines can alleviate the performance penalty imposed by the no-op edges and stop them from dominating execution time. Still, improving the scheduling
+and/or METIS partitioning is a worthwile direction for future work that will have a direct tangible effect on the performance of the system.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/noop_model.pdf}
@@ -2604,6 +2676,7 @@ and blue lines. The assumed clock frequency is 100MHz.}
 \label{fig:nop_edge_model}
 \end{figure}
 
+\section{Performance model validation}
 Unfortunately, our implementation of the architecture does not give correct results. From reviewing the code, we see that the errors arise from the
 the intricacies of the enable signals in the result RAMs that result in the accelerator commiting NaN values caused by no-op edges,
 and we believe that the required fix would not impact the performance of the design
@@ -2611,12 +2684,18 @@ in a measurable way, nor would it require any fundamental re-engineering that wo
 that while the end results are wrong, various simulation runs with debugging information suggest that all of the data is processed in a correct order with
 the accelerator producing and consuming the exactly correct amount of data and more importantly processing the correct amount of edges which dominates execution
 time. The errors arise from commiting invalid no-op results at the wrong cycle. 
+
 Therefore, we feel confident in using our implementation to test the performance model. Due to time limitations we implemented an accelerator
 with one arithmetic pipeline running at 100MHz. The effects of varying edge-partition size on the measured execution time are shown in Figure \ref{fig:nop_edge_modelvsreal}.
 We run one iteration over the mesh and time it and extrapolate from there by multiplying the number by 2000 to estimate the execution time for 2000 iterations.
 We notice that the measured execution time is consistent with the predicted time. The measured time is slightly larger than the predicted one. We believe that is down to
-the overhead of setting up the streams. Overall, the model is validated in its prediction that computation is dominated by edge processing and provides a reasonably accurate
-estimate.
+the overhead of setting up the streams and consuming the extra padding data that we added in the mesh layout phase so that it would fit into a multiple of the burst size.
+
+ Overall, the model is validated in its prediction that computation is dominated by edge processing and provides a reasonably accurate estimate. The predicted performance
+does not deviate from the measured one by more than 1s or more than 2\%-3\%. This is an important and encouraging result because it allows us to use the performance model
+to accurately predict the performance of any architecture in the design space we defined by plugging in problem parameters such as frequency, number of pipelines, partition
+size etc without having to build, validate and benchmark a potential architecture. This is the result that provides us with generalisation opportunities by allowing us to
+reason about performance characteristics across a whole design space.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
@@ -2625,6 +2704,17 @@ micro-partition for architectures. The measured time is shown in blue. The corre
 \label{fig:nop_edge_modelvsreal}
 \end{figure}
 
+We build the design at 120MHz to check if the performance model correctly predicts the performance variation when the clock frequency is varied. The results are shown in
+Figure \ref{fig:100_120MHz}. We see that the model accurately predicts the performance of the design at 120MHz as well as at 100MHz, as well as at 140MHz, giving us even more confidence of its robustness, at
+least along the dimension of clock frequency. The prediction that performance can be improved by increasing the clock rate is confirmed as we see about a 7 second decrease in execution time
+for each 20MHz we add to the clock.
+\begin{figure}[H]
+  \centering
+    \includegraphics[width=1\textwidth]{graphs/freqs_real.pdf}
+  \caption[Measured execution time against number of edge-partitions for 100, 120 and 140MHz]{ Plot of extrapolated execution times for 2000 iterations against the number of edge-partitions per
+micro-partition for architectures. The measured and predicted runtimes are shown for architectures running at 100, 120 and 140MHz.}
+\label{fig:100_120MHz}
+\end{figure}
 
 \section{Resource usage}
 Recall Table \ref{tab:resource_usage} showing the resource usage of our test design and Table \ref{tab:resource_usage_arith} showing the resource usage
@@ -2632,6 +2722,8 @@ of the arithmetic pipeline. The resources available on the FPGA place a limit on
 the performance model that the bottleneck is edge processing, the obvious extension to consider is adding more arithmetic pipelines. As shown in Table \ref{tab:resource_usage_arith}
 we have plenty of DSP resources for at least 30 more pipelines, but the LUT count will place a limitation on that ambition. As shown in Figure \ref{fig:Pipelines} on page \pageref{fig:Pipelines} 
 we would need at most 8 pipelines to remove the edge processing bottleneck, a feat that is perfectly accomplishable from a resource usage point of view.
+Building a design with multiple arithmetic pipelines is an important future extension since it would be used to validate the robustness of the performance model in that
+dimension.
 
 \begin{table} [H]
 \begin{center}
@@ -2647,20 +2739,29 @@ we would need at most 8 pipelines to remove the edge processing bottleneck, a fe
   \label{tab:resource_usage_arith}
 \end{table}
 
+\section{Conclusion}
+Having performed the experiments, we have demonstrated the accuracy of the performance model and its robustness. This was a very important result because,
+due to time limitations, we have not been able to implement a large number of designs from the defined design space, and therefore our argument that
+the approach presented in this project can provide interesting performance rests on the correctness of the performance model and its prediction that
+in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile.
+
+We have explored the effect of edge scheduling and no-op edges on performance and have come to the conclusion that for a certain number of configurations
+(particularly with many arithmetic pipelines) the current scheduling approach provides adequate results. In the next chapter we draw the final conclusions
+and contemplate future directions for work in this area.
 
 \chapter{Conclusions and further work}
 \section{Contributions and reflection}
 
 In this project we tackled a problem that is generally thought to be unfit for acceleration with
-a custom streaming approach due to the irregular memory access pattern. We reviewed existing work to 
+a custom streaming approach due to the irregular memory access pattern. Previous attempts at using FPGAs for this purpose
+required complex memory access architectures and hierarchies that were hard to predict and model. We reviewed existing work to 
 learn from their experiences (avoid using fixed-point numbers, use on-chip memory to buffer data) and
-indentify areas that were left unexplored (mesh reorganisation to fit a custom architecture).
+identify areas that were left unexplored (mesh reorganisation to fit a custom architecture).
 
  We took the approach of designing both hardware and software at the same time, custom-fitting each other to extract
 the best performance we can, tackling some challenging problems on the way. We devised a novel scheme for overlapping I/O and arithmetic calculations and developed
 an elegant and well-behaved way to work around the NP-hard problem of edge scheduling by transforming it into an abstract graph colouring problem and applying 
-known graph algorithms. This presents an intuition that when we can transform a performance hacking problem into a well-behaved abstract mathematical problem then
-we are doing it right.
+known graph algorithms.
 
  We applied these techniques to accelerate
 the most complex part of a non-trivial CFD application and while we did not produce correct arithmetic results, we have reason to believe
@@ -2671,12 +2772,13 @@ of any of the architectures in the design space.
 While the design of the accelerator is not terribly complex when compared to modern CPUs and memory systems, partly on purpose, the implementation
 required much more effort than initially anticipated due to limitations of the hardware (port numbers on RAMs), edge cases (kernel state machine
 counters) and fundamentally computationally hard problems (edge scheduling). The majority of the difficulties have been overcome and the end result
-validates our initial mathematical model.
+validates our initial mathematical model. By pushing the irregularity of memory accesses either to the mesh pre-processing stage or inside the block
+RAMs on the FPGA where the access time is constant, we have designed a simple and hence predictable family of architecture.
 
 We claim that the project has been a success because we developed an approach to acceleration that gives highly predictable performance for a problem with
 irregular memory accesses that usually make the prediction of performance on conventional architectures a much less accurate endeavour. This characteristic
 of predictability is very valuable, since it can be used to choose the optimal architecture setup based on hardware resources available without having
-to go through the demonstrably hard process of implementing any particular architecture.
+to go through the demonstrably hard process of implementing, verifying and benchmarking any particular architecture.
 
 The novelty of the project lies in our approach of modifying the mesh to optimally fit the streaming model implemented on the accelerator. To the best
 of the authors' knowledge, this project is the first attempt at evolving the architecture and mesh format to fit each other optimally.
@@ -2711,6 +2813,8 @@ mesh partitioning application.}
 times.}
 \item{The accelerator implementation could be improved by reducing the number of resources used by the state machine and the RAM selection logic, thus allowing one to fit more computational logic
 onto the chip.}
+\item{Host side preprocessing could be sped up considerably by parallelising parts like partitioning and edge scheduling. There is a parallel version of METIS called ParMETIS\cite{ParMETIS} that could be used
+to partition the mesh on multiple machines.}
 \end{itemize}
 
 \begin{thebibliography}{9}
@@ -2782,6 +2886,26 @@ synthesis environments Volume 31 Issue 8-9, Aug-Sept. 2000
   \emph{FPGA-based acceleration of the 3D finite-difference time-domain method}\\
    12th Annual IEEE Symposium on Field-Programmable Custom Computing Machines, 2004. FCCM 2004.
 
+\bibitem{WLuk}
+Weinhaudt, M.; Luk, W.;\\
+\emph{Memory access optimisation for reconfigurable systems}\\
+Computers and Digital Techniques, IEE Proceedings - , vol.148, no.3, pp.105-112, May 2001
+
+\bibitem{Biology}
+Alam, S.R.; Agarwal, P.K.; Smith, M.C.; Vetter, J.S.; Caliga, D.; \\
+ \emph{Using FPGA Devices to Accelerate Biomolecular Simulations}\\
+Computer , vol.40, no.3, pp.66-73, March 2007
+
+\bibitem{GPUModel}
+Hong, Sunpyo and Kim, Hyesoon\\
+\emph{An analytical model for a GPU architecture with memory-level and thread-level parallelism awareness}\\
+ISCA '09 Proceedings of the 36th annual international symposium on Computer architecture pages 152-163 
+
+\bibitem{GPUGhost}
+Meng, Jiayuan and Skadron, Kevin\\
+\emph{Performance modeling and automatic ghost zone optimization for iterative stencil loops on GPUs}\\
+ICS '09 Proceedings of the 23rd international conference on Supercomputing pages 256-265 
+
 \bibitem{MeshIntensityROSE}
 White B., McKee S. ,de Supinski B., Miller B., Quinlan D., Schulz M., Lawrence Livermore National Laboratory\\
 \emph{Improving the computational intensity of unstructured mesh applications}\\
@@ -2823,6 +2947,11 @@ Operations Research , Vol. 34, No. 2 (Mar. - Apr., 1986), pp. 324-327
 Karp, Richard M.\\
 \emph{50 Years of Integer Programming 1958-2008}\\
 Springer Berlin Heidelberg, ISBN:978-3-540-68279-0, pp.219-241
+
+\bibitem{ParMETIS}
+Karypis, G; Kumar, V;
+\emph{A Coarse-Grain Parallel Formulation of Multilevel k-way Graph Partitioning Algorithm}
+8th SIAM Conference on Parallel Processing for Scientific Computing
 
 \end{thebibliography}
 
