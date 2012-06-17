@@ -51,7 +51,7 @@
 \begin{tikzpicture}[scale=0.35]
 \newcommand{\firstiph}[1] {
   \fill [green!10!white] #1 rectangle +(3, -2);
-  \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+  \fill [red!20!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 rectangle +(3, -2);
   \draw [thick] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 -- +(0, -2.4);
@@ -68,7 +68,7 @@
 }
 \newcommand{\secondiph}[1] {
   \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
-  \fill [red!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+  \fill [red!20!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
   \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
 
   \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
@@ -151,29 +151,28 @@
 \pagestyle{headings}
 \begin{abstract}
 In this report we present a methodology for accelerating computations performed on 
-unstructured meshes in the course of a finite volume approach. We implement a custom streaming datapath using
-Field Programmable Gate Arrays, or FPGAs to perform the bulk of the floating point 
-operations required by an application. In particular, we focus on dealing with irregular
+unstructured meshes by using a custom architecture implemented on
+Field Programmable Gate Arrays, or FPGAs. In particular, we focus on dealing with irregular
  memory access patterns that are a consequence of using an unstructured mesh in such a way as
 to facilitate a streaming model of computation. We describe the partitioning of the mesh and 
 the techniques used to exchange information between neighbouring partitions, using so-called halos.
  We provide hardware accelerated version of a concrete application and develop a performance model
  used to predict performance and justify our design decisions and guide the implementation. Practical experiments
-confirm that our performance model can be used to predict the performance of a whole design space of custom architectures.
+confirm that our performance model can be used to predict the performance of a whole design space of custom architectures and
+identify the ones that can offer considerable performance increases.
 \end{abstract}
 \section*{Acknowledgements \centering}
 I would like to thank Professor Paul Kelly for giving me so much of his time and ideas and 
-making me aware of scope of the project and the intricacies involved. I would also like to
+making me aware of scope of the project and the impact of my work. I would also like to
  thank Dr. Carlo Bertolli for providing practical advice and explaining the labyrinth that is
 heterogenous computing.
 Special thanks go to the team at Maxeler Technologies for helping me out with the details
 of FPGA-based acceleration and providing support for their excellent toolchain.
-I extend my gratitude to Dr. Tony Field, my personal tutor, who supported me throughout my 
-years at Imperial College and guided so much of my academic development, as well as being
+I extend my gratitude to Dr. Tony Field, my personal tutor, for supporting me throughout my 
+years at Imperial College and guiding so much of my academic development, as well as being
 the second marker for this project.
 
-I would like to thank my mother and grandfather for supporting me through university, both 
-materially and psychologically.
+I would like to thank my family for supporting me through university, especially my mother and grandfather.
 Last but not least, I would like to thank my coursemates and friends all over the world,
 with whom I've had many thought-provoking discussions on every subject imaginable and who
 always kept me motivated, even when I doubted myself.
@@ -183,11 +182,11 @@ always kept me motivated, even when I doubted myself.
 \chapter{Introduction}
 This project presents a methodology for accelerating computations performed on unstructured
 meshes in the context of Computational Fluid Dynamics (CFD). We use Field Programmable Gate
-Arrays, or FPGAs, to design a high-throughput streaming pipeline which is kept filled thanks
+Arrays, or FPGAs, to design a high-throughput streaming architecture which is kept filled thanks
 to an appropriate data layout and partitioning scheme for the mesh. We explore the rearrangement
-and grouping schemes used to achieve locality of the data points. A formal performance
-model is constructed to predict the performance characteristics of our architecture and hence
-justify the design choices made. The performance model shows that interesting speedups can be achieved
+and grouping schemes used to achieve locality of the data sets in the mesh. A formal performance
+model is constructed to predict the performance characteristics of a family of architectures, parametrised by
+hardware and architecture features. The performance model shows that interesting speedups can be achieved
 using our proposed architecture, comparable to state of the art implementations on other hardware platforms. 
 We build an implementation that is used to validate the model.
 In this section we present a general overview of the problem domain, the hardware platform and the
@@ -195,7 +194,7 @@ contributions of this project.
 
 \section{The domain}
 Computational Fluid Dynamics, or CFD, is a branch of physics focused on numerical algorithms
-that simulate the movement of fluids and gases and their interactions with surfaces. These 
+that simulate the movement of fluids and their interactions with surfaces. These 
 simulations are widely used by engineers to design structures and equipment that interact
 with fluid substances, for example airplane wings and turbines, water and oil pipelines etc.
 
@@ -217,8 +216,8 @@ College to abstract the acceleration of unstructured mesh computations on a wide
 hardware backends.
 
 Airfoil defines an unstructured mesh through sets of nodes, edges and cells and associating 
-them through mappings. Airfoil is written in the C language and these sets are represented at
- the lowest level as C-arrays. Then data is associated with these sets, such as node coordinates, temperature, pressure etc.
+them through mappings. It is written in the C language and these sets are represented at
+ the lowest level as C-arrays. Then data is associated with the sets, such as node coordinates, temperature, pressure etc.
  The mesh solution is then expressed as the
  conceptually parallel application of computational kernels on the data associated with each
  element of a particular set (nodes, edges, cells). These kernels are usually floating point-
@@ -234,8 +233,8 @@ section of this report.
 \end{figure}
 
 \section{FPGAs, streaming and acceleration}
-In this project we explore the acceleration possibilities of problems in the described domain
- by using Field Programmable Gate Arrays, or FPGAs. FPGAs are integrated circuits that can
+In this project we explore the acceleration possibilities of unstructured mesh applications
+ by using custom hardware, implemented using Field Programmable Gate Arrays or FPGAs. FPGAs provide a matrix of digital logic elements that can
 be reconfigured on the fly to implement in hardware any logic design. Thanks to this property
 they provide the development flexibility of software with the benefits of an explicit custom
 hardware datapath. At a high level, FPGAs can be viewed as a two-dimensional grid of logic
@@ -248,14 +247,14 @@ together creates a pipeline through which one can stream an array of data and ge
 per cycle thus achieving high throughput. A simple dataflow graph can be seen in 
 Figure~\ref{fig:graph_simple}.
 FPGAs are usually programmed using a low level hardware description language like VHDL or
- Verilog, however many tools have been designed that allow a developer to specify high-level designs.
+ Verilog, however many tools have been designed that allow a developer to specify high-level designs in a Domain Specific Language (or DSL).
  We use MaxCompiler, a compiler that lets
 us specify the computational graph through a high-level Java API, so we focus on the
 functional aspects of our design and the tool generates a hardware implementation of it.
 We use this approach to implement a datapath for a kernel described
 in Airfoil and we then look at approaches to utilise the streaming bandwidth. The 
 FPGAs we consider have a large DRAM storage area attached ($>$24GB) to them that can be used to store
-the mesh and utilising the bandwidth of that DRAM fully is key to achieving maximum 
+the mesh and utilising the bandwidth of that DRAM effectively is key to achieving maximum 
 performance.
 
 \begin{figure}[h]
@@ -268,8 +267,8 @@ accelerating floating point calculations
 \end{figure}
 
 During the course of our work it emerges that in order to stream data to and from the 
-accelerator continuously, we need to enforce some spatial locality in the mesh data, thus
-requiring us to reorder the data and organise it into partitions that will be stored in
+accelerator continuously, we need to enforce some spatial locality on the mesh data, thus
+requiring us to reorder the mesh data and organise it into partitions that will be stored in
 the kernel internally and will need to exchange data with neighbouring partitions through
 a halo exchange mechanism. This opens a whole new space of decisions that we must make 
 pertaining to the storage layout and streaming responsiblities of the DRAM and the host 
@@ -289,10 +288,10 @@ pipelined streaming FPGA designs.
 locality of the mesh and consquently increase utilisation of the streaming bandwidth. This is achieved
 through interleaving of I/O and computation thanks to a two-level partitioning scheme.
 \item We develop a scheme for handling dependencies across partitions by offloading 
-a workload to the host machine.
+a workload to the host machine, using a halo exchange mechanism.
 \item We provide a hardware accelerated version of part of the Airfoil program using the methodologies 
 described in this report.
-\item We provide a predictive performance model that is used to justify our design decisions
+\item We develop a predictive performance model that is used to justify our design decisions
 and provide a formal expression of the potential speedup.
 \item We validate the performance model, allowing the exploration of a variety of architectures
 custom-built for this type of application.
@@ -301,7 +300,7 @@ custom-built for this type of application.
 \chapter{Background}
 This section provides more detail on the sample application, the representation of meshes,
 the data sets and the iteration structure of Airfoil. An overview of the Maxeler toolchain
-is given, which is used to implement the streaming solution we develop. The streaming model of
+is given, which is used to implement the streaming solution we design. The streaming model of
 computation is presented in the context of MaxCompiler by walking through steps to build a simple
 MaxCompiler application. Real number representation is discussed and the concept of a halo is introduced.
  Previous work in this area is presented and summarised in order to provide a context for the contributions of our work.
@@ -314,15 +313,15 @@ domain, thus increasing the number of cells, nodes and edges by a large factor e
 that are not of such great interest. This is where unstructured meshes come in. They 
 explicitly describe the connectivity between the elements and can thus be refined and 
 coarsened around particular areas of interest. This provides much greater flexibility at the
-expense of losing the regularity of the mesh, forcing us to store the connectivity information
+expense of losing the regularity of the mesh, forcing us to store explicitly the connectivity information
 that defines its topology. It is useful to have an intimate understanding of the representation
 of unstructured meshes in order to understand the techniques discussed further on. A graphical 
-example is shown in Figure \ref{fig:mesh_small_example}
+example of the mesh representation in Airfoil is shown in Figure \ref{fig:mesh_small_example}
 
 In our sample application the mesh distinguishes three main elements: nodes, cells and edges.
 We have to represent the connectivity information between them. This is done through
 \emph{indirection maps} that store, for example, the nodes that an edge connects or the
-nodes that a cell contains. In the application we explore the cells always have four nodes
+nodes that a cell contains. In the application that we explore the cells always have four nodes
 and the edges always connect two nodes and have two cells adjacent. In the more general case
  of variable-dimension cells (quadrilaterals, triangles, hexagons all mixed together) we would need
 an additional array storing the indices into the indirection maps and the sizes of the elements.
@@ -369,7 +368,7 @@ of a kernel to a data item is independent of the application to any other item i
 be executed in parallel with an application of the same kernel on another mesh element.
 The complexity comes from reduction operations, where some edges or cells update the same data item
 (e.g associated with the same cell). In these cases care must be taken to ensure the correct update
-of the data. For parallel architectures such as GPUs and multi-processor clusters this issue can be
+of the data. For parallel architectures such as GPUs this issue can be
 resolved by enforcing an atomic commit scheme or by colouring the mesh partitions, so that no two
 partitions update the same data item simultaneously \cite{OP2_presentation}.
 
@@ -467,7 +466,7 @@ an iteration over edges and requires data sets associated with the two nodes and
     Definition of the res\_calc kernel with reals represented as single precision floating point numbers.
     Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes
     of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge.
-    Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges.
+    Note that the res set is updated by incrementing (+=), introducing dependencies between parallel applications of the kernel to different edges.
   The important part of this definition are the data requirements of the kernel
     and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not
     need to be passed in explicitly.\label{lst:ResCalcKernelC}
@@ -500,7 +499,7 @@ For example, the invokation of the res\_calc kernel defined in Listing \ref{lst:
 Recall that res\_calc operates on edges. There
 is a double level of indirection going on here. \verb!i! is the number of the edge we are currently processing (\verb!i! ranges in $[0..number\_of\_edges - 1]$).
 As described in the section on mesh representation, the two nodes corresponding to the edge are stored at indices \verb!2*i! and \verb!2*i+1! of the \emph{edge} map.
-For each of those nodes, res\_calc requires the corresponding element in the $x$ data set. Recall from Table \ref{tab:Airfoil_datasets} that the $x$ set
+For each of those nodes, res\_calc requires the corresponding element in the $x$ data set. Recall from Table \ref{tab:Airfoil_datasets} that set $x$
 has a dimension of 2. Therefore the node numbers acquired from  \verb!edge[2*i]! and \verb!edge[2*i+1]! are multiplied by 2 and used as indices
 into the array $x$ to access the correct data. Similarly for the rest of the arguments.
 
@@ -581,11 +580,11 @@ complex data access patterns that make it the interesting case to study. Finding
 
 
 \section{Hardware platform, Maxeler toolchain and the streaming model of computation}
-The toolchain we use for implementing the FPGA accelerator is the one developed and maintained
+The toolchain and platform that we use for implementing the FPGA accelerator is the one developed and maintained
  by Maxeler Technologies. It consists of the MAX3 cards that contain a Xilinx Virtex-6 chip \cite{Virtex6Spec}
 and up to 48GB of DDR3 DRAM. These cards can be programmed through
  MaxCompiler\cite{MaxCompiler_whitepaper}, which provides a Java-compatible object-oriented
-API to specify the dataflow graph. MaxCompiler will then schedule the graph, i.e. it will 
+API to specify the dataflow graph, contained in what is called a \emph{kernel}. MaxCompiler will then schedule the graph, i.e. it will 
 insert buffers that will introduce the appropriate delays in the design that will ensure
 the correct values will reach the appropriate stages in the pipeline at the correct clock cycle.
 After MaxCompiler has generated the VHDL code control is given to the Xilinx ISE tools\cite{XilinxISE} that will
@@ -602,22 +601,20 @@ into a .max file that can then be linked to a host C/C++ or Fortran application 
 tools (gcc, ld etc).   \label{fig:max_toolchain}}
 \end{figure}
 
-It will then produce a hardware design in VHDL that will then be further be compiled down to
-a binary bitstream that configures the FPGA by the Xilinx proprietary tools. The bitstream is
-then included in what is termed a \emph{maxfile} that contains various other meta-data about the 
+ The bitstream is then included in what is termed a \emph{maxfile} that contains various other meta-data about the 
 design such as I/O stream names, named memory and register names, various runtime parameters etc.
 The maxfile can be linked against a normal C/C++ application using standard tools (gcc, ld etc).
-The interaction with the FPGA is performed by a low-level runtime: MaxCompilerRT and a driver
-layer: MaxelerOS. A diagram of the toolchain is shown in Figure~\ref{fig:max_toolchain}
-\cite{MaxCompiler_whitepaper}.
+The interaction with the FPGA is performed by a low-level runtime (MaxCompilerRT) and a driver
+layer (MaxelerOS). A diagram of the toolchain is shown in Figure~\ref{fig:max_toolchain}, 
+adapted from the MaxCompiler documentation\cite{MaxCompiler_whitepaper}.
 
-Computational kernels in MaxCompiler have input streams that are pushed through a pipelined
+Kernels in MaxCompiler have input streams that are pushed through a pipelined
 dataflow graph and some of them are output from the kernel. Programmatically, a hardware stream
 is seen as analogous to a variable in conventional programming languages. It's value potentially
 changes each cycle.
 
 \subsection{MaxCompiler example}
-Listing \ref{lst:MaxCompilerMovAvg} shows a MaxCompiler design that computes a running 3-point average of a stream of floating point values (32 bits).
+Listing \ref{lst:MaxCompilerMovAvg} shows a MaxCompiler kernel design that computes a running 3-point average of a stream of floating point values (32 bits).
 \begin{listing}[H]
 	\begin{minted}[linenos]{java}
 pulic class MovingAverageKernel extends Kernel {
@@ -646,17 +643,17 @@ operators as well as the ternary if operator have been overloaded for HWVar obje
  \label{lst:MaxCompilerMovAvg}
 }
 \end{listing}
-MaxCompiler code is written in a Java-like language called MaxJ that provides overloaded operators such as $+, - ,  *, /$ and $?:$ .
+MaxCompiler code is written in a Java-like language called MaxJ that provides overloaded operators for hardware streams such as $+, - ,  *, /$ and $?:$ .
  The example in Listing \ref{lst:MaxCompilerMovAvg} creates a computational kernel that computes a stream of running 3-point
  averages,named $y$, from a stream of input values $x$. The HWVar class is the main representation of the value of a hardware
- stream at any clock cycle. HWVars always have a HWType that expresses the type of the stream (i.e. an integer, a floating point
+ stream at any clock cycle. HWVars always have a HWType that represents the type of the stream (i.e. an integer, a floating point
  number, a  1-bit boolean value etc). The $stream.offset(x,-1)$ and $stream.offset(x,+1)$ expressions on lines 7 and 8 extract
  HWVars for the values of the stream on cycle in the past and one cycle in the future (note that this is internally done by creating
  implicit buffers, or FIFOs, and scheduling the pipeling accordingly). The ternary if operator $?:$ creates multiplexers in hardware
  that express choice. A Java API is provided that contains various useful design elements, such as counters (HWVars that increment
  their values in many configurable ways every cycle) that can be accessed through the control.count field.
 
-The resulting dataflow graph can be seen in Figure~\ref{fig:MovAvgGraph}
+The resulting dataflow graph is shown in Figure~\ref{fig:MovAvgGraph}
 \begin{figure}[h]
   \centering
     \includegraphics[width=0.75\textwidth]{pics/MovAvgKernel.png}
@@ -777,7 +774,7 @@ and a PCIe connection to the host machine that achieves a maximum bandwidth of 2
 The Virtex6\cite{Virtex6Spec} FPGA by Xilinx used in the MAX3 card has about 4MB of fast on-board block RAM that should not
 be confused with the external DRAM. The host machine can communicate with the card through the PCIe bus
 using the MaxCompilerRT API. The external DRAM will be used to store the bulk of the mesh data and therefore
-achieving maximum utilisation of it is be one of the focal points of this project. The top-level parts of the hardware
+achieving maximum utilisation of it is one of the focal points of this project. The top-level components of the hardware
 we are dealing with are presented in Figure \ref{fig:maxHW}.
 
 The FPGA provides a number of resources that can be used to specify a design. The Xilinx Virtex6 chip we
@@ -876,7 +873,7 @@ frameworks.
 
   \end{tikzpicture}
   \caption[Mesh partitioning and halos]{A mesh partitioned into 4 partitions, shown in green. The halo regions are shown in purple. Nodes, cells and edges
-  belonging to the halo region can be accessed by another partition.}
+  belonging to the halo region can be accessed by more than one partition.}
   \label{fig:partition}
 \end{figure}
 
@@ -933,14 +930,14 @@ launch thousands of threads in parallel, exploiting the parallel nature of many 
 Other hardware platforms include many-core architectures \cite{OP2_presentation} and large parallel clusters \cite{OP2_Cluster}.
 A project close to this one is OP2 \cite{OP2_presentation}. It is a framework used to specify computations on
 unstructured meshes in a hardware-agnostic way, allowing the user to concentrate on the functional specification
-of the algorithm. Airfoil is one of the test programs for that project.
+of the application. Airfoil is one of the test programs for that project.
 
 More relevant to this project, there have been attempts to use FPGAs to accelerate such computations.
 The principles of acceleration using FPGAs are quite different compared to using GPUs or many-core
 systems. In the case of FPGA acceleration, the performance advantage comes from a custom, application
 specific, deeply pipelined datapath, often thousands of cycles deep that provides a throughput of one
 result per cycle. This argument for FPGA acceleration is widely accepted and is the source of the speedups
-achieved in all current attempts. Given this deep custop pipeline, it is a challenge for the developer
+achieved in all current attempts. Given this deep custom pipeline, it is a challenge for the developer
 to keep the pipeline fully utilised for the maximum amount of time and the techniques used to achieve this
 have been the main differentiating factors in the applications existing today.
 The most common approach has been to use on-chip block RAM memory to cache small parts of the mesh and operate
@@ -958,7 +955,7 @@ matrix in each iteration. We assume a static mesh specified at the beginning of 
 
 Morishita et al. \cite{MemoryHierarchy} examine the acceleration of CFD applications and in
  particular the use of on-chip block RAM resources to buffer the data in order to keep the
- arithmetic pipeline as full as possible. This is a more similar approach. However, their approach
+ arithmetic pipeline as full as possible. This is a more similar approach to ours. However, their approach
 applies a constant stencil to a grid in 3D and tries to cache points in the grid that will be 
 accessed in the next iteration, thus elimintating redundant accesses to the external memory. This
 caching/buffering is made possible by the fact that the stencil is of constant shape and thus the
@@ -972,7 +969,7 @@ separately. They mention the need to partition larger meshes but they do not
  discuss techniques for partitioning or the issues arising from data dependencies across
 partitions. They mention the degradation in performance arising from the unstructured memory access
 patterns causing cache misses. We present a technique to reorganise the mesh so as to facilitate
-more well-behaved memory accesses, allowing us to stream data to the datapath efficiently.
+more well-behaved memory accesses, allowing us to stream data to the datapath efficiently and predictably.
 
 In another attempt, Sanchez-Roman et al. \cite{SpanishFPGAAirfoil2} recognise the update dependency that
 occurs during reduction operations, similar to the ones in our res\_calc kernel and work around it by
@@ -1001,7 +998,7 @@ relying on complex memory access address generators to handle memory accesses. O
 use block RAMs to store parts of the mesh, but we will remove the need for complex memory access patterns
 by reordering, partitioning and laying out the mesh data in a way that facilitates large, contiguous bursts
 of streaming. To do that we add a mesh preprocessing stage on the host side that partitions and reorganises
-the layout in memory of the data.
+the layout of the data in memory.
 
 The benefits of developing a performance model to predict the achievable speedups on FPGA-accelerated applications
 have been recognised before. Alam, S.R et al \cite{Biology} used a model parametrised by hardware characteristics
@@ -1043,16 +1040,16 @@ do not go any further down this path than doing simple partitioning.}
 without complex memory access patterns and relying on host-side preprocessing to figure out
 the optimal data layout. Keeping the memory hierarchy simple allows us to construct a model with better
 predictive powers and more stable results.}
-\item{In order to keep memory accesses simple (and hence predictable) we offload a small portion of the work
+\item{In order to keep memory access patterns simple (and hence predictable) we offload a small portion of the work
 to the host CPU, using a halo exchange mechanism.}
 \end{itemize}
 
 Ideas that we take from previous work are:
 \begin{itemize}
 \item{We aim to design a simple memory architecture and develop a performance model that is robust and accurate thanks to this simplicity property.}
-\item{We will use block RAM resources on the FPGA to store partitions of the mesh, since block RAMs can be accessed efficiently and with constant latency.}
-\item{We will avoid the use of fixed-point numbers due to hints at potential error accumulation.}
-\item{We will develop an analytical model to predict the performance of a whole design space of architectures instead of designing and implementing just one that
+\item{We use block RAM resources on the FPGA to store partitions of the mesh, since block RAMs can be accessed efficiently and with constant latency.}
+\item{We avoid the use of fixed-point numbers due to hints at potential error accumulation.}
+\item{We develop an analytical model to predict the performance of a whole design space of architectures instead of designing and implementing just one that
 may turn out to not provide interesting performance.}
 \end{itemize}
 
@@ -1108,16 +1105,16 @@ The steps required to process a partition become:
 \begin{tikzpicture}
 \node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Node/Cell data)};
 \node (edges) at (10, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
-\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
-\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
-\node (arith) at (5, 15) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (5, 15) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
 {Arithmetic pipeline };
 \draw [->,very thick] (x.south) to [out=270, in=90] ($(arith.north) + (-0.5, 0)$);
 \draw [->,very thick] (cell.south) to [out=270, in=90] ($(arith.north) + (0.5, 0)$);
-\node (add) at (5, 12) [circle, draw=black, fill=green!10!white] {+};
-\node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
+\node (add) at (5, 12) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
 \draw [->, dashed, thick] (edges.south) -- (x.east);
 \draw [->, dashed, thick] (edges.south) -- (cell.east);
 \draw [->, dashed, thick] (edges.south) -- (res.east);
@@ -1176,14 +1173,14 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \node (PCIe) at (13, 23) [input] {Halo data (PCIe)};
 
 
-\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
 
 \draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
-\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
 
-\node (hcell) at (15,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell data: $q$, $adt$};
-\node (hx) at (11,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node data: $x$};
+\node (hcell) at (15,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell data: $q$, $adt$};
+\node (hx) at (11,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node data: $x$};
 \draw [->, very thick] (PCIe.south) to[out=270, in=90] (hcell.north);
 \draw [->, very thick] (PCIe.south) to [out=270, in=90] (hx.north);
 \draw [->, dashed, thick] (edgestop.south) to[out=270, in=135] ($(hcell.north) + (-0.5, 0)$);
@@ -1191,10 +1188,10 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(cell.north) + (0.5, 0)$);
 \draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(x.north) + (0.5, 0)$);
 
-\node (arith) at (9, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (9, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
 {Arithmetic pipeline };
 
-\node (sel) at (9,14) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
+\node (sel) at (9,14) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
 
 \draw [->,very thick] (x.south) to [out=270, in=135] ($(sel.north) + (-0.5, 0)$);
 \draw [->,very thick] (cell.south) to [out=270, in=90] ($(sel.north) + (-0.25, 0)$);
@@ -1202,11 +1199,11 @@ This is a factor to keep in mind when choosing partition sizes and partitioning 
 \draw [->,very thick] (hcell.south) to [out=270, in=45] ($(sel.north) + (0.5, 0)$);
 \draw [->, very thick] (sel.south) -- (arith.north);
 
-\node (add) at (9, 9) [circle, draw=black, fill=green!10!white] {+};
-\node (res) at (6, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
-\node (hres) at (12, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} Halo $res$};
+\node (add) at (9, 9) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (6, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
+\node (hres) at (12, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} Halo $res$};
 
-\node (rsel) at (9, 7.5) [rectangle, draw=black, fill=orange!10!white] {RAM selector};
+\node (rsel) at (9, 7.5) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
 \draw [->, very thick] (res.east) -| ($(rsel.south) + (-0.5, 0)$);
 \draw [->, very thick] (hres.west) -| ($(rsel.south) + (0.5, 0)$); 
 % \draw [->, very thick] (rsel.east) to [out=0, in=90] (hres.north);
@@ -1313,14 +1310,14 @@ and PCIe streams busy.
 \node (edges) at (10, 20) [input] {Edges (addresses)};
 
 \node (sizes) at (15, 20) [input] {Size vectors};
-\node (SM) at (15, 17) [circle, draw=black, fill=orange!10!white]{SM};
+\node (SM) at (15, 17) [circle, draw=black, fill=orange!20!white]{SM};
 \node (knot) at (12, 18.5) {};
 
-\node (read) at (5, 17) [diamond, draw=black, fill=orange!10!white] {read?};
-\node (process) at (10, 17) [diamond, draw=black, fill=orange!10!white] {process?};
-\node (write) at (2, 17) [diamond, draw=black, fill=orange!10!white] {write?};
+\node (read) at (5, 17) [diamond, draw=black, fill=orange!20!white] {read?};
+\node (process) at (10, 17) [diamond, draw=black, fill=orange!20!white] {process?};
+\node (write) at (2, 17) [diamond, draw=black, fill=orange!20!white] {write?};
 
-\node (storage) at (5,15) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
+\node (storage) at (5,15) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (read.north);
 \draw [->, very thick] (read.south) to [out=270, in=90] (storage.north);
 \draw [->, dashed, thick] (process.south) to [out=270, in=0] (storage.east);
@@ -1339,11 +1336,11 @@ and PCIe streams busy.
 \draw [->, red] (knot3.east) to [out=180, in=0] (write.east);
 
 
-\node (arith) at (5, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white, minimum height=4] 
+\node (arith) at (5, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
 {Arithmetic pipeline };
 \draw [->,very thick] (storage.south) to [out=270, in=90] (arith.north);
-\node (add) at (5, 9) [circle, draw=black, fill=green!10!white] {+};
-\node (res) at (5, 7) [rectangle split, rectangle split parts=2, draw=black, fill=red!10!white] {Block RAM \nodepart{second} $res$};
+\node (add) at (5, 9) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (5, 7) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
 \draw [->, dashed, thick] (process.south) to [out=270, in=90] ($(res.north) + (1,0)$);
 
 \draw [->, red] (SM.south) to [out=270, in=0] ($(res.east) + (0,-0.25)$);
@@ -1370,7 +1367,7 @@ are shown in merged blocks for brevity.}
 \begin{tikzpicture}[scale=0.8]
 \newcommand{\firstiph}[1] {
   \fill [green!10!white] #1 rectangle +(3, -2);
-  \fill [red!10!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+  \fill [red!20!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 rectangle +(3, -2);
   \draw [thick] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
   \draw [thick] #1 -- +(0, -2.4);
@@ -1387,7 +1384,7 @@ are shown in merged blocks for brevity.}
 }
 \newcommand{\secondiph}[1] {
   \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
-  \fill [red!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+  \fill [red!20!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
   \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
 
   \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
@@ -1535,14 +1532,14 @@ discussed in this section.
 \node (y) at (2, 20) {$y$};
 \node (z) at (4, 20) {$z$};
 
-\node (times) at (0, 18)[circle, draw=black, fill=red!10!white] {$*$};
-\node (fifo) at (2, 18) [rectangle split, rectangle split parts=4, draw=black, fill=orange!10!white] {};
+\node (times) at (0, 18)[circle, draw=black, fill=red!20!white] {$*$};
+\node (fifo) at (2, 18) [rectangle split, rectangle split parts=4, draw=black, fill=orange!20!white] {};
 
-\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=4, draw=black, fill=orange!10!white] {};
+\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=4, draw=black, fill=orange!20!white] {};
 
-\node (sqrt) at (4, 18)[circle, draw=black, fill=red!10!white] {$\sqrt{~}$};
-\node (plus) at (2, 16)[circle, draw=black, fill=red!10!white] {$+$};
-\node (minus) at (3, 14)[circle, draw=black, fill=red!10!white] {$-$};
+\node (sqrt) at (4, 18)[circle, draw=black, fill=red!20!white] {$\sqrt{~}$};
+\node (plus) at (2, 16)[circle, draw=black, fill=red!20!white] {$+$};
+\node (minus) at (3, 14)[circle, draw=black, fill=red!20!white] {$-$};
 
 \draw [->, thick] (x.south) to (times.north);
 \draw [->, thick] (0, 19) -- ++(1, 0) -- ++(0, -1) -- (times.east);
@@ -1575,11 +1572,11 @@ discussed in this section.
 
 
 
-\node (FD) at (7, 16)[draw=black, fill=blue!10!white] {Fetch/Decode};
-\node (ALU) at (7, 13.5)[trapezium, draw=black, fill=blue!10!white, shape border rotate=180] {ALU ($+$ $-$ $*$ $\sqrt{~}$)};
-\node (LD) at (11, 16) [rectangle, draw=black, fill=blue!10!white] {Load/Store};
-\node (MEM) at (14,  16) [rectangle, draw=black, shape border rotate=90, fill=green!10!white] {CACHE/MEM};
-\node (REGS) at (14, 14) [rectangle split, rectangle split parts=4, draw=black, fill=green!10!white] {REGISTERS};
+\node (FD) at (7, 16)[draw=black, fill=blue!15!white] {Fetch/Decode};
+\node (ALU) at (7, 13.5)[trapezium, draw=black, fill=blue!15!white, shape border rotate=180] {ALU ($+$ $-$ $*$ $\sqrt{~}$)};
+\node (LD) at (11, 16) [rectangle, draw=black, fill=blue!15!white] {Load/Store};
+\node (MEM) at (14,  16) [rectangle, draw=black, shape border rotate=90, fill=green!20!white] {CACHE/MEM};
+\node (REGS) at (14, 14) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white] {REGISTERS};
 \draw [->, thick] (FD.south) -- (ALU.north);
 \draw [->, thick] (FD.east) -- (LD.west);
 \draw [<->, thick] (LD.east) -- (MEM.west);
@@ -1740,10 +1737,10 @@ the hundreds of concurrent cores running on the Tesla.
 
 \subsubsection{Clock frequency $f$}
 Next we explore the effects of varying the clock frequency of the chip. Realistically, the frequencies achievable on the hardware range
-from 120MHz to 300MHz. The results of increasing the frequency are presented in Figure \ref{fig:frequencies}. While frequencies above 300MHz
+from 120MHz to 300MHz approximately. The results of increasing the frequency are presented in Figure \ref{fig:frequencies}. While frequencies above 300MHz
 are not in general achievable, we present the theoretical increase it would take to catch up to the Tesla implementation. As we can see, raising the clock
-frequency is clearly a worse choice than increasing the number of pipelines. Note also that raising the clock frequency implies more energy
-consumption leading to more heat dissipation, further reducing the temptation to raise it.
+frequency is clearly a worse choice than increasing the number of pipelines but still a gives a boost in performance. Note also that raising the clock frequency implies more energy
+consumption leading to more heat dissipation.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1\textwidth]{graphs/frequencies.pdf}
@@ -1805,7 +1802,11 @@ make a significant impact on performance, yet cannot be easily accounted for in 
 \chapter{Implementation}
 In this chapter we present the issues that arise when trying to implement the FPGA-based accelerator and the host-side mesh
 preprocessing code. Due to time limitations we attempt to build a design using one arithmetic pipeline with 8192 ($2^{13}$) cells
-per partition. We build designs with clock frequencies ranging from 100MHz to 160MHz.
+per partition. We build designs with clock frequencies ranging from 100MHz to 180MHz.
+
+The host code is implemented in C. We implement some data structures that are necessary for the intermediate stages of
+mesh preprocessing. We implement hash maps, hash sets, ordered linked lists and queues. We use the MaxCompilerRT C API to
+communicate with the accelerator.
 
 \section{Mesh partitioning}
 We use the METIS partitioning tool through its C API to assign a partition number to each cell and node. This is where we use
@@ -1827,7 +1828,7 @@ $Nodes_{\mu p2} := Nodes_{\mu p2} \backslash Nodes_{IPH}$, where $A \backslash B
 
 
 \section{Edge scheduling}
-Recall the use of the accumulator that adds the increments computed by the arithmetic pipeline to the current values of $res$ (figure \ref{fig:Architecture1st}), creating
+Recall the use of the accumulator that adds the increments computed by the arithmetic pipeline to the current values of $res$ (Figures \ref{fig:Architecture1st} and \ref{fig:edge_dependency}), creating
 a loop in the architecture.
 This has implications on the order with which we process the edges. Suppose the accumulator has latency $l$, that is if the operands for addition
 arrive to it at cycle $c$ the corresponding result will appear on its output at cycle $c + l$. That latency depends on the number of pipeline stages in the adder.
@@ -1849,7 +1850,7 @@ by algorithm \ref{alg:valid_schedule}.
   draw,
   inner sep=0,
   matrix of nodes,
-  fill=orange!10!white,
+  fill=orange!20!white,
   every node/.style={
     inner sep=1ex
   }
@@ -1875,8 +1876,8 @@ by algorithm \ref{alg:valid_schedule}.
 {\Large \textbf{$+$}};
 % \node at ($(acc) + (-1, 0)$) {\Large \emph{$+$}};
 
-\node (bram) at (10, 6.5) [draw, fill=red!10!white] {\emph{BRAM}};
-\node (arith) at (10, 14) [draw, fill=green!10!white] {\emph{ARITH}};
+\node (bram) at (10, 6.5) [draw, fill=red!20!white] {\emph{BRAM}};
+\node (arith) at (10, 14) [draw, fill=green!20!white] {\emph{ARITH}};
 \draw [->, thick] (acc.south) -- (bram.north);
 \draw [->, thick] ($(arith.south) + (-0.2, 0)$) -- ($(acc.north) + (-0.2, 0)$);
 \draw [->, thick] (bram.east) -- ++(1.75, 0) -- ++(0, 6) -- ($(acc.north) + (0.25, 0.5)$) -- ($(acc.north) + (0.25, 0)$);
@@ -1911,10 +1912,10 @@ computed in the accumulator pipeline. The conflicting values for address $\alpha
 
 In order to compute that schedule we partition each micro-partition again into multiple partitions, calling them
 \emph{edge partitions}.
-We define two edge partitions being \emph{adjacent} if an edge in one references a cell in the other. Using
-this definition we construct an \emph{adjacency graph} where the nodes are the edge partitions and we connect two
+We define two edge partitions being \emph{adjacent} if an edge in one references a cell in the other, or if a cell in one is referenced by an edge in the other.
+ Using this definition we construct an \emph{adjacency graph} where the nodes represent the edge partitions and we connect two
 nodes with an edge if the two edge partitions are adjacent. That way we know that edges belonging to two
-non-adjacent partitions will never conflict and can be scheduled one after the other. That way, the problem
+non-adjacent partitions will never conflict and can be scheduled one after the other, since they cannot access the same cells. That way, the problem
 of finding a schedule for the edges can be reduced to finding a schedule for the nodes in the adjacency graph
 such that no two nodes within a window of width of width $l$ will be adjacent. An example is shown in Figure
 \ref{fig:parts_graph}. Using the adjacency graph we can transform Algorithm \ref{alg:valid_schedule} for checking
@@ -2384,6 +2385,14 @@ the size vector for the partition that will be used to control the state machine
 Having determined the layout of the nodes, cells and edges we rearrange the data sets to prepare them for streaming by going through each node/cell in the schedule
 and copying accross each data set that is associated with it. In the end we have the data sets in the correct format, ready for contiguous streaming to and from DRAM.
 
+Edges are expressed as addresses into the cell and node block RAMs and are therefore assembled as structs containing the local partition numberings of the cells and nodes
+in a partition. Since halo data is stored in separate RAMs, we need a way for the hardware to distinguish halo data addresses from normal data. One approach is to
+add a boolean field with each address specifying whether the address should be used to index a halo RAM or not. We choose a different approach. Since we send the sizes
+of each of region of the partition in the sign vector, we assign halo data addresses that are greater than normal data. That way we avoid adding extra boolean fields to
+the edge data and the hardware can detect wether a cell or node is in a halo RAM by checking wether its address is greater than the size of the non-halo data. Of course,
+an appropriate address translation must be performed by subtracting the size of the non-halo data from the address to get a new value that can be used to index the halo
+RAMs.
+
 During preparation for loading the data to the FPGA we set up the DRAM address generators to generate simple linearly increasing addresses that will
 maximise the performance of the memory system. Another issue that has to be overcome is the limitation that memory streams to/from DRAM have a size that
 is a multiple of 384 bytes (called the burst size). If mesh data does not fit exactly into this multiple we pad out the end of the stream with junk data
@@ -2616,7 +2625,28 @@ is done automatically by MaxCompiler, so the clock signal is shown here only for
 \label{fig:hw_counter}
 \end{figure}
 
-\chapter{Experimentation}
+\subsection{Validation and hardware build}
+In order to debug our sample implementation we used MaxCompilers' simulation features. In simulation we can build a software model of the FPGA and run it on the
+host through the same host API. Of course the simulation runs a lot slower than the hardware implementation but it can be built very fast and since it runs on the
+host it can use some of the hosts resources for simulation-only debugging purposes. For example we can print out the value of any stream on any cycle, which is very
+useful for tracking down programming errors.
+
+Unfortunately, our implementation ends up producing wrong results, i.e. different from the corresponding CPU implementation. Using the simulation tools we have been able to
+track down the error to NaN values produced by no-op edges being commited to the result RAMs and in general some unexpected behaviour in the result commit logic. An important
+observation we made is that the kernel consumes and produces the exact correct amount of data and processes the correct amount of edges. This leads us to propose that the fix
+that is required to produce correct results will not impact the performance of our current implementation. This is because the performance depends entirely on the movement and
+consumption of data in the kernel and since in that regard the kernel behaves exactly as expected, we can reasonably trust the performance metrics that are shown in the next
+evaluation chapter.
+
+Building the design in hardware takes a long time because it requires multiple passes by the Xilinx ISE tools, including mapping, placing and routing of the design. This process
+takes up to 5 hours (in some cases more), highlighting the need to use simulation tools to verify the design. We can try to build the design at a variety of frequencies, but the higher the desired frequency,
+the harder it is for the tools to find a valid placement of the logic elements on the FPGA while satisfying the timing constraints imposed by the clock frequency. The higher the frequency,
+the less time there is for a clock edge to propagate across a circuit. The process of meeting timing for complicated designs is a complex one, requiring knowledge of digital electronics and
+sometimes demaning explicit guidance of the placing tools by the developer.
+The frequencies we managed to build our designs at range from 100MHz to 180MHz. Building at higher frequencies is possible, but requires more time, effort and expertise in digital electronics
+than we had available. Remember that we are building designs at varying frequencies mainly to prove the validity of the performance model.
+
+\chapter{Evaluation}
 \section{No-op edges}
 During our implementation we commented on the necessity of adding no-op edges that arise from the uneveness of the partitioning and the complexity
 of scheduling. As dicussed in the performance model (section \ref{sec:perf_model}), for an architecture with less than four pipelines the execution time
@@ -2700,19 +2730,20 @@ reason about performance characteristics across a whole design space.
   \centering
     \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
   \caption[Measured execution time against number of edge-partitions]{ Plot of extrapolated measured execution time for 2000 iterations against the number of edge-partitions per
-micro-partition for architectures. The measured time is shown in blue. The corresponding predictions of the performance model are shown in red.}
+micro-partition for an architecture with one pipeline running at 100MHz. The measured time is shown in blue. The corresponding predictions of the performance model are shown in red.}
 \label{fig:nop_edge_modelvsreal}
 \end{figure}
 
-We build the design at 120MHz to check if the performance model correctly predicts the performance variation when the clock frequency is varied. The results are shown in
-Figure \ref{fig:100_120MHz}. We see that the model accurately predicts the performance of the design at 120MHz as well as at 100MHz, as well as at 140MHz, giving us even more confidence of its robustness, at
-least along the dimension of clock frequency. The prediction that performance can be improved by increasing the clock rate is confirmed as we see about a 7 second decrease in execution time
-for each 20MHz we add to the clock.
+We build the design at various clock frequencies to check if the performance model correctly predicts the performance variation when the clock frequency is varied. The results are shown in
+Figure \ref{fig:100_120MHz}. We see that the model accurately predicts the performance of the design at 100, 120, 140, 160 and 180MHz, giving us even more confidence of its robustness, at
+least along the dimension of clock frequency. The prediction that performance can be improved by increasing the clock rate is confirmed as we see about a decrease in execution time
+for each 20MHz we add to the clock, with the benefit decreasing somewhat as we keep increasing (notice how the difference between the runtime between 100 and 120MHz is about 7 seconds while the difference
+between the 160 and 180MHz architectures is about 4 seconds). This is consistent with the models' predictions about the diminishing returns of increasing the frequency.
 \begin{figure}[H]
   \centering
-    \includegraphics[width=1\textwidth]{graphs/freqs_real.pdf}
-  \caption[Measured execution time against number of edge-partitions for 100, 120 and 140MHz]{ Plot of extrapolated execution times for 2000 iterations against the number of edge-partitions per
-micro-partition for architectures. The measured and predicted runtimes are shown for architectures running at 100, 120 and 140MHz.}
+    \includegraphics[width=1.05\textwidth]{graphs/freqs_real.pdf}
+  \caption[Measured and predicted execution times against number of edge-partitions for 100, 120, 140, 160 and 180MHz]{ Plot of extrapolated execution times for 2000 iterations against the number of edge-partitions per
+micro-partition for architectures running at 100, 120, 140, 160 and 180MHz. The measured and predicted times are shown.}
 \label{fig:100_120MHz}
 \end{figure}
 
@@ -2743,11 +2774,21 @@ dimension.
 Having performed the experiments, we have demonstrated the accuracy of the performance model and its robustness. This was a very important result because,
 due to time limitations, we have not been able to implement a large number of designs from the defined design space, and therefore our argument that
 the approach presented in this project can provide interesting performance rests on the correctness of the performance model and its prediction that
-in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile.
+in a certain subspace of the parameters there are configurations that provide a considerable speedup, making their implementation worthwile. By considering
+the resource usage of our sample implementation we can make an argument that increasing the complexity of the design (by adding extra pipelines for example)
+is a realistic scenario thus giving evidence that the optimal architecture configurations recommended by the analytical model are indeed achievable.
+
+In the end our sample implementation does not outperform a GPGPU implementation, but it was not expected to by the performance model. The important thing is
+that the model has been validated and can therefore reasonably be trusted in its prediction of the performance characteristics of architectures that do
+beat the other implementation.
 
 We have explored the effect of edge scheduling and no-op edges on performance and have come to the conclusion that for a certain number of configurations
-(particularly with many arithmetic pipelines) the current scheduling approach provides adequate results. In the next chapter we draw the final conclusions
-and contemplate future directions for work in this area.
+(particularly with many arithmetic pipelines) the current scheduling approach provides adequate results. In any case we presented a way to abstract the problem
+of scheduling into the more well-understood and analysed problem of graph colouring, enabling the reuse of the extensive research already performed in that area.
+
+In the next chapter we draw the final conclusions and contemplate future directions for work in this area.
+
+
 
 \chapter{Conclusions and further work}
 \section{Contributions and reflection}
@@ -2773,10 +2814,10 @@ While the design of the accelerator is not terribly complex when compared to mod
 required much more effort than initially anticipated due to limitations of the hardware (port numbers on RAMs), edge cases (kernel state machine
 counters) and fundamentally computationally hard problems (edge scheduling). The majority of the difficulties have been overcome and the end result
 validates our initial mathematical model. By pushing the irregularity of memory accesses either to the mesh pre-processing stage or inside the block
-RAMs on the FPGA where the access time is constant, we have designed a simple and hence predictable family of architecture.
+RAMs on the FPGA where the access time is constant, we have designed a simple and hence predictable family of architectures.
 
 We claim that the project has been a success because we developed an approach to acceleration that gives highly predictable performance for a problem with
-irregular memory accesses that usually make the prediction of performance on conventional architectures a much less accurate endeavour. This characteristic
+irregular memory accesses that usually make such predictions on conventional architectures a much less accurate endeavour. This characteristic
 of predictability is very valuable, since it can be used to choose the optimal architecture setup based on hardware resources available without having
 to go through the demonstrably hard process of implementing, verifying and benchmarking any particular architecture.
 
@@ -2785,7 +2826,9 @@ of the authors' knowledge, this project is the first attempt at evolving the arc
 The second major original contribution is the halo exchange mechanism that uses the slower PCIe channel to send data to the host that will
 handle the comlicated task of adding up contributions to halo cells from different partitions. We make sure that using the PCIe bus to 
 transmit halo data does not limit our performance by adjusting the ratio of halo data to non-halo dat so that DRAM transfers dominate
-the data transfer times.
+the data transfer times. Another important contribution is the proposal that a purely streaming approach can be used to achieve
+interesting speedup, even compared to highly complex multi-core architectures like the ones found in GPUs. This is done again through the analytical model
+and through the experiments that validate it.
 
 \section{Further work}
 There are a number of possible directions for future work, most notably:

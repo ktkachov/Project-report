@@ -39,7 +39,8 @@
 \BOOKMARK [2][-]{subsection.4.5.2}{Result RAM division and duplication}{section.4.5}
 \BOOKMARK [2][-]{subsection.4.5.3}{Resource usage}{section.4.5}
 \BOOKMARK [2][-]{subsection.4.5.4}{State machine}{section.4.5}
-\BOOKMARK [0][-]{chapter.5}{Experimentation}{}
+\BOOKMARK [2][-]{subsection.4.5.5}{Validation and hardware build}{section.4.5}
+\BOOKMARK [0][-]{chapter.5}{Evaluation}{}
 \BOOKMARK [1][-]{section.5.1}{No-op edges}{chapter.5}
 \BOOKMARK [1][-]{section.5.2}{Performance model validation}{chapter.5}
 \BOOKMARK [1][-]{section.5.3}{Resource usage}{chapter.5}

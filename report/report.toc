@@ -40,18 +40,19 @@
 \contentsline {section}{\numberline {4.4}Data layout and preparation for streaming}{68}{section.4.4}
 \contentsline {section}{\numberline {4.5}FPGA accelerator}{69}{section.4.5}
 \contentsline {subsection}{\numberline {4.5.1}I/O streams and manager}{69}{subsection.4.5.1}
-\contentsline {subsection}{\numberline {4.5.2}Result RAM division and duplication}{69}{subsection.4.5.2}
+\contentsline {subsection}{\numberline {4.5.2}Result RAM division and duplication}{70}{subsection.4.5.2}
 \contentsline {subsection}{\numberline {4.5.3}Resource usage}{72}{subsection.4.5.3}
-\contentsline {subsection}{\numberline {4.5.4}State machine}{72}{subsection.4.5.4}
-\contentsline {chapter}{\numberline {5}Experimentation}{74}{chapter.5}
-\contentsline {section}{\numberline {5.1}No-op edges}{74}{section.5.1}
-\contentsline {section}{\numberline {5.2}Performance model validation}{78}{section.5.2}
-\contentsline {section}{\numberline {5.3}Resource usage}{80}{section.5.3}
-\contentsline {section}{\numberline {5.4}Conclusion}{81}{section.5.4}
-\contentsline {chapter}{\numberline {6}Conclusions and further work}{82}{chapter.6}
-\contentsline {section}{\numberline {6.1}Contributions and reflection}{82}{section.6.1}
-\contentsline {section}{\numberline {6.2}Further work}{83}{section.6.2}
-\contentsline {chapter}{Bibliography}{86}{chapter*.48}
-\contentsline {chapter}{\numberline {A}Code Samples}{90}{appendix.A}
-\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{90}{section.A.1}
-\contentsline {chapter}{List of Figures}{94}{appendix*.49}
+\contentsline {subsection}{\numberline {4.5.4}State machine}{73}{subsection.4.5.4}
+\contentsline {subsection}{\numberline {4.5.5}Validation and hardware build}{74}{subsection.4.5.5}
+\contentsline {chapter}{\numberline {5}Evaluation}{76}{chapter.5}
+\contentsline {section}{\numberline {5.1}No-op edges}{76}{section.5.1}
+\contentsline {section}{\numberline {5.2}Performance model validation}{80}{section.5.2}
+\contentsline {section}{\numberline {5.3}Resource usage}{82}{section.5.3}
+\contentsline {section}{\numberline {5.4}Conclusion}{83}{section.5.4}
+\contentsline {chapter}{\numberline {6}Conclusions and further work}{85}{chapter.6}
+\contentsline {section}{\numberline {6.1}Contributions and reflection}{85}{section.6.1}
+\contentsline {section}{\numberline {6.2}Further work}{86}{section.6.2}
+\contentsline {chapter}{Bibliography}{89}{chapter*.48}
+\contentsline {chapter}{\numberline {A}Code Samples}{93}{appendix.A}
+\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{93}{section.A.1}
+\contentsline {chapter}{List of Figures}{97}{appendix*.49}

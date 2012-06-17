@@ -41,8 +41,8 @@
 \newlabel{tab:Airfoil_datasets}{{2.1}{14}{Table showing the data sets and their types. In the actual implementation, we may choose to represent real numbers ($\mathbb {R}$) as standard or double precision floating point numbers or as fixed point numbers (discussed later). Elements of dimension larger than one will be represented as arrays. The physical meaning of these sets is not important, however Airfoil is generally intereseted in computing a steady-state solution for the q data set.\relax \relax }{table.caption.8}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {2.2}{\ignorespaces Table showing the kernels defined in airfoil and their data requirements.\relax }}{14}{table.caption.9}}
 \newlabel{tab:Airfoil_kernels}{{2.2}{14}{Table showing the kernels defined in airfoil and their data requirements.\relax \relax }{table.caption.9}{}}
-\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces  Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly. \relax }}{15}{listing.1}}
-\newlabel{lst:ResCalcKernelC}{{1}{15}{ Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing ($+=$), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly.\label {lst:ResCalcKernelC} \relax \relax }{listing.1}{}}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces  Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing (+=), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly. \relax }}{15}{listing.1}}
+\newlabel{lst:ResCalcKernelC}{{1}{15}{ Definition of the res\_calc kernel with reals represented as single precision floating point numbers. Note the type signature. The kernel requires the element of the dataset x associated with each of the two nodes of the edge we are currently processing and the q, adt and res elements of the two cells associted with the current edge. Note that the res set is updated by incrementing (+=), introducing dependencies between parallel applications of the kernel to different edges. The important part of this definition are the data requirements of the kernel and not the exact meaning of the arithmetic operations. The variables $gm1$ and $eps$ are global constants that do not need to be passed in explicitly.\label {lst:ResCalcKernelC} \relax \relax }{listing.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Indirection maps}{16}{subsection.2.2.2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2.4}{\ignorespaces Airfoil maps relationships}}{16}{figure.caption.10}}
 \newlabel{fig:Airfoil_maps}{{2.4}{16}{Airfoil maps relationships\relax }{figure.caption.10}{}}
@@ -181,41 +181,42 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4.4}Data layout and preparation for streaming}{68}{section.4.4}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.5}FPGA accelerator}{69}{section.4.5}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5.1}I/O streams and manager}{69}{subsection.4.5.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Result RAM division and duplication}{69}{subsection.4.5.2}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{70}{figure.caption.38}}
 \newlabel{fig:ManagerGraph}{{4.4}{70}{Manager graph of the FPGA\relax }{figure.caption.38}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{71}{figure.caption.39}}
-\newlabel{fig:ram_division}{{4.5}{71}{Division of result RAMs\relax }{figure.caption.39}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.2}Result RAM division and duplication}{70}{subsection.4.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{72}{figure.caption.39}}
+\newlabel{fig:ram_division}{{4.5}{72}{Division of result RAMs\relax }{figure.caption.39}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.5.3}Resource usage}{72}{subsection.4.5.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Table showing the resource usage of our implementation\relax }}{72}{table.caption.40}}
-\newlabel{tab:resource_usage}{{4.2}{72}{Table showing the resource usage of our implementation\relax \relax }{table.caption.40}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}State machine}{72}{subsection.4.5.4}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{73}{figure.caption.41}}
-\newlabel{fig:hw_counter}{{4.6}{73}{Hardware counter example\relax }{figure.caption.41}{}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Experimentation}{74}{chapter.5}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Table showing the resource usage of our implementation\relax }}{73}{table.caption.40}}
+\newlabel{tab:resource_usage}{{4.2}{73}{Table showing the resource usage of our implementation\relax \relax }{table.caption.40}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.4}State machine}{73}{subsection.4.5.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{74}{figure.caption.41}}
+\newlabel{fig:hw_counter}{{4.6}{74}{Hardware counter example\relax }{figure.caption.41}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5.5}Validation and hardware build}{74}{subsection.4.5.5}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Evaluation}{76}{chapter.5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}No-op edges}{74}{section.5.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{75}{figure.caption.42}}
-\newlabel{fig:nop_edge_ratio}{{5.1}{75}{No-op edges to edges ratio against number of edge-partitions\relax }{figure.caption.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Partitioning time agains number of edge-partitions}}{76}{figure.caption.43}}
-\newlabel{fig:part_time}{{5.2}{76}{Partitioning time agains number of edge-partitions\relax }{figure.caption.43}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Predicted execution time against number of edge-partitions}}{77}{figure.caption.44}}
-\newlabel{fig:nop_edge_model}{{5.3}{77}{Predicted execution time against number of edge-partitions\relax }{figure.caption.44}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Performance model validation}{78}{section.5.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Measured execution time against number of edge-partitions}}{79}{figure.caption.45}}
-\newlabel{fig:nop_edge_modelvsreal}{{5.4}{79}{Measured execution time against number of edge-partitions\relax }{figure.caption.45}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Measured execution time against number of edge-partitions for 100, 120 and 140MHz}}{80}{figure.caption.46}}
-\newlabel{fig:100_120MHz}{{5.5}{80}{Measured execution time against number of edge-partitions for 100, 120 and 140MHz\relax }{figure.caption.46}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Resource usage}{80}{section.5.3}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Table showing the resource usage of our implementation\relax }}{81}{table.caption.47}}
-\newlabel{tab:resource_usage_arith}{{5.1}{81}{Table showing the resource usage of our implementation\relax \relax }{table.caption.47}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Conclusion}{81}{section.5.4}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusions and further work}{82}{chapter.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}No-op edges}{76}{section.5.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{77}{figure.caption.42}}
+\newlabel{fig:nop_edge_ratio}{{5.1}{77}{No-op edges to edges ratio against number of edge-partitions\relax }{figure.caption.42}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Partitioning time agains number of edge-partitions}}{78}{figure.caption.43}}
+\newlabel{fig:part_time}{{5.2}{78}{Partitioning time agains number of edge-partitions\relax }{figure.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Predicted execution time against number of edge-partitions}}{79}{figure.caption.44}}
+\newlabel{fig:nop_edge_model}{{5.3}{79}{Predicted execution time against number of edge-partitions\relax }{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Performance model validation}{80}{section.5.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Measured execution time against number of edge-partitions}}{81}{figure.caption.45}}
+\newlabel{fig:nop_edge_modelvsreal}{{5.4}{81}{Measured execution time against number of edge-partitions\relax }{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Measured and predicted execution times against number of edge-partitions for 100, 120, 140, 160 and 180MHz}}{82}{figure.caption.46}}
+\newlabel{fig:100_120MHz}{{5.5}{82}{Measured and predicted execution times against number of edge-partitions for 100, 120, 140, 160 and 180MHz\relax }{figure.caption.46}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Resource usage}{82}{section.5.3}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Table showing the resource usage of our implementation\relax }}{83}{table.caption.47}}
+\newlabel{tab:resource_usage_arith}{{5.1}{83}{Table showing the resource usage of our implementation\relax \relax }{table.caption.47}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Conclusion}{83}{section.5.4}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusions and further work}{85}{chapter.6}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions and reflection}{82}{section.6.1}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Further work}{83}{section.6.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Contributions and reflection}{85}{section.6.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Further work}{86}{section.6.2}}
 \citation{ParMETIS}
 \bibcite{OP2_presentation}{1}
 \bibcite{OP2_Cluster}{2}
@@ -225,7 +226,7 @@
 \bibcite{METISPaper}{6}
 \bibcite{IEEEFP}{7}
 \bibcite{GhostCellPaper}{8}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{86}{chapter*.48}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{89}{chapter*.48}}
 \bibcite{UnstructuredMeshCCM}{9}
 \bibcite{MemoryHierarchy}{10}
 \bibcite{SpanishFPGAAirfoil}{11}
@@ -244,9 +245,9 @@
 \bibcite{HamiltonianPath}{24}
 \bibcite{GraphColouring}{25}
 \bibcite{ParMETIS}{26}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Code Samples}{90}{appendix.A}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Code Samples}{93}{appendix.A}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{90}{section.A.1}}
-\newlabel{app_kernels}{{A.1}{90}{Airfoil Kernel definitions in C\relax }{section.A.1}{}}
-\@writefile{toc}{\contentsline {chapter}{List of Figures}{94}{appendix*.49}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Airfoil Kernel definitions in C}{93}{section.A.1}}
+\newlabel{app_kernels}{{A.1}{93}{Airfoil Kernel definitions in C\relax }{section.A.1}{}}
+\@writefile{toc}{\contentsline {chapter}{List of Figures}{97}{appendix*.49}}

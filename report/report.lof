@@ -29,13 +29,13 @@
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Edge partitions and adjacency graph}}{59}{figure.caption.35}
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Graph schedule to edge schedule}}{63}{figure.caption.36}
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Manager graph of the FPGA}}{70}{figure.caption.38}
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{71}{figure.caption.39}
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{73}{figure.caption.41}
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Division of result RAMs}}{72}{figure.caption.39}
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Hardware counter example}}{74}{figure.caption.41}
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{75}{figure.caption.42}
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Partitioning time agains number of edge-partitions}}{76}{figure.caption.43}
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Predicted execution time against number of edge-partitions}}{77}{figure.caption.44}
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Measured execution time against number of edge-partitions}}{79}{figure.caption.45}
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Measured execution time against number of edge-partitions for 100, 120 and 140MHz}}{80}{figure.caption.46}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces No-op edges to edges ratio against number of edge-partitions}}{77}{figure.caption.42}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Partitioning time agains number of edge-partitions}}{78}{figure.caption.43}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Predicted execution time against number of edge-partitions}}{79}{figure.caption.44}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Measured execution time against number of edge-partitions}}{81}{figure.caption.45}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Measured and predicted execution times against number of edge-partitions for 100, 120, 140, 160 and 180MHz}}{82}{figure.caption.46}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
