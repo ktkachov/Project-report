@@ -1061,8 +1061,8 @@ model that is used to justify the viability of the architecture. From that point
 data layout that will lead to an implementation of the mesh preprocessing on the host.
 
 \section{DRAM and mesh storage}
-The MAX3 cards we have available have a large DRAM memory attached to them, and it is a natural
-candidate for storing mesh data. The computational kernel on the FPGA can access this memory
+The MAX3 cards we have available a large DRAM memory attached to them, and it is a natural
+candidate for storing mesh data. The kernel on the FPGA can access this memory
 at a maximum bandwidth of 38GB/s. This bandwidth, however, is only achievable when the memory
 is accessed in large bursts of contiguous addresses. Random access to this memory, while possible,
 is very inefficient and wasteful (because the DRAM controller will still read a large chunk of data,
@@ -1074,7 +1074,7 @@ The on-chip block RAMs, on the other hand, are designed to be accessed randomly 
 in performance when accessed so. Thus, we want to push the indirection down to the block RAMs. In other words,
 mesh connectivity information must not affect the DRAM access pattern and be entirely contained
 in the data layout and addressing of the block RAMs. This is the argument for storing
-one mesh partitions in the block RAMs, using connectivity information to access it randomly without penalty
+mesh partitions in the block RAMs, using connectivity information to access them randomly without penalty
 and feeding the result into an arithmetic pipeline that will perform the floating point calculations.
 Under this arrangement, the edges are then represented as a vector of addresses into the node and cell RAMs.
 
@@ -1143,7 +1143,7 @@ the DRAM of the card. When processing a partition, we will send these halo cells
 The accelerator will then have all the data it needs to process all its edges, however the $res$ results that
 it computes for the halo cells will be only partial results that need to be combined with the results
 of the other partitions that access those cells. This addition of partial results will be performed on the host.
-We add some logic to choose the whether to read the cell and node data from the halo RAMs or the normal RAMs to obtain
+We add some logic to choose whether to read cell and node data from the halo RAMs or the normal RAMs to obtain
 an architecture shown in Figure \ref{fig:ArchitecturePCIe}. This approach to halo exchange is similar to the
 ghost cell mechanism \cite{GhostCellPaper}.
 Thus the stages for processing a partition become:
@@ -1155,7 +1155,7 @@ is a partial contribution of the final value.}
 \item{Once all the partitions are processed, the host adds up the contributions to the halo cells from all partitions.}
 \end{enumerate}
 
-Remember that the PCIe bandwidth is much lower than that of the DRAM (about 10 times lower), so if the halo region
+Remember that PCIe bandwidth is much lower than that of the DRAM (about 10 times lower), so if the halo region
 of a partition constitutes a large enough percentage of the total size of the partition, the PCIe transfer becomes
 dominant and the DRAM will end up being poorly utilised because the kernel will be waiting on the host transfer.
 This is a factor to keep in mind when choosing partition sizes and partitioning techniques.
@@ -1469,7 +1469,7 @@ registers at every stage of every calculation to create a deep pipeline with hig
 processor design technique for increasing functional unit utilisation and throughput. On conventional processors it is used
 with some care, avoiding very deep pipelines, because the general purpose workload these CPUs are designed for may include arbitrary sequences of instructions
 that can potentially create various \emph{pipeline hazards} (such as invalidation of an instruction already in a pipeline because a previous branch instruction
-was taken, a load memory instruction waiting on a write memory instruction etc.). Adding more pipeline stages may increases throughput (results per clock cycle)
+was taken, a load memory instruction waiting on a write memory instruction etc.). Adding more pipeline stages may increase throughput (results per clock cycle)
  of instructions, but it also increases their latency (time for a particular instruction to complete) because of the extra registers that are added to store results
 between the pipeline stages. A pipeline hazard is usually dealt with by stalling the pipeline (waiting for an instruction to complete execution) or flushing it
 to remove invalid instructions. These measures introduce a performance penalty that is proportional to the depth of the pipeline \cite{Pipeline}.
@@ -2374,7 +2374,7 @@ so that we can identify implementation issues such as this.
 \section{Data layout and preparation for streaming}
 Having performed the partitioning and scheduling of the mesh we have to separate the data that will be loaded onto the DRAM of the card
 from the halo data that will be sent from the host. Calculating the halo regions is a simple matter of taking the set intersections of the
-nodes and cells in each partition and placing them into a separate data structure.
+nodes and cells between each pair of partitions and placing them into a separate data structure.
 
 Then we order the partition data such that for each partition the first micro-partition is laid out before the IPH region and then the second
 micro-partition. This is a fairly intuitive layout that ensures that the partition data will be read in the correct order. We make sure to lay out
@@ -2656,9 +2656,9 @@ ratio of edge-partitions to no-op edge-partitions will increase.
 
 We test this hypothesis by using our test mesh of 
 721801 nodes, 1438600 edges and 720000 cells and varying the number of edge-partitions per micro-partition and recording the number of no-op edges our graph colouring-based
-scheduling algorithm ends up adding. The window-width $l$ is 18. The results are shown in Figure \ref{fig:nop_edge_ratio}. We notice varying the number of edge-partitions does indeed
+scheduling algorithm ends up adding. The window-width $l$ is 18. The results are shown in Figure \ref{fig:nop_edge_ratio}. We notice that varying the number of edge-partitions does indeed
 affect the number of no-op edges added significantly with the number of no-op edges added ranging from 2064540 (ratio 1.44) for 80 edge partitions down to 435088 (ratio 0.3)
-for 920 edge-partitions. The decrease, however, seems to have unexpected fluctuations that seem to become more and more pronounced as we increase the number of edge-partitions.
+for 920 edge-partitions. This decrease, however, seems to have unexpected fluctuations that seem to become more and more pronounced as we increase the number of edge-partitions.
 We believe the cause of these to be inconsistent partitioning from the METIS tool. Therefore we try to schedule the same mesh but with a window-width of 0. This does not produces
 any no-op partitions (because now there is no independence constraint) and therefore all no-op edges must come from the differences in the edge-partitions. The results are shown in
 Figure \ref{fig:nop_edge_ratio} in blue. Notice that the fluctuations in the two patterns are identical, giving us strong evidence that the unexpected extra no-op edges in the useful (red)
@@ -2690,7 +2690,7 @@ We notice that execution time scales in a linear fashion which is an indication 
 and does not encounter its worst case. Note that the mesh pre-processing does not factor into the runtime of the kernel because it is performed only once while the 
 kernel loops will be performed potentially thousands of times in real applications and will therefore dominate execution time in the asymptotic case.
 
-Using our performance we can make a prediction about the execution time in correlation to the number of no-op edges that we add. The results, for 1 and 5 arithmetic pipelines
+Using our performance model we can make a prediction about the execution time in correlation to the number of no-op edges that we add. The results, for 1 and 5 arithmetic pipelines
 are shown in Figure \ref{fig:nop_edge_model}. From section \ref{sec:perf_model} we expected that for a low number of arithmetic pipelines the execution time would be dominated by
 edge processing and we can see that the predicted execution time is very sensitive to the number of no-op edges we add when we have only one arithmetic pipeline.
 We see that the fluctuations are expected to become less pronounced as we increase the number of pipelines (and therfore the number of edges we process simultaneously) which is
@@ -2707,7 +2707,7 @@ and blue lines. The assumed clock frequency is 100MHz.}
 \end{figure}
 
 \section{Performance model validation}
-Unfortunately, our implementation of the architecture does not give correct results. From reviewing the code, we see that the errors arise from the
+Unfortunately, our implementation of the architecture does not give correct results. From reviewing and simulating the accelerator design, we see that the errors arise from the
 the intricacies of the enable signals in the result RAMs that result in the accelerator commiting NaN values caused by no-op edges,
 and we believe that the required fix would not impact the performance of the design
 in a measurable way, nor would it require any fundamental re-engineering that would demand a different performance model. We claim this on the observation
@@ -2715,13 +2715,13 @@ that while the end results are wrong, various simulation runs with debugging inf
 the accelerator producing and consuming the exactly correct amount of data and more importantly processing the correct amount of edges which dominates execution
 time. The errors arise from commiting invalid no-op results at the wrong cycle. 
 
-Therefore, we feel confident in using our implementation to test the performance model. Due to time limitations we implemented an accelerator
-with one arithmetic pipeline running at 100MHz. The effects of varying edge-partition size on the measured execution time are shown in Figure \ref{fig:nop_edge_modelvsreal}.
+Therefore, we feel confident in using our implementation to test the performance model. Due to time limitations we implemented accelerators
+with one arithmetic pipeline running at 100 to 180MHz. The effects of varying edge-partition size on the measured execution time are shown in Figure \ref{fig:nop_edge_modelvsreal}.
 We run one iteration over the mesh and time it and extrapolate from there by multiplying the number by 2000 to estimate the execution time for 2000 iterations.
 We notice that the measured execution time is consistent with the predicted time. The measured time is slightly larger than the predicted one. We believe that is down to
 the overhead of setting up the streams and consuming the extra padding data that we added in the mesh layout phase so that it would fit into a multiple of the burst size.
 
- Overall, the model is validated in its prediction that computation is dominated by edge processing and provides a reasonably accurate estimate. The predicted performance
+ Overall, the model is validated in its prediction that computation is dominated by edge processing and provides a reasonably accurate estimate of the runtime. The predicted performance
 does not deviate from the measured one by more than 1s or more than 2\%-3\%. This is an important and encouraging result because it allows us to use the performance model
 to accurately predict the performance of any architecture in the design space we defined by plugging in problem parameters such as frequency, number of pipelines, partition
 size etc without having to build, validate and benchmark a potential architecture. This is the result that provides us with generalisation opportunities by allowing us to
@@ -2734,11 +2734,11 @@ micro-partition for an architecture with one pipeline running at 100MHz. The mea
 \label{fig:nop_edge_modelvsreal}
 \end{figure}
 
-We build the design at various clock frequencies to check if the performance model correctly predicts the performance variation when the clock frequency is varied. The results are shown in
+We build the design at various clock frequencies to check whether the performance model correctly predicts the performance variation when the clock frequency is varied. The results are shown in
 Figure \ref{fig:100_120MHz}. We see that the model accurately predicts the performance of the design at 100, 120, 140, 160 and 180MHz, giving us even more confidence of its robustness, at
-least along the dimension of clock frequency. The prediction that performance can be improved by increasing the clock rate is confirmed as we see about a decrease in execution time
+least along the dimension of clock frequency. The prediction that performance can be improved by increasing the clock rate is confirmed as we see a decrease in execution time
 for each 20MHz we add to the clock, with the benefit decreasing somewhat as we keep increasing (notice how the difference between the runtime between 100 and 120MHz is about 7 seconds while the difference
-between the 160 and 180MHz architectures is about 4 seconds). This is consistent with the models' predictions about the diminishing returns of increasing the frequency.
+between the 160 and 180MHz architectures is only about 4 seconds). This is consistent with the models' predictions about the diminishing returns of increasing the frequency.
 \begin{figure}[H]
   \centering
     \includegraphics[width=1.05\textwidth]{graphs/freqs_real.pdf}
@@ -2753,7 +2753,7 @@ of the arithmetic pipeline. The resources available on the FPGA place a limit on
 the performance model that the bottleneck is edge processing, the obvious extension to consider is adding more arithmetic pipelines. As shown in Table \ref{tab:resource_usage_arith}
 we have plenty of DSP resources for at least 30 more pipelines, but the LUT count will place a limitation on that ambition. As shown in Figure \ref{fig:Pipelines} on page \pageref{fig:Pipelines} 
 we would need at most 8 pipelines to remove the edge processing bottleneck, a feat that is perfectly accomplishable from a resource usage point of view.
-Building a design with multiple arithmetic pipelines is an important future extension since it would be used to validate the robustness of the performance model in that
+Building a design with multiple arithmetic pipelines is an important future extension since it would be used to validate the robustness of the performance model along that
 dimension.
 
 \begin{table} [H]
@@ -2994,8 +2994,8 @@ Karp, Richard M.\\
 Springer Berlin Heidelberg, ISBN:978-3-540-68279-0, pp.219-241
 
 \bibitem{ParMETIS}
-Karypis, G; Kumar, V;
-\emph{A Coarse-Grain Parallel Formulation of Multilevel k-way Graph Partitioning Algorithm}
+Karypis, G; Kumar, V;\\
+\emph{A Coarse-Grain Parallel Formulation of Multilevel k-way Graph Partitioning Algorithm}\\
 8th SIAM Conference on Parallel Processing for Scientific Computing
 
 \end{thebibliography}
