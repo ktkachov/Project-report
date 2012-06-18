@@ -2377,7 +2377,7 @@ so that we can identify implementation issues such as this.
 
 \begin{table} [H]
 \begin{center}
-  \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X |}
+  \begin{tabularx}{\textwidth}{| X | X | X | X |}
     \hline                        
     I/O stream & Original width(bits) & Padding(bits) & Total width(bits) \\ \hline \hline
     cell data from DRAM & 160 & 96 & 256\\ \hline

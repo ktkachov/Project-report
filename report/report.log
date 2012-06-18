@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.6.8)  18 JUN 2012 19:38
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.6.8)  18 JUN 2012 19:42
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1131,28 +1131,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 2391--2391
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2391--2391
+Underfull \hbox (badness 4752) in paragraph at lines 2391--2391
 []|\OT1/cmr/m/n/10.95 node data from
  []
 
 
-Underfull \hbox (badness 1642) in paragraph at lines 2391--2391
-[]|\OT1/cmr/m/n/10.95 Edge/address data
+Underfull \hbox (badness 7486) in paragraph at lines 2391--2391
+[]|\OT1/cmr/m/n/10.95 halo node data
  []
 
 
-Underfull \hbox (badness 3942) in paragraph at lines 2391--2391
-[]|\OT1/cmr/m/n/10.95 Size vec-tors from
+Underfull \hbox (badness 10000) in paragraph at lines 2391--2391
+[]|\OT1/cmr/m/n/10.95 Edge/address
  []
 
 
-Underfull \hbox (badness 5711) in paragraph at lines 2391--2391
+Underfull \hbox (badness 1527) in paragraph at lines 2391--2391
 []|$\OML/cmm/m/it/10.95 res$ \OT1/cmr/m/n/10.95 cell data to
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2391--2392
- [] 
  []
 
 [66
@@ -1343,7 +1338,7 @@ ts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8
 share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texmf-
 texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fon
 ts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (97 pages, 985141 bytes).
+Output written on report.pdf (97 pages, 985127 bytes).
 PDF statistics:
  1194 PDF objects out of 1200 (max. 8388607)
  257 named destinations out of 1000 (max. 500000)
