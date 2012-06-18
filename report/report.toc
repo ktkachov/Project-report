@@ -19,7 +19,7 @@
 \contentsline {section}{\numberline {3.2}Result accumulation and storage}{32}{section.3.2}
 \contentsline {section}{\numberline {3.3}Halo exchange mechanism}{33}{section.3.3}
 \contentsline {section}{\numberline {3.4}Two-level partitioning}{36}{section.3.4}
-\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{38}{section.3.5}
+\contentsline {section}{\numberline {3.5}The case for a custom streaming pipeline}{40}{section.3.5}
 \contentsline {section}{\numberline {3.6}Performance Model}{43}{section.3.6}
 \contentsline {subsection}{\numberline {3.6.1}Phase 1}{44}{subsection.3.6.1}
 \contentsline {subsection}{\numberline {3.6.2}Phase 2}{45}{subsection.3.6.2}

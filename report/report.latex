@@ -1365,7 +1365,7 @@ are shown in merged blocks for brevity.}
 \label{fig:ArchitectureSM}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[H]
 \begin{tikzpicture}[scale=0.8]
 \newcommand{\firstiph}[1] {
   \fill [green!10!white] #1 rectangle +(3, -2);
