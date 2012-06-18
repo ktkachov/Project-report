@@ -2617,7 +2617,7 @@ schedule the data flow graph and for other low-level "plumbing".
 
 \begin{table} [H]
 \begin{center}
-  \begin{tabularx}{\textwidth + 30pt}{| X | X | X | X | X |}
+  \begin{tabularx}{\textwidth}{| X | X | X | X | X |}
     \hline                        
      & LUTs & FFs & BlockRAMs & DSPs \\ \hline \hline
     Total available & 297600 & 595200 & 1064 & 2016\\ \hline

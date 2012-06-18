@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.6.8)  18 JUN 2012 19:42
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.6.8)  18 JUN 2012 19:48
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1162,18 +1162,8 @@ Overfull \vbox (62.92981pt too high) has occurred while \output is active []
 
 
 [71]
-Underfull \hbox (badness 1661) in paragraph at lines 2628--2628
-[]|\OT1/cmr/m/n/10.95 Total used as
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 2628--2628
-\OT1/cmr/m/n/10.95 per-cent-age of
- []
-
-
-Overfull \hbox (30.0pt too wide) in paragraph at lines 2628--2629
- [] 
+[]|\OT1/cmr/m/n/10.95 Total avail-
  []
 
 [72] [73] [74]
@@ -1338,7 +1328,7 @@ ts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8
 share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texmf-
 texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fon
 ts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (97 pages, 985127 bytes).
+Output written on report.pdf (97 pages, 985131 bytes).
 PDF statistics:
  1194 PDF objects out of 1200 (max. 8388607)
  257 named destinations out of 1000 (max. 500000)
