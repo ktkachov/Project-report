@@ -25,6 +25,7 @@
 \BOOKMARK [2][-]{subsection.3.6.2}{Phase 2}{section.3.6}
 \BOOKMARK [2][-]{subsection.3.6.3}{Phase 3}{section.3.6}
 \BOOKMARK [2][-]{subsection.3.6.4}{Design space exploration}{section.3.6}
+\BOOKMARK [1][-]{section.3.7}{Conclusion}{chapter.3}
 \BOOKMARK [0][-]{chapter.4}{Implementation}{}
 \BOOKMARK [1][-]{section.4.1}{Mesh partitioning}{chapter.4}
 \BOOKMARK [1][-]{section.4.2}{Edge scheduling}{chapter.4}
@@ -43,12 +44,13 @@
 \BOOKMARK [0][-]{chapter.5}{Evaluation}{}
 \BOOKMARK [1][-]{section.5.1}{No-op edges}{chapter.5}
 \BOOKMARK [1][-]{section.5.2}{Performance model validation}{chapter.5}
-\BOOKMARK [1][-]{section.5.3}{Resource usage}{chapter.5}
-\BOOKMARK [1][-]{section.5.4}{Conclusion}{chapter.5}
+\BOOKMARK [1][-]{section.5.3}{Host-side halo reduction}{chapter.5}
+\BOOKMARK [1][-]{section.5.4}{Resource usage}{chapter.5}
+\BOOKMARK [1][-]{section.5.5}{Conclusion}{chapter.5}
 \BOOKMARK [0][-]{chapter.6}{Conclusions and further work}{}
 \BOOKMARK [1][-]{section.6.1}{Contributions and reflection}{chapter.6}
 \BOOKMARK [1][-]{section.6.2}{Further work}{chapter.6}
-\BOOKMARK [0][-]{chapter*.48}{Bibliography}{}
+\BOOKMARK [0][-]{chapter*.49}{Bibliography}{}
 \BOOKMARK [0][-]{appendix.A}{Code Samples}{}
 \BOOKMARK [1][-]{section.A.1}{Airfoil Kernel definitions in C}{appendix.A}
-\BOOKMARK [0][-]{appendix*.49}{List of Figures}{}
+\BOOKMARK [0][-]{appendix*.50}{List of Figures}{}
