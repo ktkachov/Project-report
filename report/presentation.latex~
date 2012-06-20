@@ -1,0 +1,1138 @@
+\documentclass{beamer}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{minted}
+\usepackage{listings}
+\usepackage{scalefnt}
+\usepackage{subfigure}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+
+\usepackage{fancybox}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+\usetikzlibrary{matrix}
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{shapes.multipart}
+\usepackage{rotating}
+
+\mode<presentation>
+\title{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
+\author{Kyrylo Tkachov}
+\date{25 June 2012}
+\usetheme{Singapore}
+
+
+\institute{Imperial College London}
+\begin{document}
+\begin{frame}
+\titlepage
+Supervisor: Prof. Paul Kelly \\ 2nd marker: Dr. Tony Field
+\end{frame}
+
+\begin{frame}
+\frametitle{Unstructured meshes}
+\begin{figure}
+   \includegraphics[width= 0.4\paperwidth]{pics/airfoil_mesh.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Airfoil: Indirection maps}
+Elements:
+\begin{itemize}
+\item{Nodes}
+\item{Cells}
+\item{Edges}
+\end{itemize}
+\begin{figure}
+   \includegraphics[width= 0.6\paperwidth]{pics/mesh_small.png}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Airfoil: Data sets}
+  \begin{tabular}{| c | c | c |}
+    \hline                        
+    Data set name & Associated with & Type/Dimension  \\ \hline \hline
+    x & Nodes & $\mathbb{R} \times \mathbb{R}$ \\ \hline
+    q & Cells & $\mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R}$\\ \hline
+    q\_old & Cells & $\mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R}$ \\ \hline
+    res & Cells &  $\mathbb{R} \times \mathbb{R} \times \mathbb{R} \times \mathbb{R}$\\ \hline
+    adt & Cells &  $\mathbb{R}$ \\ \hline
+    bound & Edges & $\{0, 1\}$\\ \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}
+\frametitle{Airfoil: Kernels}
+  \begin{tabular}{| c | c | c | c |}
+    \hline                        
+    Kernel Name & Iterates over & Reads & Writes \\ \hline \hline
+    save\_soln & Cells & q & q\_old \\ \hline
+    adt\_calc & Cells & x, q & adt\\ \hline
+    \textcolor{red}{res\_calc} & \textcolor{red}{Edges} & \textcolor{red}{x, q, adt} & \textcolor{red}{res}\\ \hline
+    bres\_calc & (Boundary) Edges & x, q, adt, bound & res \\ \hline
+    update & Cells & q\_old, adt, res & q, res \\ \hline
+  \end{tabular}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{res\_calc kernel}
+{\scalefont{0.55}
+\lstset{
+  language=[Visual]C++,
+  keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+  identifierstyle=\ttfamily,
+  showstringspaces=false,
+  numbers=left,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=2,
+  breaklines=true,
+  breakatwhitespace=false,
+  aboveskip={1.5\baselineskip},
+  columns=fixed,
+  upquote=true,
+  extendedchars=true,
+% frame=single,
+% backgroundcolor=\color{lbcolor},
+}
+\begin{lstlisting}
+  void res_calc(float *x1, float *x2, float *q1, float *q2,
+                      float *adt1, float *adt2, float *res1, float *res2) {
+    float dx,dy,mu, ri, p1,vol1, p2,vol2, f;
+    dx = x1[0] - x2[0];
+    dy = x1[1] - x2[1];
+    ri = 1.0f/q1[0];
+    p1 = gm1*(q1[3]-0.5f*ri*(q1[1]*q1[1]+q1[2]*q1[2]));
+    vol1 = ri*(q1[1]*dy - q1[2]*dx);
+    ri = 1.0f/q2[0];
+    p2 = gm1*(q2[3]-0.5f*ri*(q2[1]*q2[1]+q2[2]*q2[2]));
+    vol2 = ri*(q2[1]*dy - q2[2]*dx);
+    mu = 0.5f*((*adt1)+(*adt2))*eps;
+    f = 0.5f*(vol1* q1[0] + vol2* q2[0] ) + mu*(q1[0]-q2[0]);
+    res1[0] += f;
+    res2[0] -= f;
+    f = 0.5f*(vol1* q1[1] + p1*dy + vol2* q2[1] + p2*dy) + mu*(q1[1]-q2[1]);
+    res1[1] += f;
+    res2[1] -= f;
+    f = 0.5f*(vol1* q1[2] - p1*dx + vol2* q2[2] - p2*dx) + mu*(q1[2]-q2[2]);
+    res1[2] += f;
+    res2[2] -= f;
+    f = 0.5f*(vol1*(q1[3]+p1) + vol2*(q2[3]+p2) ) + mu*(q1[3]-q2[3]);
+    res1[3] += f;
+    res2[3] -= f;
+  }
+\end{lstlisting}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{res\_calc data requirements}
+\begin{itemize}
+\item{Iterates over edges}
+\item{Processing each edge requires 2 cells, 2 nodes.}
+\item{Each edge \textbf{increments} two cells (+=).}
+\item{Most computationally intensive kernel in Airfoil.}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Why custom streaming?}
+{\scalefont{0.7}
+\begin{tikzpicture}[scale=0.7]
+\node (x) at (0, 20) {$x$};
+\node (y) at (2, 20) {$y$};
+\node (z) at (4, 20) {$z$};
+
+\node (times) at (0, 18)[circle, draw=black, fill=red!20!white] {$*$};
+\node (fifo) at (2, 18) [rectangle split, rectangle split parts=4, draw=black, fill=orange!20!white] {};
+
+\node (fifotwo) at (4, 16) [rectangle split, rectangle split parts=4, draw=black, fill=orange!20!white] {};
+
+\node (sqrt) at (4, 18)[circle, draw=black, fill=red!20!white] {$\sqrt{~}$};
+\node (plus) at (2, 16)[circle, draw=black, fill=red!20!white] {$+$};
+\node (minus) at (3, 14)[circle, draw=black, fill=red!20!white] {$-$};
+
+\draw [->, thick] (x.south) to (times.north);
+\draw [->, thick] (0, 19) -- ++(1, 0) -- ++(0, -1) -- (times.east);
+\draw [->, thick] (y.south) to (fifo.north);
+\draw [->, thick] (z.south) to (sqrt.north);
+\draw [->, thick] (times.south) -- (0, 16) -- (plus.west);
+\draw [->, thick] (fifo.south) -- (plus.north);
+\draw [->, thick] (plus.south) -- (2, 14) -- (minus.west);
+\draw [->, thick] (sqrt.south) -- (fifotwo.north);
+\draw [->, thick] (fifotwo.south) -- (4, 14) -- (minus.east);
+
+
+\node (r) at (3, 12) {$r$};
+\draw [->, thick] (minus.south) -- (r.north);
+
+\draw [dashed, thick] (4.8, 20) -- ++(0, -9);
+\node (func) at (5, 21) {$r = x^2 + y - \sqrt{z}$};
+
+
+\fill [orange!15!white] (8.5, 21) rectangle (11.5, 16.5);
+\draw (8.5, 21) rectangle (11.5, 16.5);
+ \node (i1) at (10, 20.5) {\Verb!load r1, x!};
+ \node (i2) at (10,20) {\Verb!load r2, y!};
+ \node (i3) at (10,19.5) {\Verb!load r3, z!};
+ \node (i4) at (10,19) {\Verb!mul r1, r1!};
+ \node (i5) at (10,18.5) {\Verb!add r1, r2!};
+ \node (i6) at (9.75,18) {\Verb!sqrt r3     !};
+ \node (i7) at (10,17.5) {\Verb!sub r1, r3!};
+ \node (i8) at (10, 17) {\Verb!str r1, r  !};
+
+
+
+ \node (FD) at (7, 16)[draw=black, fill=blue!15!white] {Fetch/Decode};
+ \node (ALU) at (7, 13.5)[trapezium, draw=black, fill=blue!15!white, shape border rotate=180] {ALU ($+$ $-$ $*$ $\sqrt{~}$)};
+ \node (LD) at (10.5, 16) [rectangle, draw=black, fill=blue!15!white] {Load/Store};
+ \node (MEM) at (14,  16) [rectangle, draw=black, shape border rotate=90, fill=green!20!white] {CACHE/MEM};
+ \node (REGS) at (14, 14) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white] {REGISTERS};
+ \draw [->, thick] (FD.south) -- (ALU.north);
+ \draw [->, thick] (FD.east) -- (LD.west);
+ \draw [<->, thick] (LD.east) -- (MEM.west);
+ \draw [<->, thick] (LD.south) -- ++(0, -1.7)-- (REGS.west);
+ \draw [->, thick] ($(REGS.west) + (0, -0.5)$) -- (ALU.east);
+ \draw [->, thick] (ALU.south) -- ++(0, -2) -| (REGS.south);
+ \draw [->, thick, dashed] (8.5, 19.25) to[out=180, in=90] (FD.north);
+\end{tikzpicture}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{The hardware}
+\begin{figure}
+{\scalefont{0.8}
+\begin{tikzpicture}[scale=0.8]
+\draw [thick](0, 20) rectangle (5, 12);
+\fill [blue!5!white] (0, 20) rectangle (5, 12);
+\draw [thick](0.5, 17.5) rectangle (4.5, 13);
+\fill [red!10!white](0.5, 17.5) rectangle (4.5, 13);
+
+\node (maxcard) at (1, 19.5) {MAX3 card};
+\node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 4cm] {DRAM};
+\node (manager) at (2.5, 17) [draw=black, fill=orange!10!white,  minimum width = 2.7cm, minimum height=0.7cm] {Manager};
+\node (kernel) at (2.5, 15) [draw=black, fill=red!20!white, minimum height=2cm,  minimum width = 2.7cm] {Kernel};
+\node (fpga) at (2, 13.5) {FPGA (Virtex 6)};
+
+\node (pcie) at (7, 17) [draw=black, fill=green!10!white, minimum height = 5cm] {PCIe};
+\node (host) at (9, 17) [draw=black, fill=blue!5!white, minimum height = 5cm] {Host};
+
+\draw [->] ($(dram.south) + (-0.2, 0)$) -- ($(manager.north) + (-0.2, 0)$);
+\draw [->] ($(manager.north) + (0.2, 0)$) -- ($(dram.south) + (0.2, 0)$);
+\draw [->] ($(manager.south) + (-0.2, 0)$) -- ($(kernel.north) + (-0.2, 0)$);
+\draw [->] ($(kernel.north) + (0.2, 0)$) -- ($(manager.south) + (0.2, 0)$);
+\draw [->] ($(manager.east) + (0, -0.1)$) -- ($(pcie.west) + (0, -0.1)$);
+\draw [->] ($(pcie.west) + (0, 0.1)$) -- ($(manager.east) + (0, 0.1)$);
+\draw [->] ($(pcie.east) + (0, -0.1)$) -- ($(host.west) + (0, -0.1)$);
+\draw [->] ($(host.west) + (0, 0.1)$) -- ($(pcie.east) + (0, 0.1)$);
+\end{tikzpicture}
+}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Architecture design: 1st iteration}
+\begin{center}
+% \begin{rotate}{90}
+{\scalefont{0.6}
+\begin{tikzpicture}[scale=0.6]
+\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Node/Cell data)};
+\node (edges) at (12, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
+\node (arith) at (5, 15) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
+{Arithmetic pipeline };
+\draw [->,very thick] (x.south) to [out=270, in=90] ($(arith.north) + (-0.5, 0)$);
+\draw [->,very thick] (cell.south) to [out=270, in=90] ($(arith.north) + (0.5, 0)$);
+\node (add) at (5, 12) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
+\draw [->, dashed, thick] (edges.south) -- (x.east);
+\draw [->, dashed, thick] (edges.south) -- (cell.east);
+\draw [->, dashed, thick] (edges.south) -- (res.east);
+
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-3.5, -0.5) |- (dram.west);
+\draw [->,very thick] (add.south) -- (res.north);
+\draw [->,very thick] (arith.south) -- (add.north);
+\draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+}
+% \end{rotate}
+\end{center}
+\end{frame}
+
+\begin{frame}
+\frametitle{Partitioning and halos}
+{\scalefont{0.6}
+\begin{center}
+  \begin{tikzpicture}[scale=0.6]
+
+  \fill[green!10!white] (-5.0, 6.0) rectangle (0.0, 1.0);
+  \fill[green!10!white] (-5.0, -5.0) rectangle (0.0, 0.0);
+  \fill[green!10!white] (1.0, 1.0) rectangle (6.0, 6.0);
+  \fill[green!10!white] (1.0, 0.0) rectangle (6.0, -5.0);
+
+  \fill[blue!10!white] (-5.0, 0.0) rectangle +(11.0, 1);
+  \fill[blue!10!white] (0.0, 6.0) rectangle +(1, -11.0);
+  \fill[blue!10!white] (-5.0, -1.0) rectangle (6, 0);
+  \fill[blue!10!white] (-1, -5) rectangle (0, 6);
+
+  \draw[step=1cm] (-5.0, -5.0) grid (6.0, 6.0);
+
+  \draw (-2.5, 3.5) node[fill=green!10!white] {Partition 1};
+  \draw (3.5, 3.5) node[fill=green!10!white] {Partition 2};
+  \draw (3.5, -2.5) node[fill=green!10!white] {Partition 3};
+  \draw (-2.5, -2.5) node[fill=green!10!white] {Partition 4};
+
+  \draw[red, very thick] (-5.0, 0.0) -- (0.0, 0.0);
+  \draw[red, very thick] (0.0, 6.0) -- (0.0, 0.0);
+  \draw[red, very thick] (6.0, 0.0) -- (0.0, 0.0);
+  \draw[red, very thick] (0.0, -5.0) -- (0.0, 0.0);
+
+  \draw (-0.5,2.5) node[rotate=90, fill=blue!10!white] {Halo region 1};
+  \draw (-2.5, 0.5) node[fill=blue!10!white]{Halo region 1};
+  \draw (-2.5,-0.5) node[fill=blue!10!white]{Halo region 4};
+  \draw (0.5,2.5) node[rotate=270, fill=blue!10!white] {Halo region 2};
+
+  \draw (2.5,0.5) node[fill=blue!10!white]{Halo region 2};
+  \draw (2.5, -0.5) node[fill=blue!10!white]{Halo region 3};
+  \draw (0.5, -2.5) node[rotate=90, fill=blue!10!white]{Halo region 3};
+  \draw (-0.5,-2.5) node[rotate=270, fill=blue!10!white] {Halo region 4};
+
+  \end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Architecture design: 2nd iteration, Halo Exchange}
+{\scalefont{0.4}
+\begin{center}
+\begin{tikzpicture}
+[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=1cm, minimum height=0.4}, scale=0.4]
+
+\node (dram) at (5, 23) [input] {Node/Cell data};
+\node (edges) at (14.5, 12) [input] {Edges (addresses)};
+\node (edgestop) at (9.5, 23) [input] {Edges (addresses)};
+
+\node (PCIe) at (14, 23) [input] {Halo data (PCIe)};
+
+
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+
+\draw [->,  thick] (dram.south) to [out=270, in=90] (x.north);
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\draw [->,  thick] (dram.south) to [out=270, in=90] (cell.north);
+
+\node (hcell) at (17,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell data: $q$, $adt$};
+\node (hx) at (12,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node data: $x$};
+\draw [->,  thick] (PCIe.south) to[out=270, in=90] (hcell.north);
+\draw [->,  thick] (PCIe.south) to [out=270, in=90] (hx.north);
+\draw [->, dashed, thick] (edgestop.south) to[out=270, in=135] ($(hcell.north) + (-0.5, 0)$);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=135] ($(hx.north) + (-0.5, 0)$);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(cell.north) + (0.5, 0)$);
+\draw [->, dashed, thick] (edgestop.south) to [out=270, in=45] ($(x.north) + (0.5, 0)$);
+
+\node (arith) at (9, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
+{Arithmetic pipeline };
+
+\node (sel) at (9,14) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
+
+\draw [->, thick] (x.south) to [out=270, in=135] ($(sel.north) + (-0.5, 0)$);
+\draw [->, thick] (cell.south) to [out=270, in=90] ($(sel.north) + (-0.25, 0)$);
+\draw [->, thick] (hx.south) to [out=270, in=90] ($(sel.north) + (0.25, 0)$);
+\draw [->, thick] (hcell.south) to [out=270, in=45] ($(sel.north) + (0.5, 0)$);
+\draw [->,  thick] (sel.south) -- (arith.north);
+
+\node (add) at (9, 9) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (6, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
+\node (hres) at (12, 6) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} Halo $res$};
+
+\node (rsel) at (9, 7.5) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
+\draw [->,  thick] (res.east) -| ($(rsel.south) + (-0.5, 0)$);
+\draw [->,  thick] (hres.west) -| ($(rsel.south) + (0.5, 0)$); 
+% \draw [->, very thick] (rsel.east) to [out=0, in=90] (hres.north);
+% \draw [->, very thick] (rsel.west) to [out=180, in=90] (res.north); 
+
+\draw [->,  thick] ($(rsel.north)$) to (add.south);
+\draw [->, dashed, thick] (rsel.east) -| ($(hres.north) + (-1, 0)$);
+\draw [->, dashed, thick] (rsel.west) -| ($(res.north) + (1, 0)$);
+
+% \draw [->,  thick] (add.east) to [out=0, in=45] ($(rsel.north) + (0.5cm,0)$);
+\draw [->,  thick] (add.east) -| (hres.north);
+\draw [->,  thick] (add.west) -| (res.north);
+
+\draw [->, dashed, thick] (edges.west) to [out=135, in=0] (sel.east);
+\draw [->, dashed, thick] (edges.west) to [out=225, in=45] ($(rsel.north) + (1, 0)$);
+% \draw [->, dashed, thick] (edges.west) -- (x.east);
+% \draw [->, dashed, thick] (edges.west) -- (cell.east);
+% \draw [->, dashed, thick] (edges.west) -- (res.east);
+
+\draw [->, thick] (res.south) -- +(0,-0.5) -- ++(-5, -0.5) |- (dram.west);
+\draw [->, thick] (hres.south) -- +(0,-0.5) -- ++(8, -0.5) |- (PCIe.east);
+
+% \draw [->,very thick] (add.south) -- (res.north);
+\draw [->, thick] (arith.south) -- (add.north);
+% \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-level partitioning: edge processing and I/O interleaving}
+{\scalefont{0.6}
+\begin{center}
+\begin{tikzpicture}[scale=0.6]
+\fill[green!10!white] (-5, 0) rectangle (7,6);
+\fill[red!10!white] (-5, 6) rectangle (7,5);
+\fill[red!10!white] (-5, 0) rectangle (-4,5);
+\fill[red!10!white] (-5, 0) rectangle (7,1);
+\fill[red!10!white] (6, 0) rectangle (7,6);
+\fill[purple!50!white] (0, 0) rectangle (1,6);
+\fill[purple!50!white] (1, 0) rectangle (2,6);
+
+\draw[step=1cm] (-5, 0) grid (7, 6);
+\node at (-1.9, 3.5) [fill=green!10!white] {$\mu$partition~~ 1};
+\node at (4.1, 3.5) [fill=green!10!white] {$\mu$partition~~ 2};
+\draw[red, very thick] (-5, 0) rectangle (7,6);
+\node (iph1) at(0.5, 3) [fill=purple!50!white, rotate=90] {\emph{IPH}};
+\node (iph2) at(1.5, 3) [fill=purple!50!white, rotate=270] {\emph{IPH}};
+
+\draw [red, very thick, dashed] (1,0) -- (1,6);
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Architecture design: 3rd iteration}
+{\scalefont{0.55}
+\begin{center}
+\begin{tikzpicture}[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=1.5cm, minimum height=1.2}, scale=0.55]
+\node (dram) at (5, 20) [input] {Node/cell/halo data};
+\node (edges) at (10, 20) [input] {Edges (addresses)};
+
+\node (sizes) at (14, 20) [input] {Size vectors};
+\node (SM) at (14, 17) [circle, draw=black, fill=orange!20!white]{SM};
+\node (knot) at (12, 18.5) {};
+
+\node (read) at (5, 17) [diamond, draw=black, fill=orange!20!white] {read?};
+\node (process) at (10, 17) [diamond, draw=black, fill=orange!20!white] {process?};
+\node (write) at (2, 17) [diamond, draw=black, fill=orange!20!white] {write?};
+
+\node (storage) at (5,15) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
+\draw [->,  thick] (dram.south) to [out=270, in=90] (read.north);
+\draw [->,  thick] (read.south) to [out=270, in=90] (storage.north);
+\draw [->, dashed, thick] (process.south) to [out=270, in=0] (storage.east);
+\draw [->,  thick] (edges.south) to (process.north);
+\draw [->,  thick] (sizes.south) to (SM.north);
+
+\draw [red] (SM) to[out=180, in=0] (knot.east);
+\draw [->, red] (knot.east) to [out=180, in=0] (process.east);
+% \draw [->, red] (knot.east) to [out=180, in=0] (read.east);
+\node (knot2) at (7, 18.5) {};
+\draw [red] (knot.east) to [out=180, in=0] (knot2.east);
+\draw [->, red] (knot2.east) to [out=180, in=0] (read.east);
+
+\node (knot3) at (4,18.5) {};
+\draw [red] (knot2.east) to [out=180, in=0] (knot3.east);
+\draw [->, red] (knot3.east) to [out=180, in=0] (write.east);
+
+
+\node (arith) at (5, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
+{Arithmetic pipeline };
+\draw [->, thick] (storage.south) to [out=270, in=90] (arith.north);
+\node (add) at (5, 9) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (5, 7) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
+\draw [->, dashed, thick] (process.south) to [out=270, in=90] ($(res.north) + (1,0)$);
+
+\draw [->, red] (SM.south) to [out=270, in=0] ($(res.east) + (0,-0.25)$);
+\draw [->, red] (SM.south) to [out=270, in=0] ($(storage.east) + (0,-0.25)$);
+
+% \draw [->, dashed, thick] (edges.south) -- (storage.east);
+% \draw [->, dashed, thick] (edges.south) -- (res.east);
+
+
+\draw [->, thick] (res.south) -- +(0,-0.5) -- ++(-3, -0.5) -- (write.south);
+\draw [->, thick] (write.north) -- (2, 20) -- (dram.west);
+\draw [->, thick] (add.south) -- (res.north);
+\draw [->, thick] (arith.south) -- (add.north);
+\draw [->, thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Accelerator phases and execution pattern}
+{\scalefont{0.4}
+\begin{center}
+\begin{tikzpicture}[scale=0.4]
+  \newcommand{\firstiph}[1] {
+      \fill [green!10!white] #1 rectangle +(3, -2);
+      \fill [red!20!white] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+      \draw [thick] #1 rectangle +(3, -2);
+      \draw [thick] ($#1 + (0,-1.5)$) rectangle ($#1 + (3, -2)$);
+      \draw [thick] #1 -- +(0, -2.4);
+      \draw [thick] ($#1 + (3, 0)$) -- +(0, -2.4);
+      \node at ($#1 + (1.5, -1)$) {$\mu$partition 1};
+      \node at ($#1 + (1.5, -1.7)$) {IPH};
+  }
+  \newcommand{\second}[1] {
+      \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+      \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+  
+      \node at ($#1 + (1.5, -1.5)$) {$\mu$partition 2};
+      \draw [thick] #1 -- ++(0, -2.4) -- ++(3, 0) -- ++(0, 2.4);
+  }
+ \newcommand{\secondiph}[1] {
+      \fill [green!10!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+      \fill [red!20!white] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+      \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -0.9)$);
+  
+      \draw [thick] ($#1 + (0,-0.4)$) rectangle ($#1 + (3, -2.4)$);
+      \node at ($#1 + (1.5, -0.65)$) {IPH};
+      \node at ($#1 + (1.5, -1.5)$) {$\mu$partition 2};
+      \draw [thick] #1 -- ++(0, -2.4) -- ++(3, 0) -- ++(0, 2.4);
+  }
+  \newcommand{\first}[1] {
+      \fill [green!10!white] #1 rectangle ($#1 + (3, -2)$);
+      \draw[thick] #1 rectangle ($#1 + (3, -2)$);
+      \draw [thick] ($#1 + (0, -2.4)$) -- #1 -- ($#1 + (3, 0)$) -- ($#1 +(3, -2.4)$);
+      \node at ($#1 + (1.5, -1)$) {$\mu$partition 1};
+
+  }
+
+  \newcommand{\redpart}[1]{
+   \draw [red, very thick, rounded corners] #1 -- ++(3.75, 0) -- ++(0, -3.15) -- ++(5.6, 0) -- ++(0, -3) -- ++(4.4,0) -- ++(0, -5.7)
+   -- ++(-4, 0) -- ++(0, 3) -- ++(-4.5, 0) -- ++(0, 3) -- ($#1 + (0, -5.9)$) -- cycle;
+  }
+
+  \draw (2.5, 21) node {\emph{READ}};
+  \draw (7.5, 21) node {\emph{PROCESS}};
+  \draw (12.5, 21) node {\emph{WRITE}};
+  \draw [very thick] (-2.5, 20.5) -- (15, 20.5);
+
+  \draw [dashed, very thick] (5, 21.5) -- (5, 0);
+  \draw [dashed, very thick] (10, 21.5) -- (10, 0);
+  \secondiph{(11, 20)};
+  \firstiph{(1,20)};
+  \second{(1, 17)};
+  \firstiph{(6,17)};
+  \secondiph{(6, 14)};
+  \first{(11, 14)};
+  \firstiph{(1,11)};
+  \secondiph{(11, 11)};
+  \second{(1, 8)};
+  \firstiph{(6, 8)};
+  \secondiph{(6, 5)};
+  \first{(11, 5)};
+  \firstiph{(1, 2)};
+  \secondiph{(11, 2)};
+  \draw [dashed] (-2.5, 17.2) -- (15, 17.2);
+  \draw [dashed] (-2.5, 14.2) -- (15, 14.2);
+  \draw [dashed] (-2.5, 11.2) -- (15, 11.2);
+  \draw [dashed] (-2.5, 8.2) -- (15, 8.2);))
+  \draw [dashed] (-2.5, 5.2) -- (15, 5.2);
+  \draw [dashed] (-2.5, 2.2) -- (15, 2.2);
+  \draw [very thick] (0, 21.5) -- (0, 0);
+  \draw (-1.2, 18.5) node {\emph{PHASE 1}};
+  \draw (-1.2, 15.5) node {\emph{PHASE 2}};
+  \draw (-1.2, 12.5) node {\emph{PHASE 3}};
+  \draw (-1.2, 9.5) node {\emph{PHASE 1}};
+  \draw (-1.2, 6.5) node {\emph{PHASE 2}};
+  \draw (-1.2, 3.5) node {\emph{PHASE 3}};
+  \draw (-1.2, 0.5) node {\emph{PHASE 1}};
+
+  \draw [->,densely dashed, very thick] (-2.9, 21) -- (-2.9, 2);
+  \draw (-3.2, 10.5) node[rotate=90]{\emph{TIME}};
+
+
+  \redpart{(0.5, 20.25)};
+  \redpart{(0.5, 11.25)};
+
+  \draw [red, very thick, rounded corners] (0.2, 2.1) -- ++(4, 0) -- ++(0, -2.6);
+  \draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
+
+\end{tikzpicture}
+\end{center}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Performance Model}
+We know:
+\begin{itemize}
+ \item{DRAM bandwidth.}
+ \item{PCIe bandwidth.}
+ \item{Clock frequency.}
+ \item{Partition sizes and therefore the amount of data transferred.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Performance Model}
+We can calculate:
+\begin{itemize}
+ \item{Time to stream micro-partition from DRAM: $t_{DRAM} = \dfrac{Non-halo~node~and~cell~data}{DRAM~bandwidth}$}
+ \item{Time to stream halo data for micro-partition from PCIe: $t_{PCIe} = \dfrac{Halo~ node~ and~ cell~ data}{PCIe~ bandwidth}$}
+ \item{Time to consume edge data during processing: $t_{FPGA} = \dfrac{Number~ of~ edges}{clock~frequency \times number~number~of~arithmetic~pipelines}$}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Performance Model}
+\ovalbox{\Large Total time for each phase: $max(t_{DRAM}, t_{PCIe}, t_{FPGA})$}
+3 phases:
+\begin{enumerate}
+\item{Read in data for first micro-partition plus the intra-partition halo.
+ If not first macro-partition, write out second micro-partition and the intra-partition halo.}
+\item{Process first micro-partition, read in the non-IPH data for second micro-partition.}
+\item{Process second micro-partition, write out the non-IPH data for the first micro-partition.}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\frametitle{Design space exploration}
+\begin{itemize}
+\item{We defined a \textbf{family} of architectures.}
+\item{We can explore the design space using the performance model to find interesting ones.}
+\item{We can vary the problem and architecture parameters and predict the effect on performance.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Execution time vs Number of pipelines}
+\begin{figure}
+ \includegraphics[width=0.85\paperwidth]{graphs/pipelines.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Execution time vs Number of pipelines and clock frequency}
+
+\begin{figure}
+            \includegraphics[angle=-90, width=0.8\textwidth]{graphs/frequencies_pipelines.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Execution time vs Number of pipelines and clock frequency}
+\begin{figure}
+    \includegraphics[width=0.9\textwidth]{graphs/freq_pipes3D.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Execution time vs Partition size}
+\begin{figure}
+    \includegraphics[width=1\textwidth]{graphs/partition_sizes.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\begin{figure}
+\frametitle{DRAM/PCIe transfer ratio vs Partition size}
+\includegraphics[width=0.9\textwidth]{graphs/partition_ratios.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Implementation issues: Edge dependencies in the pipeline}
+{\scalefont{0.9}
+\begin{figure}
+\begin{tikzpicture}[scale=0.9]
+\matrix (acc) at (10,10)
+[
+  draw,
+  inner sep=0,
+  matrix of nodes,
+  fill=orange!20!white,
+  every node/.style={
+    inner sep=1ex
+  }
+]
+{
+  \node{\textcolor{red}{$v_1@\alpha_{0}$}};\\
+  \hline
+  \node{$v_2@\alpha_{1}$};\\
+  \hline
+  \node{$v_3@\alpha_{2}$};\\
+  \hline
+  \node{\textcolor{red}{$v_4@\alpha_{0}$}};\\
+  \hline
+  \node{$v_5@\alpha_{3}$};\\
+  \hline
+  \node{$v_6@\alpha_{4}$};\\
+};
+
+\draw [<->, dashed, thick] ($(acc.north) + (1, 0)$) -- ($(acc.south) + (1, 0)$);
+\node at ($(acc) + (1.5, 0)$) {\emph{$\lambda=6$}};
+\draw [black,decorate,decoration={brace,amplitude=4pt}]
+($(acc.south) + (-1, 0)$) -- ($(acc.north) + (-1, 0)$) node [black,midway,xshift=-0.5cm] 
+{\Large \textbf{$+$}};
+% \node at ($(acc) + (-1, 0)$) {\Large \emph{$+$}};
+
+\node (bram) at (10, 6.5) [draw, fill=red!20!white] {\emph{BRAM}};
+\node (arith) at (10, 14) [draw, fill=green!20!white] {\emph{ARITH}};
+\draw [->, thick] (acc.south) -- (bram.north);
+\draw [->, thick] ($(arith.south) + (-0.2, 0)$) -- ($(acc.north) + (-0.2, 0)$);
+\draw [->, thick] (bram.east) -- ++(1.75, 0) -- ++(0, 6) -| ($(acc.north) + (0.25, 0)$);
+
+\end{tikzpicture}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Edge-partitions and adjacency graph scheduling}
+{\scalefont{0.5}
+\begin{figure}[h]
+\begin{tikzpicture}[scale=0.5]
+  \fill[green!10!white] (0, 0) rectangle (10,10);
+
+  \fill [blue!40!white] (0, 0) rectangle (10,10);
+  \fill [orange!20!white] (0, 0) rectangle (3, 4);
+  \fill [green!20!white] (3, 4) rectangle (0, 7.5);
+  \fill [magenta!20!white] (0, 10) rectangle (3, 7.5);
+  \fill [red!40!white] (3, 7.5) rectangle (7, 4);
+  \fill [purple!20!white] (7, 7.5) rectangle (10,10);
+  \fill [orange!40!white] (5, 0) rectangle (7, 4);
+
+  \fill [yellow!20!white] (7, 0) rectangle (10, 4);
+  \fill [olive!40!white] (3, 0) rectangle (5, 4);
+  \fill [violet!40!white] (5, 7.5) rectangle (7, 10);
+  \fill [blue!20!white] (7, 4) rectangle (10, 7.5);
+
+  \draw[step=0.5cm] (0, 0) grid (10, 10);
+
+  \draw [red, very thick] (0, 0) rectangle (10,10);
+
+  \draw [red, very thick] (0, 0) rectangle (3, 4);
+  \node at (1.5, 2) [fill=orange!20!white]{\Large 1};
+
+  \draw [red, very thick] (3, 4) rectangle (0, 7.5);
+  \node at (1.5, 5.75) [fill=green!20!white]{\Large 2};
+
+  \draw [red, very thick] (0, 10) rectangle (3, 7.5);
+  \node at (1.5, 8.75) [fill=magenta!20!white]{\Large 3};
+
+  \draw [red, very thick] (3, 7.5) rectangle (7, 4);
+  \node at (5, 5.75) [fill=red!40!white]{\Large 4};
+
+  \draw [red, very thick] (7, 7.5) rectangle (10,10);
+  \node at (8.5, 8.75) [fill=purple!20!white]{\Large 5};
+
+  \draw [red, very thick] (5, 0) rectangle (10, 4);
+  \node at (8.5, 2) [fill=yellow!20!white]{\Large 6};
+
+  \node at (4, 2) [fill=olive!40!white]{\Large 7};
+  \node at (8.5, 5.75) [fill=blue!20!white]{\Large 8};
+
+  \node at (6, 8.75)[fill=violet!40!white] {\Large 9};
+
+  \draw [red, very thick] (5, 0) rectangle (7, 4);
+  \node at (6, 2)[fill=orange!40!white] {\Large 10};
+
+  \node at (4, 8.75) [fill=blue!40!white]{\Large 11};
+
+  \draw [red, very thick] (3, 7.5) rectangle (5, 10);
+
+
+  \draw [thick, dashed] (11, 11) -- (11, -1);
+
+  \node (one) at (14, 10) [circle, draw, fill=orange!20!white] {\Large 1};
+  \node (two) at (16, 8) [circle, draw, fill=green!20!white] {\Large 2};
+  \node (three) at (20, 4) [circle, draw, fill=magenta!20!white] {\Large 3};
+  \node (four) at (16, 6) [circle, draw, fill=red!40!white] {\Large 4};
+  \node (five) at (18, 6) [circle, draw, fill=purple!20!white] {\Large 5};
+  \node (six) at (14.5, 3) [circle, draw, fill=yellow!20!white] {\Large 6};
+  \node (seven) at (12, 6) [circle, draw, fill=olive!40!white] {\Large 7};
+  \node (eight) at (17, 4) [circle, draw, fill=blue!20!white] {\Large 8};
+  \node (nine) at (18.5, 4) [circle, draw, fill=violet!40!white] {\Large 9};
+  \node (ten) at (12, 2) [circle, draw, fill=orange!40!white] {\Large 10};
+  \node (eleven) at (18.5, 2) [circle, draw, fill=blue!40!white] {\Large 11};
+
+  \draw [thick](one) -- (seven);
+  \draw [thick](one) -- (two);
+  \draw [thick](two) -- (four);
+  \draw [thick](two.east) to[out=0, in=90] (three.north);
+  \draw [thick](three) -- (eleven);
+  \draw [thick](four) -- (seven);
+  \draw [thick](four) -- (eight);
+  \draw [thick](four) -- (nine);
+  \draw [thick](four) -- (ten);
+  \draw [thick](four.south) to[out=270, in=180] (eleven.west);
+  \draw [thick](five) -- (eight);
+  \draw [thick](five) -- (nine);
+  \draw [thick](six) -- (eight);
+  \draw [thick](six) -- (ten);
+  \draw [thick](seven) -- (ten);
+  \draw [thick](nine) -- (eleven);
+\end{tikzpicture}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}
+ \begin{algorithmic}
+ \Function{$boolean$ validSchedule} {node[~] $sch$, int $n$, int $\lambda$, Graph $g$}
+   \For{$i$ in $[0..n-1]$}
+     \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
+       \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
+         \State\Return $FALSE$
+       \EndIf
+     \EndFor
+   \EndFor
+   \State \Return $TRUE$
+ \EndFunction
+ \end{algorithmic}
+\end{frame}
+
+\begin{frame}
+\frametitle{No-op edges}
+{\scalefont{0.6}
+\begin{figure}
+\begin{tikzpicture}[scale=0.6]
+  \fill [green!10!white] (0,0) rectangle +(1, 5);
+  \fill [red!20!white] (1,0) rectangle +(1, 6);
+  \fill [blue!10!white] (2,0) rectangle +(1, 5);
+  \fill [orange!10!white] (3,0) rectangle +(1, 4);
+  \fill [purple!10!white] (4,0) rectangle +(1, 6);
+  \fill [blue!40!white] (5,0) rectangle +(1, 5);
+
+  \fill [black!30!white] (0,5) rectangle +(1, 1);
+  \fill [black!30!white] (2,5) rectangle +(2, 1);
+  \fill [black!30!white] (3,4) rectangle +(1, 1);
+  \fill [black!30!white] (5,5) rectangle +(1, 1);
+
+
+  \draw[black, fill=black!30!white] (7, 4) rectangle +(1, 1);
+  \node at (9.5, 4.5) {= no-op edge};
+
+  \draw[->, red, thick] (7, 2) -- +(1, 0);
+  \node at (10.5, 2) {= edge scheduling order};
+
+
+  \draw[step=1] (0, 0) grid (6, 6);
+
+  \node at (0.5, -0.5) {\Large 1};
+  \node at (1.5, -0.5) {\Large 2};
+  \node at (2.5, -0.5) {\Large 3};
+  \node at (3.5, -0.5) {\Large 4};
+  \node at (4.5, -0.5) {\Large 5};
+  \node at (5.5, -0.5) {\Large 6};
+\draw [->, dashed, >=triangle 45] (0, -1) -- +(6, 0);
+\node at (3, -1.5) {\emph{Scheduled edge partitions}};
+
+  \node at (-0.5, 0.5) {\Large 1};
+  \node at (-0.5, 1.5) {\Large 2};
+  \node at (-0.5, 2.5) {\Large 3};
+  \node at (-0.5, 3.5) {\Large 4};
+  \node at (-0.5, 4.5) {\Large 5};
+  \node at (-0.5, 5.5) {\Large 6};
+\node at (-1.5, 3)[rotate=90] {\emph{Number of Edges}};
+\draw[->, dashed, >=triangle 45] (-1, 0) -- +(0, 6);
+  
+\draw[red, thick, ->] (0.5, 0.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 0.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 1.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 1.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 2.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 2.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 3.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 3.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 4.5) -- ++(5,0);
+\draw[red, dashed] (5.5, 4.5) -- +(-5, 1);
+\draw[red, thick,->] (0.5, 5.5) -- ++(5,0);
+
+
+  \fill [green!10!white] (-1,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (-0.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (0,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (0.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (1,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (1.5,-3) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (2,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (2.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (3,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (3.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (4,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (4.5,-3) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (5,-3) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (5.5,-3) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (6,-3) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (6.5,-3) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (7,-3) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (7.5,-3) rectangle +(0.5, 0.5);
+
+  \fill [green!10!white] (-1,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (-0.5,-5) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (0,-5) rectangle +(0.5, 0.5);
+  \fill [orange!10!white] (0.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (1,-5) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (1.5,-5) rectangle +(0.5, 0.5);
+  \fill [green!10!white] (2,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (2.5,-5) rectangle +(0.5, 0.5);
+  \fill [blue!10!white] (3,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (3.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (4,-5) rectangle +(0.5, 0.5);
+  \fill [blue!40!white] (4.5,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (5,-5) rectangle +(0.5, 0.5);
+  \fill [red!20!white] (5.5,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (6,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (6.5,-5) rectangle +(0.5, 0.5);
+  \fill [purple!10!white] (7,-5) rectangle +(0.5, 0.5);
+  \fill [black!30!white] (7.5,-5) rectangle +(0.5, 0.5);
+
+
+  \draw[step=0.5] (-1, -3) grid +(9, 0.5);
+  \draw[step=0.5] (-1, -5) grid +(9, 0.5);
+\draw [red, ->] (8, -2.85) to[out=0, in=180] (-1, -4.6);
+\end{tikzpicture}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Complexity of edge scheduling}
+\begin{itemize}
+\item{Take dual adjacency graph: nodes connected in dual graph if they are \textbf{not} connected in the original.}
+\item{Graph scheduling problem transforms into Hamiltonian path problem with extra adjacency constraint.}
+\item{\textbf{NP-complete!}.}
+\item{Best we can do is search through the schedule space.}
+\item{$O(n!)$ ($n$ number of nodes in the adjacency graph).}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Graph colouring and no-op edge-partitions}
+\begin{itemize}
+  \item{Nodes/partitions with same colour are non-adjacent and independent.}
+  \item{Can group together partitions with same colour.}
+  \item{To produce schedule with window-width $\lambda$ add $\lambda$ no-op edge-partitions after
+  each colour group.}
+  \item{Will add $\lambda \times c$ no-op partitions ($c$-number of colours used to colour graph).}
+  \item{Optimal colouring still \textbf{NP}-complete, but we can efficiently find sub-optimal but adequate
+  colouring.}
+  \item{We use greedy graph colouring algorithm. For each node assigned lowest colour not assigned to its neighbours.
+Worst-case time complexity is $O(n^3)$}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Implementation issues: FPGA accelerator, manager configuration}
+{\scalefont{0.6}
+\begin{figure}
+\begin{tikzpicture}[scale=0.65]
+
+\draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
+\draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
+
+\node at (4, 11.5) {\emph{DRAM}};
+\node at (10.25, 11.5) {\emph{PCIe}};
+
+
+\draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);
+\draw (0,8) rectangle +(2, -1);
+\draw (2,8) rectangle +(2, -1);
+\draw (4,8) rectangle +(2, -1);
+\draw (6,8) rectangle +(2, -1);
+\draw (8,8) rectangle +(2, -1);
+\draw (10,8) rectangle +(2, -1);
+
+\node at (1, 7.5) {\emph{cells}};
+\node at (3, 7.5) {\emph{nodes}};
+\node at (5, 7.5) {\emph{edges}};
+\node at (7, 7.5) {\emph{sizes}};
+\node at (9, 7.5) {\emph{halo cells}};
+\node at (11, 7.5) {\emph{halo nodes}};
+
+\node at (6, 6.5) {\emph{RES\_CALC KERNEL}};
+
+\draw (0, 6) rectangle +(6, -1);
+\draw (6, 6) rectangle +(6, -1);
+
+\node at (3, 5.5) {\emph{res}};
+\node at (9, 5.5) {\emph{halo res}};
+
+\path[draw, thick, ->, >=triangle 45] (1, 11) -- node [near end, left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (3, 11) -- node [near end,left] {128} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (5, 11) -- node [near end,left] {64} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (7, 11) -- node [near end,left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (9, 11) -- node [near end,left] {256} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (11, 11) -- node [near end,left] {128} +(0, -3);
+\path[draw, thick, ->, >=triangle 45] (3, 5) -- ++(0, -1) -- ++(-4, 0) |- node [left] {128} (0, 11.5);
+\path[draw, thick, ->, >=triangle 45] (9, 5) -- ++(0, -1) -- ++(4, 0)  |- node [right] {128} (12, 11.5);
+
+\end{tikzpicture}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Two-port limitation on RAMs}
+{\scalefont{0.45}
+\begin{figure}
+\begin{tikzpicture}[scale=0.45]
+
+\matrix (arith) at (10,20)
+[
+  draw,
+  inner sep=0,
+  matrix of nodes,
+  fill=orange!20!white,
+  every node/.style={
+    inner sep=1ex
+  }
+]
+{
+  \node{\emph{ARITH}};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+};
+
+\node (add1) at (9, 17.5)[circle, draw, fill=orange!20!white]{\emph{+}};
+\node (add2) at (11, 17.5)[circle, draw, fill=orange!20!white]{\emph{+}};
+
+\draw [->, thick] ($(arith.south) + (-0.15, 0)$) -- ++(0, -0.25) -| (add1.north);
+\draw [->, thick] ($(arith.south) + (0.15, 0)$) -- ++(0, -0.25) -| (add2.north);
+
+\node (add_sel) at (10, 16)[draw, fill=red!20!white, minimum width=2cm]{\emph{SEL}};
+\draw [->, thick] (add1.south) -- ++(0, -0.25) -| ($(add_sel.north) + (-0.2, 0)$);
+\draw [->, thick] (add2.south) -- ++(0, -0.25) -| ($(add_sel.north) + (0.2, 0)$);
+
+
+\draw [dashed, thick, fill=green!5!white] (5.5, 15) rectangle +(4, -6);
+\node (addr_trans1) at (7.5, 14.5)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{Address translation}};
+\node (r1up1) at (6.5, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 R1}};
+\node (r1up1h) at (8.4, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 hR1}};
+\node (r1up2) at (6.5, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 R1}};
+\node (r1up2h) at (8.4, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 hR1}};
+
+\draw [dashed, thick, fill=green!5!white] (10.5, 15) rectangle +(4, -6);
+\node (addr_trans2) at (12.5, 14.5)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{Address translation}};
+
+\node (r2up1) at (11.5, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 R2}};
+\node (r2up1h) at (13.4, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 hR2}};
+\node (r2up2) at (11.5, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 R2}};
+\node (r2up2h) at (13.4, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 hR2}};
+
+\draw[->, thick] (7, 15) |- ($(add_sel.west) + (0, -0.1)$);
+\draw[->, thick] (13, 15) |- ($(add_sel.east) + (0, -0.1)$);
+\draw[->, thick] ($(add_sel.west) + (0, 0.1)$) -- ++(-0.75, 0) |- (add1.west);
+\draw[->, thick] ($(add_sel.east) + (0, 0.1)$) -- ++(0.75, 0) |- (add2.east);
+
+
+\draw[->, thick] ($(add_sel.south) + (-0.2, 0)$) |- (9.5, 13.5);
+\draw[->, thick] ($(add_sel.south) + (0.2, 0)$) |- (10.5, 13.5);
+
+\node (R1sel) at (7.5, 8)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{SEL}};
+\node (R2sel) at (12.5, 8)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{SEL}};
+
+\draw [->, thick] ($(r1up2.south) + (0.2, 0)$) -- ($(R1sel.north) + (-0.8, 0)$);
+\draw [->, thick] ($(r1up2h.south) + (-0.2, 0)$) -- ($(R1sel.north) + (0.7, 0)$);
+
+\draw [->, thick] ($(r2up2.south) + (0.2, 0)$) -- ($(R2sel.north) + (-0.8, 0)$);
+\draw [->, thick] ($(r2up2h.south) + (-0.2, 0)$) -- ($(R2sel.north) + (0.7, 0)$);
+
+\draw [->, thick] (r1up1.west) -- ++(-0.5, 0) |- (R1sel.west);
+\draw [->, thick] (r1up1h.east) -- ++(0.5, 0) |- (R1sel.east);
+\draw [->, thick] (r2up1.west) -- ++(-0.5, 0) |- (R2sel.west);
+\draw [->, thick] (r2up1h.east) -- ++(0.5, 0) |- (R2sel.east);
+
+\node (add_out) at (10, 6.5)[circle, draw, fill=orange!20!white] {\emph{+}};
+\draw [->, thick] (R1sel.south) |- (add_out.west);
+\draw [->, thick] (R2sel.south) |- (add_out.east);
+
+\node (sel_out) at (10, 5)[draw, fill=red!20!white, minimum width=2cm]{\emph{SEL}};
+\draw[thick, ->] (add_out.south) -- (sel_out.north);
+
+\node (dram) at (7, 3.5)[draw, fill=blue!20!white, minimum width=2.5cm]{\emph{DRAM}};
+\node (pcie) at (13, 3.5)[draw, fill=blue!20!white, minimum width=2.5cm]{\emph{PCIe}};
+\draw[->, thick] ($(sel_out.south) + (-0.2, 0)$) -- ++(0, -0.5) -| (dram.north);
+\draw[->, thick] ($(sel_out.south) + (0.2, 0)$) -- ++(0, -0.5) -| (pcie.north);
+
+\end{tikzpicture}
+\end{figure}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{A note on correctness}
+\begin{itemize}
+\item{Sample implementation gives wrong arithmetic results.}
+\item{Through simulations and debugging tracked down to result commiting part of accelerator design.}
+\item{$NaN$s from no-op edges commited to result RAMs.}
+\item{Kernel consumes and produces correct amount of data in the correct order. Processes correct number of edges.}
+\item{Can still trust the performance results.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Evaluation: No-op edges}
+\begin{figure}
+\includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Evaluation: Performance model validation}
+\begin{figure}
+    \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Evaluation: Performance model validation, various frequencies}
+\begin{figure}
+    \includegraphics[width=1\textwidth]{graphs/freqs_real.pdf}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+\item{Performance model is validated!}
+\item{We can accurately predict the performance of a design space of architectures.}
+\item{Simple memory hierarchy provides high predictability. No cache-misses, no non-deterministic thread
+scheduling by OS.}
+\item{Unstructured memory accesses transformed into highly predictable and easily modelled streaming model!}
+\item{We showed that an interesting speedup can be achieved.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Further work}
+\begin{itemize}
+\item{Accelerate other kernels: different element iteration requires different data layout!}
+\item{Compilation system: plug in architecture parameters and generate host code and accelerator.}
+\item{Data formatting: reduce padding, increase bandwidth utilisation.}
+\item{Build multi-pipe designs: model predicts they offer the most performance benefits.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Thank you!}
+\begin{center}
+{\Huge Questions}
+\end{center}
+\end{frame}
+
+\end{document}

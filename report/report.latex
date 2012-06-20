@@ -157,9 +157,9 @@ Field Programmable Gate Arrays, or FPGAs. In particular, we focus on dealing wit
  memory access patterns that are a consequence of using an unstructured mesh in such a way as
 to facilitate a streaming model of computation. We describe the partitioning of the mesh and 
 the techniques used to exchange information between neighbouring partitions, using so-called halos.
- We provide hardware accelerated version of a concrete application and develop a performance model
+ We provide hardware a accelerated version of a concrete application and develop a performance model
  used to predict performance and justify our design decisions and guide the implementation. Practical experiments
-confirm that our performance model can be used to predict the performance of a whole design space of custom architectures and
+confirm that our analytical model can be used to predict the performance of a whole design space of custom architectures and
 identify the ones that can offer considerable performance increases.
 \end{abstract}
 \section*{Acknowledgements \centering}
@@ -2076,7 +2076,7 @@ itself recursively to place the next node.
   \EndFor
   \While{$q$ not empty}
     \State $n \gets q.dequeue()$
-    \If{\Call{sch}{$n, \&count, \&res, g,$}}
+    \If{\Call{sch}{$n, \&count, \&res, g, \lambda$}}
       \State \Return $res$
     \EndIf
   \EndWhile
@@ -2602,7 +2602,7 @@ and input/output streams.
 \end{center}
 \caption[Division of result RAMs]{Diagram showing the division of the result RAMs and the data flow in the result RAMs. The selectors
 choose whether to read from the first or the second micro-partition, dependent on the accelerator phase. The addition node adds the partial results
-before writing them back. The halo nodes have an $h$ in their name (e.g. $\mu$p1 hR1). During the processing phase two cells are updated in two RAMs
+before writing them back. The halo RAMs have an $h$ in their name (e.g. $\mu$p1 hR1). During the processing phase two cells are updated in two RAMs
 (R1 and R2). The address translation blocks translate global cell addresses to local addresses, for example when the second micro-partition ($\mu$p2) RAMs
 are being accessed.}
 \label{fig:ram_division}
