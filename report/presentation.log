@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.10.3)  20 JUN 2012 14:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  21 JUN 2012 10:56
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1189,149 +1189,154 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <3.01126> not available
 ] [7
 
 ]
-LaTeX Font Info:    Calculating math sizes for size <7.66496> on input line 205
+\openout3 = `presentation.vrb'.
+
+ (./presentation.vrb) [8
+
+]
+LaTeX Font Info:    Calculating math sizes for size <7.66496> on input line 237
 .
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <3.83247> not available
-(Font)              size <5> substituted on input line 205.
+(Font)              size <5> substituted on input line 237.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.83247> not available
-(Font)              size <5> substituted on input line 205.
+(Font)              size <5> substituted on input line 237.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.83247> not available
-(Font)              size <5> substituted on input line 205.
+(Font)              size <5> substituted on input line 237.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <3.83247> not available
-(Font)              size <5> substituted on input line 205.
+(Font)              size <5> substituted on input line 237.
 
 
-Overfull \hbox (7.35129pt too wide) in paragraph at lines 205--205
+Overfull \hbox (7.35129pt too wide) in paragraph at lines 237--237
 [][] 
  []
 
-[8
+[9
 
-] [9
+] [10
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <6.57005> not available
-(Font)              size <7> substituted on input line 269.
+(Font)              size <7> substituted on input line 301.
 
-LaTeX Font Info:    Calculating math sizes for size <6.57005> on input line 269
+LaTeX Font Info:    Calculating math sizes for size <6.57005> on input line 301
 .
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4.59901> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <3.28502> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.57005> not available
-(Font)              size <7> substituted on input line 269.
+(Font)              size <7> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.59901> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.28502> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.57005> not available
-(Font)              size <7> substituted on input line 269.
+(Font)              size <7> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.59901> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.28502> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <6.57005> not available
-(Font)              size <7> substituted on input line 269.
+(Font)              size <7> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <4.59901> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <3.28502> not available
-(Font)              size <5> substituted on input line 269.
+(Font)              size <5> substituted on input line 301.
 
-[10
+[11
 
-] [11
+] [12
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4.37993> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
-LaTeX Font Info:    Calculating math sizes for size <4.37993> on input line 387
+LaTeX Font Info:    Calculating math sizes for size <4.37993> on input line 419
 .
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <3.06593> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <2.18996> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.37993> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.06593> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <2.18996> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.37993> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.06593> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <2.18996> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <4.37993> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <3.06593> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <2.18996> not available
-(Font)              size <5> substituted on input line 387.
+(Font)              size <5> substituted on input line 419.
 
-[12
+[13
 
-] [13
+] [14
 
 ]
-Overfull \vbox (2.97363pt too high) detected at line 472
+Overfull \vbox (2.97363pt too high) detected at line 504
  []
 
-[14
+[15
 
 ]
 \openout3 = `presentation.vrb'.
@@ -1356,82 +1361,80 @@ Missing character: There is no ) in font nullfont!
 Missing character: There is no ; in font nullfont!
 Missing character: There is no ; in font nullfont!
 )
-Overfull \vbox (30.44511pt too high) detected at line 568
+Overfull \vbox (30.44511pt too high) detected at line 600
  []
 
-[15
-
-] [16
+[16
 
 ] [17
 
+] [18
+
 ]
-Overfull \hbox (2.17625pt too wide) in paragraph at lines 601--601
+Overfull \hbox (2.17625pt too wide) in paragraph at lines 633--633
 [][] 
  []
 
-[18
+[19
 
-] [19
+] [20
 
-] <graphs/pipelines.pdf, id=513, 361.35pt x 252.945pt>
+] <graphs/pipelines.pdf, id=539, 361.35pt x 252.945pt>
 File: graphs/pipelines.pdf Graphic file (type pdf)
 
 <use graphs/pipelines.pdf>
-Overfull \hbox (2.2784pt too wide) in paragraph at lines 617--617
+Overfull \hbox (2.2784pt too wide) in paragraph at lines 649--649
  [] 
  []
 
 
-Overfull \vbox (8.02548pt too high) detected at line 617
+Overfull \vbox (8.02548pt too high) detected at line 649
  []
 
-[20
+[21
 
  <./graphs/pipelines.pdf>]
-<graphs/frequencies_pipelines.pdf, id=544, 505.89pt x 722.7pt>
+<graphs/frequencies_pipelines.pdf, id=570, 505.89pt x 722.7pt>
 File: graphs/frequencies_pipelines.pdf Graphic file (type pdf)
 
-<use graphs/frequencies_pipelines.pdf> [21
+<use graphs/frequencies_pipelines.pdf> [22
 
- <./graphs/frequencies_pipelines.pdf>] <graphs/freq_pipes3D.pdf, id=575, 361.35
+ <./graphs/frequencies_pipelines.pdf>] <graphs/freq_pipes3D.pdf, id=601, 361.35
 pt x 252.945pt>
 File: graphs/freq_pipes3D.pdf Graphic file (type pdf)
 
-<use graphs/freq_pipes3D.pdf> [22
+<use graphs/freq_pipes3D.pdf> [23
 
  <./graphs/freq_pipes3D.pdf>]
-<graphs/partition_sizes.pdf, id=606, 361.35pt x 252.945pt>
+<graphs/partition_sizes.pdf, id=632, 361.35pt x 252.945pt>
 File: graphs/partition_sizes.pdf Graphic file (type pdf)
 
-<use graphs/partition_sizes.pdf> [23
+<use graphs/partition_sizes.pdf> [24
 
  <./graphs/partition_sizes.pdf>]
-<graphs/partition_ratios.pdf, id=637, 361.35pt x 252.945pt>
+<graphs/partition_ratios.pdf, id=663, 361.35pt x 252.945pt>
 File: graphs/partition_ratios.pdf Graphic file (type pdf)
 
-<use graphs/partition_ratios.pdf> [24
+<use graphs/partition_ratios.pdf> [25
 
  <./graphs/partition_ratios.pdf>]
-LaTeX Font Info:    Calculating math sizes for size <9.85492> on input line 693
+LaTeX Font Info:    Calculating math sizes for size <9.85492> on input line 725
 .
- [25
+ [26
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <5.47499> not available
-(Font)              size <5> substituted on input line 783.
+(Font)              size <5> substituted on input line 815.
 
-[26
+[27
 
 ]
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
-(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 798.
+(Font)              Font shape `OT1/cmr/m/sc' tried instead on input line 830.
 
-[27
-
-] [28
+[28
 
 ] [29
 
@@ -1439,76 +1442,78 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/sc' in size <10.95> not available
 
 ] [31
 
+] [32
+
 ]
-LaTeX Font Info:    Calculating math sizes for size <4.92746> on input line 107
-5.
+LaTeX Font Info:    Calculating math sizes for size <4.92746> on input line 110
+7.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <3.4492> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <2.46373> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.4492> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <2.46373> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.4492> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <2.46373> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <3.4492> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <2.46373> not available
-(Font)              size <5> substituted on input line 1075.
+(Font)              size <5> substituted on input line 1107.
 
 
-Overfull \vbox (8.96315pt too high) detected at line 1075
+Overfull \vbox (8.96315pt too high) detected at line 1107
  []
 
-[32
+[33
 
-] [33
+] [34
 
-] <graphs/noop_edges.pdf, id=896, 361.35pt x 252.945pt>
+] <graphs/noop_edges.pdf, id=922, 361.35pt x 252.945pt>
 File: graphs/noop_edges.pdf Graphic file (type pdf)
 
-<use graphs/noop_edges.pdf> [34
+<use graphs/noop_edges.pdf> [35
 
  <./graphs/noop_edges.pdf>]
-<graphs/noop_model_real.pdf, id=927, 361.35pt x 252.945pt>
+<graphs/noop_model_real.pdf, id=953, 361.35pt x 252.945pt>
 File: graphs/noop_model_real.pdf Graphic file (type pdf)
 
-<use graphs/noop_model_real.pdf> [35
+<use graphs/noop_model_real.pdf> [36
 
  <./graphs/noop_model_real.pdf>]
-<graphs/freqs_real.pdf, id=958, 361.35pt x 252.945pt>
+<graphs/freqs_real.pdf, id=984, 361.35pt x 252.945pt>
 File: graphs/freqs_real.pdf Graphic file (type pdf)
 
 <use graphs/freqs_real.pdf>
-Overfull \vbox (10.83145pt too high) detected at line 1107
+Overfull \vbox (10.83145pt too high) detected at line 1139
  []
 
-[36
+[37
 
- <./graphs/freqs_real.pdf>] [37
-
-] [38
+ <./graphs/freqs_real.pdf>] [38
 
 ] [39
+
+] [40
 
 ]
 \tf@nav=\write9
@@ -1530,11 +1535,11 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 21644 strings out of 495000
- 403074 string characters out of 1180493
- 813550 words of memory out of 3000000
- 24201 multiletter control sequences out of 15000+50000
- 27664 words of font info for 113 fonts, out of 3000000 for 9000
+ 21669 strings out of 495000
+ 403337 string characters out of 1180493
+ 813593 words of memory out of 3000000
+ 24222 multiletter control sequences out of 15000+50000
+ 27832 words of font info for 114 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,15n,72p,342b,1253s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sh
@@ -1551,13 +1556,14 @@ lic/amsfonts/cm/cmssi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmssi12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss
 i8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></us
 r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type1/pu
-blic/amsfonts/latxfont/lcircle1.pfb></usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/symbols/msbm10.pfb>
-Output written on presentation.pdf (39 pages, 646996 bytes).
+f-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/latxfont/lcircle1.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/s
+ymbols/msbm10.pfb>
+Output written on presentation.pdf (40 pages, 660331 bytes).
 PDF statistics:
- 1147 PDF objects out of 1200 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
+ 1176 PDF objects out of 1200 (max. 8388607)
+ 81 named destinations out of 1000 (max. 500000)
  89 words of extra memory for PDF output out of 10000 (max. 10000000)
 

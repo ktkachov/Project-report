@@ -137,8 +137,40 @@ Elements:
 \item{Each edge \textbf{increments} two cells (+=).}
 \item{Most computationally intensive kernel in Airfoil.}
 \end{itemize}
-
 \end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Kernel application and double dereferencing}
+{\scalefont{0.65}
+\lstset{
+  language=[Visual]C++,
+  keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+  identifierstyle=\ttfamily,
+  showstringspaces=false,
+%   numbers=left,
+  stepnumber=1,
+  numbersep=10pt,
+  tabsize=2,
+  breaklines=true,
+  breakatwhitespace=false,
+  aboveskip={1.5\baselineskip},
+  columns=fixed,
+  upquote=true,
+  extendedchars=true,
+% frame=single,
+% backgroundcolor=\color{lbcolor},
+}
+\begin{lstlisting}
+res_calc(
+        &x[2*edge[2*i]], &x[2*edge[2*i+1]], &q[4*ecell[2*i]],
+        &q[4*ecell[2*i+1]], &adt[ecell[2*i]], &adt[ecell[2*i+1]],
+        &res[4*ecell[2*i]], &res[4*ecell[2*i+1]]
+        );
+
+\end{lstlisting}
+}
+\end{frame}
+
 
 \begin{frame}
 \frametitle{Why custom streaming?}
@@ -786,7 +818,7 @@ We can calculate:
  \begin{algorithmic}
  \Function{$boolean$ validSchedule} {node[~] $sch$, int $n$, int $\lambda$, Graph $g$}
    \For{$i$ in $[0..n-1]$}
-     \For{$j:=1$ ; $j < l$ ; $j:=j+1$}
+     \For{$j:=1$ ; $j < \lambda$ ; $j:=j+1$}
        \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
          \State\Return $FALSE$
        \EndIf
@@ -923,7 +955,7 @@ We can calculate:
   \item{Will add $\lambda \times c$ no-op partitions ($c$-number of colours used to colour graph).}
   \item{Optimal colouring still \textbf{NP}-complete, but we can efficiently find sub-optimal but adequate
   colouring.}
-  \item{We use greedy graph colouring algorithm. For each node assigned lowest colour not assigned to its neighbours.
+  \item{We use greedy graph colouring algorithm. For each node assign lowest colour not assigned to its neighbours.
 Worst-case time complexity is $O(n^3)$}
 \end{itemize}
 \end{frame}
