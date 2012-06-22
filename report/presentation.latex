@@ -16,6 +16,7 @@
 \usetikzlibrary{matrix}
 \usetikzlibrary{shapes,snakes}
 \usetikzlibrary{shapes.multipart}
+\usetikzlibrary{backgrounds}
 \usepackage{rotating}
 
 \mode<presentation>
@@ -749,10 +750,13 @@ We can calculate:
 \draw [->, thick] (add.south) -- (bram.north);
 \draw [->, thick] (bram.south) -- +(0, -0.8);
 \draw [->, thick] ($(arith.north) + (0, 0.8)$) -- (arith.north);
-\draw[dashed] ($(arith.north) + (-1.5, 0.5)$) rectangle ($(bram.south) + (2, -0.5)$);
-
-
+% \draw[dashed] ($(arith.north) + (-1.5, 0.5)$) rectangle ($(bram.south) + (2.5, -0.5)$);
+ \begin{pgfonlayer}{background}
+\draw[dashed,thick, fill=red!5!white] ($(add.north) + (-1, 0.2)$) rectangle ($(bram.south) + (2, -0.2)$);
+\end{pgfonlayer}
 \draw[<->, dashed] (0, 12.5) --node[above]{\emph{$\lambda=6$}} +(6,0);
+% \foreach \x in {0,...,11}
+%   \draw[dashed] (\x, 3.5) -- +(0, 8.5);
 \foreach \x in {0,1,2,3,4,5}
  \draw[fill=orange!15!white] ($(0,12) + (\x,0)$) rectangle ++(1,-1);
 
@@ -811,7 +815,7 @@ We can calculate:
  \node at (9.5, 4) {\emph{ST4}};
  \node at (10.5, 4) {\emph{W:$\alpha_4$}};
 
-\draw [->, thick, dashed] (0, 3) --node[below]{\emph{TIME}} ++(13, 0);
+\draw [->, thick, dashed, >=triangle 45] (0, 3) --node[below]{\emph{TIME}} ++(13, 0);
  
 % \matrix (acc) at (10,10)
 % [
