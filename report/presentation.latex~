@@ -8,7 +8,6 @@
 \usepackage{subfigure}
 \usepackage{tikz}
 \usepackage{algpseudocode}
-
 \usepackage{fancybox}
 \usetikzlibrary{arrows}
 \usetikzlibrary{calc}
@@ -21,7 +20,7 @@
 \title{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
 \author{Kyrylo Tkachov}
 \date{25 June 2012}
-\usetheme{CambridgeUS}
+\usetheme{Singapore}
 
 
 \institute{Imperial College London}
@@ -34,8 +33,9 @@ Supervisor: Prof. Paul Kelly \\ 2nd marker: Dr. Tony Field
 \begin{frame}
 \frametitle{Unstructured meshes}
 \begin{figure}
-   \includegraphics[width= 0.4\paperwidth]{pics/airfoil_mesh.png}
+   \includegraphics[width= 0.55\paperwidth]{pics/unstr_mesh.jpg}
 \end{figure}
+Image from Department of Environmental Engineering, University of Genoa
 \end{frame}
 
 \begin{frame}
@@ -47,12 +47,53 @@ Elements:
 \item{Edges}
 \end{itemize}
 \begin{figure}
-   \includegraphics[width= 0.6\paperwidth]{pics/mesh_small.png}
+{\scalefont{0.8}
+\begin{tikzpicture}[scale=1.4]
+\textcolor{blue}{
+\node (n0) at (0,0)[circle, draw=black] {0};
+\node (n1) at (2,0)[circle, draw=black] {1};
+\node (n2) at (3,0)[circle, draw=black] {2};
+\node (n3) at (4,0)[circle, draw=black] {3};
+\node (n4) at (3,1)[circle, draw=black] {4};
+\node (n5) at (4,1)[circle, draw=black] {5};
+\node (n6) at (0,2)[circle, draw=black] {6};
+\node (n7) at (2,2)[circle, draw=black] {7};
+\node (n8) at (3,2)[circle, draw=black] {8};
+}
+
+\draw (n0) --node[below]{0} (n1);
+\draw (n1) --node[below]{1} (n2);
+\draw (n2) --node[below]{2} (n3);
+\draw (n2) --node[left]{3} (n4);
+\draw (n3) --node[right]{4} (n5);
+\draw (n4) --node[below]{5} (n5);
+\draw (n4) --node[left]{6} (n7);
+\draw (n5) --node[right]{7} (n8);
+\draw (n7) --node[above]{8} (n8);
+\draw (n0) --node[left]{9} (n6);
+\draw (n6) --node[above]{10} (n7);
+\draw (n1) --node[left]{11} (n7);
+
+\textcolor{red}{
+\node at (1, 1) {\textbf{0}};
+ \node at (2.5 ,0.75) {\textbf{1}};
+ \node at (3.5 ,0.5){\textbf{2}};
+ \node at (3, 1.5){\textbf{3}};
+ }
+
+\node at (3, 3) {edge-to-node map = \{0,1, 1,2, 2,3, 2,4, 3,5, 4,5, 4,7, 5,8, 7,8, 0,6, 6,7\}};
+\node at (3, 2.5) {cell-to-node map = \{0,9,10,11, 1,2,4,7, 2,3,4,5, 4,5,7,8\}};
+
+\end{tikzpicture}
+}
+%    \includegraphics[width= 0.6\paperwidth]{pics/mesh_small.png}
 \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Airfoil: Data sets}
+\begin{center}
+
   \begin{tabular}{| c | c | c |}
     \hline                        
     Data set name & Associated with & Type/Dimension  \\ \hline \hline
@@ -63,10 +104,13 @@ Elements:
     adt & Cells &  $\mathbb{R}$ \\ \hline
     bound & Edges & $\{0, 1\}$\\ \hline
   \end{tabular}
+\end{center}
 \end{frame}
 
 \begin{frame}
 \frametitle{Airfoil: Kernels}
+\begin{center}
+
   \begin{tabular}{| c | c | c | c |}
     \hline                        
     Kernel Name & Iterates over & Reads & Writes \\ \hline \hline
@@ -76,17 +120,19 @@ Elements:
     bres\_calc & (Boundary) Edges & x, q, adt, bound & res \\ \hline
     update & Cells & q\_old, adt, res & q, res \\ \hline
   \end{tabular}
+\end{center}
+
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{res\_calc kernel}
-{\scalefont{0.55}
+ \frametitle{}
+{\scalefont{0.6}
 \lstset{
   language=[Visual]C++,
   keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
   identifierstyle=\ttfamily,
   showstringspaces=false,
-  numbers=left,
+%   numbers=left,
   stepnumber=1,
   numbersep=10pt,
   tabsize=2,
@@ -141,7 +187,7 @@ Elements:
 
 \begin{frame}[fragile]
 \frametitle{Kernel application and double dereferencing}
-{\scalefont{0.65}
+{\scalefont{1.1}
 \lstset{
   language=[Visual]C++,
   keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
@@ -160,14 +206,21 @@ Elements:
 % frame=single,
 % backgroundcolor=\color{lbcolor},
 }
+\begin{center}
 \begin{lstlisting}
-res_calc(
-        &x[2*edge[2*i]], &x[2*edge[2*i+1]], &q[4*ecell[2*i]],
-        &q[4*ecell[2*i+1]], &adt[ecell[2*i]], &adt[ecell[2*i+1]],
-        &res[4*ecell[2*i]], &res[4*ecell[2*i+1]]
-        );
+        res_calc(
+                &x[2*edge[2*i]],
+                &x[2*edge[2*i+1]],
+                &q[4*ecell[2*i]],
+                &q[4*ecell[2*i+1]],
+                &adt[ecell[2*i]],
+                &adt[ecell[2*i+1]],
+                &res[4*ecell[2*i]],
+                &res[4*ecell[2*i+1]]
+                );
 
 \end{lstlisting}
+\end{center}
 }
 \end{frame}
 
@@ -241,28 +294,30 @@ res_calc(
 \begin{figure}
 {\scalefont{0.8}
 \begin{tikzpicture}[scale=0.8]
-\draw [thick](0, 20) rectangle (5, 12);
 \fill [blue!5!white] (0, 20) rectangle (5, 12);
-\draw [thick](0.5, 17.5) rectangle (4.5, 13);
+\draw [thick](0, 20) rectangle (5, 12);
 \fill [red!10!white](0.5, 17.5) rectangle (4.5, 13);
+\draw [thick](0.5, 17.5) rectangle (4.5, 13);
+
 
 \node (maxcard) at (1, 19.5) {MAX3 card};
-\node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 4cm] {DRAM};
+\node (dram) at (2.5, 18.5) [draw=black, fill=green!10!white, minimum width = 3cm] {DRAM \textbf{38GB/s}};
 \node (manager) at (2.5, 17) [draw=black, fill=orange!10!white,  minimum width = 2.7cm, minimum height=0.7cm] {Manager};
 \node (kernel) at (2.5, 15) [draw=black, fill=red!20!white, minimum height=2cm,  minimum width = 2.7cm] {Kernel};
 \node (fpga) at (2, 13.5) {FPGA (Virtex 6)};
 
-\node (pcie) at (7, 17) [draw=black, fill=green!10!white, minimum height = 5cm] {PCIe};
+\node (pcie) at (7, 17) [draw=black, fill=green!10!white, minimum height = 5cm, minimum width=1cm] {PCIe};
+\node at (7, 16.5) {\textbf{2GB/s}};
 \node (host) at (9, 17) [draw=black, fill=blue!5!white, minimum height = 5cm] {Host};
 
-\draw [->] ($(dram.south) + (-0.2, 0)$) -- ($(manager.north) + (-0.2, 0)$);
-\draw [->] ($(manager.north) + (0.2, 0)$) -- ($(dram.south) + (0.2, 0)$);
-\draw [->] ($(manager.south) + (-0.2, 0)$) -- ($(kernel.north) + (-0.2, 0)$);
-\draw [->] ($(kernel.north) + (0.2, 0)$) -- ($(manager.south) + (0.2, 0)$);
-\draw [->] ($(manager.east) + (0, -0.1)$) -- ($(pcie.west) + (0, -0.1)$);
-\draw [->] ($(pcie.west) + (0, 0.1)$) -- ($(manager.east) + (0, 0.1)$);
-\draw [->] ($(pcie.east) + (0, -0.1)$) -- ($(host.west) + (0, -0.1)$);
-\draw [->] ($(host.west) + (0, 0.1)$) -- ($(pcie.east) + (0, 0.1)$);
+\draw [->, thick] ($(dram.south) + (-0.2, 0)$) -- ($(manager.north) + (-0.2, 0)$);
+\draw [->, thick] ($(manager.north) + (0.2, 0)$) -- ($(dram.south) + (0.2, 0)$);
+\draw [->, thick] ($(manager.south) + (-0.2, 0)$) -- ($(kernel.north) + (-0.2, 0)$);
+\draw [->, thick] ($(kernel.north) + (0.2, 0)$) -- ($(manager.south) + (0.2, 0)$);
+\draw [->, thick] ($(manager.east) + (0, -0.1)$) -- ($(pcie.west) + (0, -0.1)$);
+\draw [->, thick] ($(pcie.west) + (0, 0.1)$) -- ($(manager.east) + (0, 0.1)$);
+\draw [->, thick] ($(pcie.east) + (0, -0.1)$) -- ($(host.west) + (0, -0.1)$);
+\draw [->, thick] ($(host.west) + (0, 0.1)$) -- ($(pcie.east) + (0, 0.1)$);
 \end{tikzpicture}
 }
 \end{figure}
@@ -272,10 +327,10 @@ res_calc(
 \frametitle{Architecture design: 1st iteration}
 \begin{center}
 % \begin{rotate}{90}
-{\scalefont{0.6}
+{\scalefont{0.7}
 \begin{tikzpicture}[scale=0.6]
 \node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Node/Cell data)};
-\node (edges) at (12, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
+\node (edges) at (13, 14) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
 \node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
 \draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
 \node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
@@ -286,11 +341,11 @@ res_calc(
 \draw [->,very thick] (cell.south) to [out=270, in=90] ($(arith.north) + (0.5, 0)$);
 \node (add) at (5, 12) [circle, draw=black, fill=green!20!white] {+};
 \node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
-\draw [->, dashed, thick] (edges.south) -- (x.east);
-\draw [->, dashed, thick] (edges.south) -- (cell.east);
-\draw [->, dashed, thick] (edges.south) -- (res.east);
+\draw [->, dashed] (edges.west) -- (x.east);
+\draw [->, dashed] (edges.west) -- (cell.east);
+\draw [->, dashed] (edges.west) -- (res.east);
 
-\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-3.5, -0.5) |- (dram.west);
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-4, -0.5) |- (dram.west);
 \draw [->,very thick] (add.south) -- (res.north);
 \draw [->,very thick] (arith.south) -- (add.north);
 \draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
@@ -302,7 +357,7 @@ res_calc(
 
 \begin{frame}
 \frametitle{Partitioning and halos}
-{\scalefont{0.6}
+{\scalefont{0.8}
 \begin{center}
   \begin{tikzpicture}[scale=0.6]
 
@@ -345,26 +400,26 @@ res_calc(
 
 \begin{frame}
 \frametitle{Architecture design: 2nd iteration, Halo Exchange}
-{\scalefont{0.4}
+{\scalefont{0.53}
 \begin{center}
 \begin{tikzpicture}
 [input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=1cm, minimum height=0.4}, scale=0.4]
 
 \node (dram) at (5, 23) [input] {Node/Cell data};
-\node (edges) at (14.5, 12) [input] {Edges (addresses)};
-\node (edgestop) at (9.5, 23) [input] {Edges (addresses)};
+\node (edges) at (15.5, 12) [input] {Edges};
+\node (edgestop) at (9.5, 23) [input] {Edges};
 
-\node (PCIe) at (14, 23) [input] {Halo data (PCIe)};
+\node (PCIe) at (14.5, 23) [input] {Halo data (PCIe)};
 
 
-\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node: $x$};
 
 \draw [->,  thick] (dram.south) to [out=270, in=90] (x.north);
-\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell: $q$, $adt$};
 \draw [->,  thick] (dram.south) to [out=270, in=90] (cell.north);
 
-\node (hcell) at (17,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell data: $q$, $adt$};
-\node (hx) at (12,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node data: $x$};
+\node (hcell) at (17,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Cell: $q$, $adt$};
+\node (hx) at (12,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Halo Node: $x$};
 \draw [->,  thick] (PCIe.south) to[out=270, in=90] (hcell.north);
 \draw [->,  thick] (PCIe.south) to [out=270, in=90] (hx.north);
 \draw [->, dashed, thick] (edgestop.south) to[out=270, in=135] ($(hcell.north) + (-0.5, 0)$);
@@ -375,7 +430,7 @@ res_calc(
 \node (arith) at (9, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
 {Arithmetic pipeline };
 
-\node (sel) at (9,14) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
+\node (sel) at (9,14.3) [rectangle, draw=black, fill=orange!20!white] {RAM selector};
 
 \draw [->, thick] (x.south) to [out=270, in=135] ($(sel.north) + (-0.5, 0)$);
 \draw [->, thick] (cell.south) to [out=270, in=90] ($(sel.north) + (-0.25, 0)$);
@@ -420,7 +475,7 @@ res_calc(
 
 \begin{frame}
 \frametitle{Two-level partitioning: edge processing and I/O interleaving}
-{\scalefont{0.6}
+{\scalefont{0.8}
 \begin{center}
 \begin{tikzpicture}[scale=0.6]
 \fill[green!10!white] (-5, 0) rectangle (7,6);
@@ -446,7 +501,7 @@ res_calc(
 
 \begin{frame}
 \frametitle{Architecture design: 3rd iteration}
-{\scalefont{0.55}
+{\scalefont{0.65}
 \begin{center}
 \begin{tikzpicture}[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=1.5cm, minimum height=1.2}, scale=0.55]
 \node (dram) at (5, 20) [input] {Node/cell/halo data};
@@ -460,7 +515,7 @@ res_calc(
 \node (process) at (10, 17) [diamond, draw=black, fill=orange!20!white] {process?};
 \node (write) at (2, 17) [diamond, draw=black, fill=orange!20!white] {write?};
 
-\node (storage) at (5,15) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
+\node (storage) at (5,14.8) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM storage\nodepart{second} Nodes, Cells, Halos};
 \draw [->,  thick] (dram.south) to [out=270, in=90] (read.north);
 \draw [->,  thick] (read.south) to [out=270, in=90] (storage.north);
 \draw [->, dashed, thick] (process.south) to [out=270, in=0] (storage.east);
@@ -479,7 +534,7 @@ res_calc(
 \draw [->, red] (knot3.east) to [out=180, in=0] (write.east);
 
 
-\node (arith) at (5, 12) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
+\node (arith) at (5, 11.8) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
 {Arithmetic pipeline };
 \draw [->, thick] (storage.south) to [out=270, in=90] (arith.north);
 \node (add) at (5, 9) [circle, draw=black, fill=green!20!white] {+};
@@ -613,8 +668,8 @@ We know:
 \begin{frame}
 \frametitle{Performance Model}
 We can calculate:
-\begin{itemize}
- \item{Time to stream micro-partition from DRAM: $t_{DRAM} = \dfrac{Non-halo~node~and~cell~data}{DRAM~bandwidth}$}
+\begin{itemize}\setlength{\itemsep}{4mm}
+ \item{Time to stream micro-partition from DRAM: $t_{DRAM} = \dfrac{Nonhalo~node~and~cell~data}{DRAM~bandwidth}$}
  \item{Time to stream halo data for micro-partition from PCIe: $t_{PCIe} = \dfrac{Halo~ node~ and~ cell~ data}{PCIe~ bandwidth}$}
  \item{Time to consume edge data during processing: $t_{FPGA} = \dfrac{Number~ of~ edges}{clock~frequency \times number~number~of~arithmetic~pipelines}$}
 \end{itemize}
@@ -652,14 +707,14 @@ We can calculate:
 \frametitle{Execution time vs Number of pipelines and clock frequency}
 
 \begin{figure}
-            \includegraphics[angle=-90, width=0.8\textwidth]{graphs/frequencies_pipelines.pdf}
+            \includegraphics[width=0.98\textwidth]{graphs/frequencies_pipelines.pdf}
 \end{figure}
 \end{frame}
 
 \begin{frame}
 \frametitle{Execution time vs Number of pipelines and clock frequency}
 \begin{figure}
-    \includegraphics[width=0.9\textwidth]{graphs/freq_pipes3D.pdf}
+    \includegraphics[width=1.1\textwidth]{graphs/freq_pipes3D.pdf}
 \end{figure}
 \end{frame}
 
@@ -1147,7 +1202,7 @@ Worst-case time complexity is $O(n^3)$}
 scheduling by OS.}
 \item{Unstructured memory accesses transformed into highly predictable and easily modelled streaming model!}
 \item{We showed that an interesting speedup can be achieved.}
-\item{Performance rivaling 1000-core GPU implementations with only 4-5 pipelines running at a fraction of the 
+\item{Performance rivaling 448-core GPU implementation with only 4-5 pipelines running at a fraction of the 
 clock frequency!}
 \end{itemize}
 \end{frame}
