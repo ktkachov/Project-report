@@ -1349,7 +1349,7 @@ Worst-case time complexity is $O(n^3)$}
 \end{frame}
 
 \begin{frame}
-\frametitle{Evaluation: No-op edges}
+\frametitle{Evaluation: No-op edges and METIS}
 \begin{figure}
 \includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
 \end{figure}
