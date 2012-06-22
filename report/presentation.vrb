@@ -1,6 +1,102 @@
-\frametitle {Accelerator phases and execution pattern}
+\frametitle {Two-port limitation on RAMs}
+\begin{figure}
+{\scalefont{0.45}
+
+\begin{minipage}{0.5\linewidth}
+\centering
+\begin{tikzpicture}[scale=0.45]
+
+\matrix (arith) at (10,20)
+[
+  draw,
+  inner sep=0,
+  matrix of nodes,
+  fill=orange!20!white,
+  every node/.style={
+    inner sep=1ex
+  }
+]
+{
+  \node{\emph{ARITH}};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+  \hline
+  \node{};\\
+};
+
+\node (add1) at (9, 17.5)[circle, draw, fill=orange!20!white]{\emph{+}};
+\node (add2) at (11, 17.5)[circle, draw, fill=orange!20!white]{\emph{+}};
+
+\draw [->, thick] ($(arith.south) + (-0.15, 0)$) -- ++(0, -0.25) -| (add1.north);
+\draw [->, thick] ($(arith.south) + (0.15, 0)$) -- ++(0, -0.25) -| (add2.north);
+
+\node (add_sel) at (10, 16)[draw, fill=red!20!white, minimum width=2cm]{\emph{SEL}};
+\draw [->, thick] (add1.south) -- ++(0, -0.25) -| ($(add_sel.north) + (-0.2, 0)$);
+\draw [->, thick] (add2.south) -- ++(0, -0.25) -| ($(add_sel.north) + (0.2, 0)$);
+
+
+\draw [dashed, thick, fill=green!5!white] (5.5, 15) rectangle +(4, -6);
+\node (addr_trans1) at (7.5, 14.5)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{Address translation}};
+\node (r1up1) at (6.5, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 R1}};
+\node (r1up1h) at (8.4, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 hR1}};
+\node (r1up2) at (6.5, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 R1}};
+\node (r1up2h) at (8.4, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 hR1}};
+
+\draw [dashed, thick, fill=green!5!white] (10.5, 15) rectangle +(4, -6);
+\node (addr_trans2) at (12.5, 14.5)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{Address translation}};
+
+\node (r2up1) at (11.5, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 R2}};
+\node (r2up1h) at (13.4, 12.75)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p1 hR2}};
+\node (r2up2) at (11.5, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 R2}};
+\node (r2up2h) at (13.4, 10.25)[draw, fill=green!20!white, minimum height=1cm]{\emph{$\mu$p2 hR2}};
+
+\draw[->, thick] (7, 15) |- ($(add_sel.west) + (0, -0.1)$);
+\draw[->, thick] (13, 15) |- ($(add_sel.east) + (0, -0.1)$);
+\draw[->, thick] ($(add_sel.west) + (0, 0.1)$) -- ++(-0.75, 0) |- (add1.west);
+\draw[->, thick] ($(add_sel.east) + (0, 0.1)$) -- ++(0.75, 0) |- (add2.east);
+
+
+\draw[->, thick] ($(add_sel.south) + (-0.2, 0)$) |- (9.5, 13.5);
+\draw[->, thick] ($(add_sel.south) + (0.2, 0)$) |- (10.5, 13.5);
+
+\node (R1sel) at (7.5, 8)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{SEL}};
+\node (R2sel) at (12.5, 8)[draw, fill=red!20!white, minimum width=1.5cm]{\emph{SEL}};
+
+\draw [->, thick] ($(r1up2.south) + (0.2, 0)$) -- ($(R1sel.north) + (-0.8, 0)$);
+\draw [->, thick] ($(r1up2h.south) + (-0.2, 0)$) -- ($(R1sel.north) + (0.7, 0)$);
+
+\draw [->, thick] ($(r2up2.south) + (0.2, 0)$) -- ($(R2sel.north) + (-0.8, 0)$);
+\draw [->, thick] ($(r2up2h.south) + (-0.2, 0)$) -- ($(R2sel.north) + (0.7, 0)$);
+
+\draw [->, thick] (r1up1.west) -- ++(-0.5, 0) |- (R1sel.west);
+\draw [->, thick] (r1up1h.east) -- ++(0.5, 0) |- (R1sel.east);
+\draw [->, thick] (r2up1.west) -- ++(-0.5, 0) |- (R2sel.west);
+\draw [->, thick] (r2up1h.east) -- ++(0.5, 0) |- (R2sel.east);
+
+\node (add_out) at (10, 6.5)[circle, draw, fill=orange!20!white] {\emph{+}};
+\draw [->, thick] (R1sel.south) |- (add_out.west);
+\draw [->, thick] (R2sel.south) |- (add_out.east);
+
+\node (sel_out) at (10, 5)[draw, fill=red!20!white, minimum width=2cm]{\emph{SEL}};
+\draw[thick, ->] (add_out.south) -- (sel_out.north);
+
+\node (dram) at (7, 3.5)[draw, fill=blue!20!white, minimum width=2.5cm]{\emph{DRAM}};
+\node (pcie) at (13, 3.5)[draw, fill=blue!20!white, minimum width=2.5cm]{\emph{PCIe}};
+\draw[->, thick] ($(sel_out.south) + (-0.2, 0)$) -- ++(0, -0.5) -| (dram.north);
+\draw[->, thick] ($(sel_out.south) + (0.2, 0)$) -- ++(0, -0.5) -| (pcie.north);
+
+\end{tikzpicture}
+\end{minipage}%
+}
 {\scalefont{0.4}
-\begin{center}
+\begin{minipage}{0.5\linewidth}
+\centering
 \begin{tikzpicture}[scale=0.4]
   \newcommand{\firstiph}[1] {
       \fill [green!10!white] #1 rectangle +(3, -2);
@@ -89,5 +185,7 @@
   \draw [red, very thick, rounded corners] (10.5, 20.25) -- ++(0, -2.9) -- ++(4, 0);
 
 \end{tikzpicture}
-\end{center}
+\end{minipage}
 }
+
+\end{figure}
