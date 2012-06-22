@@ -750,11 +750,11 @@ We can calculate:
 \draw [->, thick] (add.south) -- (bram.north);
 \draw [->, thick] (bram.south) -- +(0, -0.8);
 \draw [->, thick] ($(arith.north) + (0, 0.8)$) -- (arith.north);
-\draw[dashed] ($(arith.north) + (-1.5, 0.5)$) rectangle ($(bram.south) + (2.5, -0.5)$);
+% \draw[dashed] ($(arith.north) + (-1.5, 0.5)$) rectangle ($(bram.south) + (2.5, -0.5)$);
  \begin{pgfonlayer}{background}
 \draw[dashed,thick, fill=red!5!white] ($(add.north) + (-1, 0.2)$) rectangle ($(bram.south) + (2, -0.2)$);
 \end{pgfonlayer}
-% \draw[<->, dashed] (0, 12.5) --node[above]{\emph{$\lambda=6$}} +(6,0);
+\draw[<->, dashed] (0, 12.5) --node[above]{\emph{$\lambda=6$}} +(6,0);
 % \foreach \x in {0,...,11}
 %   \draw[dashed] (\x, 3.5) -- +(0, 8.5);
 \foreach \x in {0,1,2,3,4,5}
@@ -1102,8 +1102,8 @@ Worst-case time complexity is $O(n^3)$}
 \draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
 \draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
 
-\node at (4, 11.5) {\emph{DRAM}};
-\node at (10.25, 11.5) {\emph{PCIe}};
+\node at (4, 11.5) {\emph{\textbf{DRAM}}};
+\node at (10.25, 11.5) {\textbf{\emph{PCIe}}};
 
 
 \draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);

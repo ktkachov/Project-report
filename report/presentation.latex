@@ -1102,8 +1102,8 @@ Worst-case time complexity is $O(n^3)$}
 \draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
 \draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
 
-\node at (4, 11.5) {\emph{DRAM}};
-\node at (10.25, 11.5) {\emph{PCIe}};
+\node at (4, 11.5) {\emph{\textbf{DRAM}}};
+\node at (10.25, 11.5) {\textbf{\emph{PCIe}}};
 
 
 \draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);
@@ -1355,12 +1355,12 @@ Worst-case time complexity is $O(n^3)$}
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\frametitle{Evaluation: Performance model validation}
-\begin{figure}
-    \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
-\end{figure}
-\end{frame}
+% \begin{frame}
+% \frametitle{Evaluation: Performance model validation}
+% \begin{figure}
+%     \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
+% \end{figure}
+% \end{frame}
 
 \begin{frame}
 \frametitle{Evaluation: Performance model validation, various frequencies}

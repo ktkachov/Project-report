@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  22 JUN 2012 17:47
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2011.9.30)  22 JUN 2012 17:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1508,6 +1508,18 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <7.4459> not available
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <7.4459> not available
 (Font)              size <7> substituted on input line 1144.
 
+
+LaTeX Font Warning: Font shape `OT1/cmss/bx/it' undefined
+(Font)              using `OT1/cmss/bx/n' instead on input line 1144.
+
+
+LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <7.4459> not available
+(Font)              size <7> substituted on input line 1144.
+
+
+LaTeX Font Warning: Font shape `OT1/cmss/bx/it' in size <7.4459> not available
+(Font)              size <7> substituted on input line 1144.
+
 [32
 
 ]
@@ -1586,24 +1598,18 @@ File: graphs/noop_edges.pdf Graphic file (type pdf)
 <use graphs/noop_edges.pdf> [35
 
  <./graphs/noop_edges.pdf>]
-<graphs/noop_model_real.pdf, id=955, 361.35pt x 252.945pt>
-File: graphs/noop_model_real.pdf Graphic file (type pdf)
-
-<use graphs/noop_model_real.pdf> [36
-
- <./graphs/noop_model_real.pdf>]
-<graphs/freqs_real.pdf, id=986, 361.35pt x 252.945pt>
+<graphs/freqs_real.pdf, id=955, 361.35pt x 252.945pt>
 File: graphs/freqs_real.pdf Graphic file (type pdf)
 
 <use graphs/freqs_real.pdf>
 Overfull \vbox (10.83145pt too high) detected at line 1370
  []
 
-[37
+[36
 
- <./graphs/freqs_real.pdf>] [38
+ <./graphs/freqs_real.pdf>] [37
 
-] [39
+] [38
 
 ]
 \tf@nav=\write9
@@ -1625,10 +1631,10 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 21714 strings out of 495000
- 404923 string characters out of 1180493
- 813922 words of memory out of 3000000
- 24265 multiletter control sequences out of 15000+50000
+ 21708 strings out of 495000
+ 404803 string characters out of 1180493
+ 813886 words of memory out of 3000000
+ 24262 multiletter control sequences out of 15000+50000
  31642 words of font info for 130 fonts, out of 3000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,17n,73p,342b,1251s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1652,9 +1658,9 @@ blic/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
 s/cm/cmtt12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt8.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/latxfont/lcircle1.pfb
 ></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on presentation.pdf (39 pages, 939522 bytes).
+Output written on presentation.pdf (38 pages, 928061 bytes).
 PDF statistics:
- 1158 PDF objects out of 1200 (max. 8388607)
- 79 named destinations out of 1000 (max. 500000)
- 84 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1126 PDF objects out of 1200 (max. 8388607)
+ 77 named destinations out of 1000 (max. 500000)
+ 79 words of extra memory for PDF output out of 10000 (max. 10000000)
 
