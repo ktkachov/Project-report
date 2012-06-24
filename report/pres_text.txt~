@@ -1,0 +1,123 @@
+Frame 1:
+Hello, my name is Kyrill Tkachov and in my project I explore the acceleration of unstructured mesh computations using
+customised streaming hardware accelerators implemented on FPGAs.
+
+Frame 2:
+Unstructured meshes are a common technique that is used to discretise systems of PDEs in many scientific simulations.
+They allow the definition of a grid that can be refined and coarsened where needed to save space and provide more accuracy.
+The sample application I try to accelerate is called Airfoil and I will briefly present its main features now.
+
+Frame 3:
+The mesh we are dealing with has 3 elements: nodes, cells and edges. The unstructuredness comes from the use of indirection maps to
+explicitly store connectivity information as shown in this diagram. For example: the edge-to-node map shows that edge number 3 connects
+nodes 2 and 4.
+
+Frame 4:
+Associated with the mesh elements are some data sets that represent some physical quantity, like node coordinates or flux.
+These data sets may be of multiple dimension, for example: the node coordinate set "x" is of dimension 2 (for x and y coordinates), that is a pair
+of real numbers.
+
+Frame 5:
+The computation over the mesh is performed by a number of kernels that are applied in iterations over some mesh element. The kernel we are interested
+in is called res_calc and it is applied to the edges of a mesh. res_calc reads the x,q and adt data sets associated with two nodes and cells and updates the 
+res set of the two cells.
+
+Frame 6:
+This here is the definition of res_calc in C. Do not worry about the meaning of the calculations, just take note that it is mostly floating point calculations.
+
+Frame 7:
+The most important facts about res_calc are shown here. It is applied in an iteration over edges. Processing each edge requires two nodes and two cells.
+The result is updates a current result. Through various benchmarks it has been shown that res_calc is the most computationally intensive kernel in Airfoil,
+therefore it is the one I focus on accelerating.
+
+Frame 8:
+The difficulty in accelerating such computations is demonstrated in the application of res_calc to and edge, shown here. The edge and ecell arrays are
+indirection maps from edges to nodes and cells respectively. In order to find the two nodes and cells that an edge references we must look them up in the
+indirection maps and since these maps are, from a static compilers' point of view, random, the memory accesses make it very hard to enforce some kind of
+locality that is necessary for high-performance simulations. Therefore this is what makes it an interesting research problem.
+
+Frame 9:
+Now, what do I mean by a custom streaming architecture? Consider the example of trying to compute the function r = x^2 + y - sqrt(z). In a conventional CPU, like the
+one on the right the computation must be expressed as a sequence of instructions that have to be decoded by one unit, have their operands fetched by another 
+and then computed by a third, writing intermediate results to a register file. What if we are trying to compute this function for an array of a million r's?
+Because of the cache misses and the data hazards, even with sophisticated techniques like out-of-order execution and value forwarding the throughput would be quite low.
+Enter the streaming architecture. On the left, we see how the functional units for the arithmetic operations are custom-wired to compute the function we want and nothing else.
+Now we can pipeline them as much as we can and, providing that we can keep the pipeline full, we get a throughput of one result for r per cycle!. There is no register file, no decoding.
+Furthermore, the more complex the arithmetic operations get, the more cycles the CPU will take to complete, whereas in a custom pipeline the pipeline gets deeper but the throughput remains
+the same! Asymptotically speaking, the custom pipeline must always win in performance.
+
+Frame 10:
+The hardware that I use to implement the accelerator is the MAX3 card. It is a PCIe card that can be plugged onto the motherboard as any graphics card. The card itself
+contains an FPGA that is a piece of reconfigurable hardware. It can be thought of as a large matrix of logical elements, gates and memory cells that can be wired together
+in any number of ways. The card also contains a large chunk of DRAM memory that can be accessed with a high bandwidth of 38GB/s from the FPGA, PROVIDED IT IS ACCESSED IN A WELL-BEHAVED
+PATTERN, for example a linear pattern. It DOES NOT provide good bandwidth if it is accessed randomly. The host machine can communicate with the card via the PCIe bus that has
+a much lower bandwidth of 2GB/s. The FPGA itself provides about 4MBytes of memory called block RAM memory. This memory is on the FPGA itself and it can be accessed in any pattern
+in just two cycles. 
+This setup gives us the first indications of where to store what. Since the DRAM cannot be accessed randomly we cannot use any mesh connectivity information to access it.
+We can, however, access the block RAMs randomly. But our meshes are really big. The test mesh I use has about 720000 cells, which will not fit in the BRAMs, but we can store it in the
+DRAM. So I make the decision to store the whole mesh in the DRAM, copy small parts of it into the block RAM and then use the connectivity information to process it on the FPGA. For this
+I need to break the mesh into partitions.
+
+Frame 11:
+I partition the mesh into chunks that can fit on the block RAM of the FPGA using a widely used tool called METIS. Since in res_calc each edge updates two cells, there will
+invariably be some cells that belong to different partitions that are being processed by an edge. We call these cells and nodes the "halo region", shown here in blue.
+The halo regions present a problem, because if we process one partition at a time, the res value of a halo cell after the processing of a partition will be only a partial result.
+It will still need the increments produced by the other partitions. Therefore I make the decision to make the processing of the halo cells on the host. This is achieved by
+sepating halo from non-halo data and receiving the increments from each partition for the halo cells through PCIe and summing them up in the end. The halo data will be kept in separate
+block RAMs on the FPGA.
+
+Frame 12:
+Here is a diagram of the resulting architecture. The node and cell data are streamed in from the DRAM and from PCIe and stored in block RAMs. After a partition has been streamed in, we process it
+by streaming in the edge data. The edge data is just a vector of addresses into the node and cell RAMs that correspond to the two cells and two nodes that the edge references. The iteration
+over the edges is transformed into a stream of block RAM addresses. After some control logic to select whether to read from the halo or non-halo RAMs, the data is fed into the arithmetic pipeline
+that computes the increments that must be added into the current value of res that is stored in the block RAM at the bottom. This increment operation at the bottom creates a loop. After processing all
+of the edges in the partition we stream the res set from the result RAMs out to DRAM and PCIe. Remember that the halo results are just partial results from this partition and it is the hosts' responsibility
+to gather all the increments from all the partitions and sum them up properly.
+
+Frame 13:
+Now, this approach of streaming in node and cell data for a partitino, processing the partition and writing out the result has a drawback. During the processing stage, we are not utilising the bandwidth of the memory
+system! To fix this, I introduce a second level of partitioning. We break up each partition into two "micro-partitions". The idea is that if we finish streaming in the first micro-partition, we can start processing it
+immediately while streaming in the second micro-partition. Conversely, while we are processing the second micro-partition we can write out the first one. Notice the intra-partition halo that arises from edges that access
+cells from both micro-partition. Care must be taken to not overwrite that region and not write it out until bot micro-partitions have been processed.
+
+Frame 14:
+This refinement leads us to an architecture like the one shown in this diagram. In order to keep track of the processing and I/O status of the partitions and micro-partitions involved I add a state machine
+that has a number of counters that control the enable signals of the inputs and outputs, as well as the write enable signals on the RAMs. In order to keep track of the partitions, the state machine needs to know
+the sizes of each part of the partitions, therefore I add another input to the design that gives these numbers to the state machine.
+
+Frame 15:
+This architecture presents the execution pattern shown in the diagram. The accelerator has 3 phases. In the first one we read in the first micro-partition and also write out the second micro-partition from the
+previous partition. In the second phase we read in the second micro-partition and simulatenously process the first one. In the third stage we write out the first micro-partition while processing the second.
+Notice how the I/O and execution overlaps and the memory system is kept occupied constantly.
+
+Frame 16:
+Now it is my job to convince you that this appoach is worth pursuing and warrants a sample implementation. To do this I devise an analytical performance model that is used to predict the performance of the
+accelerator. I calculate the performance in terms of architecture and mesh parameters such as clock frequency, number of arithmetic pipelines, memory bandwidth, partition sizes etc. Here I present to you the
+concepts on which the model is based. 
+For each of the phases in the accelerator the time spent is dominated by the maximum of 3 times. The time to transfer data from DRAM, time to transfer data from PCIe and the time taken to complete the clock
+cycles. The first two are just a simple matter of dividing the amount of data we are transferring by the memory bandwidth. The third time during the processing phase is the number of edges we are processing
+divided by the number of edges we are processing each cycle, i.e. the number of arithmetic partitions and divided again by the clock frequency. Notice that because of the one-result-per-cycle throughput
+of our custom pipelines, the complexity of arithmetic calculations in the pipeline does not play any role!
+
+Frame 17:
+Having defined a performance model, we can now explore a whole design space of architectures for the accelerator by plugging in different values for any of the parameters and checking the predicted runtime.
+That way we can find out whether there are any architectures out there worth our time.
+
+Frame 18:
+Lets first start with the number of pipelines. This is the number of edges we process per cycle. The graph here shows the predicted performance of an architecture runnning at 240MHz with a varying
+number of pipelines. For comparison, I ran an OpenCL implementation of Airfoil on the Tesla M2050 and recorded the time taken to execute res_calc, shown here in blue. We can see that by using 4
+pipelines or more we can beat the 448-core GPU about 30%! The dramatic increase in performance that comes with the extra pipelines is due to the fact that for my test mesh, the number of edges 
+is much larger than the amount of cells and nodes and therefore edge processing in the 2nd and 3rd phases dominates the runtime. Notice that after 7 or so pipelines we no longer get any increase
+in performance. That is because we are processing edges so fast that the transferring of the node and cell data through the DRAM and PCIe channels becomes dominant and processing edges even faster
+does nothing to alleviate that.
+
+Frame 19:
+Next, we focus on the effects of varying the clock frequency. The results of that experimentation are shown here. We see that increasing the clock frequency does not offer the same
+boost in performance that arithmetic pipelines offer, but is still a valid way to get more performance out of the hardware.
+
+Frame 20:
+An interesting direction to explore is the effect of partition size on performance. The smaller the partition size, the larger is the ratio of non-halo data to halo data in a partition.
+If the ratio becomes too small, the time to transfer time of the halo data from PCIe  will become dominant and all other systems will stall while waiting for the PCIe channel to transfer
+its data. Ineed, as we can see from this graph, for partition sizes less than 2048 in our sample mesh the execution time rises steeply. Note that the horizontal axis is on a logarithmic scale.
+
+

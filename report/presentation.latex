@@ -18,15 +18,16 @@
 \usetikzlibrary{shapes.multipart}
 \usetikzlibrary{backgrounds}
 \usepackage{rotating}
-
+\usepackage{comment}
+\beamertemplatenavigationsymbolsempty
 \mode<presentation>
-\title{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
+\title[Acceleration of unstructured meshes with FPGAs]{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
 \author{Kyrylo Tkachov}
 \date{25 June 2012}
-\usetheme{Singapore}
-
-
 \institute{Imperial College London}
+
+\setbeamertemplate{footline}[page number]
+\usetheme{Singapore}
 \begin{document}
 \begin{frame}
 \titlepage
@@ -180,7 +181,7 @@ Elements:
 
 \begin{frame}
 \frametitle{res\_calc data requirements}
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{7mm}
 \item{Iterates over edges}
 \item{Processing each edge requires 2 cells, 2 nodes.}
 \item{Each edge \textbf{increments} two cells (+=).}
@@ -326,6 +327,7 @@ Elements:
 \end{figure}
 \end{frame}
 
+\begin{comment}
 \begin{frame}
 \frametitle{Architecture design: 1st iteration}
 \begin{center}
@@ -357,6 +359,7 @@ Elements:
 % \end{rotate}
 \end{center}
 \end{frame}
+\end{comment}
 
 \begin{frame}
 \frametitle{Partitioning and halos}
@@ -402,7 +405,7 @@ Elements:
 \end{frame}
 
 \begin{frame}
-\frametitle{Architecture design: 2nd iteration, Halo Exchange}
+\frametitle{Architecture design: Accumulation and Halo Exchange}
 {\scalefont{0.53}
 \begin{center}
 \begin{tikzpicture}
@@ -503,7 +506,7 @@ Elements:
 \end{frame}
 
 \begin{frame}
-\frametitle{Architecture design: 3rd iteration}
+\frametitle{Architecture design: State machine}
 {\scalefont{0.65}
 \begin{center}
 \begin{tikzpicture}[input/.style={rectangle, draw=black, fill=blue!10!white, minimum width=1.5cm, minimum height=1.2}, scale=0.55]
@@ -657,30 +660,36 @@ Elements:
 }
 \end{frame}
 
+\begin{comment}
 \begin{frame}
 \frametitle{Performance Model}
 We know:
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{7mm}
  \item{DRAM bandwidth.}
  \item{PCIe bandwidth.}
  \item{Clock frequency.}
  \item{Partition sizes and therefore the amount of data transferred.}
 \end{itemize}
 \end{frame}
+\end{comment}
+
 
 \begin{frame}
 \frametitle{Performance Model}
 We can calculate:
 \begin{itemize}\setlength{\itemsep}{4mm}
- \item{Time to stream micro-partition from DRAM: $t_{DRAM} = \dfrac{Nonhalo~node~and~cell~data}{DRAM~bandwidth}$}
- \item{Time to stream halo data for micro-partition from PCIe: $t_{PCIe} = \dfrac{Halo~ node~ and~ cell~ data}{PCIe~ bandwidth}$}
- \item{Time to consume edge data during processing: $t_{FPGA} = \dfrac{Number~ of~ edges}{clock~frequency \times number~number~of~arithmetic~pipelines}$}
+ \item{Time to stream micro-partition from DRAM: \ovalbox{$t_{DRAM} = \dfrac{Nonhalo~node~and~cell~data}{DRAM~bandwidth}$}}
+ \item{Time to stream halo data for micro-partition from PCIe: \ovalbox{$t_{PCIe} = \dfrac{Halo~ node~ and~ cell~ data}{PCIe~ bandwidth}$}}
+ \item{Time to consume edge data during processing: \ovalbox{$t_{FPGA} = \dfrac{Number~ of~ edges}{frequency \times number~of~arithmetic~pipelines}$}}
 \end{itemize}
+\ovalbox{\Large Total time for each phase: $max(t_{DRAM}, t_{PCIe}, t_{FPGA})$}
 \end{frame}
 
+\begin{comment}
 \begin{frame}
 \frametitle{Performance Model}
 \ovalbox{\Large Total time for each phase: $max(t_{DRAM}, t_{PCIe}, t_{FPGA})$}
+
 3 phases:
 \begin{enumerate}
 \item{Read in data for first micro-partition plus the intra-partition halo.
@@ -689,10 +698,11 @@ We can calculate:
 \item{Process second micro-partition, write out the non-IPH data for the first micro-partition.}
 \end{enumerate}
 \end{frame}
+\end{comment}
 
 \begin{frame}
 \frametitle{Design space exploration}
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{7mm}
 \item{We defined a \textbf{family} of architectures.}
 \item{We can explore the design space using the performance model to find interesting ones.}
 \item{We can vary the problem and architecture parameters and predict the effect on performance.}
@@ -710,30 +720,24 @@ We can calculate:
 \frametitle{Execution time vs Number of pipelines and clock frequency}
 
 \begin{figure}
+\pagestyle{empty}
             \includegraphics[width=0.98\textwidth]{graphs/frequencies_pipelines.pdf}
 \end{figure}
 \end{frame}
 
-\begin{frame}
-\frametitle{Execution time vs Number of pipelines and clock frequency}
-\begin{figure}
-    \includegraphics[width=1.1\textwidth]{graphs/freq_pipes3D.pdf}
-\end{figure}
-\end{frame}
+% \begin{frame}
+% \frametitle{Execution time vs Number of pipelines and clock frequency}
+% \begin{figure}
+%     \includegraphics[width=1.1\textwidth]{graphs/freq_pipes3D.pdf}
+% \end{figure}
+% \end{frame}
 
 \begin{frame}
 \frametitle{Execution time vs Partition size}
-\begin{figure}
-    \includegraphics[width=1\textwidth]{graphs/partition_sizes.pdf}
-\end{figure}
+\includegraphics[width=0.9\paperwidth]{graphs/partition_sizes.pdf}
 \end{frame}
 
-\begin{frame}
-\begin{figure}
-\frametitle{DRAM/PCIe transfer ratio vs Partition size}
-\includegraphics[width=0.9\textwidth]{graphs/partition_ratios.pdf}
-\end{figure}
-\end{frame}
+
 
 \begin{frame}
 \frametitle{Implementation issues: Edge dependencies in the pipeline}
@@ -949,20 +953,20 @@ We can calculate:
 }
 \end{frame}
 
-\begin{frame}
- \begin{algorithmic}
- \Function{$boolean$ validSchedule} {node[~] $sch$, int $n$, int $\lambda$, Graph $g$}
-   \For{$i$ in $[0..n-1]$}
-     \For{$j:=1$ ; $j < \lambda$ ; $j:=j+1$}
-       \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
-         \State\Return $FALSE$
-       \EndIf
-     \EndFor
-   \EndFor
-   \State \Return $TRUE$
- \EndFunction
- \end{algorithmic}
-\end{frame}
+% \begin{frame}
+%  \begin{algorithmic}
+%  \Function{$boolean$ validSchedule} {node[~] $sch$, int $n$, int $\lambda$, Graph $g$}
+%    \For{$i$ in $[0..n-1]$}
+%      \For{$j:=1$ ; $j < \lambda$ ; $j:=j+1$}
+%        \If{$sch[i]$ adjacent to $sch[(i+j)\%n]$ in $g$}
+%          \State\Return $FALSE$
+%        \EndIf
+%      \EndFor
+%    \EndFor
+%    \State \Return $TRUE$
+%  \EndFunction
+%  \end{algorithmic}
+% \end{frame}
 
 \begin{frame}
 \frametitle{No-op edges}
@@ -1071,9 +1075,8 @@ We can calculate:
 
 \begin{frame}
 \frametitle{Complexity of edge scheduling}
-\begin{itemize}
-\item{Take dual adjacency graph: nodes connected in dual graph if they are \textbf{not} connected in the original.}
-\item{Graph scheduling problem transforms into Hamiltonian path problem with extra adjacency constraint.}
+\begin{itemize}\setlength{\itemsep}{6mm}
+\item{Graph scheduling problem can be expressed as Hamiltonian path problem with extra adjacency constraint.}
 \item{\textbf{NP-complete!}.}
 \item{Best we can do is search through the schedule space.}
 \item{$O(n!)$ ($n$ number of nodes in the adjacency graph).}
@@ -1088,60 +1091,174 @@ We can calculate:
   each colour group. Add $\lambda \times c$ no-op partitions ($c$-number of colours used to colour graph).}
   \item{Optimal colouring still \textbf{NP}-complete, but we can efficiently find sub-optimal but adequate
   colouring.}
-  \item{We use greedy graph colouring algorithm. For each node assign lowest colour not assigned to its neighbours.
-Worst-case time complexity is $O(n^3)$}
+  \item{Greedy graph colouring algorithm. Assign lowest colour not assigned to neighbours of node.
+Worst-case time complexity is $O(n^3)$.}
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{A note on correctness}
+\begin{itemize}\setlength{\itemsep}{6mm}
+\item{Sample implementation gives wrong arithmetic results.}
+\item{Through simulations and debugging tracked down to result commiting part of accelerator design.}
+\item{$NaN$s from no-op edges commited to result RAMs.}
+\item{Kernel consumes and produces correct amount of data in the correct order. Processes correct number of edges.}
+\item{\emph{\Large{Can still trust the performance results.}}}
 \end{itemize}
 \end{frame}
 
 \begin{frame}
-\frametitle{Implementation issues: FPGA accelerator, manager configuration}
-{\scalefont{0.68}
+\frametitle{Evaluation: No-op edges and METIS}
 \begin{figure}
-\begin{tikzpicture}[scale=0.65]
-
-\draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
-\draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
-
-\node at (4, 11.5) {\emph{\textbf{DRAM}}};
-\node at (10.25, 11.5) {\textbf{\emph{PCIe}}};
-
-
-\draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);
-\draw (0,8) rectangle +(2, -1);
-\draw (2,8) rectangle +(2, -1);
-\draw (4,8) rectangle +(2, -1);
-\draw (6,8) rectangle +(2, -1);
-\draw (8,8) rectangle +(2, -1);
-\draw (10,8) rectangle +(2, -1);
-
-\node at (1, 7.5) {\emph{cells}};
-\node at (3, 7.5) {\emph{nodes}};
-\node at (5, 7.5) {\emph{edges}};
-\node at (7, 7.5) {\emph{sizes}};
-\node at (9, 7.5) {\emph{halo cells}};
-\node at (11, 7.5) {\emph{halo nodes}};
-
-\node at (6, 6.5) {\emph{RES\_CALC KERNEL}};
-
-\draw (0, 6) rectangle +(6, -1);
-\draw (6, 6) rectangle +(6, -1);
-
-\node at (3, 5.5) {\emph{res}};
-\node at (9, 5.5) {\emph{halo res}};
-
-\path[draw, thick, ->, >=triangle 45] (1, 11) -- node [near end, left] {256} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (3, 11) -- node [near end,left] {128} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (5, 11) -- node [near end,left] {64} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (7, 11) -- node [near end,left] {256} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (9, 11) -- node [near end,left] {256} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (11, 11) -- node [near end,left] {128} +(0, -3);
-\path[draw, thick, ->, >=triangle 45] (3, 5) -- ++(0, -1) -- ++(-4, 0) |- node [left] {128} (0, 11.5);
-\path[draw, thick, ->, >=triangle 45] (9, 5) -- ++(0, -1) -- ++(4, 0)  |- node [right] {128} (12, 11.5);
-
-\end{tikzpicture}
+\includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
 \end{figure}
-}
 \end{frame}
+
+\begin{frame}
+\frametitle{Evaluation: Performance model validation, various frequencies}
+\begin{figure}
+    \includegraphics[width=1\textwidth]{graphs/freqs_real.pdf}
+\end{figure}
+\end{frame}
+
+% \begin{frame}
+% \frametitle{Evaluation: Performance model validation}
+% \begin{figure}
+%     \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
+% \end{figure}
+% \end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+\item{Performance model is validated!}
+\item{We can accurately predict the performance of a design space of architectures.}
+\item{Simple memory hierarchy provides high predictability. No cache-misses, no non-deterministic thread
+scheduling by OS.}
+\item{Unstructured memory accesses transformed into highly predictable and easily modelled streaming model!}
+\item{We showed that an interesting speedup can be achieved.}
+\item{Performance rivaling 448-core GPU implementation with only 4-5 pipelines running at a fraction of the 
+clock frequency!}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Further work}
+\begin{itemize}\setlength{\itemsep}{6mm}
+\item{Accelerate other kernels: different element iteration requires different data layout!}
+\item{Compilation system: plug in architecture parameters and generate host code and accelerator.}
+\item{Data formatting: reduce padding, increase bandwidth utilisation.}
+\item{Build multi-pipe designs: model predicts they offer the most performance benefits.}
+\item{And more!}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Thank you!}
+\begin{center}
+{\Huge Questions}
+\end{center}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Architecture design: 1st iteration}
+\begin{center}
+% \begin{rotate}{90}
+{\scalefont{0.7}
+\begin{tikzpicture}[scale=0.6]
+\node (dram) at (5, 20) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Node/Cell data)};
+\node (edges) at (13, 14) [rectangle, draw=black, fill=blue!10!white, minimum width=3cm] {DRAM (Edges/addresses)};
+\node (x) at (3,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Node data: $x$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (x.north);
+\node (cell) at (7,18) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white, minimum width=1cm] {Block RAM \nodepart{second} Cell data: $q$, $adt$};
+\draw [->, very thick] (dram.south) to [out=270, in=90] (cell.north);
+\node (arith) at (5, 15) [rectangle split, rectangle split parts=4, draw=black, fill=green!20!white, minimum height=4] 
+{Arithmetic pipeline };
+\draw [->,very thick] (x.south) to [out=270, in=90] ($(arith.north) + (-0.5, 0)$);
+\draw [->,very thick] (cell.south) to [out=270, in=90] ($(arith.north) + (0.5, 0)$);
+\node (add) at (5, 12) [circle, draw=black, fill=green!20!white] {+};
+\node (res) at (5, 10) [rectangle split, rectangle split parts=2, draw=black, fill=red!20!white] {Block RAM \nodepart{second} $res$};
+\draw [->, dashed] (edges.west) -- (x.east);
+\draw [->, dashed] (edges.west) -- (cell.east);
+\draw [->, dashed] (edges.west) -- (res.east);
+
+\draw [->,very thick] (res.south) -- +(0,-0.5) -- ++(-4, -0.5) |- (dram.west);
+\draw [->,very thick] (add.south) -- (res.north);
+\draw [->,very thick] (arith.south) -- (add.north);
+\draw [->,very thick] (res.east) -- +(0.5, 0) -- +(0.5, 2) -- (add.east);
+\end{tikzpicture}
+}
+% \end{rotate}
+\end{center}
+\end{frame}
+
+
+ \begin{frame}
+ \begin{figure}
+ \frametitle{DRAM/PCIe transfer ratio vs Partition size}
+ \includegraphics[width=1\textwidth]{graphs/partition_ratios.pdf}
+ \end{figure}
+ \end{frame}
+
+
+ \begin{frame}
+ \frametitle{Implementation issues: FPGA accelerator, manager configuration}
+ {\scalefont{0.68}
+ \begin{figure}
+ \begin{tikzpicture}[scale=0.65]
+ 
+ \draw[thick, fill=blue!10!white] (0, 11) rectangle +(8, 1);
+ \draw[thick, fill=red!15!white] (8.5, 11) rectangle +(3.5, 1);
+ 
+ \node at (4, 11.5) {\emph{\textbf{DRAM}}};
+ \node at (10.25, 11.5) {\textbf{\emph{PCIe}}};
+ 
+ 
+ \draw[thick, fill=green!10!white] (0,5) rectangle +(12, 3);
+ \draw (0,8) rectangle +(2, -1);
+ \draw (2,8) rectangle +(2, -1);
+ \draw (4,8) rectangle +(2, -1);
+ \draw (6,8) rectangle +(2, -1);
+ \draw (8,8) rectangle +(2, -1);
+ \draw (10,8) rectangle +(2, -1);
+ 
+ \node at (1, 7.5) {\emph{cells}};
+ \node at (3, 7.5) {\emph{nodes}};
+ \node at (5, 7.5) {\emph{edges}};
+ \node at (7, 7.5) {\emph{sizes}};
+ \node at (9, 7.5) {\emph{halo cells}};
+ \node at (11, 7.5) {\emph{halo nodes}};
+ 
+ \node at (6, 6.5) {\emph{RES\_CALC KERNEL}};
+ 
+ \draw (0, 6) rectangle +(6, -1);
+ \draw (6, 6) rectangle +(6, -1);
+ 
+ \node at (3, 5.5) {\emph{res}};
+ \node at (9, 5.5) {\emph{halo res}};
+ 
+ \path[draw, thick, ->, >=triangle 45] (1, 11) -- node [near end, left] {256} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (3, 11) -- node [near end,left] {128} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (5, 11) -- node [near end,left] {64} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (7, 11) -- node [near end,left] {256} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (9, 11) -- node [near end,left] {256} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (11, 11) -- node [near end,left] {128} +(0, -3);
+ \path[draw, thick, ->, >=triangle 45] (3, 5) -- ++(0, -1) -- ++(-4, 0) |- node [left] {128} (0, 11.5);
+ \path[draw, thick, ->, >=triangle 45] (9, 5) -- ++(0, -1) -- ++(4, 0)  |- node [right] {128} (12, 11.5);
+ 
+ \end{tikzpicture}
+ \end{figure}
+ }
+ \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Two-port limitation on RAMs}
@@ -1335,62 +1452,6 @@ Worst-case time complexity is $O(n^3)$}
 }
 
 \end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{A note on correctness}
-\begin{itemize}
-\item{Sample implementation gives wrong arithmetic results.}
-\item{Through simulations and debugging tracked down to result commiting part of accelerator design.}
-\item{$NaN$s from no-op edges commited to result RAMs.}
-\item{Kernel consumes and produces correct amount of data in the correct order. Processes correct number of edges.}
-\item{\emph{Can still trust the performance results.}}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Evaluation: No-op edges and METIS}
-\begin{figure}
-\includegraphics[width=1\textwidth]{graphs/noop_edges.pdf}
-\end{figure}
-\end{frame}
-
-% \begin{frame}
-% \frametitle{Evaluation: Performance model validation}
-% \begin{figure}
-%     \includegraphics[width=1\textwidth]{graphs/noop_model_real.pdf}
-% \end{figure}
-% \end{frame}
-
-\begin{frame}
-\frametitle{Evaluation: Performance model validation, various frequencies}
-\begin{figure}
-    \includegraphics[width=1\textwidth]{graphs/freqs_real.pdf}
-\end{figure}
-\end{frame}
-
-\begin{frame}
-\frametitle{Conclusions}
-\begin{itemize}
-\item{Performance model is validated!}
-\item{We can accurately predict the performance of a design space of architectures.}
-\item{Simple memory hierarchy provides high predictability. No cache-misses, no non-deterministic thread
-scheduling by OS.}
-\item{Unstructured memory accesses transformed into highly predictable and easily modelled streaming model!}
-\item{We showed that an interesting speedup can be achieved.}
-\item{Performance rivaling 448-core GPU implementation with only 4-5 pipelines running at a fraction of the 
-clock frequency!}
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{Further work}
-\begin{itemize}
-\item{Accelerate other kernels: different element iteration requires different data layout!}
-\item{Compilation system: plug in architecture parameters and generate host code and accelerator.}
-\item{Data formatting: reduce padding, increase bandwidth utilisation.}
-\item{Build multi-pipe designs: model predicts they offer the most performance benefits.}
-\end{itemize}
 \end{frame}
 
 \end{document}
