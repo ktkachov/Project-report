@@ -119,5 +119,78 @@ Frame 20:
 An interesting direction to explore is the effect of partition size on performance. The smaller the partition size, the larger is the ratio of non-halo data to halo data in a partition.
 If the ratio becomes too small, the time to transfer time of the halo data from PCIe  will become dominant and all other systems will stall while waiting for the PCIe channel to transfer
 its data. Ineed, as we can see from this graph, for partition sizes less than 2048 in our sample mesh the execution time rises steeply. Note that the horizontal axis is on a logarithmic scale.
+It turns out that 2048 is also the breaking point, below which the halo transfer time becomes larger than the DRAM tansfer time.
 
+Frame 21:
+I am now going to talk about a couple of issues that occured when I was implementing the FPGA accelerator and the host code.
+The first one is edge dependencies in the accumulator pipeline. Recall the loop that occurs when we add the increments produced by the pipeline to the existing value stored in
+the block RAM. The sequence of events is: read current value, pass it through 4 stages of the adder and write the result back to the same address. Now we do this every cycle and
+therefore at any given time there are a number of cell addresses being processed in this part of the architecture. Now say that an edge updates a cell at address alpha0, and 3 cycles
+later another edge wants to update the alpha0 edge. If the second edge reads the current value before the previous edge has commited its increment, then the value it reads will be the 
+wrong one, creating a data dependency, similar to a pipeline hazard that I'm sure you've seen in architecture diagrams many times before. The dependency width here is shown with lambda
+and in this example it is equal to 6.
 
+Frame 22:
+I avoid this problem by imposing an order on the execution of the edges, a so called "schedule". To do this we first partition each micro-partition again (for a 3rd time) into
+"edge-partitions". From this partitioning we construct an "adjacency graph" where the nodes represent the edge partitions and two nodes are connected if the corresponding edge-partitions
+update a cell in each other. Next we schedule the graph, that is, we put the nodes in an array such that in a window of width lambda around each node, no node is adjacent to it.
+
+Frame 23:
+I'll talk about how that is done in a minute, for now assume we have such a schedule of the graph. We can now create a schedule for the edges by sweeping over the graph schedule and
+picking one edge in turn, going upwards. Unfortunately METIS does not provide perfectly even partitions, so there will be "gaps" higher up in the schedule. I mitigate this problem by
+introducing no-op edges, dummy edges whose results will be ignored by the accelerator and are just there to preserve the independency constraint in the pipeline. Of course, we want to
+add as few no-op edges as possible.
+
+Frame 24:
+Now, how to actually schedule the graph? If we take the dual of the adjacency graph, that is connect two nodes if they are NOT connected in the adjacency graph, then the scheduling problem
+can be formulated as a Hamiltonian path problem with the extra constraint that nodes in a window of width lambda around each node must be adjacent. Now, the hamiltonian path problem is
+known to be NP-hard and therefore any the best algorithm I could come up for scheduling the graph turned out to be not much better than a search through the space of permutations of the
+nodes and hence factorial in its complexity. An example run on a graph with 300 nodes and a window-width of 18 did not terminate even after an overnight run.
+
+Frame 25:
+To overcome this complexity I use the concept of graph colouring. A coloured graph is an assignment of a number or colour to each node such that no two adjacent nodes share
+the same colour. This almost exactly what we want and therefore I colour the adjacency graph. Next, since nodes with the same colour are non-adjacent and guaranteed to be
+independent we can put them one after the other in the schedule. Now the trickiness comes when we want to skip to the next colour. I do this by introducing so-called
+"no-op edge partitions", edge partitions comprised entirely out of no-op edges that do not conflict with any edge and can therefore be inserted at any point in the schedule.
+We can therefore insert lambda no-op edge partitions after each colour group to ensure the independency between two colours and that is our schedule. Obviously, we want to insert
+as few no-op edge-partitions as possible. Now optimal colouring is still NP-hard but I can use a sub-optimal but efficient algorithm to do this in polynomial time.
+
+There were quite a few other issues I had to overcome due to hardware limitations but I'll talk about them in the end if I have time.
+
+Frame 26:
+Unfortunately my hardware design produces wrong arithmetic results. Through extensive simulation and debugging I tracked the reason down
+to NaN results from the no-op edges being commited to the result RAMs. I believe this is a bug with the write-enable and address translation
+logic. However, I confirmed that the FPGA reads the correct amount of data, produces the correct amount of data and processes the edges in the
+correct order, therefore I claim that the performance results can still be trusted, since it depends entirely on the movement and consumption of data,
+which I have confirmed is correct.
+
+Frame 27:
+Before I show you the results for the hardware accelerator I want to talk a bit about no-op edges and scheduling again. Remember, there are two sources for adding
+no-op edges: no-op edge-partitions and uneven partitioning by METIS. Intuition tells us that the more edge-partitions we divide a micro-partition into, the smaller those
+edge-partitions will be, therefore the no-op edge partitions will also be smaller and hence fewer no-op edges will be added on their behalf. As we can see in the red graph,
+this is verified, except that for larger number of partitions, we get these fluctuations. My hypothesis for these was that they are caused by sub-optimal behaviour by METIS.
+To test this I ran the scheduling code on the same mesh with a window-width of 0, that is imposing no independency constraing and eliminating any no-op partitions, thus guaranteeing
+that all no-edges would be a result of METIS. We see that the fluctuation pattern is pretty much identical, thus verifying my suspicion. Since runtime in my sample 1-pipeline
+design is expected to be dominated by edge processing, we would want to experiment a bit to find a setting that does not trigger a pathologically bad partitioning by METIS.
+
+Frame 28:
+I built my sample design at clock frequencies ranging from 100 to 180 MHz and compared their runtimes to the runtime predicted by the performance model. As we can see in this graph
+the two predicted and the measured runtimes are very close to each other, with the measured time being slightly larger due to issues unaccounted for in model, such as stream setup time.
+
+Frame 29:
+This is a fantastic result in my opinion because the performance model has been validated and therefore we can use it to explore the architecture design space to find the ones that
+are interesting and also find out how various architecture paremeters affect performance.
+The reason we can predict the performance so accurately is because of the simple memory hierarchy. There is only the DRAM accessed in a completely predictable pattern and the block RAMs
+which, due to the mesh layout and partitioning, will never suffer from cache misses.
+The model shows that architectures in this family can indeed achieve interesting speedup, rivalling a 400-core GPU implementation with only 4-5 pipelines, running at a fraction of the
+clock frequency.
+I am happy with the results of this project because it was not evident from the start that this approach would be a good idea, given that the main large memory, the DRAM, cannot be
+accessed in the random pattern that is dictated by the format of unstructured meshes. I managed to overcome that by designing a layout for the mesh, as well as specifying a family
+of architecture, custom built for each other.
+
+Frame 30:
+This project has a lot of potential for further work, apart from getting the arithmetic results right. The most important of them is the acceleration of the other Airfoil kernels.
+This a tricky one because other kernels may not iterate over edges like res_calc and can therefore require a different data layout that may not be compatible wit the one for
+res_calc.
+Another interesting thing to do would be to create a compilation system of sorts where you can plug in the parameters of the performance model and have it create for you
+the host code and the accelerator design.

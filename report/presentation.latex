@@ -24,7 +24,7 @@
 \title[Acceleration of unstructured meshes with FPGAs]{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
 \author{Kyrylo Tkachov}
 \date{25 June 2012}
-\institute{Imperial College London}
+\institute{Imperial College London \\ \href{mailto:kt208@doc.ic.ac.uk}{kt208@doc.ic.ac.uk}}
 
 \setbeamertemplate{footline}[page number]
 \usetheme{Singapore}
@@ -1077,7 +1077,7 @@ We can calculate:
 \frametitle{Complexity of edge scheduling}
 \begin{itemize}\setlength{\itemsep}{6mm}
 \item{Graph scheduling problem can be expressed as Hamiltonian path problem with extra adjacency constraint.}
-\item{\textbf{NP-complete!}.}
+\item{\textbf{NP-hard!}.}
 \item{Best we can do is search through the schedule space.}
 \item{$O(n!)$ ($n$ number of nodes in the adjacency graph).}
 \end{itemize}
