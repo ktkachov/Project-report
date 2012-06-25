@@ -19,12 +19,13 @@
 \usetikzlibrary{backgrounds}
 \usepackage{rotating}
 \usepackage{comment}
+% \usepackage{appendixnumberbeamer}
 \beamertemplatenavigationsymbolsempty
 \mode<presentation>
 \title[Acceleration of unstructured meshes with FPGAs]{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
 \author{Kyrylo Tkachov}
 \date{25 June 2012}
-\institute{Imperial College London \\ \href{mailto:kt208@doc.ic.ac.uk}}
+\institute{Imperial College London \\ \href{mailto:kt208@doc.ic.ac.uk}{kt208@doc.ic.ac.uk}}
 
 \setbeamertemplate{footline}[page number]
 \usetheme{Singapore}
@@ -1167,7 +1168,7 @@ clock frequency!}
 \end{frame}
 
 
-
+% \appendix
 
 \begin{frame}
 \frametitle{Architecture design: 1st iteration}

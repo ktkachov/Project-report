@@ -19,6 +19,7 @@
 \usetikzlibrary{backgrounds}
 \usepackage{rotating}
 \usepackage{comment}
+% \usepackage{appendixnumberbeamer}
 \beamertemplatenavigationsymbolsempty
 \mode<presentation>
 \title[Acceleration of unstructured meshes with FPGAs]{Accelerating Unstructured Mesh Applications using Custom Streaming Architectures}
@@ -1167,7 +1168,7 @@ clock frequency!}
 \end{frame}
 
 
-
+% \appendix
 
 \begin{frame}
 \frametitle{Architecture design: 1st iteration}
@@ -1452,6 +1453,11 @@ clock frequency!}
 }
 
 \end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Host-side halo reduction}
+    \includegraphics[width=1\textwidth]{graphs/180_whost.pdf}
 \end{frame}
 
 \end{document}
